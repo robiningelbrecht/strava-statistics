@@ -35,5 +35,8 @@ services:
     App\Infrastructure\Doctrine\MigrationRunner:
         class: App\Tests\Infrastructure\Doctrine\VoidMigrationRunner
 
+    App\Infrastructure\FileSystem\PermissionChecker:
+        class: App\Tests\Infrastructure\FileSystem\SuccessfulPermissionChecker
+
     League\Flysystem\FilesystemOperator:
-        class: App\Tests\SpyFileSystem
+        class: App\Tests\Infrastructure\FileSystem\SpyFileSystem

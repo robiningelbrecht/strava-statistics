@@ -12,6 +12,9 @@ use App\Domain\Strava\MaxStravaUsageHasBeenReached;
 use App\Domain\Strava\Segment\ImportSegments\ImportSegments;
 use App\Infrastructure\CQRS\Bus\CommandBus;
 use App\Infrastructure\Doctrine\MigrationRunner;
+use App\Infrastructure\FileSystem\PermissionChecker;
+use League\Flysystem\UnableToCreateDirectory;
+use League\Flysystem\UnableToWriteFile;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,6 +25,7 @@ final class ImportStravaDataConsoleCommand extends Command
 {
     public function __construct(
         private readonly CommandBus $commandBus,
+        private readonly PermissionChecker $fileSystemPermissionChecker,
         private readonly MaxStravaUsageHasBeenReached $maxStravaUsageHasBeenReached,
         private readonly MigrationRunner $migrationRunner,
     ) {
@@ -30,6 +34,13 @@ final class ImportStravaDataConsoleCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        try {
+            $this->fileSystemPermissionChecker->ensureWriteAccess();
+        } catch (UnableToWriteFile|UnableToCreateDirectory) {
+            throw new \RuntimeException('Make sure the container has write permissions to "storage/database" and "storage/files" on the host system');
+        }
+
+        $this->fileSystemPermissionChecker->ensureWriteAccess();
         $this->maxStravaUsageHasBeenReached->clear();
         $this->migrationRunner->run();
 

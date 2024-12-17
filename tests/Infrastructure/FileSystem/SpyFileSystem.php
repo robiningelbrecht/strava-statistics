@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests;
+namespace App\Tests\Infrastructure\FileSystem;
 
 use League\Flysystem\DirectoryListing;
 use League\Flysystem\FilesystemOperator;

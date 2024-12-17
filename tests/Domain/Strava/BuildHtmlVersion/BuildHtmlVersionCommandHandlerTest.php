@@ -25,7 +25,7 @@ class BuildHtmlVersionCommandHandlerTest extends ContainerTestCase
         $output = new SpyOutput();
         $this->commandBus->dispatch(new BuildHtmlVersion($output));
 
-        /** @var \App\Tests\SpyFileSystem $fileSystem */
+        /** @var \App\Tests\Infrastructure\FileSystem\SpyFileSystem $fileSystem */
         $fileSystem = $this->getContainer()->get(FilesystemOperator::class);
         foreach ($fileSystem->getWrites() as $location => $content) {
             $this->snapshotName = $location;

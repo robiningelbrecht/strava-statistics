@@ -43,7 +43,7 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
 
         $this->assertMatchesTextSnapshot((string) $output);
 
-        /** @var \App\Tests\SpyFileSystem $fileSystem */
+        /** @var \App\Tests\Infrastructure\FileSystem\SpyFileSystem $fileSystem */
         $fileSystem = $this->getContainer()->get(FilesystemOperator::class);
         $this->assertMatchesJsonSnapshot($fileSystem->getWrites());
     }
