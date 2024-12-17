@@ -6,14 +6,6 @@ jobs:
   ci:
     name: Run CI
     runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:8.4
-        env:
-          MYSQL_DATABASE: madewithlove_test
-          MYSQL_ROOT_PASSWORD: root
-        ports:
-          - 3306:3306
     steps:
       # https://github.com/marketplace/actions/setup-php-action
       - name: Setup PHP 8.3
@@ -27,9 +19,6 @@ jobs:
 
       - name: Install dependencies
         run: composer install --prefer-dist
-
-      - name: Copy .env file
-        run: cp .env.github-actions .env.test
 
       - name: Run PHPStan
         run: vendor/bin/phpstan analyse
