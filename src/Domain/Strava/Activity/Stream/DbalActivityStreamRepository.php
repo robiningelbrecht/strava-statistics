@@ -89,7 +89,7 @@ final readonly class DbalActivityStreamRepository implements ActivityStreamRepos
             ->setParameter('streamType', $streamType->value);
 
         return ActivityStreams::fromArray(array_map(
-            fn (array $result) => $this->buildFromResult($result),
+            fn (array $result) => $this->hydrate($result),
             $queryBuilder->executeQuery()->fetchAllAssociative()
         ));
     }
@@ -108,7 +108,7 @@ final readonly class DbalActivityStreamRepository implements ActivityStreamRepos
             ), ArrayParameterType::STRING);
 
         return ActivityStreams::fromArray(array_map(
-            fn (array $result) => $this->buildFromResult($result),
+            fn (array $result) => $this->hydrate($result),
             $queryBuilder->executeQuery()->fetchAllAssociative()
         ));
     }
@@ -122,7 +122,7 @@ final readonly class DbalActivityStreamRepository implements ActivityStreamRepos
             ->setParameter('activityId', $activityId);
 
         return ActivityStreams::fromArray(array_map(
-            fn (array $result) => $this->buildFromResult($result),
+            fn (array $result) => $this->hydrate($result),
             $queryBuilder->executeQuery()->fetchAllAssociative()
         ));
     }
@@ -135,7 +135,7 @@ final readonly class DbalActivityStreamRepository implements ActivityStreamRepos
             ->andWhere('bestAverages IS NULL');
 
         return ActivityStreams::fromArray(array_map(
-            fn (array $result) => $this->buildFromResult($result),
+            fn (array $result) => $this->hydrate($result),
             $queryBuilder->executeQuery()->fetchAllAssociative()
         ));
     }
@@ -156,13 +156,13 @@ final readonly class DbalActivityStreamRepository implements ActivityStreamRepos
             throw new EntityNotFound('ActivityStream for average not found');
         }
 
-        return $this->buildFromResult($result);
+        return $this->hydrate($result);
     }
 
     /**
      * @param array<mixed> $result
      */
-    private function buildFromResult(array $result): ActivityStream
+    private function hydrate(array $result): ActivityStream
     {
         return ActivityStream::fromState(
             activityId: ActivityId::fromString($result['activityId']),

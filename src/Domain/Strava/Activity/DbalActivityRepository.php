@@ -101,7 +101,7 @@ final class DbalActivityRepository implements ActivityRepository
             throw new EntityNotFound(sprintf('Activity "%s" not found', $activityId));
         }
 
-        return $this->buildFromResult($result);
+        return $this->hydrate($result);
     }
 
     public function findAll(?int $limit = null): Activities
@@ -118,7 +118,7 @@ final class DbalActivityRepository implements ActivityRepository
             ->setMaxResults($limit);
 
         $activities = array_map(
-            fn (array $result) => $this->buildFromResult($result),
+            fn (array $result) => $this->hydrate($result),
             $queryBuilder->executeQuery()->fetchAllAssociative()
         );
         DbalActivityRepository::$cachedActivities[$cacheKey] = Activities::fromArray($activities);
@@ -169,7 +169,7 @@ final class DbalActivityRepository implements ActivityRepository
     /**
      * @param array<mixed> $result
      */
-    private function buildFromResult(array $result): Activity
+    private function hydrate(array $result): Activity
     {
         $location = Json::decode($result['location'] ?? '[]');
 

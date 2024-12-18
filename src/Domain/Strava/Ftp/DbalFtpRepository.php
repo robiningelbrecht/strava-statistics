@@ -32,7 +32,7 @@ final readonly class DbalFtpRepository implements FtpRepository
             ->orderBy('setOn', 'ASC');
 
         return Ftps::fromArray(array_map(
-            fn (array $result) => $this->buildFromResult($result),
+            fn (array $result) => $this->hydrate($result),
             $queryBuilder->executeQuery()->fetchAllAssociative()
         ));
     }
@@ -52,13 +52,13 @@ final readonly class DbalFtpRepository implements FtpRepository
             throw new EntityNotFound(sprintf('Ftp for date "%s" not found', $dateTime));
         }
 
-        return $this->buildFromResult($result);
+        return $this->hydrate($result);
     }
 
     /**
      * @param array<mixed> $result
      */
-    private function buildFromResult(array $result): Ftp
+    private function hydrate(array $result): Ftp
     {
         return Ftp::fromState(
             setOn: SerializableDateTime::fromString($result['setOn']),

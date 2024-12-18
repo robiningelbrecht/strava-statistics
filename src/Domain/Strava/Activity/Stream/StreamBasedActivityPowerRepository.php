@@ -4,6 +4,7 @@ namespace App\Domain\Strava\Activity\Stream;
 
 use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\ActivityRepository;
+use App\Domain\Strava\Athlete\Weight\AthleteWeightRepository;
 use App\Infrastructure\Exception\EntityNotFound;
 use Carbon\CarbonInterval;
 
@@ -14,6 +15,7 @@ final class StreamBasedActivityPowerRepository implements ActivityPowerRepositor
 
     public function __construct(
         private readonly ActivityRepository $activityRepository,
+        private readonly AthleteWeightRepository $athleteWeightRepository,
         private readonly ActivityStreamRepository $activityStreamRepository,
     ) {
     }
@@ -50,7 +52,7 @@ final class StreamBasedActivityPowerRepository implements ActivityPowerRepositor
                 }
                 $bestAverageForTimeInterval = $bestAverages[$timeIntervalInSeconds];
 
-                $athleteWeight = $activity->getAthleteWeight()->getFloat();
+                $athleteWeight = $this->athleteWeightRepository->find($activity->getStartDate())->getWeightInKg();
                 $relativePower = $athleteWeight > 0 ? round($bestAverageForTimeInterval / $athleteWeight, 2) : 0;
                 StreamBasedActivityPowerRepository::$cachedPowerOutputs[(string) $activity->getId()][$timeIntervalInSeconds] = PowerOutput::fromState(
                     time: (int) $interval->totalHours ? $interval->totalHours.' h' : ((int) $interval->totalMinutes ? $interval->totalMinutes.' m' : $interval->totalSeconds.' s'),
@@ -109,7 +111,7 @@ final class StreamBasedActivityPowerRepository implements ActivityPowerRepositor
             $interval = CarbonInterval::seconds($timeIntervalInSeconds);
             $bestAverageForTimeInterval = $stream->getBestAverages()[$timeIntervalInSeconds];
 
-            $athleteWeight = $activity->getAthleteWeight()->getFloat();
+            $athleteWeight = $this->athleteWeightRepository->find($activity->getStartDate())->getWeightInKg();
             $relativePower = $athleteWeight > 0 ? round($bestAverageForTimeInterval / $athleteWeight, 2) : 0;
             $best[$timeIntervalInSeconds] = PowerOutput::fromState(
                 time: (int) $interval->totalHours ? $interval->totalHours.' h' : ((int) $interval->totalMinutes ? $interval->totalMinutes.' m' : $interval->totalSeconds.' s'),

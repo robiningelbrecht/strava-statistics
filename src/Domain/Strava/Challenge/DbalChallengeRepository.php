@@ -34,7 +34,7 @@ final readonly class DbalChallengeRepository implements ChallengeRepository
             ->orderBy('createdOn', 'DESC');
 
         return Challenges::fromArray(array_map(
-            fn (array $result) => $this->buildFromResult($result),
+            fn (array $result) => $this->hydrate($result),
             $queryBuilder->executeQuery()->fetchAllAssociative()
         ));
     }
@@ -51,13 +51,13 @@ final readonly class DbalChallengeRepository implements ChallengeRepository
             throw new EntityNotFound(sprintf('Challenge "%s" not found', $challengeId));
         }
 
-        return $this->buildFromResult($result);
+        return $this->hydrate($result);
     }
 
     /**
      * @param array<mixed> $result
      */
-    private function buildFromResult(array $result): Challenge
+    private function hydrate(array $result): Challenge
     {
         return Challenge::fromState(
             challengeId: ChallengeId::fromString($result['challengeId']),
