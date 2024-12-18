@@ -8,6 +8,8 @@ use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
 interface AthleteWeightRepository
 {
+    public function removeAll(): void;
+
     public function save(AthleteWeight $weight): void;
 
     public function find(SerializableDateTime $on): AthleteWeight;

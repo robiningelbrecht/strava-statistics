@@ -15,6 +15,11 @@ final readonly class DbalAthleteWeightRepository implements AthleteWeightReposit
     ) {
     }
 
+    public function removeAll(): void
+    {
+        $this->connection->executeStatement('DELETE FROM AthleteWeight');
+    }
+
     public function save(AthleteWeight $weight): void
     {
         $sql = 'REPLACE INTO AthleteWeight (`on`, weightInGrams)

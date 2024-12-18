@@ -12,6 +12,34 @@ class DbalAthleteWeightRepositoryTest extends ContainerTestCase
 {
     private AthleteWeightRepository $athleteWeightRepository;
 
+    public function testRemoveAll(): void
+    {
+        $weightOne = AthleteWeightBuilder::fromDefaults()
+            ->withOn(SerializableDateTime::fromString('2023-04-01'))
+            ->withWeightInGrams(74000)
+            ->build();
+        $this->athleteWeightRepository->save($weightOne);
+        $WeightTwo = AthleteWeightBuilder::fromDefaults()
+            ->withOn(SerializableDateTime::fromString('2023-05-25'))
+            ->withWeightInGrams(75000)
+            ->build();
+        $this->athleteWeightRepository->save($WeightTwo);
+        $weightThree = AthleteWeightBuilder::fromDefaults()
+            ->withOn(SerializableDateTime::fromString('2023-08-01'))
+            ->withWeightInGrams(70000)
+            ->build();
+        $this->athleteWeightRepository->save($weightThree);
+        $weightFour = AthleteWeightBuilder::fromDefaults()
+            ->withOn(SerializableDateTime::fromString('2023-09-24'))
+            ->withWeightInGrams(60000)
+            ->build();
+        $this->athleteWeightRepository->save($weightFour);
+
+        $this->assertNotEmpty($this->getConnection()->executeQuery('SELECT * FROM AthleteWeight')->fetchAllAssociative());
+        $this->athleteWeightRepository->removeAll();
+        $this->assertEmpty($this->getConnection()->executeQuery('SELECT * FROM AthleteWeight')->fetchAllAssociative());
+    }
+
     public function testFindForDate(): void
     {
         $weightOne = AthleteWeightBuilder::fromDefaults()
