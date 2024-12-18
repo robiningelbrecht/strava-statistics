@@ -13,6 +13,11 @@ final readonly class DbalFtpRepository implements FtpRepository
     ) {
     }
 
+    public function removeAll(): void
+    {
+        $this->connection->executeStatement('DELETE FROM Ftp');
+    }
+
     public function save(Ftp $ftp): void
     {
         $sql = 'REPLACE INTO Ftp (setOn, ftp)
