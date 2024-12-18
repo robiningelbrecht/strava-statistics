@@ -76,7 +76,7 @@ final readonly class DbalSegmentEffortRepository implements SegmentEffortReposit
             throw new EntityNotFound(sprintf('segmentEffort "%s" not found', $segmentEffortId));
         }
 
-        return $this->buildFromResult($result);
+        return $this->hydrate($result);
     }
 
     public function findBySegmentId(SegmentId $segmentId, ?int $limit = null): SegmentEfforts
@@ -93,7 +93,7 @@ final readonly class DbalSegmentEffortRepository implements SegmentEffortReposit
         }
 
         return SegmentEfforts::fromArray(array_map(
-            fn (array $result) => $this->buildFromResult($result),
+            fn (array $result) => $this->hydrate($result),
             $queryBuilder->executeQuery()->fetchAllAssociative()
         ));
     }
@@ -118,7 +118,7 @@ final readonly class DbalSegmentEffortRepository implements SegmentEffortReposit
             ->setParameter('activityId', $activityId);
 
         return SegmentEfforts::fromArray(array_map(
-            fn (array $result) => $this->buildFromResult($result),
+            fn (array $result) => $this->hydrate($result),
             $queryBuilder->executeQuery()->fetchAllAssociative()
         ));
     }
@@ -126,7 +126,7 @@ final readonly class DbalSegmentEffortRepository implements SegmentEffortReposit
     /**
      * @param array<mixed> $result
      */
-    private function buildFromResult(array $result): SegmentEffort
+    private function hydrate(array $result): SegmentEffort
     {
         return SegmentEffort::fromState(
             segmentEffortId: SegmentEffortId::fromString($result['segmentEffortId']),

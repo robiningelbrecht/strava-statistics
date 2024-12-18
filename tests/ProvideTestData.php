@@ -9,6 +9,7 @@ use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\ActivityRepository;
 use App\Domain\Strava\Activity\Stream\ActivityStreamRepository;
 use App\Domain\Strava\Activity\Stream\StreamType;
+use App\Domain\Strava\Athlete\Weight\AthleteWeightRepository;
 use App\Domain\Strava\Challenge\ChallengeId;
 use App\Domain\Strava\Challenge\ChallengeRepository;
 use App\Domain\Strava\Ftp\FtpRepository;
@@ -28,6 +29,7 @@ use App\Infrastructure\ValueObject\String\Name;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use App\Tests\Domain\Strava\Activity\ActivityBuilder;
 use App\Tests\Domain\Strava\Activity\Stream\ActivityStreamBuilder;
+use App\Tests\Domain\Strava\Athlete\Weight\AthleteWeightBuilder;
 use App\Tests\Domain\Strava\Challenge\ChallengeBuilder;
 use App\Tests\Domain\Strava\Ftp\FtpBuilder;
 use App\Tests\Domain\Strava\Gear\GearBuilder;
@@ -305,6 +307,15 @@ trait ProvideTestData
                 ->withChallengeId(ChallengeId::fromUnprefixed('3809'))
                 ->withCreatedOn(SerializableDateTime::fromString('2023-06-03 17:32:21'))
                 ->withData(Json::decode('{"name":"June Sweat With Pride Challenge","date":"Jun 2023","teaser":"Let\u2019s walk a mile in solidarity with the LGBTQ+ community this Pride Month.","logo_url":"https:\/\/dgalywyr863hv.cloudfront.net\/challenges\/3809\/3809-logo-100.png","url":"June-Sweat-With-Pride-Challenge-2023","challenge_id":3809,"athlete_id":62214940,"effort":null,"createdOn":1685813541,"localLogo":"files\/challenges\/98b92ae4-0234-11ee-ad06-000d3a360b3f.png","_id":20}'))
+                ->build()
+        );
+
+        /** @var AthleteWeightRepository $athleteWeightRepository */
+        $athleteWeightRepository = $this->getContainer()->get(AthleteWeightRepository::class);
+        $athleteWeightRepository->save(
+            AthleteWeightBuilder::fromDefaults()
+                ->withOn(SerializableDateTime::fromString('2020-01-01'))
+                ->withWeightInGrams(68000)
                 ->build()
         );
 

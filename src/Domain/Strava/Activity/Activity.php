@@ -14,7 +14,6 @@ use App\Infrastructure\ValueObject\Geography\Coordinate;
 use App\Infrastructure\ValueObject\Geography\Latitude;
 use App\Infrastructure\ValueObject\Geography\Longitude;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
-use App\Infrastructure\ValueObject\Weight;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
@@ -382,11 +381,6 @@ final class Activity
     public function enrichWithFtp(FtpValue $ftp): void
     {
         $this->ftp = $ftp;
-    }
-
-    public function getAthleteWeight(): Weight
-    {
-        return Weight::fromKilograms($this->data['athlete_weight']);
     }
 
     public function getAthleteAgeInYears(): ?int
