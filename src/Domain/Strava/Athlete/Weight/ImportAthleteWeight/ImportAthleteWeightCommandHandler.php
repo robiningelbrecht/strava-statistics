@@ -23,8 +23,11 @@ final readonly class ImportAthleteWeightCommandHandler implements CommandHandler
 
         $this->athleteWeightRepository->removeAll();
 
-        if (!$athleteWeights = $this->athleteWeightsFromEnvFile->getAll()) {
+        $athleteWeights = $this->athleteWeightsFromEnvFile->getAll();
+        if ($athleteWeights->isEmpty()) {
             $command->getOutput()->writeln('No athlete weights found. Will not be able to calculate relative power outputs');
+
+            return;
         }
 
         /** @var \App\Domain\Strava\Athlete\Weight\AthleteWeight $weight */
