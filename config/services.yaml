@@ -74,6 +74,10 @@ services:
         factory: [ App\Domain\Strava\Athlete\AthleteBirthday, 'fromString' ]
         arguments: ['%env(resolve:ATHLETE_BIRTHDAY)%']
 
+    App\Domain\Strava\Athlete\Weight\ImportAthleteWeight\AthleteWeightsFromEnvFile:
+        factory: [ 'App\Domain\Strava\Athlete\Weight\ImportAthleteWeight\AthleteWeightsFromEnvFile', fromString ]
+        arguments: [ '%env(resolve:ATHLETE_WEIGHTS)%' ]
+
     App\Domain\Strava\Ftp\ImportFtp\FtpValuesFromEnvFile:
         factory: [ 'App\Domain\Strava\Ftp\ImportFtp\FtpValuesFromEnvFile', fromString ]
         arguments: [ '%env(resolve:FTP_VALUES)%' ]

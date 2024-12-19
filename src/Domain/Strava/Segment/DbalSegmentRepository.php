@@ -40,7 +40,7 @@ final readonly class DbalSegmentRepository implements SegmentRepository
             throw new EntityNotFound(sprintf('Segment "%s" not found', $segmentId));
         }
 
-        return $this->buildFromResult($result);
+        return $this->hydrate($result);
     }
 
     public function findAll(): Segments
@@ -51,7 +51,7 @@ final readonly class DbalSegmentRepository implements SegmentRepository
             ->orderBy('countCompleted', 'DESC');
 
         return Segments::fromArray(array_map(
-            fn (array $result) => $this->buildFromResult($result),
+            fn (array $result) => $this->hydrate($result),
             $queryBuilder->executeQuery()->fetchAllAssociative()
         ));
     }
@@ -59,7 +59,7 @@ final readonly class DbalSegmentRepository implements SegmentRepository
     /**
      * @param array<mixed> $result
      */
-    private function buildFromResult(array $result): Segment
+    private function hydrate(array $result): Segment
     {
         return Segment::fromState(
             segmentId: SegmentId::fromString($result['segmentId']),

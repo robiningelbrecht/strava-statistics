@@ -1,5 +1,5 @@
 {
-    "commandName": "App\\Domain\\Strava\\Activity\\Stream\\CalculateBestStreamAverages\\CalculateBestStreamAverages",
+    "commandName": "App\\Domain\\Strava\\Athlete\\Weight\\ImportAthleteWeight\\ImportAthleteWeight",
     "payload": {
         "output": {}
     }

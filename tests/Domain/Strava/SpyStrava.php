@@ -74,7 +74,6 @@ class SpyStrava extends Strava
 
         return [
             'id' => 100,
-            'weight' => 68.00,
         ];
     }
 

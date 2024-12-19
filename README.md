@@ -54,7 +54,12 @@ STRAVA_REFRESH_TOKEN=YOUR_REFRESH_TOKEN
 
 # Your birthday. Needed to calculate heart rate zones.
 ATHLETE_BIRTHDAY=YYYY-MM-DD
-# History of FTP. Needed to calculate relative w/kg.
+# History of weight (in kg). Needed to calculate relative w/kg.
+ATHLETE_WEIGHTS='{
+    "YYYY-MM-DD": 74.6,
+    "YYYY-MM-DD": 70.3
+}'
+# History of FTP. Needed to calculate activity stress level
 FTP_VALUES='{
     "YYYY-MM-DD": 198,
     "YYYY-MM-DD": 220

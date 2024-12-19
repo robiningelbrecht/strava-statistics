@@ -27,9 +27,9 @@ use App\Domain\Strava\Activity\WeeklyDistanceChartBuilder;
 use App\Domain\Strava\Activity\YearlyDistance\YearlyDistanceChartBuilder;
 use App\Domain\Strava\Activity\YearlyDistance\YearlyStatistics;
 use App\Domain\Strava\Athlete\AthleteBirthday;
-use App\Domain\Strava\Athlete\AthleteWeightRepository;
 use App\Domain\Strava\Athlete\HeartRateZone;
 use App\Domain\Strava\Athlete\TimeInHeartRateZoneChartBuilder;
+use App\Domain\Strava\Athlete\Weight\AthleteWeightRepository;
 use App\Domain\Strava\Calendar\Calendar;
 use App\Domain\Strava\Calendar\Month;
 use App\Domain\Strava\Calendar\Months;
@@ -161,7 +161,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
         foreach ($allFtps as $ftp) {
             try {
                 $ftp->enrichWithAthleteWeight(
-                    $this->athleteWeightRepository->find($ftp->getSetOn())
+                    $this->athleteWeightRepository->find($ftp->getSetOn())->getWeightInKg()
                 );
             } catch (EntityNotFound) {
             }
