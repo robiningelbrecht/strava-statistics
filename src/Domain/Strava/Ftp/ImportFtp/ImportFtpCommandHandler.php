@@ -21,6 +21,8 @@ final readonly class ImportFtpCommandHandler implements CommandHandler
         assert($command instanceof ImportFtp);
         $command->getOutput()->writeln('Importing FTP...');
 
+        $this->ftpRepository->removeAll();
+
         /** @var \App\Domain\Strava\Ftp\Ftp $ftp */
         foreach ($this->ftpValuesFromEnvFile->getAll() as $ftp) {
             $this->ftpRepository->save($ftp);

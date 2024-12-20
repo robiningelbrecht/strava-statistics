@@ -63,6 +63,34 @@ class DbalFtpRepositoryTest extends ContainerTestCase
         );
     }
 
+    public function testRemoveAll(): void
+    {
+        $ftpOne = FtpBuilder::fromDefaults()
+            ->withSetOn(SerializableDateTime::fromString('2023-04-01'))
+            ->withFtp(FtpValue::fromInt(198))
+            ->build();
+        $this->ftpRepository->save($ftpOne);
+        $ftpTwo = FtpBuilder::fromDefaults()
+            ->withSetOn(SerializableDateTime::fromString('2023-05-25'))
+            ->withFtp(FtpValue::fromInt(220))
+            ->build();
+        $this->ftpRepository->save($ftpTwo);
+        $ftpThree = FtpBuilder::fromDefaults()
+            ->withSetOn(SerializableDateTime::fromString('2023-08-01'))
+            ->withFtp(FtpValue::fromInt(238))
+            ->build();
+        $this->ftpRepository->save($ftpThree);
+        $ftpFour = FtpBuilder::fromDefaults()
+            ->withSetOn(SerializableDateTime::fromString('2023-09-24'))
+            ->withFtp(FtpValue::fromInt(250))
+            ->build();
+        $this->ftpRepository->save($ftpFour);
+
+        $this->assertNotEmpty($this->ftpRepository->findAll());
+        $this->ftpRepository->removeAll();
+        $this->assertEmpty($this->ftpRepository->findAll());
+    }
+
     public function testItShouldThrowWhenNotFound(): void
     {
         $ftpOne = FtpBuilder::fromDefaults()

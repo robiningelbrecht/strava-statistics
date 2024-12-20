@@ -49,7 +49,7 @@ final readonly class DbalGearRepository implements GearRepository
             ->orderBy('distanceInMeter', 'DESC');
 
         return Gears::fromArray(array_map(
-            fn (array $result) => $this->buildFromResult($result),
+            fn (array $result) => $this->hydrate($result),
             $queryBuilder->executeQuery()->fetchAllAssociative()
         ));
     }
@@ -66,13 +66,13 @@ final readonly class DbalGearRepository implements GearRepository
             throw new EntityNotFound(sprintf('Gear "%s" not found', $gearId));
         }
 
-        return $this->buildFromResult($result);
+        return $this->hydrate($result);
     }
 
     /**
      * @param array<mixed> $result
      */
-    private function buildFromResult(array $result): Gear
+    private function hydrate(array $result): Gear
     {
         return Gear::fromState(
             gearId: GearId::fromString($result['gearId']),

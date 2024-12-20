@@ -99,10 +99,7 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                     $activity = Activity::create(
                         activityId: $activityId,
                         startDateTime: $startDate,
-                        data: [
-                            ...$this->strava->getActivity($activityId),
-                            'athlete_weight' => $athlete['weight'],
-                        ],
+                        data: $this->strava->getActivity($activityId),
                         gearId: GearId::fromOptionalUnprefixed($stravaActivity['gear_id'] ?? null)
                     );
 
