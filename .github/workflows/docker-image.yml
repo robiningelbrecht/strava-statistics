@@ -8,7 +8,7 @@ on:
       - 'v*'
 jobs:
   push_to_registries:
-    name: Push Docker image to multiple registries
+    name: Push Docker image
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -16,6 +16,11 @@ jobs:
       attestations: write
       id-token: write
     steps:
+      - name: Setup PHP 8.4
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+
       - name: Check out the repo
         uses: actions/checkout@v4
 
