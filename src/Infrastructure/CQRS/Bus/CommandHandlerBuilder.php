@@ -11,7 +11,7 @@ final readonly class CommandHandlerBuilder
     /**
      * @param iterable<CommandHandler> $commandHandlers
      *
-     * @return array<string, array<int,array<int, CommandHandler|string>>>
+     * @return array<string, non-empty-list<\Closure>>
      */
     public function fromCallables(iterable $commandHandlers): array
     {

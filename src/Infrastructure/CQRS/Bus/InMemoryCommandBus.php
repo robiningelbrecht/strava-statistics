@@ -26,8 +26,7 @@ final readonly class InMemoryCommandBus implements CommandBus
         $this->bus = new MessageBus([
             new HandleMessageMiddleware(
                 new HandlersLocator(
-                    // @phpstan-ignore-next-line
-                    (new CommandHandlerBuilder())->fromCallables($commandHandlers),
+                    new CommandHandlerBuilder()->fromCallables($commandHandlers),
                 ),
             ),
         ]);

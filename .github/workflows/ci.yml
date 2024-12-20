@@ -6,6 +6,8 @@ jobs:
   ci:
     name: Run CI
     runs-on: ubuntu-latest
+    env:
+      PHP_CS_FIXER_IGNORE_ENV: true
     steps:
       # https://github.com/marketplace/actions/setup-php-action
       - name: Setup PHP 8.4
