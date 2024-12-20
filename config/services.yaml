@@ -81,3 +81,7 @@ services:
     App\Domain\Strava\Ftp\ImportFtp\FtpValuesFromEnvFile:
         factory: [ 'App\Domain\Strava\Ftp\ImportFtp\FtpValuesFromEnvFile', fromString ]
         arguments: [ '%env(resolve:FTP_VALUES)%' ]
+
+    App\Domain\Measurement\MeasurementSystem:
+        factory: [ 'App\Domain\Measurement\MeasurementSystem', from ]
+        arguments: [ '%env(resolve:MEASUREMENT_SYSTEM)%' ]
