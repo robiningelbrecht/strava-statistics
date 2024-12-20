@@ -6,7 +6,7 @@ namespace App\Infrastructure\CQRS\Bus;
 
 final readonly class CommandHandlerBuilder
 {
-    public const COMMAND_HANDLER_SUFFIX = 'CommandHandler';
+    public const string COMMAND_HANDLER_SUFFIX = 'CommandHandler';
 
     /**
      * @param iterable<CommandHandler> $commandHandlers
@@ -22,7 +22,7 @@ final readonly class CommandHandlerBuilder
             $this->guardThatThereIsACorrespondingCommand($commandHandler);
 
             $commandFqcn = str_replace(self::COMMAND_HANDLER_SUFFIX, '', $commandHandler::class);
-            $registeredCommandHandlers[$commandFqcn][] = [$commandHandler, 'handle'];
+            $registeredCommandHandlers[$commandFqcn][] = $commandHandler->handle(...);
         }
 
         return $registeredCommandHandlers;

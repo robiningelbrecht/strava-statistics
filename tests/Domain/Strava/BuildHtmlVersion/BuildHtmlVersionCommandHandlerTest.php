@@ -45,6 +45,7 @@ class BuildHtmlVersionCommandHandlerTest extends ContainerTestCase
             $this->snapshotName;
     }
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

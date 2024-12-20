@@ -8,6 +8,7 @@ class SpyOutput extends BufferedOutput implements \Stringable
 {
     private array $messages = [];
 
+    #[\Override]
     public function writeln($messages, int $options = self::OUTPUT_NORMAL): void
     {
         if (!is_iterable($messages)) {
@@ -16,6 +17,7 @@ class SpyOutput extends BufferedOutput implements \Stringable
         $this->messages = [...$this->messages, ...$messages];
     }
 
+    #[\Override]
     public function write($messages, bool $newline = false, int $options = self::OUTPUT_NORMAL): void
     {
         if (!is_iterable($messages)) {

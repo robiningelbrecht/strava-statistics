@@ -220,6 +220,7 @@ class DbalActivityStreamRepositoryTest extends ContainerTestCase
         $this->activityStreamRepository->findWithBestAverageFor(20, StreamType::WATTS);
     }
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

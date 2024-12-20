@@ -67,6 +67,7 @@ class SpyStrava extends Strava
         }
     }
 
+    #[\Override]
     public function getAthlete(): array
     {
         ++$this->numberOfCallsExecuted;
@@ -77,6 +78,7 @@ class SpyStrava extends Strava
         ];
     }
 
+    #[\Override]
     public function getActivities(): array
     {
         ++$this->numberOfCallsExecuted;
@@ -85,6 +87,7 @@ class SpyStrava extends Strava
         return $this->activities;
     }
 
+    #[\Override]
     public function getActivity(ActivityId $activityId): array
     {
         ++$this->numberOfCallsExecuted;
@@ -93,6 +96,7 @@ class SpyStrava extends Strava
         return $this->activities[(string) $activityId];
     }
 
+    #[\Override]
     public function getAllActivityStreams(ActivityId $activityId): array
     {
         ++$this->numberOfCallsExecuted;
@@ -119,6 +123,7 @@ class SpyStrava extends Strava
         ];
     }
 
+    #[\Override]
     public function getActivityPhotos(ActivityId $activityId): array
     {
         ++$this->numberOfCallsExecuted;
@@ -138,6 +143,7 @@ class SpyStrava extends Strava
         ];
     }
 
+    #[\Override]
     public function getGear(GearId $gearId): array
     {
         ++$this->numberOfCallsExecuted;
@@ -152,6 +158,7 @@ class SpyStrava extends Strava
         return $gears[(string) $gearId];
     }
 
+    #[\Override]
     public function getChallengesOnPublicProfile(): array
     {
         ++$this->numberOfCallsExecuted;
@@ -185,11 +192,13 @@ class SpyStrava extends Strava
         ];
     }
 
+    #[\Override]
     public function getChallengesOnTrophyCase(): array
     {
         throw new \RuntimeException('an error');
     }
 
+    #[\Override]
     public function downloadImage(string $uri): string
     {
         if ($this->triggerExceptionOnNextCall) {

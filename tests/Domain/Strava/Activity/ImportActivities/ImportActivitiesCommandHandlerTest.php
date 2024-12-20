@@ -108,6 +108,7 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
         $this->assertMatchesTextSnapshot($output);
     }
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

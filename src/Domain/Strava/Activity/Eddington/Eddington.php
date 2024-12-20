@@ -7,7 +7,7 @@ use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
 final class Eddington
 {
-    private const DATE_FORMAT = 'Y-m-d';
+    private const string DATE_FORMAT = 'Y-m-d';
     /** @var array<string, int|float> */
     private static array $distancesPerDay = [];
 

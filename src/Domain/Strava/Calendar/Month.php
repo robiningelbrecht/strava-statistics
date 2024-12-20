@@ -8,7 +8,7 @@ use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
 final readonly class Month
 {
-    public const MONTH_ID_FORMAT = 'Y-m';
+    public const string MONTH_ID_FORMAT = 'Y-m';
     private SerializableDateTime $firstDay;
 
     private function __construct(

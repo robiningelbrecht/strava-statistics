@@ -113,7 +113,7 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                             }
 
                             /** @var string $urlPath */
-                            $urlPath = parse_url($photo['urls'][5000], PHP_URL_PATH);
+                            $urlPath = parse_url((string) $photo['urls'][5000], PHP_URL_PATH);
                             $extension = pathinfo($urlPath, PATHINFO_EXTENSION);
                             $imagePath = sprintf('files/activities/%s.%s', $this->uuidFactory->random(), $extension);
                             $this->filesystem->write(

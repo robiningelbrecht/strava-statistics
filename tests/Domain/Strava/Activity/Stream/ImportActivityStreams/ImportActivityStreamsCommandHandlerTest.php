@@ -63,6 +63,7 @@ class ImportActivityStreamsCommandHandlerTest extends ContainerTestCase
         $this->assertMatchesJsonSnapshot($fileSystem->getWrites());
     }
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

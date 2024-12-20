@@ -15,6 +15,7 @@ abstract class ConsoleCommandTestCase extends ContainerTestCase
     private MockObject $output;
     private Application $application;
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

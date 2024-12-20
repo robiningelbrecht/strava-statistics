@@ -7,11 +7,8 @@ use App\Infrastructure\ValueObject\String\Url;
 
 class TestCommandWithValueObject extends DomainCommand
 {
-    protected Url $value;
-
-    public function __construct(Url $value)
+    public function __construct(protected Url $value)
     {
-        $this->value = $value;
     }
 
     public function getValue(): Url

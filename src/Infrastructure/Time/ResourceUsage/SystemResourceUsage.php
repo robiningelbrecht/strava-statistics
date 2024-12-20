@@ -9,7 +9,7 @@ final class SystemResourceUsage implements ResourceUsage
     private ?float $timeStart = null;
     private ?float $timeStop = null;
 
-    private const SIZES = [
+    private const array SIZES = [
         'GB' => 1073741824,
         'MB' => 1048576,
         'KB' => 1024,

@@ -1,4 +1,4 @@
-FROM php:8.3-cli
+FROM php:8.4-cli
 
 COPY ./php.ini "${PHP_INI_DIR}/conf.d/docker-php-config.ini"
 

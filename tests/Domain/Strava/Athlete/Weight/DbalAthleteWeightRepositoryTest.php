@@ -117,6 +117,7 @@ class DbalAthleteWeightRepositoryTest extends ContainerTestCase
         $this->athleteWeightRepository->find(SerializableDateTime::fromString('2023-01-01'));
     }
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

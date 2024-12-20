@@ -8,7 +8,7 @@ final class WeekdayStatsChartsBuilder
     private ?string $backgroundColor;
 
     private function __construct(
-        private WeekdayStats $weekdayStats,
+        private readonly WeekdayStats $weekdayStats,
     ) {
         $this->animation = false;
         $this->backgroundColor = '#ffffff';

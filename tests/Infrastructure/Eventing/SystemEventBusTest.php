@@ -23,7 +23,7 @@ class SystemEventBusTest extends KernelTestCase
             ->method('dispatch')
             ->with(
                 $event,
-                'App\Tests\Infrastructure\Eventing\ADomainEvent'
+                ADomainEvent::class
             );
 
         $eventBus->publishEvents([$event]);

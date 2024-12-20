@@ -9,28 +9,28 @@ RUN apk add --no-cache \
   bash \
   curl \
   nginx \
-  php83 \
-  php83-bcmath \
-  php83-ctype \
-  php83-curl \
-  php83-dom \
-  php83-fileinfo \
-  php83-fpm \
-  php83-gd \
-  php83-intl \
-  php83-mbstring \
-  php83-opcache \
-  php83-openssl \
-  php83-pdo \
-  php83-pdo_sqlite \
-  php83-phar \
-  php83-session \
-  php83-simplexml \
-  php83-tokenizer \
-  php83-xml \
-  php83-xmlreader \
-  php83-xmlwriter \
-  php83-zip \
+  php84 \
+  php84-bcmath \
+  php84-ctype \
+  php84-curl \
+  php84-dom \
+  php84-fileinfo \
+  php84-fpm \
+  php84-gd \
+  php84-intl \
+  php84-mbstring \
+  php84-opcache \
+  php84-openssl \
+  php84-pdo \
+  php84-pdo_sqlite \
+  php84-phar \
+  php84-session \
+  php84-simplexml \
+  php84-tokenizer \
+  php84-xml \
+  php84-xmlreader \
+  php84-xmlwriter \
+  php84-zip \
   supervisor
 
 # Configure nginx - http
@@ -39,7 +39,8 @@ COPY docker/app/config/nginx.conf /etc/nginx/nginx.conf
 COPY docker/app/config/conf.d /etc/nginx/conf.d/
 
 # Configure PHP-FPM
-ENV PHP_INI_DIR /etc/php83
+ENV PHP_INI_DIR /etc/php84
+RUN ln -s /usr/bin/php84 /usr/bin/php
 COPY docker/app/config/fpm-pool.conf ${PHP_INI_DIR}/php-fpm.d/www.conf
 COPY docker/app/config/php.ini ${PHP_INI_DIR}/conf.d/custom.ini
 

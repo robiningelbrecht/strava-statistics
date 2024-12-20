@@ -34,6 +34,7 @@ class DbalKeyValueStoreTest extends ContainerTestCase
         $this->keyValueStore->find(Key::ATHLETE_BIRTHDAY);
     }
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

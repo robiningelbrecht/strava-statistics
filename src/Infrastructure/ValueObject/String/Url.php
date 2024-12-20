@@ -8,6 +8,7 @@ use Respect\Validation\Validator as v;
 
 final readonly class Url extends NonEmptyStringLiteral
 {
+    #[\Override]
     protected function validate(string $value): void
     {
         parent::validate($value);

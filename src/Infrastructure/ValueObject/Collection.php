@@ -183,9 +183,7 @@ abstract class Collection implements \Countable, \IteratorAggregate, \JsonSerial
 
     public function usort(\Closure $closure): static
     {
-        usort($this->items, function ($a, $b) use ($closure) {
-            return $closure($a, $b);
-        });
+        usort($this->items, fn ($a, $b) => $closure($a, $b));
 
         return static::fromArray($this->items);
     }

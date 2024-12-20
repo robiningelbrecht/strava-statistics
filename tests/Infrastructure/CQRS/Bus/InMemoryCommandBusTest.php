@@ -18,7 +18,7 @@ class InMemoryCommandBusTest extends KernelTestCase
         ]);
 
         $this->assertEquals([
-            'App\Tests\Infrastructure\CQRS\Bus\RunAnOperation\RunAnOperation',
+            RunAnOperation::class,
         ],
             $commandBus->getAvailableCommands());
 

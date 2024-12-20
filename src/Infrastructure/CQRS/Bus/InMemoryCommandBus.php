@@ -33,9 +33,7 @@ final readonly class InMemoryCommandBus implements CommandBus
         ]);
 
         $this->commands = array_map(
-            static function (CommandHandler $commandHandler) {
-                return str_replace(CommandHandlerBuilder::COMMAND_HANDLER_SUFFIX, '', $commandHandler::class);
-            },
+            static fn (CommandHandler $commandHandler) => str_replace(CommandHandlerBuilder::COMMAND_HANDLER_SUFFIX, '', $commandHandler::class),
             iterator_to_array($commandHandlers)
         );
     }

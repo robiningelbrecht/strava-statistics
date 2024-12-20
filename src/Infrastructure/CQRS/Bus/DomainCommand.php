@@ -12,7 +12,7 @@ abstract class DomainCommand implements Command
     public function jsonSerialize(): array
     {
         return [
-            'commandName' => get_called_class(),
+            'commandName' => static::class,
             'payload' => $this->getSerializablePayload(),
         ];
     }

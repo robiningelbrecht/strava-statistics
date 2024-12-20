@@ -14,15 +14,17 @@ final class TwigExtensions extends AbstractExtension
     ) {
     }
 
+    #[\Override]
     public function getFilters(): array
     {
         return [
-            new TwigFilter('repeat', [StrRepeatTwigExtension::class, 'doRepeat']),
-            new TwigFilter('ellipses', [StrEllipsisTwigExtension::class, 'doEllipses']),
-            new TwigFilter('formatNumber', [FormatNumberTwigExtension::class, 'doFormat']),
+            new TwigFilter('repeat', StrRepeatTwigExtension::doRepeat(...)),
+            new TwigFilter('ellipses', StrEllipsisTwigExtension::doEllipses(...)),
+            new TwigFilter('formatNumber', FormatNumberTwigExtension::doFormat(...)),
         ];
     }
 
+    #[\Override]
     public function getFunctions(): array
     {
         return [

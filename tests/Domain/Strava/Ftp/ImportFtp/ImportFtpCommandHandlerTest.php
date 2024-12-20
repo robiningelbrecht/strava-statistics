@@ -25,6 +25,7 @@ class ImportFtpCommandHandlerTest extends ContainerTestCase
         $this->assertMatchesTextSnapshot((string) $output);
     }
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

@@ -15,7 +15,7 @@ final class SegmentEffortBuilder
     private SegmentEffortId $segmentEffortId;
     private SegmentId $segmentId;
     private ActivityId $activityId;
-    private SerializableDateTime $startDateTime;
+    private readonly SerializableDateTime $startDateTime;
     private array $data;
 
     private function __construct()

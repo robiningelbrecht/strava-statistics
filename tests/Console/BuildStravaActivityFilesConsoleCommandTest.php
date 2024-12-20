@@ -60,6 +60,7 @@ class BuildStravaActivityFilesConsoleCommandTest extends ConsoleCommandTestCase
         ]);
     }
 
+    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();

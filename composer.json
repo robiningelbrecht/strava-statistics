@@ -17,7 +17,7 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.3",
+        "php": ">=8.4",
         "ext-bcmath": "*",
         "ext-ctype": "*",
         "ext-iconv": "*",
@@ -44,7 +44,6 @@
         "symfony/runtime": "7.1.*",
         "symfony/twig-bundle": "7.1.*",
         "symfony/yaml": "7.1.*",
-        "thecodingmachine/safe": "^2.5",
         "twig/twig": "*"
     },
     "require-dev": {

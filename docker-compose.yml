@@ -5,6 +5,8 @@ services:
         volumes:
             - './:/var/www/'
         working_dir: /var/www
+        environment:
+            - PHP_CS_FIXER_IGNORE_ENV=true
         profiles:
             - on-demand
         networks:

@@ -18,8 +18,6 @@ final class Gears extends Collection
 
     public function sortByIsRetired(): self
     {
-        return $this->usort(function (Gear $a, Gear $b) {
-            return $a->isRetired() <=> $b->isRetired();
-        });
+        return $this->usort(fn (Gear $a, Gear $b) => $a->isRetired() <=> $b->isRetired());
     }
 }

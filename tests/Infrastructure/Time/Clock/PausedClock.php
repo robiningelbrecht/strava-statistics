@@ -7,11 +7,8 @@ use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
 class PausedClock implements Clock
 {
-    private SerializableDateTime $pausedOn;
-
-    private function __construct(SerializableDateTime $pausedOn)
+    private function __construct(private readonly SerializableDateTime $pausedOn)
     {
-        $this->pausedOn = $pausedOn;
     }
 
     public static function on(SerializableDateTime $on): PausedClock

@@ -9,9 +9,9 @@ final class ActivityHeatmapChartBuilder
     private readonly SerializableDateTime $fromDate;
     private readonly SerializableDateTime $toDate;
     private bool $animation;
-    private string $backgroundColor;
+    private readonly string $backgroundColor;
     /** @var array<mixed> */
-    private array $tooltip;
+    private readonly array $tooltip;
 
     private function __construct(
         private readonly Activities $activities,

@@ -15,6 +15,7 @@ abstract readonly class Identifier extends NonEmptyStringLiteral implements \Jso
         return str_replace($this::getPrefix(), '', (string) $this);
     }
 
+    #[\Override]
     protected function validate(string $value): void
     {
         parent::validate($value);
