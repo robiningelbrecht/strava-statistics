@@ -2,6 +2,7 @@
 
 namespace App\Domain\Strava\BuildHtmlVersion;
 
+use App\Domain\Measurement\UnitSystem;
 use App\Domain\Strava\Activity\ActivityHeatmapChartBuilder;
 use App\Domain\Strava\Activity\ActivityHighlights;
 use App\Domain\Strava\Activity\ActivityRepository;
@@ -75,6 +76,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
         private FtpRepository $ftpRepository,
         private KeyValueStore $keyValueStore,
         private AthleteBirthday $athleteBirthday,
+        private UnitSystem $unitSystem,
         private Environment $twig,
         private FilesystemOperator $filesystem,
         private Clock $clock,
@@ -193,11 +195,10 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                 ),
                 'weeklyDistanceChart' => Json::encode(
                     WeeklyDistanceChartBuilder::fromActivities(
-                        $allActivities,
-                        $now,
-                    )
-                        ->withoutBackgroundColor()
-                        ->build(),
+                        activities: $allActivities,
+                        unitSystem: $this->unitSystem,
+                        now: $now,
+                    )->build(),
                 ),
                 'powerOutputs' => $bestPowerOutputs,
                 'activityHeatmapChart' => Json::encode(

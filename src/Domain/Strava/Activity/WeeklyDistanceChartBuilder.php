@@ -2,37 +2,31 @@
 
 namespace App\Domain\Strava\Activity;
 
+use App\Domain\Measurement\Length\Kilometer;
+use App\Domain\Measurement\UnitSystem;
 use App\Domain\Strava\Calendar\Week;
 use App\Domain\Strava\Calendar\Weeks;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
-final class WeeklyDistanceChartBuilder
+final readonly class WeeklyDistanceChartBuilder
 {
-    private bool $animation;
-    private ?string $backgroundColor;
-    private bool $useDataZoom;
-    private bool $withAverageTimes;
-
     private function __construct(
-        private readonly Activities $activities,
-        private readonly SerializableDateTime $now,
+        private Activities $activities,
+        private UnitSystem $unitSystem,
+        private SerializableDateTime $now,
     ) {
-        $this->animation = true;
-        $this->backgroundColor = '#ffffff';
-        $this->useDataZoom = true;
-        $this->withAverageTimes = true;
     }
 
-    public static function fromActivities(Activities $activities, SerializableDateTime $now): self
-    {
-        return new self($activities, $now);
-    }
-
-    public function withoutBackgroundColor(): self
-    {
-        $this->backgroundColor = null;
-
-        return $this;
+    public static function fromActivities(
+        Activities $activities,
+        UnitSystem $unitSystem,
+        SerializableDateTime $now,
+    ): self {
+        return new self(
+            activities: $activities,
+            unitSystem: $unitSystem,
+            now: $now
+        );
     }
 
     /**
@@ -45,9 +39,6 @@ final class WeeklyDistanceChartBuilder
             now: $this->now
         );
         $zoomValueSpan = 10;
-        if (!$this->useDataZoom) {
-            $weeks = $weeks->slice(($zoomValueSpan + 1) * -1);
-        }
         $data = $this->getData($weeks);
         $xAxisLabels = [];
         /** @var Week $week */
@@ -80,6 +71,8 @@ final class WeeklyDistanceChartBuilder
             ],
         ];
 
+        $unitSymbol = Kilometer::from(1)->toUnitSystem($this->unitSystem)->getSymbol();
+
         $series[] = array_merge_recursive(
             $serie,
             [
@@ -87,42 +80,40 @@ final class WeeklyDistanceChartBuilder
                 'data' => $data[0],
                 'yAxisIndex' => 0,
                 'label' => [
-                    'formatter' => '{@[1]} km',
+                    'formatter' => '{@[1]} '.$unitSymbol,
                 ],
             ],
         );
 
-        if ($this->withAverageTimes) {
-            $series[] = array_merge_recursive(
-                $serie,
-                [
-                    'name' => 'Time / week',
-                    'data' => $data[1],
-                    'yAxisIndex' => 1,
-                    'label' => [
-                        'formatter' => '{@[1]} h',
-                    ],
+        $series[] = array_merge_recursive(
+            $serie,
+            [
+                'name' => 'Time / week',
+                'data' => $data[1],
+                'yAxisIndex' => 1,
+                'label' => [
+                    'formatter' => '{@[1]} h',
                 ],
-            );
-        }
+            ],
+        );
 
         return [
-            'animation' => $this->animation,
-            'backgroundColor' => $this->backgroundColor,
+            'animation' => true,
+            'backgroundColor' => null,
             'color' => [
                 '#E34902',
             ],
             'grid' => [
                 'left' => '3%',
                 'right' => '4%',
-                'bottom' => $this->useDataZoom ? '50px' : '3%',
+                'bottom' => '50px',
                 'containLabel' => true,
             ],
-            'legend' => $this->withAverageTimes ? [
+            'legend' => [
                 'show' => true,
                 'selectedMode' => 'single',
-            ] : null,
-            'dataZoom' => $this->useDataZoom ? [
+            ],
+            'dataZoom' => [
                 [
                     'type' => 'inside',
                     'startValue' => count($weeks),
@@ -134,7 +125,7 @@ final class WeeklyDistanceChartBuilder
                 ],
                 [
                 ],
-            ] : [],
+            ],
             'xAxis' => [
                 [
                     'type' => 'category',
@@ -161,11 +152,11 @@ final class WeeklyDistanceChartBuilder
                         'show' => false,
                     ],
                     'axisLabel' => [
-                        'formatter' => '{value} km',
+                        'formatter' => '{value} '.$unitSymbol,
                     ],
                     'max' => 50 * ceil(max($data[0]) / 50),
                 ],
-                $this->withAverageTimes ? [
+                [
                     'type' => 'value',
                     'splitLine' => [
                         'show' => false,
@@ -173,7 +164,7 @@ final class WeeklyDistanceChartBuilder
                     'axisLabel' => [
                         'formatter' => '{value} h',
                     ],
-                ] : [],
+                ],
             ],
             'series' => $series,
         ];
@@ -199,7 +190,9 @@ final class WeeklyDistanceChartBuilder
             if (!array_key_exists($week, $distancePerWeek)) {
                 continue;
             }
-            $distancePerWeek[$week] += $activity->getDistance()->toFloat();
+
+            $distance = $activity->getDistance()->toUnitSystem($this->unitSystem);
+            $distancePerWeek[$week] += $distance->toFloat();
             $timePerWeek[$week] += $activity->getMovingTimeInSeconds();
         }
 
