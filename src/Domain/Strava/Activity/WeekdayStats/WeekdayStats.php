@@ -47,8 +47,8 @@ final readonly class WeekdayStats
             $weekDay = $daysOfTheWeekMap[$activity->getStartDate()->format('w')];
 
             ++$statistics[$weekDay]['numberOfRides'];
-            $statistics[$weekDay]['totalDistance'] += $activity->getDistanceInKilometer();
-            $statistics[$weekDay]['totalElevation'] += $activity->getElevationInMeter();
+            $statistics[$weekDay]['totalDistance'] += $activity->getDistance()->toFloat();
+            $statistics[$weekDay]['totalElevation'] += $activity->getElevation()->toFloat();
             $statistics[$weekDay]['movingTime'] += $activity->getMovingTimeInSeconds();
             $statistics[$weekDay]['averageDistance'] = $statistics[$weekDay]['totalDistance'] / $statistics[$weekDay]['numberOfRides'];
             if ($statistics[$weekDay]['movingTime'] > 0) {

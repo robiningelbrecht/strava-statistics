@@ -33,7 +33,7 @@
         </div>
     </td>
     <td class="px-2 py-2">
-        {{ segment.getDistanceInKilometer()|formatNumber(2) }}<span class="text-xs">km</span>
+        {{ renderComponent('measurement', {'measurement': segment.getDistance(), 'precision': 2}) }}
     </td>
     <td class="px-2 py-2">
         {{ segment.getMaxGradient() }}<span class="text-xs">%</span>

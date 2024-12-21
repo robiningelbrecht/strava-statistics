@@ -2,6 +2,7 @@
 
 namespace App\Domain\Strava\BuildHtmlVersion;
 
+use App\Domain\Measurement\UnitSystem;
 use App\Domain\Strava\Activity\ActivityHeatmapChartBuilder;
 use App\Domain\Strava\Activity\ActivityHighlights;
 use App\Domain\Strava\Activity\ActivityRepository;
@@ -75,6 +76,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
         private FtpRepository $ftpRepository,
         private KeyValueStore $keyValueStore,
         private AthleteBirthday $athleteBirthday,
+        private UnitSystem $unitSystem,
         private Environment $twig,
         private FilesystemOperator $filesystem,
         private Clock $clock,
@@ -193,14 +195,10 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                 ),
                 'weeklyDistanceChart' => Json::encode(
                     WeeklyDistanceChartBuilder::fromActivities(
-                        $allActivities,
-                        $now,
-                    )
-                        ->withAnimation(true)
-                        ->withoutBackgroundColor()
-                        ->withDataZoom(true)
-                        ->withAverageTimes(true)
-                        ->build(),
+                        activities: $allActivities,
+                        unitSystem: $this->unitSystem,
+                        now: $now,
+                    )->build(),
                 ),
                 'powerOutputs' => $bestPowerOutputs,
                 'activityHeatmapChart' => Json::encode(
@@ -342,7 +340,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                 searchables: $segment->getSearchables(),
                 sortValues: [
                     'name' => (string) $segment->getName(),
-                    'distance' => $segment->getDistanceInKilometer(),
+                    'distance' => round($segment->getDistance()->toFloat(), 2),
                     'max-gradient' => $segment->getMaxGradient(),
                     'ride-count' => $segment->getNumberOfTimesRidden(),
                 ]
@@ -498,11 +496,11 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                 // @phpstan-ignore-next-line
                 sortValues: [
                     'start-date' => $activity->getStartDate()->getTimestamp(),
-                    'distance' => $activity->getDistanceInKilometer(),
-                    'elevation' => $activity->getElevationInMeter(),
+                    'distance' => $activity->getDistance()->toFloat(),
+                    'elevation' => $activity->getElevation()->toFloat(),
                     'moving-time' => $activity->getMovingTimeInSeconds(),
                     'power' => $activity->getAveragePower(),
-                    'speed' => $activity->getAverageSpeedInKmPerH(),
+                    'speed' => round($activity->getAverageSpeed()->toFloat(), 1),
                     'heart-rate' => $activity->getAverageHeartRate(),
                     'calories' => $activity->getCalories(),
                 ]

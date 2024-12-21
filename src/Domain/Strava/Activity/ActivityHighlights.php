@@ -11,12 +11,12 @@ final readonly class ActivityHighlights
 
     public function getLongestDistance(): float
     {
-        return $this->activities->max(fn (Activity $activity) => $activity->getDistanceInKilometer());
+        return $this->activities->max(fn (Activity $activity) => $activity->getDistance()->toFloat());
     }
 
     public function getHighestElevation(): float
     {
-        return $this->activities->max(fn (Activity $activity) => $activity->getElevationInMeter());
+        return $this->activities->max(fn (Activity $activity) => $activity->getElevation()->toFloat());
     }
 
     public function getHighestAveragePower(): int
@@ -26,7 +26,7 @@ final readonly class ActivityHighlights
 
     public function getFastestAverageSpeed(): float
     {
-        return $this->activities->max(fn (Activity $activity) => $activity->getAverageSpeedInKmPerH());
+        return $this->activities->max(fn (Activity $activity) => $activity->getAverageSpeed()->toFloat());
     }
 
     public function getHighestAverageHeartRate(): int

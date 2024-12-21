@@ -28,7 +28,7 @@ final readonly class DistanceBreakdown
         $numberOfBreakdowns = 11;
         $statistics = [];
         $longestDistanceForActivity = $this->activities->max(
-            fn (Activity $activity) => $activity->getDistanceInKilometer()
+            fn (Activity $activity) => $activity->getDistance()->toFloat()
         );
 
         $breakdownOnKm = ceil(($longestDistanceForActivity / $numberOfBreakdowns) / 5) * 5;
@@ -48,15 +48,15 @@ final readonly class DistanceBreakdown
 
         foreach ($this->activities as $activity) {
             /** @var Activity $activity */
-            $distance = $activity->getDistanceInKilometer();
+            $distance = $activity->getDistance()->toFloat();
             if ($distance <= 0) {
                 continue;
             }
-            $distanceBreakdown = ceil($activity->getDistanceInKilometer() / $breakdownOnKm) * $breakdownOnKm;
+            $distanceBreakdown = ceil($activity->getDistance()->toFloat() / $breakdownOnKm) * $breakdownOnKm;
 
             ++$statistics[$distanceBreakdown]['numberOfRides'];
-            $statistics[$distanceBreakdown]['totalDistance'] += $activity->getDistanceInKilometer();
-            $statistics[$distanceBreakdown]['totalElevation'] += $activity->getElevationInMeter();
+            $statistics[$distanceBreakdown]['totalDistance'] += $activity->getDistance()->toFloat();
+            $statistics[$distanceBreakdown]['totalElevation'] += $activity->getElevation()->toFloat();
             $statistics[$distanceBreakdown]['movingTime'] += $activity->getMovingTimeInSeconds();
             $statistics[$distanceBreakdown]['averageDistance'] = $statistics[$distanceBreakdown]['totalDistance'] / $statistics[$distanceBreakdown]['numberOfRides'];
             if ($statistics[$distanceBreakdown]['movingTime'] > 0) {

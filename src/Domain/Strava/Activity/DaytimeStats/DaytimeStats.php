@@ -47,8 +47,8 @@ final readonly class DaytimeStats
             $daytime = Daytime::fromSerializableDateTime($activity->getStartDate());
 
             ++$statistics[$daytime->value]['numberOfRides'];
-            $statistics[$daytime->value]['totalDistance'] += $activity->getDistanceInKilometer();
-            $statistics[$daytime->value]['totalElevation'] += $activity->getElevationInMeter();
+            $statistics[$daytime->value]['totalDistance'] += $activity->getDistance()->toFloat();
+            $statistics[$daytime->value]['totalElevation'] += $activity->getElevation()->toFloat();
             $statistics[$daytime->value]['movingTime'] += $activity->getMovingTimeInSeconds();
             $statistics[$daytime->value]['averageDistance'] = $statistics[$daytime->value]['totalDistance'] / $statistics[$daytime->value]['numberOfRides'];
             if ($statistics[$daytime->value]['movingTime'] > 0) {
