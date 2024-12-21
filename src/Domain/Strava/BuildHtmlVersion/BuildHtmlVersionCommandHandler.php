@@ -2,6 +2,7 @@
 
 namespace App\Domain\Strava\BuildHtmlVersion;
 
+use App\Domain\Measurement\Length\Kilometer;
 use App\Domain\Measurement\UnitSystem;
 use App\Domain\Strava\Activity\ActivityHeatmapChartBuilder;
 use App\Domain\Strava\Activity\ActivityHighlights;
@@ -99,7 +100,10 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
         $alpeDuZwiftSegment = $allSegments->getAlpeDuZwiftSegment();
 
         $command->getOutput()->writeln('  => Calculating Eddington');
-        $eddington = Eddington::fromActivities($allActivities);
+        $eddington = Eddington::fromActivities(
+            activities: $allActivities,
+            unitSystem: $this->unitSystem
+        );
 
         $command->getOutput()->writeln('  => Calculating activity highlights');
         $activityHighlights = ActivityHighlights::fromActivities($allActivities);
@@ -287,10 +291,13 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
             'build/html/eddington.html',
             $this->twig->load('html/eddington.html.twig')->render([
                 'eddingtonChart' => Json::encode(
-                    EddingtonChartBuilder::fromEddington($eddington)
-                        ->build(),
+                    EddingtonChartBuilder::fromEddington(
+                        eddington: $eddington,
+                        unitSystem: $this->unitSystem,
+                    )->build(),
                 ),
                 'eddington' => $eddington,
+                'distanceUnit' => Kilometer::from(1)->toUnitSystem($this->unitSystem)->getSymbol(),
             ]),
         );
 

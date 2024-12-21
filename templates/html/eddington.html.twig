@@ -30,7 +30,7 @@
                         <tr>
                             {% for eddingtonNumber,daysNeeded in eddington.getRidesToCompleteForFutureNumbers() %}
                                 <th scope="col" class="px-6 py-3">
-                                    {{ eddingtonNumber }}<span class="text-xs">km</span>
+                                    {{ eddingtonNumber }}<span class="text-xs">{{ distanceUnit }}</span>
                                 </th>
                             {% endfor %}
                         </tr>
@@ -56,7 +56,7 @@
                         <tr>
                             {% for eddingtonNumber,dateAchieved in eddington.getEddingtonHistory() %}
                                 <th scope="col" class="px-6 py-3">
-                                    {{ eddingtonNumber }}<span class="text-xs">km</span>
+                                    {{ eddingtonNumber }}<span class="text-xs">{{ distanceUnit }}</span>
                                 </th>
                             {% endfor %}
                         </tr>

@@ -2,6 +2,7 @@
 
 namespace App\Domain\Strava\Activity\Eddington;
 
+use App\Domain\Measurement\UnitSystem;
 use App\Domain\Strava\Activity\Activities;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
@@ -13,6 +14,7 @@ final class Eddington
 
     private function __construct(
         private readonly Activities $activities,
+        private readonly UnitSystem $unitSystem,
     ) {
     }
 
@@ -27,12 +29,13 @@ final class Eddington
 
         Eddington::$distancesPerDay = [];
         foreach ($this->activities as $activity) {
-            /** @var string $day */
             $day = $activity->getStartDate()->format(self::DATE_FORMAT);
             if (!array_key_exists($day, Eddington::$distancesPerDay)) {
                 Eddington::$distancesPerDay[$day] = 0;
             }
-            Eddington::$distancesPerDay[$day] += $activity->getDistance()->toFloat();
+
+            $distance = $activity->getDistance()->toUnitSystem($this->unitSystem);
+            Eddington::$distancesPerDay[$day] += $distance->toFloat();
         }
 
         return Eddington::$distancesPerDay;
@@ -117,8 +120,13 @@ final class Eddington
         return $history;
     }
 
-    public static function fromActivities(Activities $activities): self
-    {
-        return new self($activities);
+    public static function fromActivities(
+        Activities $activities,
+        UnitSystem $unitSystem,
+    ): self {
+        return new self(
+            activities: $activities,
+            unitSystem: $unitSystem
+        );
     }
 }

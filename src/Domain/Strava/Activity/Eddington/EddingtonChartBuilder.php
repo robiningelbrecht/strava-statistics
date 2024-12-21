@@ -2,16 +2,25 @@
 
 namespace App\Domain\Strava\Activity\Eddington;
 
-final class EddingtonChartBuilder
+use App\Domain\Measurement\Length\Kilometer;
+use App\Domain\Measurement\UnitSystem;
+
+final readonly class EddingtonChartBuilder
 {
     private function __construct(
-        private readonly Eddington $eddington,
+        private Eddington $eddington,
+        private UnitSystem $unitSystem,
     ) {
     }
 
-    public static function fromEddington(Eddington $eddington): self
-    {
-        return new self($eddington);
+    public static function fromEddington(
+        Eddington $eddington,
+        UnitSystem $unitSystem,
+    ): self {
+        return new self(
+            eddington: $eddington,
+            unitSystem: $unitSystem
+        );
     }
 
     /**
@@ -35,6 +44,8 @@ final class EddingtonChartBuilder
             ],
         ];
 
+        $unitDistance = Kilometer::from(1)->toUnitSystem($this->unitSystem)->getSymbol();
+
         return [
             'backgroundColor' => null,
             'animation' => true,
@@ -52,7 +63,7 @@ final class EddingtonChartBuilder
                 'selectedMode' => false,
             ],
             'xAxis' => [
-                'data' => array_map(fn (int $distance) => $distance.'km', range(1, $longestDistanceInADay)),
+                'data' => array_map(fn (int $distance) => $distance.$unitDistance, range(1, $longestDistanceInADay)),
                 'type' => 'category',
                 'axisTick' => [
                     'alignWithLabel' => true,
