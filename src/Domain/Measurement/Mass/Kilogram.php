@@ -18,11 +18,11 @@ final readonly class Kilogram implements Unit
 
     public function toGram(): Gram
     {
-        return Gram::from((int) round($this->value * 1000));
+        return Gram::from($this->value * 1000);
     }
 
     public function toPound(): Pound
     {
-        return Pound::from((int) round($this->value * 2.20462));
+        return Pound::from($this->value * 2.20462);
     }
 }

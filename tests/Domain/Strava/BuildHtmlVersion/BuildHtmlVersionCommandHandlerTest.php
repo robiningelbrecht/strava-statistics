@@ -40,7 +40,7 @@ class BuildHtmlVersionCommandHandlerTest extends ContainerTestCase
 
     protected function getSnapshotId(): string
     {
-        return (new \ReflectionClass($this))->getShortName().'--'.
+        return new \ReflectionClass($this)->getShortName().'--'.
             $this->name().'--'.
             $this->snapshotName;
     }
