@@ -214,8 +214,6 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                 'weekdayStats' => $weekdayStats,
                 'daytimeStatsChart' => Json::encode(
                     DaytimeStatsChartsBuilder::fromDaytimeStats($dayTimeStats)
-                        ->withoutBackgroundColor()
-                        ->withAnimation(true)
                         ->build(),
                 ),
                 'daytimeStats' => $dayTimeStats,

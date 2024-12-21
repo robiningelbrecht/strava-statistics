@@ -4,14 +4,9 @@ namespace App\Domain\Strava\Activity\DaytimeStats;
 
 final class DaytimeStatsChartsBuilder
 {
-    private bool $animation;
-    private ?string $backgroundColor;
-
     private function __construct(
         private readonly DaytimeStats $daytimeStats,
     ) {
-        $this->animation = false;
-        $this->backgroundColor = '#ffffff';
     }
 
     public static function fromDaytimeStats(
@@ -20,28 +15,14 @@ final class DaytimeStatsChartsBuilder
         return new self($daytimeStats);
     }
 
-    public function withAnimation(bool $flag): self
-    {
-        $this->animation = $flag;
-
-        return $this;
-    }
-
-    public function withoutBackgroundColor(): self
-    {
-        $this->backgroundColor = null;
-
-        return $this;
-    }
-
     /**
      * @return array<mixed>
      */
     public function build(): array
     {
         return [
-            'backgroundColor' => $this->backgroundColor,
-            'animation' => $this->animation,
+            'backgroundColor' => null,
+            'animation' => true,
             'grid' => [
                 'left' => '3%',
                 'right' => '4%',

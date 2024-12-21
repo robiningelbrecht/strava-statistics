@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Activity\DaytimeStats;
 
+use App\Domain\Measurement\Length\Kilometer;
+use App\Domain\Measurement\Length\Meter;
+use App\Domain\Measurement\Velocity\KmPerHour;
 use App\Domain\Strava\Activity\Activities;
 use App\Domain\Strava\Activity\Activity;
 use Carbon\CarbonInterval;
@@ -56,6 +59,13 @@ final readonly class DaytimeStats
             }
             $statistics[$daytime->value]['movingTimeForHumans'] = CarbonInterval::seconds($statistics[$daytime->value]['movingTime'])->cascade()->forHumans(['short' => true, 'minimumUnit' => 'minute']);
             $statistics[$daytime->value]['percentage'] = round($statistics[$daytime->value]['movingTime'] / $totalMovingTime * 100, 2);
+        }
+
+        foreach ($statistics as $daytime => $statistic) {
+            $statistics[$daytime]['totalDistance'] = Kilometer::from($statistic['totalDistance']);
+            $statistics[$daytime]['averageDistance'] = Kilometer::from($statistic['averageDistance']);
+            $statistics[$daytime]['totalElevation'] = Meter::from($statistic['totalElevation']);
+            $statistics[$daytime]['averageSpeed'] = KmPerHour::from($statistic['averageSpeed']);
         }
 
         return $statistics;
