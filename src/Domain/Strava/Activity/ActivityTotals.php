@@ -2,6 +2,8 @@
 
 namespace App\Domain\Strava\Activity;
 
+use App\Domain\Measurement\Length\Kilometer;
+use App\Domain\Measurement\Length\Meter;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use Carbon\CarbonInterval;
 
@@ -13,14 +15,18 @@ final readonly class ActivityTotals
     ) {
     }
 
-    public function getDistance(): float
+    public function getDistance(): Kilometer
     {
-        return $this->activities->sum(fn (Activity $activity) => $activity->getDistance()->toFloat());
+        return Kilometer::from(
+            $this->activities->sum(fn (Activity $activity) => $activity->getDistance()->toFloat())
+        );
     }
 
-    public function getElevation(): float
+    public function getElevation(): Meter
     {
-        return $this->activities->sum(fn (Activity $activity) => $activity->getElevation()->toFloat());
+        return Meter::from(
+            $this->activities->sum(fn (Activity $activity) => $activity->getElevation()->toFloat())
+        );
     }
 
     public function getCalories(): int
@@ -40,34 +46,34 @@ final readonly class ActivityTotals
         return $this->activities->getFirstActivityStartDate();
     }
 
-    public function getDailyAverage(): float
+    public function getDailyAverage(): Kilometer
     {
         $diff = $this->getStartDate()->diff($this->now);
         if (0 === $diff->days) {
-            return 0;
+            return Kilometer::from(0);
         }
 
-        return $this->getDistance() / $diff->days;
+        return Kilometer::from($this->getDistance()->toFloat() / $diff->days);
     }
 
-    public function getWeeklyAverage(): float
+    public function getWeeklyAverage(): Kilometer
     {
         $diff = $this->getStartDate()->diff($this->now);
         if (0 === $diff->days) {
-            return 0;
+            return Kilometer::from(0);
         }
 
-        return $this->getDistance() / ceil($diff->days / 7);
+        return Kilometer::from($this->getDistance()->toFloat() / ceil($diff->days / 7));
     }
 
-    public function getMonthlyAverage(): float
+    public function getMonthlyAverage(): Kilometer
     {
         $diff = $this->getStartDate()->diff($this->now);
         if (0 === $diff->days) {
-            return 0;
+            return Kilometer::from(0);
         }
 
-        return $this->getDistance() / (($diff->y * 12) + $diff->m + 1);
+        return Kilometer::from($this->getDistance()->toFloat() / (($diff->y * 12) + $diff->m + 1));
     }
 
     public function getTotalDaysSinceFirstActivity(): string

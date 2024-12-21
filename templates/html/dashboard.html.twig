@@ -104,18 +104,18 @@
                     ago on <span class="text-sm">{{ intro.getStartDate().format('d-m-Y') }}</span>, I had <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">{{ intro.getTotalDaysOfCycling() }} cycling days</kbd>.
                 </p>
                 <p class="mb-3">
-                    I recorded a total distance of <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">{{ intro.getDistance()|formatNumber(0) }} km</kbd>
-                    (<kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">{{ (intro.getDistance() / 40075)|formatNumber(2) }}</kbd>
+                    I recorded a total distance of <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">{{ intro.getDistance().toFloat()|formatNumber(0) }} km</kbd>
+                    (<kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">{{ (intro.getDistance().toFloat() / 40075)|formatNumber(2) }}</kbd>
                     trips around the world 🌍 and
-                    <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">{{ (intro.getDistance() / 384400)|formatNumber(3) }}</kbd>
-                    trips to the moon 🌕), an elevation of <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">{{ intro.getElevation()|formatNumber(0) }} m</kbd>
-                    (<kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">{{ (intro.getElevation() / 8849)|formatNumber(1) }}</kbd>
+                    <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">{{ (intro.getDistance().toFloat() / 384400)|formatNumber(3) }}</kbd>
+                    trips to the moon 🌕), an elevation of <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">{{ intro.getElevation().toFloat()|formatNumber(0) }} m</kbd>
+                    (<kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">{{ (intro.getElevation().toFloat() / 8849)|formatNumber(1) }}</kbd>
                     times Mount Everest 🏔) and a total time of <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">{{ intro.getMovingTimeFormatted() }}</kbd> 🎉.
                 </p>
                 <p>
-                    That's a daily average of <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">{{ intro.getDailyAverage()|formatNumber(0) }} km</kbd>,
-                    a weekly average of <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">{{ intro.getWeeklyAverage()|formatNumber(0) }} km</kbd>
-                    and a monthly average of <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">{{ intro.getMonthlyAverage()|formatNumber(0) }} km</kbd> 🐣.
+                    That's a daily average of <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">{{ intro.getDailyAverage().toFloat()|formatNumber(0) }} km</kbd>,
+                    a weekly average of <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">{{ intro.getWeeklyAverage().toFloat()|formatNumber(0) }} km</kbd>
+                    and a monthly average of <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">{{ intro.getMonthlyAverage().toFloat()|formatNumber(0) }} km</kbd> 🐣.
                 </p>
                 <p>
                     I burned <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">{{ intro.getCalories()|formatNumber(0) }} calories</kbd>
