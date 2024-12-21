@@ -1,1 +1,4 @@
-{% autoescape false %}{{ measurement.toFloat()|formatNumber(precision) }}<span class="text-xs">{{ measurement.getSymbol() }}{{ symbolSuffix ? ' '~symbolSuffix : '' }}</span>{% endautoescape %}
+{% autoescape false %}
+{{ measurement.toFloat()|formatNumber(precision) }}
+<span class="text-xs">{{ measurement.getSymbol() }}{{ symbolSuffix ? ' '~symbolSuffix : '' }}</span>
+{% endautoescape %}
