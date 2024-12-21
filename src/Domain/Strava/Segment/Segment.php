@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Segment;
 
+use App\Domain\Measurement\Length\Kilometer;
 use App\Domain\Strava\Activity\ActivityType;
 use App\Domain\Strava\Segment\SegmentEffort\SegmentEffort;
 use App\Infrastructure\ValueObject\String\Name;
@@ -69,9 +70,9 @@ final class Segment
         return $this->name;
     }
 
-    public function getDistanceInKilometer(): float
+    public function getDistance(): Kilometer
     {
-        return $this->data['distance'] / 1000;
+        return Kilometer::from($this->data['distance'] / 1000);
     }
 
     public function getMaxGradient(): float

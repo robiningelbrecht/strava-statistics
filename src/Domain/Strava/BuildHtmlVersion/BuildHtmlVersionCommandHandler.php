@@ -339,7 +339,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                 searchables: $segment->getSearchables(),
                 sortValues: [
                     'name' => (string) $segment->getName(),
-                    'distance' => $segment->getDistanceInKilometer(),
+                    'distance' => round($segment->getDistance()->toFloat(), 2),
                     'max-gradient' => $segment->getMaxGradient(),
                     'ride-count' => $segment->getNumberOfTimesRidden(),
                 ]

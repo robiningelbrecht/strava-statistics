@@ -8,8 +8,8 @@
             <ul class="hidden md:flex text-center mr-2 divide-x divide-gray-200 dark:divide-gray-700">
                 <li class="flex items-center gap-x-0.5 pr-2">
                     {{ renderSvg('distance') }}
-                    <div>{{ segment.getDistanceInKilometer()|formatNumber(2) }}</div>
-                    <div class="text-xs text-gray-500 dark:text-gray-400">km</div>
+                    <div>{{ segment.getDistance().toFloat()|formatNumber(2) }}</div>
+                    <div class="text-xs text-gray-500 dark:text-gray-400">{{ segment.getDistance().getSymbol() }}</div>
                 </li>
                 <li class="flex items-center gap-x-0.5 px-2">
                     {{ renderSvg('max-gradient') }}
