@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Activity\WeekdayStats;
 
+use App\Domain\Measurement\Length\Kilometer;
+use App\Domain\Measurement\Length\Meter;
+use App\Domain\Measurement\Velocity\KmPerHour;
 use App\Domain\Strava\Activity\Activities;
 use App\Domain\Strava\Activity\Activity;
 use Carbon\CarbonInterval;
@@ -18,7 +21,9 @@ final readonly class WeekdayStats
     public static function fromActivities(
         Activities $activities,
     ): self {
-        return new self($activities);
+        return new self(
+            $activities,
+        );
     }
 
     /**
@@ -47,6 +52,7 @@ final readonly class WeekdayStats
             $weekDay = $daysOfTheWeekMap[$activity->getStartDate()->format('w')];
 
             ++$statistics[$weekDay]['numberOfRides'];
+
             $statistics[$weekDay]['totalDistance'] += $activity->getDistance()->toFloat();
             $statistics[$weekDay]['totalElevation'] += $activity->getElevation()->toFloat();
             $statistics[$weekDay]['movingTime'] += $activity->getMovingTimeInSeconds();
@@ -56,6 +62,13 @@ final readonly class WeekdayStats
             }
             $statistics[$weekDay]['movingTimeForHumans'] = CarbonInterval::seconds($statistics[$weekDay]['movingTime'])->cascade()->forHumans(['short' => true, 'minimumUnit' => 'minute']);
             $statistics[$weekDay]['percentage'] = round($statistics[$weekDay]['movingTime'] / $totalMovingTime * 100, 2);
+        }
+
+        foreach ($statistics as $weekDay => $statistic) {
+            $statistics[$weekDay]['totalDistance'] = Kilometer::from($statistic['totalDistance']);
+            $statistics[$weekDay]['averageDistance'] = Kilometer::from($statistic['averageDistance']);
+            $statistics[$weekDay]['totalElevation'] = Meter::from($statistic['totalElevation']);
+            $statistics[$weekDay]['averageSpeed'] = KmPerHour::from($statistic['averageSpeed']);
         }
 
         return $statistics;

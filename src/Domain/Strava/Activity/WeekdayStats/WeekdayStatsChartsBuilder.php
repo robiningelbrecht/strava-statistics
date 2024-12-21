@@ -2,16 +2,11 @@
 
 namespace App\Domain\Strava\Activity\WeekdayStats;
 
-final class WeekdayStatsChartsBuilder
+final readonly class WeekdayStatsChartsBuilder
 {
-    private bool $animation;
-    private ?string $backgroundColor;
-
     private function __construct(
-        private readonly WeekdayStats $weekdayStats,
+        private WeekdayStats $weekdayStats,
     ) {
-        $this->animation = false;
-        $this->backgroundColor = '#ffffff';
     }
 
     public static function fromWeekdayStats(
@@ -20,28 +15,14 @@ final class WeekdayStatsChartsBuilder
         return new self($weekdayStats);
     }
 
-    public function withAnimation(bool $flag): self
-    {
-        $this->animation = $flag;
-
-        return $this;
-    }
-
-    public function withoutBackgroundColor(): self
-    {
-        $this->backgroundColor = null;
-
-        return $this;
-    }
-
     /**
      * @return array<mixed>
      */
     public function build(): array
     {
         return [
-            'backgroundColor' => $this->backgroundColor,
-            'animation' => $this->animation,
+            'backgroundColor' => null,
+            'animation' => true,
             'grid' => [
                 'left' => '3%',
                 'right' => '4%',

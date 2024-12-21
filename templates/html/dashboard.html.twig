@@ -309,21 +309,21 @@
                                     {{ statistic.numberOfRides }}
                                 </td>
                                 <td class="px-6 py-2 truncate">
-                                    {% if statistic.totalDistance > 0 %}
-                                        {{ statistic.averageDistance|formatNumber(0) }}<span class="text-xs">km avg</span> /
-                                        {{ statistic.totalDistance|formatNumber(0) }}<span class="text-xs">km total</span>
+                                    {% if statistic.totalDistance.toFloat() > 0 %}
+                                        {{ renderComponent('measurement', {'measurement': statistic.averageDistance, 'precision': 0, 'symbolSuffix': 'avg'}) }} /
+                                        {{ renderComponent('measurement', {'measurement': statistic.totalDistance, 'precision': 0, 'symbolSuffix': 'total'}) }}
                                     {% else %}
                                         0<span class="text-xs">km</span>
                                     {% endif %}
                                 </td>
                                 <td class="px-6 py-2 truncate">
-                                    {{ statistic.totalElevation|formatNumber(0) }}<span class="text-xs">m</span>
+                                    {{ renderComponent('measurement', {'measurement': statistic.totalElevation, 'precision': 0}) }}
                                 </td>
                                 <td class="px-6 py-2 truncate">
                                     {{ statistic.movingTimeForHumans }}
                                 </td>
                                 <td class="px-6 py-2 truncate">
-                                    {{ statistic.averageSpeed|formatNumber(1) }}<span class="text-xs">km/h</span>
+                                    {{ renderComponent('measurement', {'measurement': statistic.averageSpeed, 'precision': 1}) }}
                                 </td>
                             </tr>
                         {% endfor %}

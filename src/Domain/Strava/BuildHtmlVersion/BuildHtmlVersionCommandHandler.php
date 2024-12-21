@@ -209,8 +209,6 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                 ),
                 'weekdayStatsChart' => Json::encode(
                     WeekdayStatsChartsBuilder::fromWeekdayStats($weekdayStats)
-                        ->withoutBackgroundColor()
-                        ->withAnimation(true)
                         ->build(),
                 ),
                 'weekdayStats' => $weekdayStats,
