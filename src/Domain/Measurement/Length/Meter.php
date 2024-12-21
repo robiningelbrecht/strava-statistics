@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Domain\Measurement\Length;
 
 use App\Domain\Measurement\MeasurementFromFloat;
+use App\Domain\Measurement\Metric;
 use App\Domain\Measurement\Unit;
 use App\Domain\Measurement\UnitSystem;
 
-final readonly class Meter implements Unit
+final readonly class Meter implements Unit, Metric
 {
     use MeasurementFromFloat;
 
@@ -28,6 +29,11 @@ final readonly class Meter implements Unit
             return $this;
         }
 
+        return $this->toFoot();
+    }
+
+    public function toImperial(): Unit
+    {
         return $this->toFoot();
     }
 }

@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace App\Domain\Measurement\Mass;
 
 use App\Domain\Measurement\MeasurementFromFloat;
+use App\Domain\Measurement\Metric;
 use App\Domain\Measurement\Unit;
 
-final readonly class Kilogram implements Unit
+final readonly class Kilogram implements Unit, Metric
 {
     use MeasurementFromFloat;
 
@@ -24,5 +25,10 @@ final readonly class Kilogram implements Unit
     public function toPound(): Pound
     {
         return Pound::from($this->value * 2.20462);
+    }
+
+    public function toImperial(): Unit
+    {
+        return $this->toPound();
     }
 }

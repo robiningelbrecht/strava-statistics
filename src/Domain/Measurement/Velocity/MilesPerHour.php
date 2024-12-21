@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Domain\Measurement\Velocity;
 
+use App\Domain\Measurement\Imperial;
 use App\Domain\Measurement\Length\Mile;
 use App\Domain\Measurement\MeasurementFromFloat;
 use App\Domain\Measurement\Unit;
 
-final readonly class MilesPerHour implements Unit
+final readonly class MilesPerHour implements Unit, Imperial
 {
     use MeasurementFromFloat;
 
@@ -20,5 +21,10 @@ final readonly class MilesPerHour implements Unit
     public function toKmH(): KmPerHour
     {
         return KmPerHour::from($this->value * Mile::FACTOR_TO_KM);
+    }
+
+    public function toMetric(): Unit
+    {
+        return $this->toKmH();
     }
 }

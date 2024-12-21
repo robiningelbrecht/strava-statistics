@@ -1,4 +1,5 @@
+{% set convertedMeasurement = measurement|convertMeasurement %}
 {% autoescape false %}
-{{ measurement.toFloat()|formatNumber(precision) }}
-<span class="text-xs">{{ measurement.getSymbol() }}{{ symbolSuffix ? ' '~symbolSuffix : '' }}</span>
+{{ convertedMeasurement.toFloat()|formatNumber(precision) }}
+<span class="text-xs">{{ convertedMeasurement.getSymbol() }}{{ symbolSuffix ? ' '~symbolSuffix : '' }}</span>
 {% endautoescape %}

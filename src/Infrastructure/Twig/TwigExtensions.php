@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Twig;
 
+use App\Domain\Measurement\UnitSystem;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -11,6 +12,7 @@ final class TwigExtensions extends AbstractExtension
 {
     public function __construct(
         private readonly Environment $twig,
+        private readonly UnitSystem $unitSystem,
     ) {
     }
 
@@ -21,6 +23,7 @@ final class TwigExtensions extends AbstractExtension
             new TwigFilter('repeat', StrRepeatTwigExtension::doRepeat(...)),
             new TwigFilter('ellipses', StrEllipsisTwigExtension::doEllipses(...)),
             new TwigFilter('formatNumber', FormatNumberTwigExtension::doFormat(...)),
+            new TwigFilter('convertMeasurement', [new ConvertMeasurementTwigExtension($this->unitSystem), 'doConversion']),
         ];
     }
 
