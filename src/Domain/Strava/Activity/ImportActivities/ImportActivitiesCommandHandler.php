@@ -2,6 +2,7 @@
 
 namespace App\Domain\Strava\Activity\ImportActivities;
 
+use App\Domain\Measurement\Length\Meter;
 use App\Domain\Nominatim\Nominatim;
 use App\Domain\Strava\Activity\Activity;
 use App\Domain\Strava\Activity\ActivityId;
@@ -71,7 +72,7 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                 $activity
                     ->updateName($stravaActivity['name'])
                     ->updateDescription($stravaActivity['description'] ?? '')
-                    ->updateElevation($stravaActivity['total_elevation_gain'])
+                    ->updateElevation(Meter::from($stravaActivity['total_elevation_gain']))
                     ->updateKudoCount($stravaActivity['kudos_count'] ?? 0)
                     ->updateGearId(GearId::fromOptionalUnprefixed($stravaActivity['gear_id'] ?? null));
 

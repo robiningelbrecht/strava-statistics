@@ -65,8 +65,8 @@ final readonly class MonthlyStatistics
             $month = $activity->getStartDate()->format(Month::MONTH_ID_FORMAT);
 
             ++$statistics[$month]['numberOfRides'];
-            $statistics[$month]['totalDistance'] += $activity->getDistanceInKilometer();
-            $statistics[$month]['totalElevation'] += $activity->getElevationInMeter();
+            $statistics[$month]['totalDistance'] += $activity->getDistance()->toFloat();
+            $statistics[$month]['totalElevation'] += $activity->getElevation()->toFloat();
             $statistics[$month]['movingTimeInSeconds'] += $activity->getMovingTimeInSeconds();
             $statistics[$month]['totalCalories'] += $activity->getCalories();
         }
@@ -131,8 +131,8 @@ final readonly class MonthlyStatistics
     {
         return [
             'numberOfRides' => count($activities),
-            'totalDistance' => $activities->sum(fn (Activity $activity) => $activity->getDistanceInKilometer()),
-            'totalElevation' => $activities->sum(fn (Activity $activity) => $activity->getElevationInMeter()),
+            'totalDistance' => $activities->sum(fn (Activity $activity) => $activity->getDistance()->toFloat()),
+            'totalElevation' => $activities->sum(fn (Activity $activity) => $activity->getElevation()->toFloat()),
             'totalCalories' => $activities->sum(fn (Activity $activity) => $activity->getCalories()),
             'movingTime' => CarbonInterval::seconds($activities->sum(fn (Activity $activity) => $activity->getMovingTimeInSeconds()))->cascade()->forHumans(['short' => true, 'minimumUnit' => 'minute']),
         ];

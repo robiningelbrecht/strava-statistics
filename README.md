@@ -62,7 +62,7 @@ STRAVA_CLIENT_SECRET=YOUR_CLIENT_SECRET
 STRAVA_REFRESH_TOKEN=YOUR_REFRESH_TOKEN
 
 # Allowed options: metric or imperial
-MEASUREMENT_SYSTEM=metric
+UNIT_SYSTEM=metric
 # Your birthday. Needed to calculate heart rate zones.
 ATHLETE_BIRTHDAY=YYYY-MM-DD
 # History of weight (in kg). Needed to calculate relative w/kg.

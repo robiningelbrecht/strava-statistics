@@ -196,10 +196,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                         $allActivities,
                         $now,
                     )
-                        ->withAnimation(true)
                         ->withoutBackgroundColor()
-                        ->withDataZoom(true)
-                        ->withAverageTimes(true)
                         ->build(),
                 ),
                 'powerOutputs' => $bestPowerOutputs,
@@ -498,11 +495,11 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                 // @phpstan-ignore-next-line
                 sortValues: [
                     'start-date' => $activity->getStartDate()->getTimestamp(),
-                    'distance' => $activity->getDistanceInKilometer(),
-                    'elevation' => $activity->getElevationInMeter(),
+                    'distance' => $activity->getDistance()->toFloat(),
+                    'elevation' => $activity->getElevation()->toFloat(),
                     'moving-time' => $activity->getMovingTimeInSeconds(),
                     'power' => $activity->getAveragePower(),
-                    'speed' => $activity->getAverageSpeedInKmPerH(),
+                    'speed' => $activity->getAverageSpeed()->toFloat(),
                     'heart-rate' => $activity->getAverageHeartRate(),
                     'calories' => $activity->getCalories(),
                 ]

@@ -84,7 +84,7 @@ final readonly class Trivia
         /** @var Activity $longestActivity */
         $longestActivity = $this->activities->getFirst();
         foreach ($this->activities as $activity) {
-            if ($activity->getDistanceInKilometer() < $longestActivity->getDistanceInKilometer()) {
+            if ($activity->getDistance()->toFloat() < $longestActivity->getDistance()->toFloat()) {
                 continue;
             }
             $longestActivity = $activity;
@@ -98,7 +98,7 @@ final readonly class Trivia
         /** @var Activity $mostElevationActivity */
         $mostElevationActivity = $this->activities->getFirst();
         foreach ($this->activities as $activity) {
-            if ($activity->getElevationInMeter() < $mostElevationActivity->getElevationInMeter()) {
+            if ($activity->getElevation()->toFloat() < $mostElevationActivity->getElevation()->toFloat()) {
                 continue;
             }
             $mostElevationActivity = $activity;
@@ -112,7 +112,7 @@ final readonly class Trivia
         /** @var Activity $fastestActivity */
         $fastestActivity = $this->activities->getFirst();
         foreach ($this->activities as $activity) {
-            if ($activity->getAverageSpeedInKmPerH() < $fastestActivity->getAverageSpeedInKmPerH()) {
+            if ($activity->getAverageSpeed()->toFloat() < $fastestActivity->getAverageSpeed()->toFloat()) {
                 continue;
             }
             $fastestActivity = $activity;

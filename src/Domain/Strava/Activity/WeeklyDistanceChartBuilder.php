@@ -17,10 +17,10 @@ final class WeeklyDistanceChartBuilder
         private readonly Activities $activities,
         private readonly SerializableDateTime $now,
     ) {
-        $this->animation = false;
+        $this->animation = true;
         $this->backgroundColor = '#ffffff';
-        $this->useDataZoom = false;
-        $this->withAverageTimes = false;
+        $this->useDataZoom = true;
+        $this->withAverageTimes = true;
     }
 
     public static function fromActivities(Activities $activities, SerializableDateTime $now): self
@@ -28,30 +28,9 @@ final class WeeklyDistanceChartBuilder
         return new self($activities, $now);
     }
 
-    public function withAnimation(bool $flag): self
-    {
-        $this->animation = $flag;
-
-        return $this;
-    }
-
     public function withoutBackgroundColor(): self
     {
         $this->backgroundColor = null;
-
-        return $this;
-    }
-
-    public function withDataZoom(bool $flag): self
-    {
-        $this->useDataZoom = $flag;
-
-        return $this;
-    }
-
-    public function withAverageTimes(bool $flag): self
-    {
-        $this->withAverageTimes = $flag;
 
         return $this;
     }
@@ -220,7 +199,7 @@ final class WeeklyDistanceChartBuilder
             if (!array_key_exists($week, $distancePerWeek)) {
                 continue;
             }
-            $distancePerWeek[$week] += $activity->getDistanceInKilometer();
+            $distancePerWeek[$week] += $activity->getDistance()->toFloat();
             $timePerWeek[$week] += $activity->getMovingTimeInSeconds();
         }
 

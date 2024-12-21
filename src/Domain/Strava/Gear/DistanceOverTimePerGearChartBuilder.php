@@ -49,7 +49,7 @@ final readonly class DistanceOverTimePerGearChartBuilder
                 $date = SerializableDateTime::fromDateTimeImmutable($date);
                 $activitiesOnThisDay = $this->activities->filterOnDate($date)->filter(fn (Activity $activity) => $activity->getGearId() == $gear->getId());
 
-                $runningTotal += $activitiesOnThisDay->sum(fn (Activity $activity) => $activity->getDistanceInKilometer());
+                $runningTotal += $activitiesOnThisDay->sum(fn (Activity $activity) => $activity->getDistance()->toFloat());
                 $distanceOverTimePerGear[(string) $gear->getId()][] = [$date->format('Y-m-d'), round($runningTotal)];
             }
         }

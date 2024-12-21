@@ -49,8 +49,8 @@ final readonly class YearlyStatistics
             $year = $activity->getStartDate()->getYear();
 
             ++$statistics[$year]['numberOfRides'];
-            $statistics[$year]['totalDistance'] += $activity->getDistanceInKilometer();
-            $statistics[$year]['totalElevation'] += $activity->getElevationInMeter();
+            $statistics[$year]['totalDistance'] += $activity->getDistance()->toFloat();
+            $statistics[$year]['totalElevation'] += $activity->getElevation()->toFloat();
             $statistics[$year]['movingTimeInSeconds'] += $activity->getMovingTimeInSeconds();
             $statistics[$year]['totalCalories'] += $activity->getCalories();
         }

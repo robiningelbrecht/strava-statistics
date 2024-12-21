@@ -2,6 +2,9 @@
 
 namespace App\Domain\Strava\Activity;
 
+use App\Domain\Measurement\Length\Kilometer;
+use App\Domain\Measurement\Length\Meter;
+use App\Domain\Measurement\Velocity\KmPerHour;
 use App\Domain\Nominatim\Location;
 use App\Domain\Strava\Activity\Stream\PowerOutput;
 use App\Domain\Strava\Ftp\FtpValue;
@@ -249,19 +252,19 @@ final class Activity
         return $this;
     }
 
-    public function getDistanceInKilometer(): float
+    public function getDistance(): Kilometer
     {
-        return $this->data['distance'] / 1000;
+        return Kilometer::from($this->data['distance'] / 1000);
     }
 
-    public function getElevationInMeter(): float
+    public function getElevation(): Meter
     {
-        return $this->data['total_elevation_gain'];
+        return Meter::from($this->data['total_elevation_gain']);
     }
 
-    public function updateElevation(float $elevationInLMeter): self
+    public function updateElevation(Meter $elevation): self
     {
-        $this->data['total_elevation_gain'] = $elevationInLMeter;
+        $this->data['total_elevation_gain'] = $elevation;
 
         return $this;
     }
@@ -289,14 +292,14 @@ final class Activity
         return null;
     }
 
-    public function getAverageSpeedInKmPerH(): float
+    public function getAverageSpeed(): KmPerHour
     {
-        return round($this->data['average_speed'] * 3.6, 1);
+        return KmPerHour::from($this->data['average_speed'] * 3.6);
     }
 
-    public function getMaxSpeedInKmPerH(): float
+    public function getMaxSpeed(): KmPerHour
     {
-        return round($this->data['max_speed'] * 3.6, 1);
+        return KmPerHour::from($this->data['max_speed'] * 3.6);
     }
 
     public function getAverageHeartRate(): ?int

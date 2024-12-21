@@ -91,7 +91,7 @@ final class YearlyDistanceChartBuilder
                         break 2;
                     }
 
-                    $runningSum += $activitiesOnThisDay->sum(fn (Activity $activity) => $activity->getDistanceInKilometer());
+                    $runningSum += $activitiesOnThisDay->sum(fn (Activity $activity) => $activity->getDistance()->toFloat());
                     $series[(string) $year]['data'][] = round($runningSum);
                 }
             }

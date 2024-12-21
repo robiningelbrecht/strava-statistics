@@ -15,12 +15,12 @@ final readonly class ActivityTotals
 
     public function getDistance(): float
     {
-        return $this->activities->sum(fn (Activity $activity) => $activity->getDistanceInKilometer());
+        return $this->activities->sum(fn (Activity $activity) => $activity->getDistance()->toFloat());
     }
 
     public function getElevation(): float
     {
-        return $this->activities->sum(fn (Activity $activity) => $activity->getElevationInMeter());
+        return $this->activities->sum(fn (Activity $activity) => $activity->getElevation()->toFloat());
     }
 
     public function getCalories(): int
