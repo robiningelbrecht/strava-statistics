@@ -239,8 +239,11 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                     activities: $allActivities
                 ),
                 'yearlyDistanceChart' => Json::encode(
-                    YearlyDistanceChartBuilder::fromActivities($allActivities, $now)
-                        ->build()
+                    YearlyDistanceChartBuilder::fromActivities(
+                        activities: $allActivities,
+                        unitSystem: $this->unitSystem,
+                        now: $now
+                    )->build()
                 ),
                 'yearlyStatistics' => YearlyStatistics::fromActivities(
                     activities: $allActivities,

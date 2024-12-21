@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Activity\YearlyDistance;
 
+use App\Domain\Measurement\Length\Kilometer;
+use App\Domain\Measurement\Length\Meter;
 use App\Domain\Strava\Activity\Activities;
 use App\Domain\Strava\Activity\Activity;
 use App\Infrastructure\ValueObject\Time\Years;
@@ -61,8 +63,11 @@ final readonly class YearlyStatistics
             $statistic['movingTime'] = CarbonInterval::seconds($statistic['movingTimeInSeconds'])->cascade()->forHumans(['short' => true, 'minimumUnit' => 'minute']);
             $statistic['differenceInDistanceYearBefore'] = null;
             if (isset($statistics[$key + 1]['totalDistance'])) {
-                $statistic['differenceInDistanceYearBefore'] = $statistic['totalDistance'] - $statistics[$key + 1]['totalDistance'];
+                $statistic['differenceInDistanceYearBefore'] = Kilometer::from($statistic['totalDistance'] - $statistics[$key + 1]['totalDistance']);
             }
+
+            $statistics[$key]['totalDistance'] = Kilometer::from($statistic['totalDistance']);
+            $statistics[$key]['totalElevation'] = Meter::from($statistic['totalElevation']);
         }
 
         return $statistics;

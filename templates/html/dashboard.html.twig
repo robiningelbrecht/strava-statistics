@@ -617,7 +617,7 @@
                                     <div>{{ statistic.year }}</div>
                                 </th>
                                 <td class="px-6 py-2">
-                                    {{ statistic.totalDistance|formatNumber(0) }}<span class="text-xs">km</span>
+                                    {{ renderComponent('measurement', {'measurement': statistic.totalDistance, 'precision': 0}) }}
                                 </td>
                                 <td>
                                     <div class="flex items-center justify-center {{ statistic.differenceInDistanceYearBefore >= 0 ? 'text-green-500 dark:text-green-400': 'text-red-600 dark:text-red-500' }}">
@@ -632,13 +632,13 @@
                                                 </svg>
                                             {% endif %}
                                             <div>
-                                                {{ statistic.differenceInDistanceYearBefore|formatNumber(0) }}<span class="text-xs">km</span>
+                                                {{ renderComponent('measurement', {'measurement': statistic.differenceInDistanceYearBefore, 'precision': 0}) }}
                                             </div>
                                         {% endif %}
                                     </div>
                                 </td>
                                 <td>
-                                    {{ statistic.totalElevation|formatNumber(0) }}<span class="text-xs">m</span>
+                                    {{ renderComponent('measurement', {'measurement': statistic.totalElevation, 'precision': 0}) }}
                                 </td>
                                 <td>
                                     {{ statistic.movingTime }}

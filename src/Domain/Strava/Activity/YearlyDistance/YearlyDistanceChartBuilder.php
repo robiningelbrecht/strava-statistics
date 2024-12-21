@@ -4,21 +4,31 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Activity\YearlyDistance;
 
+use App\Domain\Measurement\Length\Kilometer;
+use App\Domain\Measurement\UnitSystem;
 use App\Domain\Strava\Activity\Activities;
 use App\Domain\Strava\Activity\Activity;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
-final class YearlyDistanceChartBuilder
+final readonly class YearlyDistanceChartBuilder
 {
     private function __construct(
-        private readonly Activities $activities,
-        private readonly SerializableDateTime $now,
+        private Activities $activities,
+        private UnitSystem $unitSystem,
+        private SerializableDateTime $now,
     ) {
     }
 
-    public static function fromActivities(Activities $activities, SerializableDateTime $now): self
-    {
-        return new self($activities, $now);
+    public static function fromActivities(
+        Activities $activities,
+        UnitSystem $unitSystem,
+        SerializableDateTime $now,
+    ): self {
+        return new self(
+            activities: $activities,
+            unitSystem: $unitSystem,
+            now: $now
+        );
     }
 
     /**
@@ -72,11 +82,15 @@ final class YearlyDistanceChartBuilder
                         break 2;
                     }
 
-                    $runningSum += $activitiesOnThisDay->sum(fn (Activity $activity) => $activity->getDistance()->toFloat());
+                    $runningSum += $activitiesOnThisDay->sum(
+                        fn (Activity $activity) => $activity->getDistance()->toUnitSystem($this->unitSystem)->toFloat()
+                    );
                     $series[(string) $year]['data'][] = round($runningSum);
                 }
             }
         }
+
+        $unitSymbol = Kilometer::from(1)->toUnitSystem($this->unitSystem)->getSymbol();
 
         return [
             'animation' => true,
@@ -109,7 +123,7 @@ final class YearlyDistanceChartBuilder
             'yAxis' => [
                 [
                     'type' => 'value',
-                    'name' => 'Distance in km',
+                    'name' => 'Distance in '.$unitSymbol,
                     'nameRotate' => 90,
                     'nameLocation' => 'middle',
                     'nameGap' => 50,
