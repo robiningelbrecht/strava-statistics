@@ -4,25 +4,15 @@ namespace App\Domain\Strava\Activity;
 
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
-final class ActivityHeatmapChartBuilder
+final readonly class ActivityHeatmapChartBuilder
 {
-    private readonly SerializableDateTime $fromDate;
-    private readonly SerializableDateTime $toDate;
-    private bool $animation;
-    private readonly string $backgroundColor;
-    /** @var array<mixed> */
-    private readonly array $tooltip;
+    private SerializableDateTime $fromDate;
+    private SerializableDateTime $toDate;
 
     private function __construct(
-        private readonly Activities $activities,
-        private readonly SerializableDateTime $now,
+        private Activities $activities,
+        private SerializableDateTime $now,
     ) {
-        $this->animation = false;
-        $this->backgroundColor = '#ffffff';
-        $this->tooltip = [
-            'trigger' => 'item',
-        ];
-
         $fromDate = SerializableDateTime::fromString($this->now->modify('-11 months')->format('Y-m-01'));
         $this->fromDate = $fromDate;
         $toDate = SerializableDateTime::fromString($this->now->format('Y-m-t 23:59:59'));
@@ -39,27 +29,23 @@ final class ActivityHeatmapChartBuilder
         );
     }
 
-    public function withAnimation(bool $flag): self
-    {
-        $this->animation = $flag;
-
-        return $this;
-    }
-
     /**
      * @return array<mixed>
      */
     public function build(): array
     {
-        $build = [
-            'backgroundColor' => $this->backgroundColor,
-            'animation' => $this->animation,
+        return [
+            'backgroundColor' => null,
+            'animation' => true,
             'legend' => [
                 'show' => true,
             ],
             'title' => [
                 'left' => 'center',
                 'text' => sprintf('%s - %s', $this->fromDate->format('M Y'), $this->toDate->format('M Y')),
+            ],
+            'tooltip' => [
+                'trigger' => 'item',
             ],
             'visualMap' => [
                 'type' => 'piecewise',
@@ -137,12 +123,6 @@ final class ActivityHeatmapChartBuilder
                 'data' => $this->getData(),
             ],
         ];
-
-        if ($this->tooltip) {
-            $build['tooltip'] = $this->tooltip;
-        }
-
-        return $build;
     }
 
     /**

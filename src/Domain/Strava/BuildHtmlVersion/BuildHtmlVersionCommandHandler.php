@@ -205,9 +205,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                     ActivityHeatmapChartBuilder::fromActivities(
                         activities: $allActivities,
                         now: $now,
-                    )
-                        ->withAnimation(true)
-                        ->build()
+                    )->build()
                 ),
                 'weekdayStatsChart' => Json::encode(
                     WeekdayStatsChartsBuilder::fromWeekdayStats($weekdayStats)
