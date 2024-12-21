@@ -223,10 +223,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                     FtpHistoryChartBuilder::fromFtps(
                         ftps: $allFtps,
                         now: $now
-                    )
-                        ->withoutBackgroundColor()
-                        ->withAnimation(true)
-                        ->build()
+                    )->build()
                 ) : null,
                 'timeInHeartRateZoneChart' => Json::encode(
                     TimeInHeartRateZoneChartBuilder::fromTimeInZones(
@@ -235,8 +232,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                         timeInSecondsInHeartRateZoneThree: $this->activityHeartRateRepository->findTotalTimeInSecondsInHeartRateZone(HeartRateZone::THREE),
                         timeInSecondsInHeartRateZoneFour: $this->activityHeartRateRepository->findTotalTimeInSecondsInHeartRateZone(HeartRateZone::FOUR),
                         timeInSecondsInHeartRateZoneFive: $this->activityHeartRateRepository->findTotalTimeInSecondsInHeartRateZone(HeartRateZone::FIVE),
-                    )
-                        ->build(),
+                    )->build(),
                 ),
                 'heartRates' => $this->activityHeartRateRepository->findHighest(),
                 'challengeConsistency' => ChallengeConsistency::create(
@@ -246,8 +242,6 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                 ),
                 'yearlyDistanceChart' => Json::encode(
                     YearlyDistanceChartBuilder::fromActivities($allActivities, $now)
-                        ->withAnimation(true)
-                        ->withoutBackgroundColor()
                         ->build()
                 ),
                 'yearlyStatistics' => YearlyStatistics::fromActivities(
@@ -255,8 +249,6 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                     years: $allYears
                 ),
                 'powerOutputChart' => !empty($bestPowerOutputs) ? PowerOutputChartBuilder::fromBestPowerOutputs($bestPowerOutputs)
-                    ->withAnimation(true)
-                    ->withoutBackgroundColor()
                     ->build() : null,
             ]),
         );
@@ -295,8 +287,6 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
             $this->twig->load('html/eddington.html.twig')->render([
                 'eddingtonChart' => Json::encode(
                     EddingtonChartBuilder::fromEddington($eddington)
-                        ->withAnimation(true)
-                        ->withoutBackgroundColor()
                         ->build(),
                 ),
                 'eddington' => $eddington,

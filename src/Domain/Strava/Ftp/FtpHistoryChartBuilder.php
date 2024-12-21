@@ -8,15 +8,10 @@ use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
 final class FtpHistoryChartBuilder
 {
-    private bool $animation;
-    private ?string $backgroundColor;
-
     private function __construct(
         private readonly Ftps $ftps,
         private readonly SerializableDateTime $now,
     ) {
-        $this->animation = false;
-        $this->backgroundColor = '#ffffff';
     }
 
     public static function fromFtps(
@@ -29,28 +24,14 @@ final class FtpHistoryChartBuilder
         );
     }
 
-    public function withAnimation(bool $flag): self
-    {
-        $this->animation = $flag;
-
-        return $this;
-    }
-
-    public function withoutBackgroundColor(): self
-    {
-        $this->backgroundColor = null;
-
-        return $this;
-    }
-
     /**
      * @return array<mixed>
      */
     public function build(): array
     {
         return [
-            'animation' => $this->animation,
-            'backgroundColor' => $this->backgroundColor,
+            'animation' => true,
+            'backgroundColor' => null,
             'tooltip' => [
                 'trigger' => 'axis',
             ],

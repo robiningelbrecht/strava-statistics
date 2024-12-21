@@ -6,15 +6,10 @@ namespace App\Domain\Strava\Activity\Stream;
 
 final class PowerOutputChartBuilder
 {
-    private bool $animation;
-    private ?string $backgroundColor;
-
     private function __construct(
         /** @var PowerOutput[] */
         private readonly array $bestPowerOutputs,
     ) {
-        $this->animation = false;
-        $this->backgroundColor = '#ffffff';
     }
 
     /**
@@ -24,20 +19,6 @@ final class PowerOutputChartBuilder
         array $bestPowerOutputs,
     ): self {
         return new self($bestPowerOutputs);
-    }
-
-    public function withAnimation(bool $flag): self
-    {
-        $this->animation = $flag;
-
-        return $this;
-    }
-
-    public function withoutBackgroundColor(): self
-    {
-        $this->backgroundColor = null;
-
-        return $this;
     }
 
     /**
@@ -56,8 +37,8 @@ final class PowerOutputChartBuilder
         $yAxisTwoInterval = $yAxisTwoMaxValue / 5;
 
         return [
-            'animation' => $this->animation,
-            'backgroundColor' => $this->backgroundColor,
+            'animation' => true,
+            'backgroundColor' => null,
             'color' => [
                 '#E34902',
             ],

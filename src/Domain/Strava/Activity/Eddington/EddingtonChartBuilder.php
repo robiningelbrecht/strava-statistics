@@ -4,45 +4,14 @@ namespace App\Domain\Strava\Activity\Eddington;
 
 final class EddingtonChartBuilder
 {
-    private bool $animation;
-    private ?string $backgroundColor;
-    /** @var array<mixed>|null */
-    private ?array $tooltip;
-
     private function __construct(
         private readonly Eddington $eddington,
     ) {
-        $this->animation = false;
-        $this->backgroundColor = '#ffffff';
-        $this->tooltip = [
-            'trigger' => 'axis',
-        ];
     }
 
     public static function fromEddington(Eddington $eddington): self
     {
         return new self($eddington);
-    }
-
-    public function withAnimation(bool $flag): self
-    {
-        $this->animation = $flag;
-
-        return $this;
-    }
-
-    public function withoutBackgroundColor(): self
-    {
-        $this->backgroundColor = null;
-
-        return $this;
-    }
-
-    public function withoutTooltip(): self
-    {
-        $this->tooltip = null;
-
-        return $this;
     }
 
     /**
@@ -66,14 +35,17 @@ final class EddingtonChartBuilder
             ],
         ];
 
-        $build = [
-            'backgroundColor' => $this->backgroundColor,
-            'animation' => $this->animation,
+        return [
+            'backgroundColor' => null,
+            'animation' => true,
             'grid' => [
                 'left' => '3%',
                 'right' => '4%',
                 'bottom' => '3%',
                 'containLabel' => true,
+            ],
+            'tooltip' => [
+                'trigger' => 'axis',
             ],
             'legend' => [
                 'show' => true,
@@ -155,11 +127,5 @@ final class EddingtonChartBuilder
                 ],
             ],
         ];
-
-        if ($this->tooltip) {
-            $build['tooltip'] = $this->tooltip;
-        }
-
-        return $build;
     }
 }

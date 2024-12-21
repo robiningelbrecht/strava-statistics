@@ -10,34 +10,15 @@ use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
 final class YearlyDistanceChartBuilder
 {
-    private bool $animation;
-    private ?string $backgroundColor;
-
     private function __construct(
         private readonly Activities $activities,
         private readonly SerializableDateTime $now,
     ) {
-        $this->animation = false;
-        $this->backgroundColor = '#ffffff';
     }
 
     public static function fromActivities(Activities $activities, SerializableDateTime $now): self
     {
         return new self($activities, $now);
-    }
-
-    public function withAnimation(bool $flag): self
-    {
-        $this->animation = $flag;
-
-        return $this;
-    }
-
-    public function withoutBackgroundColor(): self
-    {
-        $this->backgroundColor = null;
-
-        return $this;
     }
 
     /**
@@ -98,8 +79,8 @@ final class YearlyDistanceChartBuilder
         }
 
         return [
-            'animation' => $this->animation,
-            'backgroundColor' => $this->backgroundColor,
+            'animation' => true,
+            'backgroundColor' => null,
             'grid' => [
                 'left' => '40px',
                 'right' => '4%',
