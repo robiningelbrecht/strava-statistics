@@ -208,13 +208,11 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                     )->build()
                 ),
                 'weekdayStatsChart' => Json::encode(
-                    WeekdayStatsChartsBuilder::fromWeekdayStats($weekdayStats)
-                        ->build(),
+                    WeekdayStatsChartsBuilder::fromWeekdayStats($weekdayStats)->build(),
                 ),
                 'weekdayStats' => $weekdayStats,
                 'daytimeStatsChart' => Json::encode(
-                    DaytimeStatsChartsBuilder::fromDaytimeStats($dayTimeStats)
-                        ->build(),
+                    DaytimeStatsChartsBuilder::fromDaytimeStats($dayTimeStats)->build(),
                 ),
                 'daytimeStats' => $dayTimeStats,
                 'distanceBreakdown' => DistanceBreakdown::fromActivities($allActivities),

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava;
 
+use App\Domain\Measurement\Length\Kilometer;
+use App\Domain\Measurement\Length\Meter;
+use App\Domain\Measurement\Velocity\KmPerHour;
 use App\Domain\Strava\Activity\Activities;
 use App\Domain\Strava\Activity\Activity;
 use Carbon\CarbonInterval;
@@ -63,6 +66,13 @@ final readonly class DistanceBreakdown
                 $statistics[$distanceBreakdown]['averageSpeed'] = ($statistics[$distanceBreakdown]['totalDistance'] / $statistics[$distanceBreakdown]['movingTime']) * 3600;
             }
             $statistics[$distanceBreakdown]['movingTimeForHumans'] = CarbonInterval::seconds($statistics[$distanceBreakdown]['movingTime'])->cascade()->forHumans(['short' => true, 'minimumUnit' => 'minute']);
+        }
+
+        foreach ($statistics as $distanceBreakdown => $statistic) {
+            $statistics[$distanceBreakdown]['totalDistance'] = Kilometer::from($statistic['totalDistance']);
+            $statistics[$distanceBreakdown]['averageDistance'] = Kilometer::from($statistic['averageDistance']);
+            $statistics[$distanceBreakdown]['totalElevation'] = Meter::from($statistic['totalElevation']);
+            $statistics[$distanceBreakdown]['averageSpeed'] = KmPerHour::from($statistic['averageSpeed']);
         }
 
         return $statistics;
