@@ -6,11 +6,11 @@
     <td class="px-2 py-2 truncate lg:sticky lg:left-0 group-odd:bg-white group-odd:dark:bg-gray-900 group-even:bg-gray-50 group-even:dark:bg-gray-800">
         {{ renderComponent('activity-title', {'activity': activity, 'ellipses': 50}) }}
     </td>
-    <td class="px-6 py-2 {{ activityHighlights.getLongestDistance() == activity.getDistanceInKilometer() ? 'text-strava-orange font-bold': '' }}">
-        {{ activity.getDistanceInKilometer()|formatNumber(0) }}<span class="text-xs">km</span>
+    <td class="px-6 py-2 {{ activityHighlights.getLongestDistance() == activity.getDistance().toFloat() ? 'text-strava-orange font-bold': '' }}">
+        {{ renderComponent('measurement', {'measurement': activity.getDistance(), 'precision': 0}) }}
     </td>
-    <td class="px-6 py-2 {{ activityHighlights.getHighestElevation() == activity.getElevationInMeter() ? 'text-strava-orange font-bold': '' }}">
-        <div class="w-[4rem]">{{ activity.getElevationInMeter()|formatNumber(0) }}<span class="text-xs">m</span></div>
+    <td class="px-6 py-2 {{ activityHighlights.getHighestElevation() == activity.getElevation().toFloat() ? 'text-strava-orange font-bold': '' }}">
+        <div class="w-[4rem]">{{ renderComponent('measurement', {'measurement': activity.getElevation(), 'precision': 0}) }}</div>
     </td>
     <td class="px-6 py-2 {{ activityHighlights.getLongestMovingTimeFormatted() == activity.getMovingTimeFormatted() ? 'text-strava-orange font-bold': '' }}">
         {{ activity.getMovingTimeFormatted() }}
@@ -18,8 +18,8 @@
     <td class="px-6 py-2 {{ activityHighlights.getHighestAveragePower() == activity.getAveragePower() ? 'text-strava-orange font-bold': '' }}">
         {{ activity.getAveragePower() ? activity.getAveragePower() ~ '<span class="text-xs">w</span>': 'n/a' }}
     </td>
-    <td class="px-6 py-2 {{ activityHighlights.getFastestAverageSpeed() == activity.getAverageSpeedInKmPerH() ? 'text-strava-orange font-bold': '' }}">
-        {{ activity.getAverageSpeedInKmPerH() }}<span class="text-xs">km/h</span>
+    <td class="px-6 py-2 {{ activityHighlights.getFastestAverageSpeed() == activity.getAverageSpeed().toFloat() ? 'text-strava-orange font-bold': '' }}">
+        {{ renderComponent('measurement', {'measurement': activity.getAverageSpeed(), 'precision': 1}) }}
     </td>
     <td class="px-6 py-2 {{ activityHighlights.getHighestAverageHeartRate() == activity.getAverageHeartRate() ? 'text-strava-orange font-bold': '' }}">
         {{ activity.getAverageHeartRate() ?? 'n/a' }}

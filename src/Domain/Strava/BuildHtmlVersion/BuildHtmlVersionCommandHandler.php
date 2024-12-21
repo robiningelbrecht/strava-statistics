@@ -499,7 +499,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                     'elevation' => $activity->getElevation()->toFloat(),
                     'moving-time' => $activity->getMovingTimeInSeconds(),
                     'power' => $activity->getAveragePower(),
-                    'speed' => $activity->getAverageSpeed()->toFloat(),
+                    'speed' => round($activity->getAverageSpeed()->toFloat(), 1),
                     'heart-rate' => $activity->getAverageHeartRate(),
                     'calories' => $activity->getCalories(),
                 ]
