@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Segment\SegmentEffort;
 
+use App\Domain\Measurement\Length\Kilometer;
+use App\Domain\Measurement\Velocity\KmPerHour;
 use App\Domain\Strava\Activity\Activity;
 use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Segment\SegmentId;
@@ -117,16 +119,16 @@ final class SegmentEffort
         return null;
     }
 
-    public function getAverageSpeedInKmPerH(): float
+    public function getAverageSpeed(): KmPerHour
     {
         $averageSpeed = $this->data['distance'] / $this->getElapsedTimeInSeconds();
 
-        return round($averageSpeed * 3.6, 1);
+        return KmPerHour::from($averageSpeed * 3.6);
     }
 
-    public function getDistanceInKilometer(): float
+    public function getDistance(): Kilometer
     {
-        return $this->data['distance'] / 1000;
+        return Kilometer::from($this->data['distance'] / 1000);
     }
 
     /**

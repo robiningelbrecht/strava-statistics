@@ -79,7 +79,7 @@
                                 {{ segmentEffort.getElapsedTimeFormatted() }}
                             </td>
                             <td class="px-2 py-2">
-                                {{ segmentEffort.getAverageSpeedInKmPerH()|formatNumber(1) }}<span class="text-xs">km/h</span>
+                                {{ renderComponent('measurement', {'measurement': segmentEffort.getAverageSpeed(), 'precision': 1}) }}
                             </td>
                             <td class="px-2 py-2">
                                 {% if segmentEffort.getAverageWatts() %}
