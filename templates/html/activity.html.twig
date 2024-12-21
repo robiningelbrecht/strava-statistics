@@ -41,8 +41,7 @@
                 <div class="flex flex-col items-center justify-center px-2 py-2 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-600">
                     <div class="text-center">
                         <dd class="text-xs text-gray-500 dark:text-gray-400">Distance</dd>
-                        <dt class="font-extrabold">{{ activity.getDistanceInKilometer()|formatNumber(0) }}<span
-                                    class="text-xs">km</span></dt>
+                        <dt class="font-extrabold">{{ renderComponent('measurement', {'measurement': activity.getDistance(), 'precision': 0}) }}</dt>
                     </div>
                 </div>
                 <div class="flex flex-col items-center justify-center px-2 py-2 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-600">
@@ -54,8 +53,7 @@
                 <div class="flex flex-col items-center justify-center px-2 py-2 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-600">
                     <div class="text-center">
                         <dd class="text-xs text-gray-500 dark:text-gray-400">Elevation</dd>
-                        <dt class="font-extrabold">{{ activity.getElevationInMeter()|formatNumber(0) }}<span
-                                    class="text-xs">m</span></dt>
+                        <dt class="font-extrabold">{{ renderComponent('measurement', {'measurement': activity.getElevation(), 'precision': 0}) }}</dt>
                     </div>
                 </div>
                 <div class="flex flex-col items-center justify-center px-2 py-2 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-600">
@@ -132,9 +130,9 @@
                             Avg
                         </th>
                         <td class="px-2 py-2 text-sm">
-                            {% set averageSpeed = activity.getAverageSpeedInKmPerH() %}
+                            {% set averageSpeed = activity.getAverageSpeed() %}
                             {% if averageSpeed %}
-                                {{ averageSpeed }}<span class="text-xs">km/h</span>
+                                {{ renderComponent('measurement', {'measurement': averageSpeed, 'precision': 1}) }}
                             {% else %}
                                 n/a
                             {% endif %}
@@ -165,9 +163,9 @@
                             Max
                         </th>
                         <td class="px-2 py-2 text-sm">
-                            {% set maxSpeed = activity.getMaxSpeedInKmPerH() %}
+                            {% set maxSpeed = activity.getMaxSpeed() %}
                             {% if maxSpeed %}
-                                {{ maxSpeed }}<span class="text-xs">km/h</span>
+                                {{ renderComponent('measurement', {'measurement': maxSpeed, 'precision': 1}) }}
                             {% else %}
                                 n/a
                             {% endif %}
