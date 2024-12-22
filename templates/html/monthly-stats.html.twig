@@ -62,10 +62,10 @@
                                     {{ statistic.numberOfRides }}
                                 </td>
                                 <td class="px-2 py-2 truncate">
-                                    {{ statistic.totalDistance|formatNumber(0) }}<span class="text-xs">km</span>
+                                    {{ renderComponent('measurement', {'measurement': statistic.totalDistance, 'precision': 0}) }}
                                 </td>
                                 <td class="px-2 py-2 truncate">
-                                    {{ statistic.totalElevation|formatNumber(0) }}<span class="text-xs">m</span>
+                                    {{ renderComponent('measurement', {'measurement': statistic.totalElevation, 'precision': 0}) }}
                                 </td>
                                 <td class="px-2 py-2 truncate">
                                     {{ statistic.movingTime }}

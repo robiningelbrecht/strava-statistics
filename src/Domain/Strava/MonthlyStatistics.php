@@ -2,6 +2,8 @@
 
 namespace App\Domain\Strava;
 
+use App\Domain\Measurement\Length\Kilometer;
+use App\Domain\Measurement\Length\Meter;
 use App\Domain\Strava\Activity\Activities;
 use App\Domain\Strava\Activity\Activity;
 use App\Domain\Strava\Activity\ActivityType;
@@ -75,6 +77,8 @@ final readonly class MonthlyStatistics
 
         foreach ($statistics as &$statistic) {
             $statistic['movingTime'] = CarbonInterval::seconds($statistic['movingTimeInSeconds'])->cascade()->forHumans(['short' => true, 'minimumUnit' => 'minute']);
+            $statistic['totalDistance'] = Kilometer::from($statistic['totalDistance']);
+            $statistic['totalElevation'] = Meter::from($statistic['totalElevation']);
         }
 
         return $statistics;

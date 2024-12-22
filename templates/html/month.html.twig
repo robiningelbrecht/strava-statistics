@@ -25,13 +25,21 @@
             <ul class="hidden md:flex text-center mr-2 divide-x divide-gray-200 dark:divide-gray-700">
                 <li class="flex items-center gap-x-0.5 pr-2">
                     {{ renderSvg('distance', {'classes': 'w-5 h-5'}) }}
-                    <div>{{ statistics.totalDistance|formatNumber(0) }}</div>
-                    <div class="text-xs text-gray-500 dark:text-gray-400">km</div>
+                    {% if statistics.totalDistance %}
+                        <div>{{ statistics.totalDistance|convertMeasurement.toFloat()|formatNumber(0) }}</div>
+                        <div class="text-xs text-gray-500 dark:text-gray-400">{{ statistics.totalDistance|convertMeasurement.getSymbol() }}</div>
+                    {% else %}
+                        0
+                    {% endif %}
                 </li>
                 <li class="flex items-center gap-x-0.5 px-2">
                     {{ renderSvg('elevation', {'classes': 'w-5 h-5'}) }}
-                    <div>{{ statistics.totalElevation|formatNumber(0) }}</div>
-                    <div class="text-xs text-gray-500 dark:text-gray-400">m</div>
+                    {% if statistics.totalElevation %}
+                        <div>{{ statistics.totalElevation|convertMeasurement.toFloat()|formatNumber(0) }}</div>
+                        <div class="text-xs text-gray-500 dark:text-gray-400">{{ statistics.totalElevation|convertMeasurement.getSymbol() }}</div>
+                    {% else %}
+                        0
+                    {% endif %}
                 </li>
                 <li class="flex items-center gap-x-0.5 px-2">
                     {{ renderSvg('time', {'classes': 'w-5 h-5'}) }}

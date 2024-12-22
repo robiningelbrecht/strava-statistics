@@ -57,10 +57,12 @@ final readonly class ChallengeConsistency
 
             $activities = $this->activities->filterOnMonth($month);
 
-            $consistency[ConsistencyChallenge::KM_200->value][] = $monthlyStats['totalDistance'] >= 200;
-            $consistency[ConsistencyChallenge::KM_600->value][] = $monthlyStats['totalDistance'] >= 600;
-            $consistency[ConsistencyChallenge::KM_1250->value][] = $monthlyStats['totalDistance'] >= 1250;
-            $consistency[ConsistencyChallenge::CLIMBING_7500->value][] = $monthlyStats['totalElevation'] >= 7500;
+            $totalDistance = $monthlyStats['totalDistance'];
+
+            $consistency[ConsistencyChallenge::KM_200->value][] = $totalDistance->toFloat() >= 200;
+            $consistency[ConsistencyChallenge::KM_600->value][] = $totalDistance->toFloat() >= 600;
+            $consistency[ConsistencyChallenge::KM_1250->value][] = $totalDistance->toFloat() >= 1250;
+            $consistency[ConsistencyChallenge::CLIMBING_7500->value][] = $monthlyStats['totalElevation']->toFloat() >= 7500;
             $consistency[ConsistencyChallenge::GRAN_FONDO->value][] = $activities->max(
                 fn (Activity $activity) => $activity->getDistance()->toFloat(),
             ) >= 100;
