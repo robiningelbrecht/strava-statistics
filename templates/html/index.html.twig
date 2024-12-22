@@ -285,12 +285,12 @@
                     </svg>
                 </a>
             </div>
+            {% if currentAppVersion == latestAppVersion %}
+                <div class="text-xs text-center text-gray-500 dark:text-gray-400">{{ currentAppVersion }}</div>
+            {% else %}
+                <div class="text-xs text-center text-gray-500 dark:text-gray-400">{{ currentAppVersion }} (latest: {{ latestAppVersion }})</div>
+            {% endif %}
             <div class="text-xs text-center text-gray-500 dark:text-gray-400">Updated on {{ lastUpdate.format('d-m-Y H:i') }}</div>
-            <div id="tooltip-strava-profile" role="tooltip"
-                 class="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip">
-                Your strava profile
-                <div class="tooltip-arrow" data-popper-arrow></div>
-            </div>
         </div>
     </aside>
     <main class="p-4 md:ml-64 h-auto min-h-screen pt-20 text-gray-900 dark:text-white">
