@@ -88,10 +88,10 @@
                                 {{ monthlyStatistics.getTotalsForZwift().numberOfRides }}
                             </td>
                             <td class="px-2 py-2">
-                                {{ monthlyStatistics.getTotalsForZwift().totalDistance|formatNumber(0) }}<span class="text-xs">km</span>
+                                {{ renderComponent('measurement', {'measurement':  monthlyStatistics.getTotalsForZwift().totalDistance, 'precision': 0}) }}
                             </td>
                             <td class="px-2 py-2">
-                                {{ monthlyStatistics.getTotalsForZwift().totalElevation|formatNumber(0) }}<span class="text-xs">m</span>
+                                {{ renderComponent('measurement', {'measurement':  monthlyStatistics.getTotalsForZwift().totalElevation, 'precision': 0}) }}
                             </td>
                             <td class="px-2 py-2">
                                 {{ monthlyStatistics.getTotalsForZwift().movingTime }}
@@ -110,10 +110,10 @@
                                 {{ monthlyStatistics.getTotalsForOutsideBikeRides().numberOfRides }}
                             </td>
                             <td class="px-2 py-2">
-                                {{ monthlyStatistics.getTotalsForOutsideBikeRides().totalDistance|formatNumber(0) }}<span class="text-xs">km</span>
+                                {{ renderComponent('measurement', {'measurement':  monthlyStatistics.getTotalsForOutsideBikeRides().totalDistance, 'precision': 0}) }}
                             </td>
                             <td class="px-2 py-2">
-                                {{ monthlyStatistics.getTotalsForOutsideBikeRides().totalElevation|formatNumber(0) }}<span class="text-xs">m</span>
+                                {{ renderComponent('measurement', {'measurement':  monthlyStatistics.getTotalsForOutsideBikeRides().totalElevation, 'precision': 0}) }}
                             </td>
                             <td class="px-2 py-2">
                                 {{ monthlyStatistics.getTotalsForOutsideBikeRides().movingTime }}
@@ -132,10 +132,10 @@
                                 {{ monthlyStatistics.getTotals().numberOfRides }}
                             </td>
                             <td class="px-2 py-2">
-                                {{ monthlyStatistics.getTotals().totalDistance|formatNumber(0) }}<span class="text-xs">km</span>
+                                {{ renderComponent('measurement', {'measurement':  monthlyStatistics.getTotals().totalDistance, 'precision': 0}) }}
                             </td>
                             <td class="px-2 py-2">
-                                {{ monthlyStatistics.getTotals().totalElevation|formatNumber(0) }}<span class="text-xs">m</span>
+                                {{ renderComponent('measurement', {'measurement':  monthlyStatistics.getTotals().totalElevation, 'precision': 0}) }}
                             </td>
                             <td class="px-2 py-2">
                                 {{ monthlyStatistics.getTotals().movingTime }}

@@ -135,8 +135,8 @@ final readonly class MonthlyStatistics
     {
         return [
             'numberOfRides' => count($activities),
-            'totalDistance' => $activities->sum(fn (Activity $activity) => $activity->getDistance()->toFloat()),
-            'totalElevation' => $activities->sum(fn (Activity $activity) => $activity->getElevation()->toFloat()),
+            'totalDistance' => Kilometer::from($activities->sum(fn (Activity $activity) => $activity->getDistance()->toFloat())),
+            'totalElevation' => Meter::from($activities->sum(fn (Activity $activity) => $activity->getElevation()->toFloat())),
             'totalCalories' => $activities->sum(fn (Activity $activity) => $activity->getCalories()),
             'movingTime' => CarbonInterval::seconds($activities->sum(fn (Activity $activity) => $activity->getMovingTimeInSeconds()))->cascade()->forHumans(['short' => true, 'minimumUnit' => 'minute']),
         ];
