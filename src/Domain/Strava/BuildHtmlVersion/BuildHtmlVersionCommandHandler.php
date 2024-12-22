@@ -236,7 +236,6 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                         timeInSecondsInHeartRateZoneFive: $this->activityHeartRateRepository->findTotalTimeInSecondsInHeartRateZone(HeartRateZone::FIVE),
                     )->build(),
                 ),
-                'heartRates' => $this->activityHeartRateRepository->findHighest(),
                 'challengeConsistency' => ChallengeConsistency::create(
                     months: $allMonths,
                     monthlyStatistics: $monthlyStatistics,
