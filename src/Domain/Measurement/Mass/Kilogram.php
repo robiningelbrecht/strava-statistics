@@ -7,6 +7,7 @@ namespace App\Domain\Measurement\Mass;
 use App\Domain\Measurement\MeasurementFromFloat;
 use App\Domain\Measurement\Metric;
 use App\Domain\Measurement\Unit;
+use App\Domain\Measurement\UnitSystem;
 
 final readonly class Kilogram implements Unit, Metric
 {
@@ -29,6 +30,15 @@ final readonly class Kilogram implements Unit, Metric
 
     public function toImperial(): Unit
     {
+        return $this->toPound();
+    }
+
+    public function toUnitSystem(UnitSystem $unitSystem): Kilogram|Pound
+    {
+        if (UnitSystem::METRIC === $unitSystem) {
+            return $this;
+        }
+
         return $this->toPound();
     }
 }

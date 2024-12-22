@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
+use App\Domain\Measurement\Mass\Gram;
 use App\Domain\Nominatim\Location;
 use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\ActivityRepository;
@@ -315,7 +316,7 @@ trait ProvideTestData
         $athleteWeightRepository->save(
             AthleteWeightBuilder::fromDefaults()
                 ->withOn(SerializableDateTime::fromString('2020-01-01'))
-                ->withWeightInGrams(68000)
+                ->withWeightInGrams(Gram::from(68000))
                 ->build()
         );
 

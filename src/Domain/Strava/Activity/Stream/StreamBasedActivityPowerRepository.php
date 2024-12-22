@@ -53,7 +53,7 @@ final class StreamBasedActivityPowerRepository implements ActivityPowerRepositor
                 $bestAverageForTimeInterval = $bestAverages[$timeIntervalInSeconds];
 
                 $athleteWeight = $this->athleteWeightRepository->find($activity->getStartDate())->getWeightInKg();
-                $relativePower = $athleteWeight > 0 ? round($bestAverageForTimeInterval / $athleteWeight, 2) : 0;
+                $relativePower = $athleteWeight->toFloat() > 0 ? round($bestAverageForTimeInterval / $athleteWeight->toFloat(), 2) : 0;
                 StreamBasedActivityPowerRepository::$cachedPowerOutputs[(string) $activity->getId()][$timeIntervalInSeconds] = PowerOutput::fromState(
                     time: (int) $interval->totalHours ? $interval->totalHours.' h' : ((int) $interval->totalMinutes ? $interval->totalMinutes.' m' : $interval->totalSeconds.' s'),
                     power: $bestAverageForTimeInterval,
@@ -112,7 +112,7 @@ final class StreamBasedActivityPowerRepository implements ActivityPowerRepositor
             $bestAverageForTimeInterval = $stream->getBestAverages()[$timeIntervalInSeconds];
 
             $athleteWeight = $this->athleteWeightRepository->find($activity->getStartDate())->getWeightInKg();
-            $relativePower = $athleteWeight > 0 ? round($bestAverageForTimeInterval / $athleteWeight, 2) : 0;
+            $relativePower = $athleteWeight->toFloat() > 0 ? round($bestAverageForTimeInterval / $athleteWeight->toFloat(), 2) : 0;
             $best[$timeIntervalInSeconds] = PowerOutput::fromState(
                 time: (int) $interval->totalHours ? $interval->totalHours.' h' : ((int) $interval->totalMinutes ? $interval->totalMinutes.' m' : $interval->totalSeconds.' s'),
                 power: $bestAverageForTimeInterval,

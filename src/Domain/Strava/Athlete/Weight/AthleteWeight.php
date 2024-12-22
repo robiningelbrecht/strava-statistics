@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Athlete\Weight;
 
+use App\Domain\Measurement\Mass\Gram;
+use App\Domain\Measurement\Mass\Kilogram;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -14,13 +16,13 @@ final readonly class AthleteWeight
         #[ORM\Id, ORM\Column(type: 'date_immutable')]
         private SerializableDateTime $on,
         #[ORM\Column(type: 'integer')]
-        private int $weightInGrams,
+        private Gram $weightInGrams,
     ) {
     }
 
     public static function fromState(
         SerializableDateTime $on,
-        int $weightInGrams,
+        Gram $weightInGrams,
     ): self {
         return new self(
             on: $on,
@@ -33,13 +35,13 @@ final readonly class AthleteWeight
         return $this->on;
     }
 
-    public function getWeightInGrams(): int
+    public function getWeightInGrams(): Gram
     {
         return $this->weightInGrams;
     }
 
-    public function getWeightInKg(): float
+    public function getWeightInKg(): Kilogram
     {
-        return round($this->weightInGrams / 1000, 2);
+        return $this->getWeightInGrams()->toKilogram();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Tests\Domain\Strava\Athlete\Weight;
 
+use App\Domain\Measurement\Mass\Gram;
 use App\Domain\Strava\Athlete\Weight\AthleteWeightRepository;
 use App\Domain\Strava\Athlete\Weight\DbalAthleteWeightRepository;
 use App\Infrastructure\Exception\EntityNotFound;
@@ -16,22 +17,22 @@ class DbalAthleteWeightRepositoryTest extends ContainerTestCase
     {
         $weightOne = AthleteWeightBuilder::fromDefaults()
             ->withOn(SerializableDateTime::fromString('2023-04-01'))
-            ->withWeightInGrams(74000)
+            ->withWeightInGrams(Gram::from(74000))
             ->build();
         $this->athleteWeightRepository->save($weightOne);
         $WeightTwo = AthleteWeightBuilder::fromDefaults()
             ->withOn(SerializableDateTime::fromString('2023-05-25'))
-            ->withWeightInGrams(75000)
+            ->withWeightInGrams(Gram::from(75000))
             ->build();
         $this->athleteWeightRepository->save($WeightTwo);
         $weightThree = AthleteWeightBuilder::fromDefaults()
             ->withOn(SerializableDateTime::fromString('2023-08-01'))
-            ->withWeightInGrams(70000)
+            ->withWeightInGrams(Gram::from(70000))
             ->build();
         $this->athleteWeightRepository->save($weightThree);
         $weightFour = AthleteWeightBuilder::fromDefaults()
             ->withOn(SerializableDateTime::fromString('2023-09-24'))
-            ->withWeightInGrams(60000)
+            ->withWeightInGrams(Gram::from(60000))
             ->build();
         $this->athleteWeightRepository->save($weightFour);
 
@@ -44,22 +45,22 @@ class DbalAthleteWeightRepositoryTest extends ContainerTestCase
     {
         $weightOne = AthleteWeightBuilder::fromDefaults()
             ->withOn(SerializableDateTime::fromString('2023-04-01'))
-            ->withWeightInGrams(74000)
+            ->withWeightInGrams(Gram::from(74000))
             ->build();
         $this->athleteWeightRepository->save($weightOne);
         $WeightTwo = AthleteWeightBuilder::fromDefaults()
             ->withOn(SerializableDateTime::fromString('2023-05-25'))
-            ->withWeightInGrams(75000)
+            ->withWeightInGrams(Gram::from(75000))
             ->build();
         $this->athleteWeightRepository->save($WeightTwo);
         $weightThree = AthleteWeightBuilder::fromDefaults()
             ->withOn(SerializableDateTime::fromString('2023-08-01'))
-            ->withWeightInGrams(70000)
+            ->withWeightInGrams(Gram::from(70000))
             ->build();
         $this->athleteWeightRepository->save($weightThree);
         $weightFour = AthleteWeightBuilder::fromDefaults()
             ->withOn(SerializableDateTime::fromString('2023-09-24'))
-            ->withWeightInGrams(60000)
+            ->withWeightInGrams(Gram::from(60000))
             ->build();
         $this->athleteWeightRepository->save($weightFour);
 
@@ -93,22 +94,22 @@ class DbalAthleteWeightRepositoryTest extends ContainerTestCase
     {
         $weightOne = AthleteWeightBuilder::fromDefaults()
             ->withOn(SerializableDateTime::fromString('2023-04-01'))
-            ->withWeightInGrams(60000)
+            ->withWeightInGrams(Gram::from(60000))
             ->build();
         $this->athleteWeightRepository->save($weightOne);
         $weightTwo = AthleteWeightBuilder::fromDefaults()
             ->withOn(SerializableDateTime::fromString('2023-05-25'))
-            ->withWeightInGrams(65000)
+            ->withWeightInGrams(Gram::from(65000))
             ->build();
         $this->athleteWeightRepository->save($weightTwo);
         $weightThree = AthleteWeightBuilder::fromDefaults()
             ->withOn(SerializableDateTime::fromString('2023-08-01'))
-            ->withWeightInGrams(70000)
+            ->withWeightInGrams(Gram::from(70000))
             ->build();
         $this->athleteWeightRepository->save($weightThree);
         $weightFour = AthleteWeightBuilder::fromDefaults()
             ->withOn(SerializableDateTime::fromString('2023-09-24'))
-            ->withWeightInGrams(75000)
+            ->withWeightInGrams(Gram::from(75000))
             ->build();
         $this->athleteWeightRepository->save($weightFour);
 

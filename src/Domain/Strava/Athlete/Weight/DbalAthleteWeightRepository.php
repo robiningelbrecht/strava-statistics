@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Athlete\Weight;
 
+use App\Domain\Measurement\Mass\Gram;
 use App\Infrastructure\Exception\EntityNotFound;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use Doctrine\DBAL\Connection;
@@ -56,7 +57,7 @@ final readonly class DbalAthleteWeightRepository implements AthleteWeightReposit
     {
         return AthleteWeight::fromState(
             on: SerializableDateTime::fromString($result['on']),
-            weightInGrams: (int) $result['weightInGrams']
+            weightInGrams: Gram::from($result['weightInGrams']),
         );
     }
 }

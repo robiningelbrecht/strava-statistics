@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Athlete\Weight\ImportAthleteWeight;
 
+use App\Domain\Measurement\UnitSystem;
 use App\Domain\Strava\Athlete\Weight\AthleteWeightRepository;
 use App\Infrastructure\CQRS\Bus\Command;
 use App\Infrastructure\CQRS\Bus\CommandHandler;
@@ -13,6 +14,7 @@ final readonly class ImportAthleteWeightCommandHandler implements CommandHandler
     public function __construct(
         private AthleteWeightsFromEnvFile $athleteWeightsFromEnvFile,
         private AthleteWeightRepository $athleteWeightRepository,
+        private UnitSystem $unitSystem,
     ) {
     }
 
@@ -33,10 +35,13 @@ final readonly class ImportAthleteWeightCommandHandler implements CommandHandler
         /** @var \App\Domain\Strava\Athlete\Weight\AthleteWeight $weight */
         foreach ($athleteWeights as $weight) {
             $this->athleteWeightRepository->save($weight);
+
+            $convertedWeight = $weight->getWeightInKg()->toUnitSystem($this->unitSystem);
             $command->getOutput()->writeln(sprintf(
-                '  => Imported weight set on %s (%s kg)...',
+                '  => Imported weight set on %s (%s %s)...',
                 $weight->getOn()->format('d-m-Y'),
-                $weight->getWeightInKg()
+                $convertedWeight->toFloat(),
+                $convertedWeight->getSymbol()
             ));
         }
     }

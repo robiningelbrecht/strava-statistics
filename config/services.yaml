@@ -76,7 +76,7 @@ services:
 
     App\Domain\Strava\Athlete\Weight\ImportAthleteWeight\AthleteWeightsFromEnvFile:
         factory: [ 'App\Domain\Strava\Athlete\Weight\ImportAthleteWeight\AthleteWeightsFromEnvFile', fromString ]
-        arguments: [ '%env(resolve:ATHLETE_WEIGHTS)%' ]
+        arguments: [ '%env(resolve:ATHLETE_WEIGHTS)%',  '@App\Domain\Measurement\UnitSystem']
 
     App\Domain\Strava\Ftp\ImportFtp\FtpValuesFromEnvFile:
         factory: [ 'App\Domain\Strava\Ftp\ImportFtp\FtpValuesFromEnvFile', fromString ]
