@@ -2,6 +2,7 @@
 
 namespace App\Domain\Strava\Gear;
 
+use App\Domain\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -67,14 +68,9 @@ class Gear
         return sprintf('%s%s', $this->data['name'], $this->isRetired() ? ' ☠️' : '');
     }
 
-    public function getDistanceInMeter(): int
+    public function getDistance(): Kilometer
     {
-        return $this->distanceInMeter;
-    }
-
-    public function getDistanceInKm(): float
-    {
-        return round($this->distanceInMeter / 1000);
+        return Kilometer::from($this->distanceInMeter / 1000);
     }
 
     public function isRetired(): bool

@@ -64,21 +64,21 @@
                                     {{ statistic.numberOfRides }}
                                 </td>
                                 <td class="px-6 py-2 truncate">
-                                    {% if statistic.distance > 0 %}
-                                        {{ statistic.averageDistance|formatNumber(0) }}<span class="text-xs">km avg</span> /
-                                        {{ statistic.distance|formatNumber(0) }}<span class="text-xs">km total</span>
+                                    {% if statistic.distance.toFloat() > 0 %}
+                                        {{ renderComponent('measurement', {'measurement': statistic.averageDistance, 'precision': 0, 'symbolSuffix': 'avg'}) }} /
+                                        {{ renderComponent('measurement', {'measurement': statistic.distance, 'precision': 0, 'symbolSuffix': 'total'}) }}
                                     {% else %}
-                                        0<span class="text-xs">km</span>
+                                        0<span class="text-xs">{{ statistic.distance.getSymbol() }}</span>
                                     {% endif %}
                                 </td>
                                 <td class="px-6 py-2 truncate">
-                                    {{ statistic.elevation|formatNumber(0) }}<span class="text-xs">m</span>
+                                    {{ renderComponent('measurement', {'measurement': statistic.elevation, 'precision': 0}) }}
                                 </td>
                                 <td class="px-6 py-2 truncate">
                                     {{ statistic.movingTime }}
                                 </td>
                                 <td class="px-6 py-2 truncate">
-                                    {{ statistic.averageSpeed|formatNumber(1) }}<span class="text-xs">km/h</span>
+                                    {{ renderComponent('measurement', {'measurement': statistic.averageSpeed, 'precision': 1}) }}
                                 </td>
                                 <td class="px-6 py-2 truncate">
                                     {{ statistic.totalCalories|formatNumber(0) }}<span class="text-xs">kcal</span>
@@ -101,7 +101,7 @@
                     </button>
                     <div data-popover id="popover-distance-per-month" role="tooltip" class="w-[200px] lg:w-[450px] absolute z-[100] invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400">
                         <p class="p-3">
-                            Gear that is <span class="font-bold">retired</span> or that hasn't been used in the last <span class="font-bold">three months</span>, is disabled by default.
+                            Gear that that hasn't been used in the last <span class="font-bold">three months</span>, is disabled by default.
                         </p>
                     </div>
                 </div>

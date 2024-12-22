@@ -50,7 +50,7 @@ final readonly class ActivityTotals
     {
         $diff = $this->getStartDate()->diff($this->now);
         if (0 === $diff->days) {
-            return Kilometer::from(0);
+            return Kilometer::zero();
         }
 
         return Kilometer::from($this->getDistance()->toFloat() / $diff->days);
@@ -60,7 +60,7 @@ final readonly class ActivityTotals
     {
         $diff = $this->getStartDate()->diff($this->now);
         if (0 === $diff->days) {
-            return Kilometer::from(0);
+            return Kilometer::zero();
         }
 
         return Kilometer::from($this->getDistance()->toFloat() / ceil($diff->days / 7));
@@ -70,7 +70,7 @@ final readonly class ActivityTotals
     {
         $diff = $this->getStartDate()->diff($this->now);
         if (0 === $diff->days) {
-            return Kilometer::from(0);
+            return Kilometer::zero();
         }
 
         return Kilometer::from($this->getDistance()->toFloat() / (($diff->y * 12) + $diff->m + 1));

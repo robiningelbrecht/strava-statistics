@@ -23,7 +23,7 @@ final readonly class DbalGearRepository implements GearRepository
             'gearId' => $gear->getId(),
             'createdOn' => $gear->getCreatedOn(),
             'data' => Json::encode($gear->getData()),
-            'distanceInMeter' => $gear->getDistanceInMeter(),
+            'distanceInMeter' => $gear->getDistance()->toMeter(),
         ]);
     }
 
@@ -36,7 +36,7 @@ final readonly class DbalGearRepository implements GearRepository
 
         $this->connection->executeStatement($sql, [
             'gearId' => $gear->getId(),
-            'distanceInMeter' => $gear->getDistanceInMeter(),
+            'distanceInMeter' => $gear->getDistance()->toMeter(),
             'data' => Json::encode($gear->getData()),
         ]);
     }

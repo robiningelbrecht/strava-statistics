@@ -16,6 +16,11 @@ trait MeasurementFromFloat
         return new self($value);
     }
 
+    public static function zero(): self
+    {
+        return self::from(0);
+    }
+
     public function toFloat(): float
     {
         return $this->value;

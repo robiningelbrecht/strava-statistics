@@ -37,4 +37,9 @@ final readonly class Kilometer implements Unit, Metric
     {
         return $this->toMiles();
     }
+
+    public function toMeter(): Meter
+    {
+        return Meter::from($this->value * 1000);
+    }
 }

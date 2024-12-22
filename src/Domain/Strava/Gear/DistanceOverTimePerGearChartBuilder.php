@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Gear;
 
+use App\Domain\Measurement\Length\Kilometer;
+use App\Domain\Measurement\UnitSystem;
 use App\Domain\Strava\Activity\Activities;
 use App\Domain\Strava\Activity\Activity;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
@@ -13,6 +15,7 @@ final readonly class DistanceOverTimePerGearChartBuilder
     private function __construct(
         private Gears $gears,
         private Activities $activities,
+        private UnitSystem $unitSystem,
         private SerializableDateTime $now,
     ) {
     }
@@ -20,11 +23,13 @@ final readonly class DistanceOverTimePerGearChartBuilder
     public static function fromGearAndActivities(
         Gears $gearCollection,
         Activities $activityCollection,
+        UnitSystem $unitSystem,
         SerializableDateTime $now,
     ): self {
         return new self(
             gears: $gearCollection,
             activities: $activityCollection,
+            unitSystem: $unitSystem,
             now: $now
         );
     }
@@ -49,7 +54,9 @@ final readonly class DistanceOverTimePerGearChartBuilder
                 $date = SerializableDateTime::fromDateTimeImmutable($date);
                 $activitiesOnThisDay = $this->activities->filterOnDate($date)->filter(fn (Activity $activity) => $activity->getGearId() == $gear->getId());
 
-                $runningTotal += $activitiesOnThisDay->sum(fn (Activity $activity) => $activity->getDistance()->toFloat());
+                $runningTotal += $activitiesOnThisDay->sum(
+                    fn (Activity $activity) => $activity->getDistance()->toUnitSystem($this->unitSystem)->toFloat()
+                );
                 $distanceOverTimePerGear[(string) $gear->getId()][] = [$date->format('Y-m-d'), round($runningTotal)];
             }
         }
@@ -108,7 +115,7 @@ final readonly class DistanceOverTimePerGearChartBuilder
             'yAxis' => [
                 [
                     'type' => 'value',
-                    'name' => 'Distance in km',
+                    'name' => 'Distance in '.Kilometer::zero()->toUnitSystem($this->unitSystem)->getSymbol(),
                     'nameRotate' => 90,
                     'nameLocation' => 'middle',
                     'nameGap' => 50,

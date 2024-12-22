@@ -67,7 +67,7 @@ class DbalGearRepositoryTest extends ContainerTestCase
 
         $this->assertEquals(
             1000,
-            $gear->getDistanceInMeter()
+            $gear->getDistance()->toMeter()->toFloat()
         );
 
         $gear->updateDistance(30000, 30.00);
@@ -75,7 +75,7 @@ class DbalGearRepositoryTest extends ContainerTestCase
 
         $this->assertEquals(
             30000,
-            $this->gearRepository->find(GearId::fromUnprefixed(1))->getDistanceInMeter()
+            $this->gearRepository->find(GearId::fromUnprefixed(1))->getDistance()->toMeter()->toFloat()
         );
     }
 

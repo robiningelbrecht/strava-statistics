@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Gear;
 
+use App\Domain\Measurement\Length\Kilometer;
+use App\Domain\Measurement\UnitSystem;
 use App\Domain\Strava\Activity\Activities;
 use App\Domain\Strava\Calendar\Month;
 use App\Domain\Strava\Calendar\Months;
@@ -13,6 +15,7 @@ final readonly class DistancePerMonthPerGearChartBuilder
     private function __construct(
         private Gears $gears,
         private Activities $activities,
+        private UnitSystem $unitSystem,
         private Months $months,
     ) {
     }
@@ -20,11 +23,13 @@ final readonly class DistancePerMonthPerGearChartBuilder
     public static function fromGearAndActivities(
         Gears $gearCollection,
         Activities $activityCollection,
+        UnitSystem $unitSystem,
         Months $months,
     ): self {
         return new self(
             gears: $gearCollection,
             activities: $activityCollection,
+            unitSystem: $unitSystem,
             months: $months
         );
     }
@@ -52,7 +57,7 @@ final readonly class DistancePerMonthPerGearChartBuilder
                 continue;
             }
             $month = $activity->getStartDate()->format(Month::MONTH_ID_FORMAT);
-            $distancePerGearAndMonth[(string) $activity->getGearId()][$month] += $activity->getDistance()->toFloat();
+            $distancePerGearAndMonth[(string) $activity->getGearId()][$month] += $activity->getDistance()->toUnitSystem($this->unitSystem)->toFloat();
         }
 
         foreach ($distancePerGearAndMonth as $gearId => $months) {
@@ -61,10 +66,12 @@ final readonly class DistancePerMonthPerGearChartBuilder
 
         $series = [];
         $selectedSeries = [];
+
+        $unitSymbol = Kilometer::zero()->toUnitSystem($this->unitSystem)->getSymbol();
         foreach ($gears as $gear) {
             $distanceInLastThreeMonths = array_sum(array_slice($distancePerGearAndMonth[(string) $gear->getId()], -3, 3));
 
-            $selectedSeries[$gear->getName()] = !$gear->isRetired() && $distanceInLastThreeMonths > 0;
+            $selectedSeries[$gear->getName()] = $distanceInLastThreeMonths > 0;
             $series[] = [
                 'name' => $gear->getName(),
                 'type' => 'bar',
@@ -80,7 +87,7 @@ final readonly class DistancePerMonthPerGearChartBuilder
                     'color' => '#000',
                     'rotate' => 90,
                     'distance' => 15,
-                    'formatter' => '{distance|{c} km} - {a}',
+                    'formatter' => sprintf('{distance|{c} %s} - {a}', $unitSymbol),
                     'rich' => [
                         'distance' => [
                             'fontSize' => 14,

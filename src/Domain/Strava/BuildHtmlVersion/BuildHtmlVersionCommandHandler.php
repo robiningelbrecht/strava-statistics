@@ -385,6 +385,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                     DistancePerMonthPerGearChartBuilder::fromGearAndActivities(
                         gearCollection: $allBikes,
                         activityCollection: $allActivities,
+                        unitSystem: $this->unitSystem,
                         months: $allMonths,
                     )->build()
                 ),
@@ -392,6 +393,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                     DistanceOverTimePerGearChartBuilder::fromGearAndActivities(
                         gearCollection: $allBikes,
                         activityCollection: $allActivities,
+                        unitSystem: $this->unitSystem,
                         now: $now,
                     )->build()
                 ),
