@@ -25,7 +25,8 @@
         <div class="flex justify-center">
             <div class="w-[13rem]">
                 {{ segment.getBestEffort().getElapsedTimeFormatted() }}
-                <span class="font-medium">-</span> {{ segment.getBestEffort().getAverageSpeedInKmPerH()|formatNumber(1) }}<span class="text-xs">km/h</span>
+                <span class="font-medium">-</span>
+                {{ renderComponent('measurement', {'measurement': segment.getBestEffort().getAverageSpeed(), 'precision': 1}) }}
                 {% if segment.getBestEffort().getAverageWatts() %}
                     <span class="font-medium">-</span> {{ segment.getBestEffort().getAverageWatts()|formatNumber(0) }}<span class="text-xs">w</span>
                 {% endif %}
