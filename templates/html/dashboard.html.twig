@@ -107,11 +107,11 @@
                     {% set convertedIntroDistance = intro.getDistance()|convertMeasurement %}
                     {% set convertedIntroElevation = intro.getElevation()|convertMeasurement %}
                     I recorded a total distance of <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">{{ convertedIntroDistance.toFloat()|formatNumber(0) }} {{ convertedIntroDistance.getSymbol() }}</kbd>
-                    (<kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">{{ (convertedIntroDistance.toFloat() / 40075)|formatNumber(2) }}</kbd>
+                    (<kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">{{ (intro.getDistance().toFloat() / 40075)|formatNumber(2) }}</kbd>
                     trips around the world 🌍 and
-                    <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">{{ (convertedIntroDistance.toFloat() / 384400)|formatNumber(3) }}</kbd>
+                    <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">{{ (intro.getDistance().toFloat() / 384400)|formatNumber(3) }}</kbd>
                     trips to the moon 🌕), an elevation of <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">{{ convertedIntroElevation.toFloat()|formatNumber(0) }} {{ convertedIntroElevation.getSymbol() }}</kbd>
-                    (<kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">{{ (convertedIntroElevation.toFloat() / 8849)|formatNumber(1) }}</kbd>
+                    (<kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">{{ (intro.getElevation().toFloat() / 8849)|formatNumber(1) }}</kbd>
                     times Mount Everest 🏔) and a total time of <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-100 dark:border-gray-500">{{ intro.getMovingTimeFormatted() }}</kbd> 🎉.
                 </p>
                 <p>
