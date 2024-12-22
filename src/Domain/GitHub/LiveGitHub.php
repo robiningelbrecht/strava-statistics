@@ -14,6 +14,7 @@ final readonly class LiveGitHub implements GitHub
 
     /**
      * @param array<string, mixed> $options
+     *
      * @return array<mixed>
      */
     private function request(
