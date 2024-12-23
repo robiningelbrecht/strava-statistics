@@ -99,7 +99,6 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
         $allImages = $this->imageRepository->findAll();
         $allFtps = $this->ftpRepository->findAll();
         $allSegments = $this->segmentRepository->findAll();
-        $alpeDuZwiftSegment = $allSegments->getAlpeDuZwiftSegment();
 
         $command->getOutput()->writeln('  => Calculating Eddington');
         $eddington = Eddington::fromActivities(
@@ -185,7 +184,6 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                 'totalPhotoCount' => count($allImages),
                 'lastUpdate' => $now,
                 'athleteId' => $athleteId,
-                'hasAlpeDuZwiftSegments' => $alpeDuZwiftSegment,
                 'currentAppVersion' => 'v0.1.10',
                 'latestAppVersion' => $this->gitHub->getRepoLatestRelease('robiningelbrecht/strava-statistics'),
             ]),
@@ -430,23 +428,6 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                 'routesInMostRiddenState' => Json::encode($routesInMostRiddenState),
             ]),
         );
-
-        if ($alpeDuZwiftSegment) {
-            $command->getOutput()->writeln('  => Building alpe-du-zwift.html');
-
-            $segmentEfforts = $this->segmentEffortRepository->findBySegmentId($alpeDuZwiftSegment->getId());
-            foreach ($segmentEfforts as $segmentEffort) {
-                $activity = $allActivities->getByActivityId($segmentEffort->getActivityId());
-                $segmentEffort->enrichWithActivity($activity);
-            }
-
-            $this->filesystem->write(
-                'build/html/alpe-du-zwift.html',
-                $this->twig->load('html/alpe-du-zwift.html.twig')->render([
-                    'segmentEfforts' => $segmentEfforts,
-                ]),
-            );
-        }
 
         $command->getOutput()->writeln('  => Building activity.html');
         $dataDatableRows = [];

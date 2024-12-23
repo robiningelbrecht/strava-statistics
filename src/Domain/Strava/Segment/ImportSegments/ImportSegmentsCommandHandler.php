@@ -64,6 +64,7 @@ final readonly class ImportSegmentsCommandHandler implements CommandHandler
                 }
 
                 $segmentEffortId = SegmentEffortId::fromUnprefixed((string) $activitySegmentEffort['id']);
+                // TODO: fetch segment data from strava if it's a KOMs to be able to display leaflet map.
                 try {
                     $segmentEffort = $this->segmentEffortRepository->find($segmentEffortId);
                     $this->segmentEffortRepository->update($segmentEffort);
@@ -82,8 +83,6 @@ final readonly class ImportSegmentsCommandHandler implements CommandHandler
                 }
             }
 
-            // Delete segments from data on activity to reduce DB size.
-            $activity->removeSegments();
             $this->activityRepository->update($activity);
         }
     }
