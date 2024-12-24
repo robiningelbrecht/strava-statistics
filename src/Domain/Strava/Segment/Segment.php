@@ -67,6 +67,10 @@ final class Segment
 
     public function getName(): Name
     {
+        if ($this->isKOM()) {
+            return Name::fromString('🏔️ '.$this->name);
+        }
+
         return $this->name;
     }
 
@@ -115,8 +119,9 @@ final class Segment
     {
         return array_filter([
             (string) $this->getName(),
-            $this->isStarred() ? 'favourite starred' : null]
-        );
+            $this->isStarred() ? 'favourite starred' : null,
+            $this->isKOM() ? 'is-kom' : null,
+        ]);
     }
 
     public function getBestEffort(): ?SegmentEffort
@@ -146,5 +151,59 @@ final class Segment
         }
 
         return (bool) $this->data['starred'];
+    }
+
+    public function isKOM(): bool
+    {
+        $komSegmentIds = [
+            12128917,
+            22813206,
+            17267489,
+            24700976,
+            24701010,
+            33620168,
+            38170246,
+            12744502,
+            28433453,
+            16784833,
+            16784850,
+            16802545,
+            12109030,
+            12128029,
+            18397965,
+            18389384,
+            37039571,
+            38138480,
+            38132913,
+            26935782,
+            38147800,
+            16781407,
+            16781411,
+            12128826,
+            26935782,
+            37049451,
+            24682578,
+            19141090,
+            19141092,
+            24690967,
+            14120182,
+            30407861,
+            32762879,
+            33636401,
+            33636430,
+            28432293,
+            28432259,
+            38170244,
+            33636632,
+            37033150,
+            21343975,
+            21343961,
+            14270131,
+            21747822,
+            21747891,
+            18389384,
+        ];
+
+        return in_array((int) $this->getId()->toUnprefixedString(), $komSegmentIds);
     }
 }
