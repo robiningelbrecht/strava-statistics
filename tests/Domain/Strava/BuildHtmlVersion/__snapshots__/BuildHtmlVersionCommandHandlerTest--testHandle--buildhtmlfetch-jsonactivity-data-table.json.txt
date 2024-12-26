@@ -7,6 +7,7 @@
   => Enriching activities with data
   => Building index.html
   => Building dashboard.html
+  => Building power-output.html
   => Building activities.html
   => Building photos.html
   => Building challenges.html

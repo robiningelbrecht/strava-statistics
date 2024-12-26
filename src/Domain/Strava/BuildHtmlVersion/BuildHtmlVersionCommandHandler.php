@@ -254,10 +254,21 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                     activities: $allActivities,
                     years: $allYears
                 ),
-                'powerOutputChart' => !empty($bestPowerOutputs) ? PowerOutputChartBuilder::fromBestPowerOutputs($bestPowerOutputs)
-                    ->build() : null,
             ]),
         );
+
+        if (!empty($bestPowerOutputs)) {
+            $command->getOutput()->writeln('  => Building power-output.html');
+            $this->filesystem->write(
+                'build/html/power-output.html',
+                $this->twig->load('html/power-output.html.twig')->render([
+                    'powerOutputChart' => Json::encode(
+                        PowerOutputChartBuilder::fromBestPowerOutputs($bestPowerOutputs)
+                            ->build()
+                    ),
+                ]),
+            );
+        }
 
         $command->getOutput()->writeln('  => Building activities.html');
         $this->filesystem->write(
