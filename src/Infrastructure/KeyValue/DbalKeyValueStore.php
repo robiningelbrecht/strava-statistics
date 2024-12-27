@@ -34,7 +34,7 @@ final readonly class DbalKeyValueStore implements KeyValueStore
         ]);
     }
 
-    public function find(Key $key): KeyValue
+    public function find(Key $key): Value
     {
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder->select('*')
@@ -46,9 +46,6 @@ final readonly class DbalKeyValueStore implements KeyValueStore
             throw new EntityNotFound(sprintf('KeyValue "%s" not found', $key->value));
         }
 
-        return KeyValue::fromState(
-            key: Key::from($result['key']),
-            value: Value::fromString($result['value']),
-        );
+        return Value::fromString($result['value']);
     }
 }

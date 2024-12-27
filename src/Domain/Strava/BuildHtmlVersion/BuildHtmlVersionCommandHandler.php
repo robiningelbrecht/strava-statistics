@@ -92,7 +92,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
 
         $now = $this->clock->getCurrentDateTimeImmutable();
 
-        $athleteId = $this->keyValueStore->find(Key::ATHLETE_ID)->getValue();
+        $athleteId = $this->keyValueStore->find(Key::ATHLETE_ID);
         $allActivities = $this->activityRepository->findAll();
         $allChallenges = $this->challengeRepository->findAll();
         $allBikes = $this->gearRepository->findAll();

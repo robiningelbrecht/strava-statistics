@@ -35,11 +35,11 @@ readonly class MaxStravaUsageHasBeenReached
     public function hasReached(): bool
     {
         try {
-            $keyValue = $this->keyValueStore->find(Key::STRAVA_LIMITS_HAVE_BEEN_REACHED);
+            $value = $this->keyValueStore->find(Key::STRAVA_LIMITS_HAVE_BEEN_REACHED);
         } catch (EntityNotFound) {
             return false;
         }
 
-        return $keyValue->getValue() == Value::fromString($this->clock->getCurrentDateTimeImmutable()->format('Y-m-d'));
+        return (string) $value === $this->clock->getCurrentDateTimeImmutable()->format('Y-m-d');
     }
 }

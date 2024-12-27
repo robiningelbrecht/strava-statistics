@@ -10,5 +10,5 @@ interface KeyValueStore
 
     public function clear(Key $key): void;
 
-    public function find(Key $key): KeyValue;
+    public function find(Key $key): Value;
 }

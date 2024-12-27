@@ -23,7 +23,7 @@ class DbalKeyValueStoreTest extends ContainerTestCase
         $this->keyValueStore->save($keyValue);
 
         $this->assertEquals(
-            $keyValue,
+            $keyValue->getValue(),
             $this->keyValueStore->find(Key::STRAVA_LIMITS_HAVE_BEEN_REACHED)
         );
     }
