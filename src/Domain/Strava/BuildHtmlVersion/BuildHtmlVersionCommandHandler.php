@@ -184,7 +184,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                 'totalPhotoCount' => count($allImages),
                 'lastUpdate' => $now,
                 'athleteId' => $athleteId,
-                'currentAppVersion' => 'v0.1.12',
+                'currentAppVersion' => 'v0.1.13',
                 'latestAppVersion' => $this->gitHub->getRepoLatestRelease('robiningelbrecht/strava-statistics'),
             ]),
         );
