@@ -3,7 +3,7 @@
 namespace App\Console;
 
 use App\Domain\Strava\BuildHtmlVersion\BuildHtmlVersion;
-use App\Domain\Strava\MaxStravaUsageHasBeenReached;
+use App\Domain\Strava\StravaDataImportStatus;
 use App\Infrastructure\CQRS\Bus\CommandBus;
 use App\Infrastructure\Time\ResourceUsage\ResourceUsage;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -16,7 +16,7 @@ final class BuildStravaActivityFilesConsoleCommand extends Command
 {
     public function __construct(
         private readonly CommandBus $commandBus,
-        private readonly MaxStravaUsageHasBeenReached $maxStravaUsageHasBeenReached,
+        private readonly StravaDataImportStatus $stravaDataImportStatus,
         private readonly ResourceUsage $resourceUsage,
     ) {
         parent::__construct();
@@ -24,8 +24,8 @@ final class BuildStravaActivityFilesConsoleCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if ($this->maxStravaUsageHasBeenReached->hasReached()) {
-            $output->writeln('Reached Strava API rate limits, cannot build stats yet...');
+        if (!$this->stravaDataImportStatus->isCompleted()) {
+            $output->writeln('<error>Wait until all Strava data has been imported before building the app</error>');
 
             return Command::SUCCESS;
         }

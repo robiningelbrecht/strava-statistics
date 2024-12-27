@@ -7,6 +7,7 @@ use App\Domain\Strava\Gear\Gear;
 use App\Domain\Strava\Gear\GearRepository;
 use App\Domain\Strava\MaxStravaUsageHasBeenReached;
 use App\Domain\Strava\Strava;
+use App\Domain\Strava\StravaDataImportStatus;
 use App\Domain\Strava\StravaErrorStatusCode;
 use App\Infrastructure\CQRS\Bus\Command;
 use App\Infrastructure\CQRS\Bus\CommandHandler;
@@ -23,6 +24,7 @@ final readonly class ImportGearCommandHandler implements CommandHandler
         private ActivityRepository $activityRepository,
         private GearRepository $gearRepository,
         private MaxStravaUsageHasBeenReached $maxStravaUsageHasBeenReached,
+        private StravaDataImportStatus $stravaDataImportStatus,
         private Clock $clock,
         private Sleep $sleep,
     ) {
@@ -68,6 +70,7 @@ final readonly class ImportGearCommandHandler implements CommandHandler
                 );
                 $this->gearRepository->add($gear);
             }
+            $this->stravaDataImportStatus->markGearImportAsCompleted();
             $command->getOutput()->writeln(sprintf('  => Imported/updated gear "%s"', $gear->getName()));
             // Try to avoid Strava rate limits.
             $this->sleep->sweetDreams(10);

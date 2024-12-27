@@ -8,6 +8,8 @@
 
 ## Description
 
+Fixes issue [ISSUE_NUMBER]
+
 ## Checklist
 
 - [ ] Added/updated tests?

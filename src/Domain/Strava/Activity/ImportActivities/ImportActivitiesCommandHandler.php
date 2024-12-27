@@ -11,6 +11,7 @@ use App\Domain\Strava\Activity\ActivityType;
 use App\Domain\Strava\Gear\GearId;
 use App\Domain\Strava\MaxStravaUsageHasBeenReached;
 use App\Domain\Strava\Strava;
+use App\Domain\Strava\StravaDataImportStatus;
 use App\Domain\Strava\StravaErrorStatusCode;
 use App\Domain\Weather\OpenMeteo\OpenMeteo;
 use App\Infrastructure\CQRS\Bus\Command;
@@ -39,6 +40,7 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
         private KeyValueStore $keyValueStore,
         private FilesystemOperator $filesystem,
         private MaxStravaUsageHasBeenReached $maxStravaUsageHasBeenReached,
+        private StravaDataImportStatus $stravaDataImportStatus,
         private UuidFactory $uuidFactory,
         private Sleep $sleep,
     ) {
@@ -166,6 +168,7 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
             }
         }
 
+        $this->stravaDataImportStatus->markActivityImportAsCompleted();
         if (empty($activityIdsToDelete)) {
             return;
         }

@@ -3,9 +3,13 @@
 namespace App\Tests\Console;
 
 use App\Console\BuildStravaActivityFilesConsoleCommand;
-use App\Domain\Strava\MaxStravaUsageHasBeenReached;
+use App\Domain\Strava\StravaDataImportStatus;
 use App\Infrastructure\CQRS\Bus\CommandBus;
 use App\Infrastructure\CQRS\Bus\DomainCommand;
+use App\Infrastructure\KeyValue\Key;
+use App\Infrastructure\KeyValue\KeyValue;
+use App\Infrastructure\KeyValue\KeyValueStore;
+use App\Infrastructure\KeyValue\Value;
 use App\Infrastructure\Serialization\Json;
 use App\Tests\Infrastructure\Time\ResourceUsage\FixedResourceUsage;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -19,14 +23,18 @@ class BuildStravaActivityFilesConsoleCommandTest extends ConsoleCommandTestCase
 
     private BuildStravaActivityFilesConsoleCommand $buildStravaActivityFilesConsoleCommand;
     private MockObject $commandBus;
-    private MockObject $reachedStravaApiRateLimits;
 
     public function testExecute(): void
     {
-        $this->reachedStravaApiRateLimits
-            ->expects($this->once())
-            ->method('hasReached')
-            ->willReturn(false);
+        $this->getContainer()->get(KeyValueStore::class)->save(KeyValue::fromState(
+            Key::STRAVA_ACTIVITY_IMPORT,
+            Value::fromString('yes')
+        ));
+
+        $this->getContainer()->get(KeyValueStore::class)->save(KeyValue::fromState(
+            Key::STRAVA_GEAR_IMPORT,
+            Value::fromString('yes')
+        ));
 
         $this->commandBus
             ->expects($this->any())
@@ -42,13 +50,8 @@ class BuildStravaActivityFilesConsoleCommandTest extends ConsoleCommandTestCase
         $this->assertMatchesTextSnapshot($commandTester->getDisplay());
     }
 
-    public function testExecuteWhenStravaLimitsHaveBeenReached(): void
+    public function testExecuteWhenStravaImportIsNotCompleted(): void
     {
-        $this->reachedStravaApiRateLimits
-            ->expects($this->once())
-            ->method('hasReached')
-            ->willReturn(true);
-
         $this->commandBus
             ->expects($this->never())
             ->method('dispatch');
@@ -58,6 +61,8 @@ class BuildStravaActivityFilesConsoleCommandTest extends ConsoleCommandTestCase
         $commandTester->execute([
             'command' => $command->getName(),
         ]);
+
+        $this->assertMatchesTextSnapshot($commandTester->getDisplay());
     }
 
     #[\Override]
@@ -66,11 +71,10 @@ class BuildStravaActivityFilesConsoleCommandTest extends ConsoleCommandTestCase
         parent::setUp();
 
         $this->commandBus = $this->createMock(CommandBus::class);
-        $this->reachedStravaApiRateLimits = $this->createMock(MaxStravaUsageHasBeenReached::class);
 
         $this->buildStravaActivityFilesConsoleCommand = new BuildStravaActivityFilesConsoleCommand(
             $this->commandBus,
-            $this->reachedStravaApiRateLimits,
+            $this->getContainer()->get(StravaDataImportStatus::class),
             new FixedResourceUsage()
         );
     }
