@@ -3,43 +3,26 @@
 namespace App\Tests\Domain\Strava;
 
 use App\Domain\Strava\MaxStravaUsageHasBeenReached;
-use League\Flysystem\FilesystemOperator;
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
+use App\Infrastructure\KeyValue\KeyValueStore;
+use App\Infrastructure\ValueObject\Time\SerializableDateTime;
+use App\Tests\ContainerTestCase;
+use App\Tests\Infrastructure\Time\Clock\PausedClock;
 
-class MaxStravaUsageHasBeenReachedTest extends TestCase
+class MaxStravaUsageHasBeenReachedTest extends ContainerTestCase
 {
     private MaxStravaUsageHasBeenReached $maxStravaUsageHasBeenReached;
-    private MockObject $filesystem;
 
     public function testClear(): void
     {
-        $this->filesystem
-            ->expects($this->once())
-            ->method('delete')
-            ->with('MAX_STRAVA_USAGE_REACHED');
-
-        $this->maxStravaUsageHasBeenReached->clear();
-    }
-
-    public function testMarkAsReached(): void
-    {
-        $this->filesystem
-            ->expects($this->once())
-            ->method('write')
-            ->with('MAX_STRAVA_USAGE_REACHED', '');
-
         $this->maxStravaUsageHasBeenReached->markAsReached();
-    }
 
-    public function testHasReached(): void
-    {
-        $this->filesystem
-            ->expects($this->once())
-            ->method('has')
-            ->willReturn(true);
-
-        $this->maxStravaUsageHasBeenReached->hasReached();
+        $this->assertTrue(
+            $this->maxStravaUsageHasBeenReached->hasReached()
+        );
+        $this->maxStravaUsageHasBeenReached->clear();
+        $this->assertFalse(
+            $this->maxStravaUsageHasBeenReached->hasReached()
+        );
     }
 
     protected function setUp(): void
@@ -47,7 +30,8 @@ class MaxStravaUsageHasBeenReachedTest extends TestCase
         parent::setUp();
 
         $this->maxStravaUsageHasBeenReached = new MaxStravaUsageHasBeenReached(
-            $this->filesystem = $this->createMock(FilesystemOperator::class)
+            PausedClock::on(SerializableDateTime::fromString('2024-12-26')),
+            $this->getContainer()->get(KeyValueStore::class)
         );
     }
 }

@@ -6,6 +6,6 @@ namespace App\Infrastructure\KeyValue;
 
 enum Key: string
 {
-    case ATHLETE_BIRTHDAY = 'athlete_birthday';
+    case STRAVA_LIMITS_HAVE_BEEN_REACHED = 'stravaLimitsHaveBeenReached';
     case ATHLETE_ID = 'athlete_id';
 }

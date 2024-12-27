@@ -8,5 +8,7 @@ interface KeyValueStore
 {
     public function save(KeyValue $keyValue): void;
 
+    public function clear(Key $key): void;
+
     public function find(Key $key): KeyValue;
 }

@@ -38,7 +38,15 @@ final class ImportStravaDataConsoleCommand extends Command
         try {
             $this->fileSystemPermissionChecker->ensureWriteAccess();
         } catch (UnableToWriteFile|UnableToCreateDirectory) {
-            throw new \RuntimeException('Make sure the container has write permissions to "storage/database" and "storage/files" on the host system');
+            $output->writeln('<error>Make sure the container has write permissions to "storage/database" and "storage/files" on the host system</error>');
+
+            return Command::SUCCESS;
+        }
+
+        if ($this->maxStravaUsageHasBeenReached->hasReached()) {
+            $output->writeln('<error>You probably reached Strava API rate limits. You will need to import the rest of your activities tomorrow</error>');
+
+            return Command::SUCCESS;
         }
 
         $this->fileSystemPermissionChecker->ensureWriteAccess();

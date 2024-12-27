@@ -35,8 +35,9 @@ class ImportStravaDataConsoleCommandTest extends ConsoleCommandTestCase
             ->method('run');
 
         $this->maxStravaUsageHasBeenReached
-            ->expects($this->never())
-            ->method('hasReached');
+            ->expects($this->once())
+            ->method('hasReached')
+            ->willReturn(false);
 
         $this->commandBus
             ->expects($this->any())
@@ -48,6 +49,34 @@ class ImportStravaDataConsoleCommandTest extends ConsoleCommandTestCase
         $commandTester->execute([
             'command' => $command->getName(),
         ]);
+    }
+
+    public function testExecuteWithMaxStravaUsageReached(): void
+    {
+        $this->maxStravaUsageHasBeenReached
+            ->expects($this->never())
+            ->method('clear');
+
+        $this->migrationRunner
+            ->expects($this->never())
+            ->method('run');
+
+        $this->commandBus
+            ->expects($this->never())
+            ->method('dispatch');
+
+        $this->maxStravaUsageHasBeenReached
+            ->expects($this->once())
+            ->method('hasReached')
+            ->willReturn(true);
+
+        $command = $this->getCommandInApplication('app:strava:import-data');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute([
+            'command' => $command->getName(),
+        ]);
+
+        $this->assertMatchesTextSnapshot($commandTester->getDisplay());
     }
 
     public function testExecuteWithInsufficientPermissions(): void
@@ -75,13 +104,13 @@ class ImportStravaDataConsoleCommandTest extends ConsoleCommandTestCase
             ->expects($this->never())
             ->method('dispatch');
 
-        $this->expectExceptionObject(new \RuntimeException('Make sure the container has write permissions to "storage/database" and "storage/files" on the host system'));
-
         $command = $this->getCommandInApplication('app:strava:import-data');
         $commandTester = new CommandTester($command);
         $commandTester->execute([
             'command' => $command->getName(),
         ]);
+
+        $this->assertMatchesTextSnapshot($commandTester->getDisplay());
     }
 
     #[\Override]

@@ -27,5 +27,4 @@ phpstan.neon
 ###> app-build ###
 /build
 /storage
-MAX_STRAVA_USAGE_REACHED
 ###> app-build ###

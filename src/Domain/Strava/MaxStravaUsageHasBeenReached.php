@@ -4,32 +4,42 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava;
 
-use League\Flysystem\FilesystemOperator;
+use App\Infrastructure\Exception\EntityNotFound;
+use App\Infrastructure\KeyValue\Key;
+use App\Infrastructure\KeyValue\KeyValue;
+use App\Infrastructure\KeyValue\KeyValueStore;
+use App\Infrastructure\KeyValue\Value;
+use App\Infrastructure\Time\Clock\Clock;
 
-class MaxStravaUsageHasBeenReached
+readonly class MaxStravaUsageHasBeenReached
 {
-    private const string FILE_NAME = 'MAX_STRAVA_USAGE_REACHED';
-
     public function __construct(
-        private readonly FilesystemOperator $filesystem,
+        private Clock $clock,
+        private KeyValueStore $keyValueStore,
     ) {
     }
 
     public function clear(): void
     {
-        $this->filesystem->delete(self::FILE_NAME);
+        $this->keyValueStore->clear(Key::STRAVA_LIMITS_HAVE_BEEN_REACHED);
     }
 
     public function markAsReached(): void
     {
-        $this->filesystem->write(
-            self::FILE_NAME,
-            '',
-        );
+        $this->keyValueStore->save(KeyValue::fromState(
+            key: Key::STRAVA_LIMITS_HAVE_BEEN_REACHED,
+            value: Value::fromString($this->clock->getCurrentDateTimeImmutable()->format('Y-m-d'))
+        ));
     }
 
     public function hasReached(): bool
     {
-        return $this->filesystem->has(self::FILE_NAME);
+        try {
+            $keyValue = $this->keyValueStore->find(Key::STRAVA_LIMITS_HAVE_BEEN_REACHED);
+        } catch (EntityNotFound) {
+            return false;
+        }
+
+        return $keyValue->getValue() == Value::fromString($this->clock->getCurrentDateTimeImmutable()->format('Y-m-d'));
     }
 }

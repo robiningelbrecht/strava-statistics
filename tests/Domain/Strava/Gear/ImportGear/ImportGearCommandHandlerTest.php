@@ -59,7 +59,7 @@ class ImportGearCommandHandlerTest extends ContainerTestCase
 
         /** @var \App\Tests\Infrastructure\FileSystem\SpyFileSystem $fileSystem */
         $fileSystem = $this->getContainer()->get(FilesystemOperator::class);
-        $this->assertMatchesJsonSnapshot($fileSystem->getWrites());
+        $this->assertEmpty($fileSystem->getWrites());
     }
 
     #[\Override]

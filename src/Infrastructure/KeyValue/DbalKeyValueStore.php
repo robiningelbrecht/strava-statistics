@@ -25,6 +25,15 @@ final readonly class DbalKeyValueStore implements KeyValueStore
         ]);
     }
 
+    public function clear(Key $key): void
+    {
+        $sql = 'DELETE FROM KeyValue WHERE `key` = :key';
+
+        $this->connection->executeStatement($sql, [
+            'key' => $key->value,
+        ]);
+    }
+
     public function find(Key $key): KeyValue
     {
         $queryBuilder = $this->connection->createQueryBuilder();
