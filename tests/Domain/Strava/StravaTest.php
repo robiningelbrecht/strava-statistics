@@ -369,7 +369,7 @@ class StravaTest extends TestCase
         $this->filesystemOperator
             ->expects($this->once())
             ->method('read')
-            ->with('files/strava-challenge-history.html')
+            ->with('storage/files/strava-challenge-history.html')
             ->willReturn(file_get_contents(__DIR__.'/trophy-case.html'));
 
         $challenges = $this->strava->getChallengesOnTrophyCase();
@@ -401,7 +401,7 @@ class StravaTest extends TestCase
         $this->filesystemOperator
             ->expects($this->once())
             ->method('read')
-            ->with('files/strava-challenge-history.html')
+            ->with('storage/files/strava-challenge-history.html')
             ->willReturn(ImportChallengesCommandHandler::DEFAULT_STRAVA_CHALLENGE_HISTORY);
 
         $challenges = $this->strava->getChallengesOnTrophyCase();
@@ -418,7 +418,7 @@ class StravaTest extends TestCase
         $this->filesystemOperator
             ->expects($this->once())
             ->method('read')
-            ->with('files/strava-challenge-history.html')
+            ->with('storage/files/strava-challenge-history.html')
             ->willReturn('');
 
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenges from trophy case'));
@@ -436,7 +436,7 @@ class StravaTest extends TestCase
         $this->filesystemOperator
             ->expects($this->once())
             ->method('read')
-            ->with('files/strava-challenge-history.html')
+            ->with('storage/files/strava-challenge-history.html')
             ->willReturn("<ul class='list-block-grid list-trophies'>YEAHBABY</ul>");
 
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenges from trophy case'));
@@ -454,7 +454,7 @@ class StravaTest extends TestCase
         $this->filesystemOperator
             ->expects($this->once())
             ->method('read')
-            ->with('files/strava-challenge-history.html')
+            ->with('storage/files/strava-challenge-history.html')
             ->willReturn(file_get_contents(__DIR__.'/trophy-case-without-name.html'));
 
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenge name'));
@@ -472,7 +472,7 @@ class StravaTest extends TestCase
         $this->filesystemOperator
             ->expects($this->once())
             ->method('read')
-            ->with('files/strava-challenge-history.html')
+            ->with('storage/files/strava-challenge-history.html')
             ->willReturn(file_get_contents(__DIR__.'/trophy-case-without-teaser.html'));
 
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenge teaser'));
@@ -490,7 +490,7 @@ class StravaTest extends TestCase
         $this->filesystemOperator
             ->expects($this->once())
             ->method('read')
-            ->with('files/strava-challenge-history.html')
+            ->with('storage/files/strava-challenge-history.html')
             ->willReturn(file_get_contents(__DIR__.'/trophy-case-without-logo.html'));
 
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenge logoUrl'));
@@ -508,7 +508,7 @@ class StravaTest extends TestCase
         $this->filesystemOperator
             ->expects($this->once())
             ->method('read')
-            ->with('files/strava-challenge-history.html')
+            ->with('storage/files/strava-challenge-history.html')
             ->willReturn(file_get_contents(__DIR__.'/trophy-case-without-url.html'));
 
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenge url'));
@@ -526,7 +526,7 @@ class StravaTest extends TestCase
         $this->filesystemOperator
             ->expects($this->once())
             ->method('read')
-            ->with('files/strava-challenge-history.html')
+            ->with('storage/files/strava-challenge-history.html')
             ->willReturn(file_get_contents(__DIR__.'/trophy-case-without-id.html'));
 
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenge challengeId'));
@@ -544,7 +544,7 @@ class StravaTest extends TestCase
         $this->filesystemOperator
             ->expects($this->once())
             ->method('read')
-            ->with('files/strava-challenge-history.html')
+            ->with('storage/files/strava-challenge-history.html')
             ->willReturn(file_get_contents(__DIR__.'/trophy-case-without-timestamp.html'));
 
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenge timestamp'));
@@ -562,7 +562,7 @@ class StravaTest extends TestCase
         $this->filesystemOperator
             ->expects($this->once())
             ->method('read')
-            ->with('files/strava-challenge-history.html')
+            ->with('storage/files/strava-challenge-history.html')
             ->willReturn(file_get_contents(__DIR__.'/trophy-case-with-empty-timestamp.html'));
 
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenge timestamp'));

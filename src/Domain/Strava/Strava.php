@@ -222,10 +222,10 @@ class Strava
      */
     public function getChallengesOnTrophyCase(): array
     {
-        if (!$this->filesystemOperator->fileExists('files/strava-challenge-history.html')) {
+        if (!$this->filesystemOperator->fileExists('storage/files/strava-challenge-history.html')) {
             return [];
         }
-        $contents = $this->filesystemOperator->read('files/strava-challenge-history.html');
+        $contents = $this->filesystemOperator->read('storage/files/strava-challenge-history.html');
         if (ImportChallengesCommandHandler::DEFAULT_STRAVA_CHALLENGE_HISTORY == trim($contents)) {
             return [];
         }
