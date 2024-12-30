@@ -38,8 +38,5 @@ services:
     App\Infrastructure\FileSystem\PermissionChecker:
         class: App\Tests\Infrastructure\FileSystem\SuccessfulPermissionChecker
 
-    App\Domain\GitHub\GitHub:
-        class: App\Tests\Domain\GitHub\FakeGitHub
-
     League\Flysystem\FilesystemOperator:
         class: App\Tests\Infrastructure\FileSystem\SpyFileSystem

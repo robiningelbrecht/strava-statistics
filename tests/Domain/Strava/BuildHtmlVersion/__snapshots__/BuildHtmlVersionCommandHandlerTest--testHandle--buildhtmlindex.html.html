@@ -213,11 +213,15 @@
                     </svg>
                 </a>
             </div>
-                            <div class="text-xs text-center text-gray-500 dark:text-gray-400">v0.2.4
-                    (latest: v0.1.8)
-                </div>
-                        <div class="text-xs text-center text-gray-500 dark:text-gray-400">Updated
-                on 17-10-2023 16:15</div>
+            <div class="flex justify-center gap-x-1 text-xs text-center text-gray-500 dark:text-gray-400">
+                <span>v0.2.4</span>
+                <span class="hidden" data-latest-version data-current-version="v0.2.4">
+                    (latest: <a class="underline" href="https://github.com/robiningelbrecht/strava-statistics/releases/tag/%5BLATEST_VERSION%5D">[LATEST_VERSION]</a>)
+                </span>
+            </div>
+            <div class="text-xs text-center text-gray-500 dark:text-gray-400">
+                Updated on 17-10-2023 16:15
+            </div>
         </div>
     </aside>
     <main class="p-4 md:ml-64 h-auto min-h-screen pt-20 text-gray-900 dark:text-white">
@@ -469,6 +473,20 @@
             });
         });
     }
+
+    const updateGithubLatestRelease = async () => {
+        const $latestVersionEl = document.querySelector('[data-latest-version]');
+        const currentVersion = $latestVersionEl.getAttribute('data-current-version')
+        const latestVersion = await (await (await fetch('https://api.github.com/repos/robiningelbrecht/strava-statistics/releases/latest')).json())['name'];
+
+        if (currentVersion !== latestVersion) {
+            const $latestVersionLink = $latestVersionEl.querySelector('a');
+            $latestVersionLink.setAttribute('href', $latestVersionLink.getAttribute('href').replace('[LATEST_VERSION]', latestVersion));
+            $latestVersionLink.innerHTML = $latestVersionLink.innerHTML.replace('[LATEST_VERSION]', latestVersion);
+            $latestVersionEl.classList.remove('hidden');
+        }
+    }
+    updateGithubLatestRelease();
 </script>
 </body>
 </html>

@@ -2,7 +2,6 @@
 
 namespace App\Domain\Strava\BuildHtmlVersion;
 
-use App\Domain\GitHub\GitHub;
 use App\Domain\Measurement\Length\Kilometer;
 use App\Domain\Measurement\UnitSystem;
 use App\Domain\Strava\Activity\ActivityHeatmapChartBuilder;
@@ -79,7 +78,6 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
         private FtpRepository $ftpRepository,
         private KeyValueStore $keyValueStore,
         private AthleteBirthday $athleteBirthday,
-        private GitHub $gitHub,
         private UnitSystem $unitSystem,
         private Environment $twig,
         private FilesystemOperator $filesystem,
@@ -196,7 +194,6 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                 'lastUpdate' => $now,
                 'athleteId' => $athleteId,
                 'currentAppVersion' => self::APP_VERSION,
-                'latestAppVersion' => $this->gitHub->getRepoLatestRelease('robiningelbrecht/strava-statistics'),
             ]),
         );
 
