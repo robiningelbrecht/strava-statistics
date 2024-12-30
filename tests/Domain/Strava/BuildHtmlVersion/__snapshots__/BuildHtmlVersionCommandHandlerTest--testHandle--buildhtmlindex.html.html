@@ -10,12 +10,12 @@
     <link href="assets/data-table/clusterize.min.css" rel="stylesheet">
 </head>
 <body>
-<div class="antialiased bg-gray-50 dark:bg-gray-900">
+<div class="antialiased bg-gray-50">
     <!-- NAVIGATION -->
-    <nav class="bg-white border-b border-gray-200 px-4 py-2.5 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 top-0 z-50">
+    <nav class="bg-white border-b border-gray-200 px-4 py-2.5 fixed left-0 right-0 top-0 z-50">
         <div class="flex flex-wrap justify-between items-center">
             <div class="flex justify-start items-center">
-                <button data-drawer-target="drawer-navigation" data-drawer-toggle="drawer-navigation" aria-controls="drawer-navigation" class="p-2 mr-2 text-gray-600 rounded-lg cursor-pointer md:hidden hover:text-gray-900 hover:bg-gray-100 focus:bg-gray-100 dark:focus:bg-gray-700 focus:ring-2 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                <button data-drawer-target="drawer-navigation" data-drawer-toggle="drawer-navigation" aria-controls="drawer-navigation" class="p-2 mr-2 text-gray-600 rounded-lg cursor-pointer md:hidden hover:text-gray-900 hover:bg-gray-100 focus:bg-gray-100 focus:ring-2 focus:ring-gray-100">
                     <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
                     </svg>
@@ -26,13 +26,13 @@
                 </button>
                 <a href="#" data-router-navigate="dashboard" class="flex items-center justify-between mr-4">
                     <img src="assets/images/strava.png" class="md:mr-3 h-8" alt="Strava Logo">
-                    <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white hidden md:block">statistics</span>
+                    <span class="self-center text-2xl font-semibold whitespace-nowrap hidden md:block">statistics</span>
                 </a>
             </div>
             <div class="flex items-center lg:order-2">
-                <button class="hidden md:block text-gray-500 dark:text-gray-400 rounded-lg text-sm p-2.5">
+                <button class="hidden md:block text-gray-500 rounded-lg text-sm p-2.5">
                     <a target="_blank" href="https://github.com/robiningelbrecht/strava-statistics">
-                        <svg class="w-6 h-6 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewbox="0 0 20 20">
+                        <svg class="w-6 h-6 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewbox="0 0 20 20">
                             <path fill-rule="evenodd" d="M10 .333A9.911 9.911 0 0 0 6.866 19.65c.5.092.678-.215.678-.477 0-.237-.01-1.017-.014-1.845-2.757.6-3.338-1.169-3.338-1.169a2.627 2.627 0 0 0-1.1-1.451c-.9-.615.07-.6.07-.6a2.084 2.084 0 0 1 1.518 1.021 2.11 2.11 0 0 0 2.884.823c.044-.503.268-.973.63-1.325-2.2-.25-4.516-1.1-4.516-4.9A3.832 3.832 0 0 1 4.7 7.068a3.56 3.56 0 0 1 .095-2.623s.832-.266 2.726 1.016a9.409 9.409 0 0 1 4.962 0c1.89-1.282 2.717-1.016 2.717-1.016.366.83.402 1.768.1 2.623a3.827 3.827 0 0 1 1.02 2.659c0 3.807-2.319 4.644-4.525 4.889a2.366 2.366 0 0 1 .673 1.834c0 1.326-.012 2.394-.012 2.72 0 .263.18.572.681.475A9.911 9.911 0 0 0 10 .333Z" clip-rule="evenodd"></path>
                         </svg>
                     </a>
@@ -41,11 +41,11 @@
                     <span class="sr-only">Open user menu</span>
                     <img class="w-8 h-8 rounded-full bg-white" src="https://robiningelbrecht.be/assets/logo.png" alt="user photo">
                 </button>
-                <div class="hidden z-50 my-4 w-56 text-base list-none bg-white divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600 rounded-xl" id="dropdown" style="position: absolute; inset: 0 auto auto 0; margin: 0; transform: translate3d(1374px, 57px, 0px);" data-popper-placement="bottom">
+                <div class="hidden z-50 my-4 w-56 text-base list-none bg-white divide-y divide-gray-100 shadow rounded-xl" id="dropdown" style="position: absolute; inset: 0 auto auto 0; margin: 0; transform: translate3d(1374px, 57px, 0px);" data-popper-placement="bottom">
                     <div class="py-3 px-4">
-                        <span class="block text-sm text-center font-semibold text-gray-900 dark:text-white">Robin Ingelbrecht,</span>
-                        <span class="block text-sm text-center font-semibold text-gray-900 dark:text-white">developer of this project</span>
-                        <span class="flex items-center justify-center mt-1 text-sm text-center text-gray-900 dark:text-white">
+                        <span class="block text-sm text-center font-semibold text-gray-900">Robin Ingelbrecht,</span>
+                        <span class="block text-sm text-center font-semibold text-gray-900">developer of this project</span>
+                        <span class="flex items-center justify-center mt-1 text-sm text-center text-gray-900">
                             <svg viewbox="0 0 16 16" width="16" height="16" aria-hidden="true">
                                 <path fill="currentColor" fill-rule="evenodd" d="M11.536 3.464a5 5 0 010 7.072L8 14.07l-3.536-3.535a5 5 0 117.072-7.072v.001zm1.06 8.132a6.5 6.5 0 10-9.192 0l3.535 3.536a1.5 1.5 0 002.122 0l3.535-3.536zM8 9a2 2 0 100-4 2 2 0 000 4z"></path>
                             </svg>
@@ -54,9 +54,9 @@
                             </span>
                         </span>
                     </div>
-                    <ul class="py-1 text-gray-700 dark:text-gray-300" aria-labelledby="dropdown">
+                    <ul class="py-1 text-gray-700" aria-labelledby="dropdown">
                         <li>
-                            <a href="https://www.strava.com/athletes/62214940" class="flex items-center py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                            <a href="https://www.strava.com/athletes/62214940" class="flex items-center py-2 px-4 text-sm hover:bg-gray-100">
                                 <svg class="mr-2 w-5 h-5 text-gray-400" fill="currentColor" viewbox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
                                     <rect width="512" height="512" rx="15%" fill="currentColor"></rect>
                                     <path fill="#ffffff" d="M120 288L232 56l112 232h-72l-40-96-40 96z"></path>
@@ -66,7 +66,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="https://github.com/robiningelbrecht" class="flex items-center py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                            <a href="https://github.com/robiningelbrecht" class="flex items-center py-2 px-4 text-sm hover:bg-gray-100">
                                 <svg class="mr-2 w-5 h-5 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewbox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M10 .333A9.911 9.911 0 0 0 6.866 19.65c.5.092.678-.215.678-.477 0-.237-.01-1.017-.014-1.845-2.757.6-3.338-1.169-3.338-1.169a2.627 2.627 0 0 0-1.1-1.451c-.9-.615.07-.6.07-.6a2.084 2.084 0 0 1 1.518 1.021 2.11 2.11 0 0 0 2.884.823c.044-.503.268-.973.63-1.325-2.2-.25-4.516-1.1-4.516-4.9A3.832 3.832 0 0 1 4.7 7.068a3.56 3.56 0 0 1 .095-2.623s.832-.266 2.726 1.016a9.409 9.409 0 0 1 4.962 0c1.89-1.282 2.717-1.016 2.717-1.016.366.83.402 1.768.1 2.623a3.827 3.827 0 0 1 1.02 2.659c0 3.807-2.319 4.644-4.525 4.889a2.366 2.366 0 0 1 .673 1.834c0 1.326-.012 2.394-.012 2.72 0 .263.18.572.681.475A9.911 9.911 0 0 0 10 .333Z" clip-rule="evenodd"></path>
                                 </svg>
@@ -74,7 +74,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="https://robiningelbrecht.be" class="flex items-center py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                            <a href="https://robiningelbrecht.be" class="flex items-center py-2 px-4 text-sm hover:bg-gray-100">
                                 <svg class="mr-1 w-5 h-5 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 19 19">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.013 7.962a3.519 3.519 0 0 0-4.975 0l-3.554 3.554a3.518 3.518 0 0 0 4.975 4.975l.461-.46m-.461-4.515a3.518 3.518 0 0 0 4.975 0l3.553-3.554a3.518 3.518 0 0 0-4.974-4.975L10.3 3.7"></path>
                                 </svg>
@@ -82,7 +82,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="https://medium.com/@ingelbrechtrobin" class="flex items-center py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                            <a href="https://medium.com/@ingelbrechtrobin" class="flex items-center py-2 px-4 text-sm hover:bg-gray-100">
                                 <svg class="mr-2 w-5 h-5 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 -55 256 256">
                                     <g>
                                         <path d="M72.2009141,1.42108547e-14 C112.076502,1.42108547e-14 144.399375,32.5485469 144.399375,72.6964154 C144.399375,112.844284 112.074049,145.390378 72.2009141,145.390378 C32.327779,145.390378 0,112.844284 0,72.6964154 C0,32.5485469 32.325326,1.42108547e-14 72.2009141,1.42108547e-14 Z M187.500628,4.25836743 C207.438422,4.25836743 223.601085,34.8960455 223.601085,72.6964154 L223.603538,72.6964154 C223.603538,110.486973 207.440875,141.134463 187.503081,141.134463 C167.565287,141.134463 151.402624,110.486973 151.402624,72.6964154 C151.402624,34.9058574 167.562834,4.25836743 187.500628,4.25836743 Z M243.303393,11.3867175 C250.314,11.3867175 256,38.835526 256,72.6964154 C256,106.547493 250.316453,134.006113 243.303393,134.006113 C236.290333,134.006113 230.609239,106.554852 230.609239,72.6964154 C230.609239,38.837979 236.292786,11.3867175 243.303393,11.3867175 Z" fill="currentColor"></path>
@@ -92,7 +92,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="https://www.linkedin.com/in/robin-ingelbrecht/" class="flex items-center py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                            <a href="https://www.linkedin.com/in/robin-ingelbrecht/" class="flex items-center py-2 px-4 text-sm hover:bg-gray-100">
                                 <svg class="mr-2 w-5 h-5 text-gray-400" viewbox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <g clip-path="url(#clip0_202_91845)">
                                         <path d="M14.5455 0H1.45455C0.650909 0 0 0.650909 0 1.45455V14.5455C0 15.3491 0.650909 16 1.45455 16H14.5455C15.3491 16 16 15.3491 16 14.5455V1.45455C16 0.650909 15.3491 0 14.5455 0ZM5.05746 13.0909H2.912V6.18764H5.05746V13.0909ZM3.96291 5.20073C3.27127 5.20073 2.712 4.64 2.712 3.94982C2.712 3.25964 3.272 2.69964 3.96291 2.69964C4.65236 2.69964 5.21309 3.26036 5.21309 3.94982C5.21309 4.64 4.65236 5.20073 3.96291 5.20073ZM13.0938 13.0909H10.9498V9.73382C10.9498 8.93309 10.9353 7.90327 9.83491 7.90327C8.71855 7.90327 8.54691 8.77527 8.54691 9.67564V13.0909H6.40291V6.18764H8.46109V7.13091H8.49018C8.77673 6.58836 9.47636 6.016 10.52 6.016C12.6924 6.016 13.0938 7.44582 13.0938 9.30473V13.0909V13.0909Z" fill="currentColor"></path>
@@ -107,12 +107,12 @@
         </div>
     </nav>
     <!-- SIDEBAR -->
-    <aside class="fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform -translate-x-full bg-white border-r border-gray-200 md:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidenav" id="drawer-navigation">
-        <div class="overflow-y-auto py-5 px-3 h-full bg-white dark:bg-gray-800 divide-y divide-gray-100">
+    <aside class="fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform -translate-x-full bg-white border-r border-gray-200 md:translate-x-0" aria-label="Sidenav" id="drawer-navigation">
+        <div class="overflow-y-auto py-5 px-3 h-full bg-white divide-y divide-gray-100">
             <ul class="space-y-2 mb-2">
                 <li>
-                    <a href="#" data-router-navigate="dashboard" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 aria-selected:bg-gray-100 aria-selected:dark:bg-gray-700 group">
-                        <svg aria-hidden="true" class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <a href="#" data-router-navigate="dashboard" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg hover:bg-gray-100 aria-selected:bg-gray-100 group">
+                        <svg aria-hidden="true" class="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
                             <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
                         </svg>
@@ -120,33 +120,33 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" data-router-navigate="activities" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 aria-selected:bg-gray-100 aria-selected:dark:bg-gray-700 group">
-                        <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewbox="0 0 20 16">
+                    <a href="#" data-router-navigate="activities" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg hover:bg-gray-100 aria-selected:bg-gray-100 group">
+                        <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewbox="0 0 20 16">
                             <path d="M18 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2ZM5 12a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm0-3a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm0-3a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm10 6H9a1 1 0 0 1 0-2h6a1 1 0 0 1 0 2Zm0-3H9a1 1 0 0 1 0-2h6a1 1 0 1 1 0 2Zm0-3H9a1 1 0 0 1 0-2h6a1 1 0 1 1 0 2Z"></path>
                         </svg>
                         <span class="flex-1 ml-3 whitespace-nowrap">All activities</span>
-                        <span class="bg-orange-200 text-orange-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-orange-800 dark:text-orange-300">12</span>
+                        <span class="bg-orange-200 text-orange-800 text-xs font-medium px-2.5 py-0.5 rounded-full">12</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" data-router-navigate="monthly-stats" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 aria-selected:bg-gray-100 aria-selected:dark:bg-gray-700 group">
-                        <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewbox="0 0 20 20">
+                    <a href="#" data-router-navigate="monthly-stats" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg hover:bg-gray-100 aria-selected:bg-gray-100 group">
+                        <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewbox="0 0 20 20">
                             <path d="M0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm14-7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4Z"></path>
                         </svg>
                         <span class="flex-1 ml-3 whitespace-nowrap">Monthly stats</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" data-router-navigate="gear-stats" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 aria-selected:bg-gray-100 aria-selected:dark:bg-gray-700 group">
-                        <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewbox="0 0 20 20">
+                    <a href="#" data-router-navigate="gear-stats" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg hover:bg-gray-100 aria-selected:bg-gray-100 group">
+                        <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewbox="0 0 20 20">
                             <path d="m7.164 3.805-4.475.38L.327 6.546a1.114 1.114 0 0 0 .63 1.89l3.2.375 3.007-5.006ZM11.092 15.9l.472 3.14a1.114 1.114 0 0 0 1.89.63l2.36-2.362.38-4.475-5.102 3.067Zm8.617-14.283A1.613 1.613 0 0 0 18.383.291c-1.913-.33-5.811-.736-7.556 1.01-1.98 1.98-6.172 9.491-7.477 11.869a1.1 1.1 0 0 0 .193 1.316l.986.985.985.986a1.1 1.1 0 0 0 1.316.193c2.378-1.3 9.889-5.5 11.869-7.477 1.746-1.745 1.34-5.643 1.01-7.556Zm-3.873 6.268a2.63 2.63 0 1 1-3.72-3.72 2.63 2.63 0 0 1 3.72 3.72Z"></path>
                         </svg>
                         <span class="flex-1 ml-3 whitespace-nowrap">Gear stats</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" data-router-navigate="eddington" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 aria-selected:bg-gray-100 aria-selected:dark:bg-gray-700 group">
-                        <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 18 16">
+                    <a href="#" data-router-navigate="eddington" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg hover:bg-gray-100 aria-selected:bg-gray-100 group">
+                        <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 18 16">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1v14h16m0-9-3-2-3 5-3-2-3 4"></path>
                         </svg>
                         <span class="flex-1 ml-3 whitespace-nowrap">Eddington</span>
@@ -155,8 +155,8 @@
                                             </a>
                 </li>
                 <li>
-                    <a href="#" data-router-navigate="segments" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 aria-selected:bg-gray-100 aria-selected:dark:bg-gray-700 group">
-                        <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewbox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+                    <a href="#" data-router-navigate="segments" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg hover:bg-gray-100 aria-selected:bg-gray-100 group">
+                        <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900" fill="currentColor" viewbox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
                             <g stroke-width="0"></g>
                             <g stroke-linecap="round" stroke-linejoin="round"></g>
                             <g>
@@ -167,8 +167,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" data-router-navigate="heatmap" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 aria-selected:bg-gray-100 aria-selected:dark:bg-gray-700 group">
-                        <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <a href="#" data-router-navigate="heatmap" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg hover:bg-gray-100 aria-selected:bg-gray-100 group">
+                        <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g stroke-width="0"></g>
                             <g stroke-linecap="round" stroke-linejoin="round"></g>
                             <g>
@@ -181,29 +181,29 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" data-router-navigate="challenges" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 aria-selected:bg-gray-100 aria-selected:dark:bg-gray-700 group">
-                        <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewbox="0 0 20 20">
+                    <a href="#" data-router-navigate="challenges" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg hover:bg-gray-100 aria-selected:bg-gray-100 group">
+                        <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewbox="0 0 20 20">
                             <path fill="currentColor" d="m18.774 8.245-.892-.893a1.5 1.5 0 0 1-.437-1.052V5.036a2.484 2.484 0 0 0-2.48-2.48H13.7a1.5 1.5 0 0 1-1.052-.438l-.893-.892a2.484 2.484 0 0 0-3.51 0l-.893.892a1.5 1.5 0 0 1-1.052.437H5.036a2.484 2.484 0 0 0-2.48 2.481V6.3a1.5 1.5 0 0 1-.438 1.052l-.892.893a2.484 2.484 0 0 0 0 3.51l.892.893a1.5 1.5 0 0 1 .437 1.052v1.264a2.484 2.484 0 0 0 2.481 2.481H6.3a1.5 1.5 0 0 1 1.052.437l.893.892a2.484 2.484 0 0 0 3.51 0l.893-.892a1.5 1.5 0 0 1 1.052-.437h1.264a2.484 2.484 0 0 0 2.481-2.48V13.7a1.5 1.5 0 0 1 .437-1.052l.892-.893a2.484 2.484 0 0 0 0-3.51Z"></path>
                             <path fill="#fff" d="M8 13a1 1 0 0 1-.707-.293l-2-2a1 1 0 1 1 1.414-1.414l1.42 1.42 5.318-3.545a1 1 0 0 1 1.11 1.664l-6 4A1 1 0 0 1 8 13Z"></path>
                         </svg>
                         <span class="flex-1 ml-3 whitespace-nowrap">Challenges</span>
-                        <span class="bg-orange-200 text-orange-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-orange-800 dark:text-orange-300">2</span>
+                        <span class="bg-orange-200 text-orange-800 text-xs font-medium px-2.5 py-0.5 rounded-full">2</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" data-router-navigate="photos" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 aria-selected:bg-gray-100 aria-selected:dark:bg-gray-700 group">
-                        <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewbox="0 0 24 24">
+                    <a href="#" data-router-navigate="photos" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg hover:bg-gray-100 aria-selected:bg-gray-100 group">
+                        <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewbox="0 0 24 24">
                             <path d="M19 5h-1.382l-.171-.342A2.985 2.985 0 0 0 14.764 3H9.236a2.984 2.984 0 0 0-2.683 1.658L6.382 5H5a3 3 0 0 0-3 3v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a3 3 0 0 0-3-3Zm-3.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"></path>
                         </svg>
                         <span class="flex-1 ml-3 whitespace-nowrap">Photos</span>
-                        <span class="bg-orange-200 text-orange-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-orange-800 dark:text-orange-300">20</span>
+                        <span class="bg-orange-200 text-orange-800 text-xs font-medium px-2.5 py-0.5 rounded-full">20</span>
                     </a>
                 </li>
             </ul>
         </div>
-        <div class="hidden absolute lg:flex flex-col justify-center bottom-0 left-0 p-4 w-full bg-white dark:bg-gray-800 z-20">
+        <div class="hidden absolute lg:flex flex-col justify-center bottom-0 left-0 p-4 w-full bg-white z-20">
             <div class="flex justify-center gap-px">
-                <a href="https://www.strava.com/athletes/100" target="_blank" class="inline-flex justify-center p-2 text-gray-500 rounded cursor-pointer dark:text-gray-400 hover:text-[#fc4c01] hover:bg-gray-100 dark:hover:bg-gray-600">
+                <a href="https://www.strava.com/athletes/100" target="_blank" class="inline-flex justify-center p-2 text-gray-500 rounded cursor-pointer hover:text-[#fc4c01] hover:bg-gray-100">
                     <svg class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <g stroke-width="0"></g>
                         <g stroke-linecap="round" stroke-linejoin="round"></g>
@@ -213,21 +213,21 @@
                     </svg>
                 </a>
             </div>
-            <div class="flex justify-center gap-x-1 text-xs text-center text-gray-500 dark:text-gray-400">
+            <div class="flex justify-center gap-x-1 text-xs text-center text-gray-500">
                 <span>v0.2.4</span>
                 <span class="hidden" data-latest-version data-current-version="v0.2.4">
                     (latest: <a class="underline" href="https://github.com/robiningelbrecht/strava-statistics/releases/tag/%5BLATEST_VERSION%5D">[LATEST_VERSION]</a>)
                 </span>
             </div>
-            <div class="text-xs text-center text-gray-500 dark:text-gray-400">
+            <div class="text-xs text-center text-gray-500">
                 Updated on 17-10-2023 16:15
             </div>
         </div>
     </aside>
-    <main class="p-4 md:ml-64 h-auto min-h-screen pt-20 text-gray-900 dark:text-white">
+    <main class="p-4 md:ml-64 h-auto min-h-screen pt-20 text-gray-900">
         <div id="spinner" class="items-center justify-center h-auto min-h-screen hidden">
             <div role="status">
-                <svg aria-hidden="true" class="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-orange-500" viewbox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg aria-hidden="true" class="w-8 h-8 mr-2 text-gray-200 animate-spin fill-orange-500" viewbox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"></path>
                     <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"></path>
                 </svg>
@@ -239,9 +239,9 @@
         <div id="modal-skeleton" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-[61] justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
             <div class="relative p-4 w-full max-w-7xl max-h-full">
                 <!-- Modal spinner -->
-                <div class="spinner hidden p-4 items-center justify-center h-auto bg-white rounded-lg shadow dark:bg-gray-700">
+                <div class="spinner hidden p-4 items-center justify-center h-auto bg-white rounded-lg shadow">
                     <div role="status">
-                        <svg aria-hidden="true" class="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-orange-500" viewbox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg aria-hidden="true" class="w-8 h-8 mr-2 text-gray-200 animate-spin fill-orange-500" viewbox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"></path>
                             <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"></path>
                         </svg>
@@ -249,7 +249,7 @@
                     </div>
                 </div>
                 <!-- Modal content -->
-                <div id="modal-content" class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                <div id="modal-content" class="relative bg-white rounded-lg shadow">
 
                 </div>
             </div>
@@ -426,7 +426,7 @@
                 modal = new Modal(modalSkeletonNode, {
                     placement: 'bottom',
                     closable: true,
-                    backdropClasses: 'bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-[60]',
+                    backdropClasses: 'bg-gray-900 bg-opacity-50 fixed inset-0 z-[60]',
                     onShow: async () => {
                         const response = await fetch(node.getAttribute('data-model-content-url'));
                         // Remove loading state.

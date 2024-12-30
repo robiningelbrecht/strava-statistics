@@ -21,7 +21,7 @@
                 {{ activity.getStartDate().format(' j, Y') }}
             </span>
             <button type="button"
-                    class="close text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+                    class="close text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center">
                 <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
@@ -38,37 +38,37 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <div>
             <div class="mb-4 grid grid-cols-6 gap-2">
-                <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-600">
+                <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow">
                     <div class="text-center">
                         <dd class="text-xs text-gray-500">Distance</dd>
                         <dt class="font-extrabold">{{ renderComponent('measurement', {'measurement': activity.getDistance(), 'precision': 0}) }}</dt>
                     </div>
                 </div>
-                <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-600">
+                <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow">
                     <div class="text-center">
                         <dd class="text-xs text-gray-500">Moving time</dd>
                         <dt class="font-extrabold">{{ activity.getMovingTimeFormatted() }}</dt>
                     </div>
                 </div>
-                <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-600">
+                <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow">
                     <div class="text-center">
                         <dd class="text-xs text-gray-500">Elevation</dd>
                         <dt class="font-extrabold">{{ renderComponent('measurement', {'measurement': activity.getElevation(), 'precision': 0}) }}</dt>
                     </div>
                 </div>
-                <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-600">
+                <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow">
                     <div class="text-center">
                         <dd class="text-xs text-gray-500">Calories</dd>
                         <dt class="font-extrabold">{{ activity.getCalories() }}</dt>
                     </div>
                 </div>
-                <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-4 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-600">
+                <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-4 border border-gray-200 rounded-lg shadow">
                     <div class="text-center">
                         <dd class="text-xs text-gray-500">Gear</dd>
                         <dt class="text-xs font-extrabold">{{ activity.getGearName() ?: 'Other' }}</dt>
                     </div>
                 </div>
-                <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-4 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-600">
+                <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-4 border border-gray-200 rounded-lg shadow">
                     <div class="text-center">
                         <dd class="text-xs text-gray-500">Device</dd>
                         <dt class="text-xs font-extrabold">{{ activity.getDeviceName() ?: 'None' }}</dt>
@@ -95,7 +95,7 @@
                             </a>
                         </div>
                         <div data-popover id="popover-image-{{ loop.index }}" role="tooltip"
-                             class="z-[1000] w-[35rem] absolute invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:bg-gray-800 dark:border-gray-600">
+                             class="z-[1000] w-[35rem] absolute invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0">
                             <img class="h-auto max-w-full rounded-lg lazy"
                                  src="{{ renderComponent('placeholder-image') }}" data-src="{{ imagePath }}"
                                  alt="Activity image"/>
@@ -103,7 +103,7 @@
                     {% endfor %}
                 </div>
             {% endif %}
-            <div class="mb-4 relative overflow-x-auto px-2 py-2 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-600">
+            <div class="mb-4 relative overflow-x-auto px-2 py-2 border border-gray-200 rounded-lg shadow">
                 <table class="w-full text-sm text-center text-gray-500">
                     <thead class="text-xs text-gray-700 uppercase">
                     <tr>
@@ -125,7 +125,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="border-b dark:border-gray-600">
+                    <tr class="border-b">
                         <th class="px-2 py-2">
                             Avg
                         </th>
@@ -195,7 +195,7 @@
                 </table>
             </div>
             {% if activity.hasDetailedPowerData() %}
-                <div class="relative overflow-x-auto px-2 py-2 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-600">
+                <div class="relative overflow-x-auto px-2 py-2 border border-gray-200 rounded-lg shadow">
                     <table class="w-full text-sm text-center text-gray-500">
                         <thead class="text-xs text-gray-700 uppercase">
                         {% set timeIntervals =  [5, 60, 300, 1200] %}
@@ -216,10 +216,10 @@
                             {% for timeInterval in timeIntervals %}
                                 {% set powerOutput = activity.getBestAveragePowerForTimeInterval(timeInterval) %}
                                 {% if powerOutput %}
-                                    <td class="px-2 py-2 first:border-l-0 border-l dark:border-gray-600">
+                                    <td class="px-2 py-2 first:border-l-0 border-l">
                                         {{ powerOutput.getPower() }}<span class="text-xs">w</span>
                                     </td>
-                                    <td class="px-2 py-2 last:border-r-0 border-r dark:border-gray-600">
+                                    <td class="px-2 py-2 last:border-r-0 border-r">
                                         {{ powerOutput.getRelativePower() }}<span class="text-xs">w/kg</span>
                                     </td>
                                 {% endif %}
@@ -252,11 +252,11 @@
     {% if segmentEfforts|length > 0 %}
         <div class="grid grid-cols-1 gap-4">
             <div id="accordion-segments" data-accordion="collapse"
-                 data-active-classes="text-gray-900 dark:text-white"
-                 data-inactive-classes="text-gray-900 dark:text-white">
+                 data-active-classes="text-gray-900"
+                 data-inactive-classes="text-gray-900">
                 <a id="accordion-segments-heading" data-accordion-target="#accordion-segments-body" aria-expanded="false"
                    aria-controls="accordion-segments-body"
-                   class="hover:underline cursor-pointer flex items-center gap-3 justify-between w-full px-2 py-3 font-medium rtl:text-right text-gray-900 dark:text-white">
+                   class="hover:underline cursor-pointer flex items-center gap-3 justify-between w-full px-2 py-3 font-medium rtl:text-right text-gray-900">
                     <span>Segments ({{ segmentEfforts|length }})</span>
                     <svg data-accordion-icon class="w-3 h-3 shrink-0" aria-hidden="true"
                          xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
@@ -267,7 +267,7 @@
                 <div id="accordion-segments-body" class="hidden relative overflow-x-auto"
                      aria-labelledby="accordion-segments-heading">
                     <table class="w-full text-sm text-center text-gray-500">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-800">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                         <tr>
                             <th scope="col" class="px-2 py-3 text-left">
 
@@ -296,10 +296,10 @@
                         </thead>
                         <tbody>
                         {% for segmentEffort in segmentEfforts %}
-                            <tr class="{{ cycle(['bg-white border-b dark:bg-gray-900 dark:border-gray-700', 'border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700'], loop.index0) }}">
+                            <tr class="{{ cycle(['bg-white border-b', 'border-b bg-gray-50'], loop.index0) }}">
                                 <td class="px-2 py-2 text-left">
                                     <a href="#" data-model-content-url="segment/{{ segmentEffort.getSegmentId() }}.html"
-                                       class="flex items-center gap-x-1 font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                                       class="flex items-center gap-x-1 font-medium text-blue-600 hover:underline"
                                        rel="nofollow">
                                         <span class="truncate">{{ segmentEffort.getName()|ellipses(50) }}</span>
                                     </a>

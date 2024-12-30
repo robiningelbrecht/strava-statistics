@@ -2,7 +2,7 @@
 <nav class="flex mb-5" aria-label="Breadcrumb">
     <ol class="inline-flex items-center space-x-1 text-sm font-medium md:space-x-2">
         <li class="inline-flex items-center">
-            <a href="#" data-router-navigate="dashboard" class="inline-flex items-center text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-white hover:underline">
+            <a href="#" data-router-navigate="dashboard" class="inline-flex items-center text-gray-700 hover:text-primary-600 hover:underline">
                 <svg class="w-5 h-5 mr-2.5" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
                 Dashboard
             </a>
@@ -10,24 +10,24 @@
             <li>
         <div class="flex items-center">
             <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
-            <a href="#" data-router-navigate="segments" class="ml-1 text-gray-700 hover:text-primary-600 md:ml-2 dark:text-gray-300 dark:hover:text-white">Segments</a>
+            <a href="#" data-router-navigate="segments" class="ml-1 text-gray-700 hover:text-primary-600 md:ml-2 ">Segments</a>
         </div>
     </li>
     </ol>
 </nav>
             <div class="grid grid-cols-1 gap-4">
             <!-- SEGMENTS -->
-            <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+            <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm ssm:p-6">
                 <div data-datatable-settings='{"url":"fetch-json/segment-data-table.json"}' class="relative">
                     <form class="mb-2 flex items-center">
                         <label for="search" class="sr-only">Search</label>
                         <div class="relative w-full">
                             <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 20 20">
+                                <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 20 20">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"></path>
                                 </svg>
                             </div>
-                            <input id="search" type="search" placeholder="Search segment..." class="table-search bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input id="search" type="search" placeholder="Search segment..." class="table-search bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5">
                         </div>
                         <button data-popover-target="popover-description" data-popover-placement="right" type="button">
                             <svg class="w-4 h-4 ml-1 text-gray-400 hover:text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="14" height="20" fill="none" viewbox="0 0 14 20">
@@ -35,7 +35,7 @@
                             </svg>
                             <span class="sr-only">Show tip</span>
                         </button>
-                        <div data-popover id="popover-description" role="tooltip" class="absolute z-[100] invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400">
+                        <div data-popover id="popover-description" role="tooltip" class="absolute z-[100] invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0">
                             <p class="p-3">
                                 You can search on "<span class="font-bold">starred</span>" or "<span class="font-bold">favourite</span>" to filter on starred segments.<br>
                                 You can search on "<span class="font-bold">is-kom</span>" to filter on KOM segments.
@@ -43,8 +43,8 @@
                         </div>
                     </form>
                     <div class="scroll-area overflow-auto max-h-[calc(100vh-240px)]">
-                        <table class="w-full text-sm text-center text-gray-500 dark:text-gray-400">
-                            <thead class="z-[10] sticky top-0 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <table class="w-full text-sm text-center text-gray-500">
+                            <thead class="z-[10] sticky top-0 text-xs text-gray-700 uppercase bg-gray-50">
                             <tr>
                                 <th scope="col" data-datatable-sort="name" class="px-2 py-3 cursor-pointer">
                                     <div class="w-[23rem]">

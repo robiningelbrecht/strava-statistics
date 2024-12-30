@@ -96,9 +96,9 @@
                         Sun
                     </div>
                 </div>
-                <div class="grid grid-cols-7 gap-px leading-6 text-xs w-full bg-gray-200 dark:bg-gray-600 border dark:border-gray-600">
+                <div class="grid grid-cols-7 gap-px leading-6 text-xs w-full bg-gray-200 border">
                     {% for day in calendar.getDays() %}
-                        <div class="py-2 px-3 {{ day.isCurrentMonth ? 'bg-white' : 'bg-gray-100 dark:bg-gray-800' }}">
+                        <div class="py-2 px-3 {{ day.isCurrentMonth ? 'bg-white' : 'bg-gray-100' }}">
                             <div class="text-right text-gray-400">
                                 {{ day.getDayNumber() }}
                             </div>
