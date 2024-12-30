@@ -63,7 +63,7 @@ use Twig\Environment;
 
 final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
 {
-    private const string APP_VERSION = 'v0.2.0';
+    private const string APP_VERSION = 'v0.2.1';
 
     public function __construct(
         private ActivityRepository $activityRepository,
