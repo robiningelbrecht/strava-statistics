@@ -47,14 +47,17 @@ COPY docker/app/config/php.ini ${PHP_INI_DIR}/conf.d/custom.ini
 # Configure supervisord
 COPY docker/app/config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Make sure files/folders needed by the processes are accessable when they run under the nobody user
-RUN chown -R nobody:nobody /var/www /run /var/lib/nginx /var/log/nginx
+# Create a group and user
+RUN addgroup -S www && adduser -S www -G www
 
-# Switch to use a non-root user from here on
-USER nobody
+# Make sure files/folders needed by the processes are accessable when they run under the www user
+RUN chown -R www:www /var/www /run /var/lib/nginx /var/log/nginx
+
+# Tell docker that all future commands should run as the appuser user
+USER www
 
 # Add application
-COPY --chown=nobody . /var/www/
+COPY --chown=www . /var/www/
 RUN touch /var/www/.env
 RUN rm -Rf docker
 
