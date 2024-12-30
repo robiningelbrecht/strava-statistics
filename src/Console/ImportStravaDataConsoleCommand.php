@@ -43,6 +43,8 @@ final class ImportStravaDataConsoleCommand extends Command
             return Command::SUCCESS;
         }
 
+        $this->migrationRunner->run();
+
         if ($this->maxStravaUsageHasBeenReached->hasReached()) {
             $output->writeln('<error>You probably reached Strava API rate limits. You will need to import the rest of your activities tomorrow</error>');
 
@@ -51,7 +53,6 @@ final class ImportStravaDataConsoleCommand extends Command
 
         $this->fileSystemPermissionChecker->ensureWriteAccess();
         $this->maxStravaUsageHasBeenReached->clear();
-        $this->migrationRunner->run();
 
         $this->commandBus->dispatch(new ImportActivities($output));
         $this->commandBus->dispatch(new ImportActivityStreams($output));

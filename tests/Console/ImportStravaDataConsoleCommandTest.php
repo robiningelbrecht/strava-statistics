@@ -58,7 +58,7 @@ class ImportStravaDataConsoleCommandTest extends ConsoleCommandTestCase
             ->method('clear');
 
         $this->migrationRunner
-            ->expects($this->never())
+            ->expects($this->once())
             ->method('run');
 
         $this->commandBus
