@@ -111,7 +111,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
             if (!$sportType->supportsEddington()) {
                 continue;
             }
-            if (empty($activitiesPerSportType[$sportType->value])) {
+            if ($activitiesPerSportType[$sportType->value]->isEmpty()) {
                 continue;
             }
             $eddingtonPerSportType[$sportType->value] = Eddington::fromActivities(
