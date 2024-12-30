@@ -4,7 +4,7 @@
     <li>
         <div class="flex items-center">
             <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
-            <a href="#" data-router-navigate="monthly-stats" class="ml-1 text-gray-700 hover:text-primary-600 md:ml-2 dark:text-gray-300 dark:hover:text-white">Monthly stats</a>
+            <a href="#" data-router-navigate="monthly-stats" class="ml-1 text-gray-700 hover:text-primary-600 md:ml-2">Monthly stats</a>
         </div>
     </li>
 {% endblock %}
@@ -12,12 +12,12 @@
     {% autoescape false %}
         <!-- MONTHLY STATS -->
         <div class="grid grid-cols-1 mb-4">
-            <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+            <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-6">
                 <div class="relative overflow-x-auto">
-                    <table class="w-full text-sm text-center text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <table class="w-full text-sm text-center text-gray-500">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                         <tr>
-                            <th scope="col" class="px-2 py-3 sticky left-0 bg-gray-50 dark:bg-gray-700">
+                            <th scope="col" class="px-2 py-3 sticky left-0 bg-gray-50">
 
                             </th>
                             <th scope="col" class="px-2 py-3">
@@ -52,9 +52,9 @@
                         </thead>
                         <tbody>
                         {% for statistic in monthlyStatistics.getStatistics() %}
-                            <tr class="{{ cycle(['bg-white border-b dark:bg-gray-900 dark:border-gray-700', 'border-b bg-gray-50 dark:bg-gray-800 dark:border-gray-700'], loop.index0) }}">
-                                <th scope="row" class="sticky left-0 w-36 px-2 py-2 text-right font-medium text-gray-900 whitespace-nowrap dark:text-white {{ cycle(['bg-white dark:bg-gray-900', 'bg-gray-50 dark:bg-gray-800'], loop.index0) }}">
-                                    <a href="#" data-model-content-url="month/month-{{ statistic.id }}.html" class="text-blue-600 dark:text-blue-500 hover:underline">
+                            <tr class="{{ cycle(['bg-white border-b', 'border-b bg-gray-50'], loop.index0) }}">
+                                <th scope="row" class="sticky left-0 w-36 px-2 py-2 text-right font-medium text-gray-900 whitespace-nowrap {{ cycle(['bg-white', 'bg-gray-50'], loop.index0) }}">
+                                    <a href="#" data-model-content-url="month/month-{{ statistic.id }}.html" class="text-blue-600 hover:underline">
                                         {{ statistic.month }}
                                     </a>
                                 </th>
@@ -82,8 +82,8 @@
                         <tfoot>
                         {% for activityType in enum('App\\Domain\\Strava\\Activity\\ActivityType').cases %}
                             {% set totalsForActivityType =  monthlyStatistics.getTotalsForActivityType(activityType) %}
-                            <tr class="font-semibold text-gray-900 dark:text-white {{ loop.first ? 'border-t-4 dark:border-gray-700' : '' }}">
-                                <td class="px-2 py-2 text-right sticky left-0 bg-white dark:bg-gray-800">
+                            <tr class="font-semibold text-gray-900 {{ loop.first ? 'border-t-4' : '' }}">
+                                <td class="px-2 py-2 text-right sticky left-0 bg-white">
                                     {{ activityType.value }}
                                 </td>
                                 <td class="px-2 py-2">
@@ -105,8 +105,8 @@
                                 </td>
                             </tr>
                         {% endfor %}
-                        <tr class="font-semibold text-gray-900 dark:text-white">
-                            <td class="px-2 py-2 text-right sticky left-0 bg-white dark:bg-gray-800">
+                        <tr class="font-semibold text-gray-900">
+                            <td class="px-2 py-2 text-right sticky left-0 bg-white">
                                 TOTAL
                             </td>
                             <td class="px-2 py-2">

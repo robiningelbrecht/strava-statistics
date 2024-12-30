@@ -1,8 +1,8 @@
 {% autoescape false %}
-<tr class="odd:bg-white border-b odd:dark:bg-gray-900 odd:dark:border-gray-700 even:border-b even:bg-gray-50 even:dark:bg-gray-800 even:dark:border-gray-700">
+<tr class="odd:bg-white border-b even:border-b even:bg-gray-50">
     <td class="px-2 py-2 text-left">
         <div class="flex items-center gap-x-1">
-            <a href="#" data-model-content-url="segment/{{ segment.getId() }}.html" class="flex items-center gap-x-1 font-medium text-blue-600 dark:text-blue-500 hover:underline" rel="nofollow">
+            <a href="#" data-model-content-url="segment/{{ segment.getId() }}.html" class="flex items-center gap-x-1 font-medium text-blue-600 hover:underline" rel="nofollow">
                 {% if segment.getActivityType().isVirtual() %}
                     {% if segment.isZwiftSegment() %}
                         {{ renderSvg('zwift-logo') }}

@@ -1,9 +1,9 @@
 {% autoescape false %}
-<tr class="group odd:bg-white border-b odd:dark:bg-gray-900 odd:dark:border-gray-700 even:border-b even:bg-gray-50 even:dark:bg-gray-800 even:dark:border-gray-700">
+<tr class="group odd:bg-white border-b even:border-b even:bg-gray-50">
     <td class="px-2 py-2">
         {{ activity.getStartDate().format('d-m-y') }}
     </td>
-    <td class="px-2 py-2 truncate lg:sticky lg:left-0 group-odd:bg-white group-odd:dark:bg-gray-900 group-even:bg-gray-50 group-even:dark:bg-gray-800">
+    <td class="px-2 py-2 truncate lg:sticky lg:left-0 group-odd:bg-white group-even:bg-gray-50">
         {{ renderComponent('activity-title', {'activity': activity, 'ellipses': 50}) }}
     </td>
     <td class="px-6 py-2">
@@ -30,10 +30,10 @@
     {% for timeInterval in timeIntervals %}
         {% set powerOutput = activity.getBestAveragePowerForTimeInterval(timeInterval) %}
         {% if powerOutput %}
-            <td class="px-2 py-2 border-l-2 dark:border-gray-700">
+            <td class="px-2 py-2 border-l-2">
                 {{ powerOutput.getPower() }}<span class="text-xs">w</span>
             </td>
-            <td class="px-2 py-2 border-r-2 dark:border-gray-700">
+            <td class="px-2 py-2 border-r-2">
                 {{ powerOutput.getRelativePower() }}<span class="text-xs">w/kg</span>
             </td>
         {% else %}

@@ -1,13 +1,13 @@
 
 {% autoescape false %}
     <!-- Modal header -->
-    <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-        <h3 class="flex items-center text-lg font-semibold text-gray-900 dark:text-white">
+    <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+        <h3 class="flex items-center text-lg font-semibold text-gray-900">
             {% set previousMonth = calendar.getMonth().getPreviousMonth() %}
             {% set nextMonth = calendar.getMonth().getNextMonth() %}
             {% if hasPreviousMonth %}
                 <a  href="#" data-model-content-url="month/month-{{ previousMonth.getId() }}.html">
-                    <svg class="w-3 h-3 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 8 14">
+                    <svg class="w-3 h-3 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 8 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 1 1.3 6.326a.91.91 0 0 0 0 1.348L7 13"/>
                     </svg>
                 </a>
@@ -15,19 +15,19 @@
             <span class="mx-2">{{ calendar.getMonth().getLabel() }}</span>
             {% if hasNextMonth %}
                 <a  href="#" data-model-content-url="month/month-{{ nextMonth.getId() }}.html">
-                    <svg class="w-3 h-3 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 8 14">
+                    <svg class="w-3 h-3 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 8 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 13 5.7-5.326a.909.909 0 0 0 0-1.348L1 1"/>
                     </svg>
                 </a>
             {% endif %}
         </h3>
         <div class="flex items-center">
-            <ul class="hidden md:flex text-center mr-2 divide-x divide-gray-200 dark:divide-gray-700">
+            <ul class="hidden md:flex text-center mr-2 divide-x divide-gray-200">
                 <li class="flex items-center gap-x-0.5 pr-2">
                     {{ renderSvg('distance', {'classes': 'w-5 h-5'}) }}
                     {% if statistics.totalDistance %}
                         <div>{{ statistics.totalDistance|convertMeasurement.toFloat()|formatNumber(0) }}</div>
-                        <div class="text-xs text-gray-500 dark:text-gray-400">{{ statistics.totalDistance|convertMeasurement.getSymbol() }}</div>
+                        <div class="text-xs text-gray-500">{{ statistics.totalDistance|convertMeasurement.getSymbol() }}</div>
                     {% else %}
                         0
                     {% endif %}
@@ -36,7 +36,7 @@
                     {{ renderSvg('elevation', {'classes': 'w-5 h-5'}) }}
                     {% if statistics.totalElevation %}
                         <div>{{ statistics.totalElevation|convertMeasurement.toFloat()|formatNumber(0) }}</div>
-                        <div class="text-xs text-gray-500 dark:text-gray-400">{{ statistics.totalElevation|convertMeasurement.getSymbol() }}</div>
+                        <div class="text-xs text-gray-500">{{ statistics.totalElevation|convertMeasurement.getSymbol() }}</div>
                     {% else %}
                         0
                     {% endif %}
@@ -44,7 +44,7 @@
                 <li class="flex items-center gap-x-0.5 px-2">
                     {{ renderSvg('time', {'classes': 'w-5 h-5'}) }}
                     <div>{{ (statistics.movingTimeInSeconds / 3600)|formatNumber(0) }}</div>
-                    <div class="text-xs text-gray-500 dark:text-gray-400">hours</div>
+                    <div class="text-xs text-gray-500">hours</div>
                 </li>
                 <li class="flex items-center gap-x-0.5 px-2">
                     {{ renderSvg('challenge', {'classes': 'w-5 h-5'}) }}
@@ -53,15 +53,15 @@
                 <li class="flex items-center gap-x-0.5 px-2">
                     {{ renderSvg('calories', {'classes': 'w-5 h-5'}) }}
                     <div>{{ statistics.totalCalories|formatNumber(0) }}</div>
-                    <div class="text-xs text-gray-500 dark:text-gray-400">kcal</div>
+                    <div class="text-xs text-gray-500">kcal</div>
                 </li>
                 <li class="flex items-center gap-x-0.5 pl-2">
                     {{ renderSvg('hashtag') }}
                     <div>{{ statistics.numberOfWorkouts }}</div>
-                    <div class="text-xs text-gray-500 dark:text-gray-400">rides</div>
+                    <div class="text-xs text-gray-500">rides</div>
                 </li>
             </ul>
-            <button type="button" class="close text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+            <button type="button" class="close text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center">
                 <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                 </svg>
@@ -73,32 +73,32 @@
     <div class="p-4 md:p-5 space-y-4">
         <div class="grid grid-cols-1 gap-4">
             <div class="flex flex-col">
-                <div class="grid grid-cols-7 gap-px leading-6 font-semibold text-xs text-center border border-b-0 dark:border-gray-600">
-                    <div class="py-2 bg-white dark:bg-gray-700">
+                <div class="grid grid-cols-7 gap-px leading-6 font-semibold text-xs text-center border border-b-0">
+                    <div class="py-2 bg-white">
                         Mon
                     </div>
-                    <div class="py-2 bg-white dark:bg-gray-700">
+                    <div class="py-2 bg-white">
                         Thu
                     </div>
-                    <div class="py-2 bg-white dark:bg-gray-700">
+                    <div class="py-2 bg-white">
                         Wed
                     </div>
-                    <div class="py-2 bg-white dark:bg-gray-700">
+                    <div class="py-2 bg-white">
                         Thu
                     </div>
-                    <div class="py-2 bg-white dark:bg-gray-700">
+                    <div class="py-2 bg-white">
                         Fri
                     </div>
-                    <div class="py-2 bg-white dark:bg-gray-700">
+                    <div class="py-2 bg-white">
                         Sat
                     </div>
-                    <div class="py-2 bg-white dark:bg-gray-700">
+                    <div class="py-2 bg-white">
                         Sun
                     </div>
                 </div>
                 <div class="grid grid-cols-7 gap-px leading-6 text-xs w-full bg-gray-200 dark:bg-gray-600 border dark:border-gray-600">
                     {% for day in calendar.getDays() %}
-                        <div class="py-2 px-3 {{ day.isCurrentMonth ? 'bg-white dark:bg-gray-700' : 'bg-gray-100 dark:bg-gray-800' }}">
+                        <div class="py-2 px-3 {{ day.isCurrentMonth ? 'bg-white' : 'bg-gray-100 dark:bg-gray-800' }}">
                             <div class="text-right text-gray-400">
                                 {{ day.getDayNumber() }}
                             </div>

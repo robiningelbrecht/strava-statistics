@@ -1,8 +1,8 @@
 {% autoescape false %}
     <!-- Modal header -->
-    <div class="z-[10000] sticky top-0 bg-white dark:bg-gray-700 p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+    <div class="z-[10000] sticky top-0 bg-white p-4 md:p-5 border-b rounded-t">
         <div class="flex items-center justify-between">
-            <h3 class="max-w-[30%] sm:max-w-[50%] md:max-w-[100%] truncate text-lg font-semibold text-gray-900 dark:text-white">
+            <h3 class="max-w-[30%] sm:max-w-[50%] md:max-w-[100%] truncate text-lg font-semibold text-gray-900">
                 <a class="flex items-center gap-x-1 hover:underline" href="{{ activity.getUrl() }}" target="_blank"
                    rel="nofollow">
                     {{ activity.getName() }}
@@ -13,8 +13,8 @@
                     </svg>
                 </a>
             </h3>
-            <span class="mx-1 text-xs font-normal text-gray-500 dark:text-gray-400">-</span>
-            <span class="text-xs font-normal text-gray-500 dark:text-gray-400">
+            <span class="mx-1 text-xs font-normal text-gray-500">-</span>
+            <span class="text-xs font-normal text-gray-500">
                 {{ activity.getStartDate().format('H:i \\o\\n l,') }}
                 <a href="#" data-model-content-url="month/month-{{ activity.getStartDate().format('Y-m') }}.html"
                    class="hover:underline">{{ activity.getStartDate().format('F') }}</a>
@@ -30,7 +30,7 @@
             </button>
         </div>
         {% if activity.getDescription() %}
-            <div class="text-xs font-normal text-gray-500 dark:text-gray-400">{{ activity.getDescription() }}</div>
+            <div class="text-xs font-normal text-gray-500">{{ activity.getDescription() }}</div>
         {% endif %}
     </div>
     <!-- Modal body -->
@@ -40,44 +40,44 @@
             <div class="mb-4 grid grid-cols-6 gap-2">
                 <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-600">
                     <div class="text-center">
-                        <dd class="text-xs text-gray-500 dark:text-gray-400">Distance</dd>
+                        <dd class="text-xs text-gray-500">Distance</dd>
                         <dt class="font-extrabold">{{ renderComponent('measurement', {'measurement': activity.getDistance(), 'precision': 0}) }}</dt>
                     </div>
                 </div>
                 <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-600">
                     <div class="text-center">
-                        <dd class="text-xs text-gray-500 dark:text-gray-400">Moving time</dd>
+                        <dd class="text-xs text-gray-500">Moving time</dd>
                         <dt class="font-extrabold">{{ activity.getMovingTimeFormatted() }}</dt>
                     </div>
                 </div>
                 <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-600">
                     <div class="text-center">
-                        <dd class="text-xs text-gray-500 dark:text-gray-400">Elevation</dd>
+                        <dd class="text-xs text-gray-500">Elevation</dd>
                         <dt class="font-extrabold">{{ renderComponent('measurement', {'measurement': activity.getElevation(), 'precision': 0}) }}</dt>
                     </div>
                 </div>
                 <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-600">
                     <div class="text-center">
-                        <dd class="text-xs text-gray-500 dark:text-gray-400">Calories</dd>
+                        <dd class="text-xs text-gray-500">Calories</dd>
                         <dt class="font-extrabold">{{ activity.getCalories() }}</dt>
                     </div>
                 </div>
                 <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-4 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-600">
                     <div class="text-center">
-                        <dd class="text-xs text-gray-500 dark:text-gray-400">Gear</dd>
+                        <dd class="text-xs text-gray-500">Gear</dd>
                         <dt class="text-xs font-extrabold">{{ activity.getGearName() ?: 'Other' }}</dt>
                     </div>
                 </div>
                 <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-4 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-600">
                     <div class="text-center">
-                        <dd class="text-xs text-gray-500 dark:text-gray-400">Device</dd>
+                        <dd class="text-xs text-gray-500">Device</dd>
                         <dt class="text-xs font-extrabold">{{ activity.getDeviceName() ?: 'None' }}</dt>
                     </div>
                 </div>
             </div>
             {% set weather = activity.getWeather() %}
             {% if weather %}
-                <div class="mb-4 text-xs font-normal text-gray-500 dark:text-gray-400">
+                <div class="mb-4 text-xs font-normal text-gray-500">
                     {{ weather.getWeatherCodeDescription() }}, {{ weather.getTemperatureInCelsius() }} °C,
                     Humidity {{ weather.getRelativeHumidity() }}%,
                     Wind {{ weather.getWindSpeed() }}km/h from {{ weather.getWindDirection() }}.
@@ -95,7 +95,7 @@
                             </a>
                         </div>
                         <div data-popover id="popover-image-{{ loop.index }}" role="tooltip"
-                             class="z-[1000] w-[35rem] absolute invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600">
+                             class="z-[1000] w-[35rem] absolute invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:bg-gray-800 dark:border-gray-600">
                             <img class="h-auto max-w-full rounded-lg lazy"
                                  src="{{ renderComponent('placeholder-image') }}" data-src="{{ imagePath }}"
                                  alt="Activity image"/>
@@ -104,8 +104,8 @@
                 </div>
             {% endif %}
             <div class="mb-4 relative overflow-x-auto px-2 py-2 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-600">
-                <table class="w-full text-sm text-center text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
+                <table class="w-full text-sm text-center text-gray-500">
+                    <thead class="text-xs text-gray-700 uppercase">
                     <tr>
                         <th scope="col" class="px-2 py-2">
 
@@ -196,8 +196,8 @@
             </div>
             {% if activity.hasDetailedPowerData() %}
                 <div class="relative overflow-x-auto px-2 py-2 border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-600">
-                    <table class="w-full text-sm text-center text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
+                    <table class="w-full text-sm text-center text-gray-500">
+                        <thead class="text-xs text-gray-700 uppercase">
                         {% set timeIntervals =  [5, 60, 300, 1200] %}
                         {% set timeIntervalLabels = ['Best 5s', 'Best 1m', 'Best 5m', 'Best 20m'] %}
                         <tr>
@@ -266,8 +266,8 @@
                 </a>
                 <div id="accordion-segments-body" class="hidden relative overflow-x-auto"
                      aria-labelledby="accordion-segments-heading">
-                    <table class="w-full text-sm text-center text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-800 dark:text-gray-400">
+                    <table class="w-full text-sm text-center text-gray-500">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-800">
                         <tr>
                             <th scope="col" class="px-2 py-3 text-left">
 
