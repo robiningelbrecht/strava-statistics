@@ -70,10 +70,10 @@ final readonly class ImportGearCommandHandler implements CommandHandler
                 );
                 $this->gearRepository->add($gear);
             }
-            $this->stravaDataImportStatus->markGearImportAsCompleted();
             $command->getOutput()->writeln(sprintf('  => Imported/updated gear "%s"', $gear->getName()));
             // Try to avoid Strava rate limits.
             $this->sleep->sweetDreams(10);
         }
+        $this->stravaDataImportStatus->markGearImportAsCompleted();
     }
 }
