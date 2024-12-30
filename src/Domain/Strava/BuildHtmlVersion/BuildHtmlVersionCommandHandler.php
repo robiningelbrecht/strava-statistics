@@ -525,7 +525,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
         $this->filesystem->write(
             'build/static/most-recent-activities.svg',
             $this->twig->load('static/most-recent-activities.html.twig')->render([
-                'activities'=> $allActivities->slice(0, 5),
+                'activities' => $allActivities->slice(0, 5),
             ])
         );
     }
