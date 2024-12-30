@@ -3,7 +3,11 @@
     {% if not hideIcon %}
         {% set classes = classes|merge(['flex items-center gap-x-1']) %}
     {% endif %}
-    <a href="#" data-model-content-url="activity/{{ activity.getId() }}.html" class="{{ classes|join(' ') }}" rel="nofollow">
+    {% if asPlainText %}
+        <div class="{{ classes|join(' ') }}">
+    {% else %}
+        <a href="#" data-model-content-url="activity/{{ activity.getId() }}.html" class="{{ classes|join(' ') }}" rel="nofollow">
+    {% endif %}
         {% if not hideIcon %}
             {% if activity.getType().isRide() and activity.getType().isVirtual() %}
                 {% if activity.isZwiftRide() %}
@@ -24,5 +28,9 @@
         {% else %}
             <span class="{{ truncate ? 'truncate': '' }}">{{ activity.getName() }}</span>
         {% endif %}
-    </a>
+    {% if asPlainText %}
+        </div>
+    {% else %}
+        </a>
+    {% endif %}
 {% endautoescape %}

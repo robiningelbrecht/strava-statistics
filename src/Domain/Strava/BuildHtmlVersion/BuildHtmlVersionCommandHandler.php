@@ -520,5 +520,13 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
             'build/html/fetch-json/activity-data-table.json',
             Json::encode($dataDatableRows),
         );
+
+        $command->getOutput()->writeln('  => Building most-recent-activities.svg');
+        $this->filesystem->write(
+            'build/static/most-recent-activities.svg',
+            $this->twig->load('static/most-recent-activities.html.twig')->render([
+                'activities'=> $allActivities->slice(0, 5),
+            ])
+        );
     }
 }
