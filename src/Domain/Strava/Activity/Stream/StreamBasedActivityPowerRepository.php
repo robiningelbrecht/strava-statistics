@@ -52,7 +52,12 @@ final class StreamBasedActivityPowerRepository implements ActivityPowerRepositor
                 }
                 $bestAverageForTimeInterval = $bestAverages[$timeIntervalInSeconds];
 
-                $athleteWeight = $this->athleteWeightRepository->find($activity->getStartDate())->getWeightInKg();
+                try {
+                    $athleteWeight = $this->athleteWeightRepository->find($activity->getStartDate())->getWeightInKg();
+                } catch (EntityNotFound) {
+                    throw new EntityNotFound(sprintf('Trying to calculate the relative power for activity "%s" on %s, but no corresponding athleteWeight was found. Make sure you configure the proper weights in your .env file', $activity->getName(), $activity->getStartDate()->format('Y-m-d')));
+                }
+
                 $relativePower = $athleteWeight->toFloat() > 0 ? round($bestAverageForTimeInterval / $athleteWeight->toFloat(), 2) : 0;
                 StreamBasedActivityPowerRepository::$cachedPowerOutputs[(string) $activity->getId()][$timeIntervalInSeconds] = PowerOutput::fromState(
                     time: (int) $interval->totalHours ? $interval->totalHours.' h' : ((int) $interval->totalMinutes ? $interval->totalMinutes.' m' : $interval->totalSeconds.' s'),
@@ -111,7 +116,12 @@ final class StreamBasedActivityPowerRepository implements ActivityPowerRepositor
             $interval = CarbonInterval::seconds($timeIntervalInSeconds);
             $bestAverageForTimeInterval = $stream->getBestAverages()[$timeIntervalInSeconds];
 
-            $athleteWeight = $this->athleteWeightRepository->find($activity->getStartDate())->getWeightInKg();
+            try {
+                $athleteWeight = $this->athleteWeightRepository->find($activity->getStartDate())->getWeightInKg();
+            } catch (EntityNotFound) {
+                throw new EntityNotFound(sprintf('Trying to calculate the relative power for activity "%s" on %s, but no corresponding athleteWeight was found. Make sure you configure the proper weights in your .env file', $activity->getName(), $activity->getStartDate()->format('Y-m-d')));
+            }
+
             $relativePower = $athleteWeight->toFloat() > 0 ? round($bestAverageForTimeInterval / $athleteWeight->toFloat(), 2) : 0;
             $best[$timeIntervalInSeconds] = PowerOutput::fromState(
                 time: (int) $interval->totalHours ? $interval->totalHours.' h' : ((int) $interval->totalMinutes ? $interval->totalMinutes.' m' : $interval->totalSeconds.' s'),

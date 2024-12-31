@@ -45,9 +45,13 @@ final readonly class AthleteWeightsFromEnvFile
 
     public static function fromString(string $values, UnitSystem $unitSystem): self
     {
-        return new self(
-            weightsFromEnv: Json::decode($values),
-            unitSystem: $unitSystem
-        );
+        try {
+            return new self(
+                weightsFromEnv: Json::decode($values),
+                unitSystem: $unitSystem
+            );
+        } catch (\JsonException) {
+            throw new \InvalidArgumentException('Invalid ATHLETE_WEIGHTS detected in .env file. Make sure the string is valid JSON');
+        }
     }
 }

@@ -37,8 +37,12 @@ final readonly class FtpValuesFromEnvFile
 
     public static function fromString(string $values): self
     {
-        return new self(
-            Json::decode($values)
-        );
+        try {
+            return new self(
+                Json::decode($values)
+            );
+        } catch (\JsonException) {
+            throw new \InvalidArgumentException('Invalid FTP_VALUES detected in .env file. Make sure the string is valid JSON');
+        }
     }
 }
