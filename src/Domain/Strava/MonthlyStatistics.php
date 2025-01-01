@@ -26,6 +26,19 @@ final readonly class MonthlyStatistics
         $this->statistics = $this->buildStatistics();
     }
 
+    /**
+     * @return ActivityType[]
+     */
+    public function getActivityTypes(): array
+    {
+        $uniqueActivityTypes = [];
+        foreach ($this->activities as $activity) {
+            $uniqueActivityTypes[$activity->getType()->value] = $activity->getType();
+        }
+
+        return array_values($uniqueActivityTypes);
+    }
+
     public static function fromActivitiesAndChallenges(
         Activities $activities,
         Challenges $challenges,
@@ -93,7 +106,7 @@ final readonly class MonthlyStatistics
     }
 
     /**
-     * @return array<mixed>
+     * @return array<string,mixed>
      */
     public function getStatisticsForMonth(Month $month): array
     {
@@ -101,7 +114,7 @@ final readonly class MonthlyStatistics
     }
 
     /**
-     * @return array<mixed>
+     * @return array<string,mixed>
      */
     public function getTotals(): array
     {
@@ -109,7 +122,7 @@ final readonly class MonthlyStatistics
     }
 
     /**
-     * @return array<mixed>
+     * @return array<string,mixed>
      */
     public function getTotalsForActivityType(ActivityType $activityType): array
     {
@@ -117,7 +130,7 @@ final readonly class MonthlyStatistics
     }
 
     /**
-     * @return array<mixed>
+     * @return array<string,mixed>
      */
     private function getTotalsForActivities(Activities $activities): array
     {
