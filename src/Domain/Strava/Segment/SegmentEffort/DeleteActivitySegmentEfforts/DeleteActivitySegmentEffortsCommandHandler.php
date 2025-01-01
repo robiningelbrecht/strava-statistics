@@ -19,13 +19,6 @@ final readonly class DeleteActivitySegmentEffortsCommandHandler implements Comma
     {
         assert($command instanceof DeleteActivitySegmentEfforts);
 
-        $segmentEfforts = $this->segmentEffortRepository->findByActivityId($command->getActivityId());
-        if ($segmentEfforts->isEmpty()) {
-            return;
-        }
-
-        foreach ($segmentEfforts as $segmentEffort) {
-            $this->segmentEffortRepository->delete($segmentEffort);
-        }
+        $this->segmentEffortRepository->deleteForActivity($command->getActivityId());
     }
 }

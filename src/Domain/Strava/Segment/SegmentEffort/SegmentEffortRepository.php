@@ -13,7 +13,7 @@ interface SegmentEffortRepository
 
     public function update(SegmentEffort $segmentEffort): void;
 
-    public function delete(SegmentEffort $segmentEffort): void;
+    public function deleteForActivity(ActivityId $activityId): void;
 
     public function find(SegmentEffortId $segmentEffortId): SegmentEffort;
 

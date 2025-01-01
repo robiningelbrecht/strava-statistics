@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Domain\Strava\Segment\SegmentEffort;
 
 use App\Domain\Strava\Activity\ActivityId;
+use App\Domain\Strava\Segment\SegmentEffort\DeleteActivitySegmentEfforts\SegmentEffortsWereDeleted;
 use App\Domain\Strava\Segment\SegmentId;
+use App\Infrastructure\Eventing\EventBus;
 use App\Infrastructure\Exception\EntityNotFound;
 use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
@@ -15,6 +17,7 @@ final readonly class DbalSegmentEffortRepository implements SegmentEffortReposit
 {
     public function __construct(
         private Connection $connection,
+        private EventBus $eventBus,
     ) {
     }
 
@@ -54,14 +57,18 @@ final readonly class DbalSegmentEffortRepository implements SegmentEffortReposit
         ]);
     }
 
-    public function delete(SegmentEffort $segmentEffort): void
+    public function deleteForActivity(ActivityId $activityId): void
     {
         $sql = 'DELETE FROM SegmentEffort 
-        WHERE segmentEffortId = :segmentEffortId';
+        WHERE activityId = :activityId';
 
-        $this->connection->executeStatement($sql, [
-            'segmentEffortId' => $segmentEffort->getId(),
-        ]);
+        $this->connection->executeStatement($sql,
+            [
+                'activityId' => $activityId,
+            ]
+        );
+
+        $this->eventBus->publishEvents([new SegmentEffortsWereDeleted()]);
     }
 
     public function find(SegmentEffortId $segmentEffortId): SegmentEffort

@@ -11,4 +11,6 @@ interface SegmentRepository
     public function find(SegmentId $segmentId): Segment;
 
     public function findAll(): Segments;
+
+    public function deleteOrphaned(): void;
 }

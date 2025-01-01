@@ -1,0 +1,6 @@
+[
+    {
+        "eventName": "App.Domain.Strava.Segment.SegmentEffort.DeleteActivitySegmentEfforts.SegmentEffortsWereDeleted",
+        "payload": []
+    }
+]

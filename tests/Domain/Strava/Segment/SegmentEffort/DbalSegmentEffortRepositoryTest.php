@@ -8,12 +8,19 @@ use App\Domain\Strava\Segment\SegmentEffort\SegmentEffortId;
 use App\Domain\Strava\Segment\SegmentEffort\SegmentEffortRepository;
 use App\Domain\Strava\Segment\SegmentEffort\SegmentEfforts;
 use App\Domain\Strava\Segment\SegmentId;
+use App\Infrastructure\Eventing\EventBus;
 use App\Infrastructure\Exception\EntityNotFound;
+use App\Infrastructure\Serialization\Json;
 use App\Tests\ContainerTestCase;
+use App\Tests\Infrastructure\Eventing\SpyEventBus;
+use Spatie\Snapshots\MatchesSnapshots;
 
 class DbalSegmentEffortRepositoryTest extends ContainerTestCase
 {
+    use MatchesSnapshots;
+
     private SegmentEffortRepository $segmentEffortRepository;
+    private EventBus $eventBus;
 
     public function testFindAndSave(): void
     {
@@ -132,16 +139,22 @@ class DbalSegmentEffortRepositoryTest extends ContainerTestCase
         $segmentEffortOne = SegmentEffortBuilder::fromDefaults()->build();
         $this->segmentEffortRepository->add($segmentEffortOne);
 
+        $segmentEffortTwo = SegmentEffortBuilder::fromDefaults()
+            ->withActivityId(ActivityId::random())
+            ->withSegmentEffortId(SegmentEffortId::random())->build();
+        $this->segmentEffortRepository->add($segmentEffortTwo);
+
+        $this->assertEquals(
+            2,
+            $this->getConnection()->executeQuery('SELECT COUNT(*) FROM SegmentEffort')->fetchOne()
+        );
+
+        $this->segmentEffortRepository->deleteForActivity($segmentEffortOne->getActivityId());
         $this->assertEquals(
             1,
             $this->getConnection()->executeQuery('SELECT COUNT(*) FROM SegmentEffort')->fetchOne()
         );
-
-        $this->segmentEffortRepository->delete($segmentEffortOne);
-        $this->assertEquals(
-            0,
-            $this->getConnection()->executeQuery('SELECT COUNT(*) FROM SegmentEffort')->fetchOne()
-        );
+        $this->assertMatchesJsonSnapshot(Json::encode($this->eventBus->getPublishedEvents()));
     }
 
     #[\Override]
@@ -150,7 +163,8 @@ class DbalSegmentEffortRepositoryTest extends ContainerTestCase
         parent::setUp();
 
         $this->segmentEffortRepository = new DbalSegmentEffortRepository(
-            $this->getConnection()
+            $this->getConnection(),
+            $this->eventBus = new SpyEventBus()
         );
     }
 }

@@ -220,7 +220,7 @@ trait ProvideTestData
         $segmentRepository = $this->getContainer()->get(SegmentRepository::class);
         $segmentRepository->add(
             SegmentBuilder::fromDefaults()
-                ->withId(SegmentId::fromUnprefixed('1'))
+                ->withSegmentId(SegmentId::fromUnprefixed('1'))
                 ->withName(Name::fromString('Segment One'))
                 ->withData([
                     'distance' => 100,
@@ -232,7 +232,7 @@ trait ProvideTestData
         );
         $segmentRepository->add(
             SegmentBuilder::fromDefaults()
-                ->withId(SegmentId::fromUnprefixed('2'))
+                ->withSegmentId(SegmentId::fromUnprefixed('2'))
                 ->withName(Name::fromString('Segment Two'))
                 ->withData([
                     'distance' => 110,
@@ -243,7 +243,7 @@ trait ProvideTestData
         );
         $segmentRepository->add(
             SegmentBuilder::fromDefaults()
-                ->withId(SegmentId::fromUnprefixed('17267489'))
+                ->withSegmentId(SegmentId::fromUnprefixed('17267489'))
                 ->withName(Name::fromString('Alpe du Zwift'))
                 ->withData([
                     'distance' => 100,

@@ -3,6 +3,7 @@
         "reactToActivityWasDeleted"
     ],
     "App\\Domain\\Strava\\Segment\\SegmentEffort\\SegmentEffortActivityManager": [
-        "reactToActivityWasDeleted"
+        "reactToActivityWasDeleted",
+        "reactToSegmentEffortsWereDeleted"
     ]
 }

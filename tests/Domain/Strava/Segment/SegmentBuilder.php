@@ -35,7 +35,7 @@ final class SegmentBuilder
         );
     }
 
-    public function withId(SegmentId $id): self
+    public function withSegmentId(SegmentId $id): self
     {
         $this->segmentId = $id;
 

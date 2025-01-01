@@ -67,4 +67,11 @@ final readonly class DbalSegmentRepository implements SegmentRepository
             data: Json::decode($result['data']),
         );
     }
+
+    public function deleteOrphaned(): void
+    {
+        $this->connection->executeStatement('DELETE FROM Segment WHERE NOT EXISTS(
+            SELECT 1 FROM SegmentEffort WHERE SegmentEffort.segmentId = Segment.segmentId
+        )');
+    }
 }
