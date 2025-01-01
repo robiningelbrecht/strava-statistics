@@ -115,9 +115,12 @@
                     times Mount Everest 🏔) and a total time of <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg">{{ intro.getMovingTimeFormatted() }}</kbd> 🎉.
                 </p>
                 <p>
-                    That's a daily average of <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg">{{ intro.getDailyAverage()|convertMeasurement.toFloat()|formatNumber(0) }} km</kbd>,
-                    a weekly average of <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg">{{ intro.getWeeklyAverage()|convertMeasurement.toFloat()|formatNumber(0) }} km</kbd>
-                    and a monthly average of <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg">{{ intro.getMonthlyAverage()|convertMeasurement.toFloat()|formatNumber(0) }} km</kbd> 🐣.
+                    {% set convertedDailyAverage = intro.getDailyAverage()|convertMeasurement %}
+                    {% set convertedWeeklyAverage = intro.getWeeklyAverage()|convertMeasurement %}
+                    {% set convertedMonthlyAverage = intro.getMonthlyAverage()|convertMeasurement %}
+                    That's a daily average of <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg">{{ convertedDailyAverage.toFloat()|formatNumber(0) }} {{ convertedDailyAverage.getSymbol() }}</kbd>,
+                    a weekly average of <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg">{{ convertedWeeklyAverage.toFloat()|formatNumber(0) }} {{ convertedWeeklyAverage.getSymbol() }}</kbd>
+                    and a monthly average of <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg">{{ convertedMonthlyAverage.toFloat()|formatNumber(0) }} {{ convertedMonthlyAverage.getSymbol() }}</kbd> 🐣.
                 </p>
                 <p>
                     I burned <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg">{{ intro.getCalories()|formatNumber(0) }} calories</kbd>
