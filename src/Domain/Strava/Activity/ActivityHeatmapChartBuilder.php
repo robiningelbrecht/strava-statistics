@@ -11,6 +11,7 @@ final readonly class ActivityHeatmapChartBuilder
 
     private function __construct(
         private Activities $activities,
+        private ActivityIntensity $activityIntensity,
         private SerializableDateTime $now,
     ) {
         $fromDate = SerializableDateTime::fromString($this->now->modify('-11 months')->format('Y-m-01'));
@@ -19,12 +20,14 @@ final readonly class ActivityHeatmapChartBuilder
         $this->toDate = $toDate;
     }
 
-    public static function fromActivities(
+    public static function create(
         Activities $activities,
+        ActivityIntensity $activityIntensity,
         SerializableDateTime $now,
     ): self {
         return new self(
             activities: $activities,
+            activityIntensity: $activityIntensity,
             now: $now,
         );
     }
@@ -138,7 +141,7 @@ final readonly class ActivityHeatmapChartBuilder
         $data = $rawData = [];
         /** @var Activity $activity */
         foreach ($activities as $activity) {
-            if (!$intensity = $activity->getIntensity()) {
+            if (!$intensity = $this->activityIntensity->calculate($activity)) {
                 continue;
             }
 

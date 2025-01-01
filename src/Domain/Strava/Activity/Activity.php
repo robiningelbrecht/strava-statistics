@@ -7,7 +7,6 @@ use App\Domain\Measurement\Length\Meter;
 use App\Domain\Measurement\Velocity\KmPerHour;
 use App\Domain\Nominatim\Location;
 use App\Domain\Strava\Activity\Stream\PowerOutput;
-use App\Domain\Strava\Ftp\FtpValue;
 use App\Domain\Strava\Gear\GearId;
 use App\Domain\Strava\LeafletMap;
 use App\Domain\Weather\OpenMeteo\Weather;
@@ -29,9 +28,6 @@ final class Activity
     private ?string $gearName = null;
     /** @var array<mixed> */
     private array $bestPowerOutputs = [];
-    private ?FtpValue $ftp = null;
-    private ?SerializableDateTime $athleteBirthday = null;
-    private bool $hasDetailedPowerData = false;
 
     /**
      * @param array<mixed> $data
@@ -157,6 +153,11 @@ final class Activity
         $this->gearName = $gearName;
     }
 
+    public function hasDetailedPowerData(): bool
+    {
+        return !empty($this->bestPowerOutputs);
+    }
+
     public function getBestAveragePowerForTimeInterval(int $timeInterval): ?PowerOutput
     {
         return $this->bestPowerOutputs[$timeInterval] ?? null;
@@ -168,7 +169,6 @@ final class Activity
     public function enrichWithBestPowerOutputs(array $bestPowerOutputs): void
     {
         $this->bestPowerOutputs = $bestPowerOutputs;
-        $this->hasDetailedPowerData = !empty($bestPowerOutputs);
     }
 
     /**
@@ -354,71 +354,6 @@ final class Activity
     public function getUrl(): string
     {
         return 'https://www.strava.com/activities/'.$this->data['id'];
-    }
-
-    public function getIntensity(): ?int
-    {
-        // To calculate intensity, we need
-        // 1) Max and average heart rate
-        // OR
-        // 2) FTP and average power
-        if (($ftp = $this->getFtp()) && ($averagePower = $this->getAveragePower()) && $this->hasDetailedPowerData()) {
-            // Use more complicated and more accurate calculation.
-            // intensityFactor = averagePower / FTP
-            // (durationInSeconds * averagePower * intensityFactor) / (FTP x 3600) * 100
-            return (int) round(($this->getMovingTimeInSeconds() * $averagePower * ($averagePower / $ftp->getValue())) / ($ftp->getValue() * 3600) * 100);
-        }
-
-        if (($averageHeartRate = $this->getAverageHeartRate()) && ($athleteMaxHeartRate = $this->getAthleteMaxHeartRate())) {
-            // Use simplified, less accurate calculation.
-            // maxHeartRate = = (220 - age) x 0.92
-            // intensityFactor = averageHeartRate / maxHeartRate
-            // (durationInSeconds x averageHeartRate x intensityFactor) / (maxHeartRate x 3600) x 100
-            $maxHeartRate = round($athleteMaxHeartRate * 0.92);
-
-            return (int) round(($this->getMovingTimeInSeconds() * $averageHeartRate * ($averageHeartRate / $maxHeartRate)) / ($maxHeartRate * 3600) * 100);
-        }
-
-        return null;
-    }
-
-    public function getFtp(): ?FtpValue
-    {
-        return $this->ftp;
-    }
-
-    public function enrichWithFtp(FtpValue $ftp): void
-    {
-        $this->ftp = $ftp;
-    }
-
-    public function getAthleteAgeInYears(): ?int
-    {
-        return $this->athleteBirthday?->diff($this->getStartDate())->y;
-    }
-
-    public function getAthleteMaxHeartRate(): ?int
-    {
-        if (!$age = $this->getAthleteAgeInYears()) {
-            return null;
-        }
-
-        return 220 - $age;
-    }
-
-    public function enrichWithAthleteBirthday(SerializableDateTime $birthday): void
-    {
-        $this->athleteBirthday = $birthday;
-    }
-
-    public function hasDetailedPowerData(): bool
-    {
-        return $this->hasDetailedPowerData;
-    }
-
-    public function updateHasDetailedPowerData(bool $flag): void
-    {
-        $this->hasDetailedPowerData = $flag;
     }
 
     /**

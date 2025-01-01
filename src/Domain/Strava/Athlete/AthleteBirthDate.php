@@ -6,7 +6,7 @@ namespace App\Domain\Strava\Athlete;
 
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
-final class AthleteBirthday extends SerializableDateTime
+final class AthleteBirthDate extends SerializableDateTime
 {
     #[\Override]
     public static function fromString(string $string): self

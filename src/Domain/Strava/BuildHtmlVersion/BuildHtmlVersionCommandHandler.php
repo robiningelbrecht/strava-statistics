@@ -5,6 +5,7 @@ namespace App\Domain\Strava\BuildHtmlVersion;
 use App\Domain\Measurement\Length\Kilometer;
 use App\Domain\Measurement\UnitSystem;
 use App\Domain\Strava\Activity\ActivityHeatmapChartBuilder;
+use App\Domain\Strava\Activity\ActivityIntensity;
 use App\Domain\Strava\Activity\ActivityRepository;
 use App\Domain\Strava\Activity\ActivityTotals;
 use App\Domain\Strava\Activity\ActivityType;
@@ -27,7 +28,7 @@ use App\Domain\Strava\Activity\WeekdayStats\WeekdayStatsChartsBuilder;
 use App\Domain\Strava\Activity\WeeklyDistanceChartBuilder;
 use App\Domain\Strava\Activity\YearlyDistance\YearlyDistanceChartBuilder;
 use App\Domain\Strava\Activity\YearlyDistance\YearlyStatistics;
-use App\Domain\Strava\Athlete\AthleteBirthday;
+use App\Domain\Strava\Athlete\Athlete;
 use App\Domain\Strava\Athlete\HeartRateZone;
 use App\Domain\Strava\Athlete\TimeInHeartRateZoneChartBuilder;
 use App\Domain\Strava\Athlete\Weight\AthleteWeightRepository;
@@ -77,7 +78,8 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
         private SegmentEffortRepository $segmentEffortRepository,
         private FtpRepository $ftpRepository,
         private KeyValueStore $keyValueStore,
-        private AthleteBirthday $athleteBirthday,
+        private Athlete $athlete,
+        private ActivityIntensity $activityIntensity,
         private UnitSystem $unitSystem,
         private Environment $twig,
         private FilesystemOperator $filesystem,
@@ -159,13 +161,6 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                 $activity->enrichWithMaxCadence(max($cadenceStream->getData()));
             }
 
-            try {
-                $ftp = $this->ftpRepository->find($activity->getStartDate());
-                $activity->enrichWithFtp($ftp->getFtp());
-            } catch (EntityNotFound) {
-            }
-            $activity->enrichWithAthleteBirthday($this->athleteBirthday);
-
             if ($activity->getGearId()) {
                 $activity->enrichWithGearName(
                     $this->gearRepository->find($activity->getGearId())->getName()
@@ -226,8 +221,9 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                 'weeklyDistanceCharts' => $weeklyDistanceCharts,
                 'powerOutputs' => $bestPowerOutputs,
                 'activityHeatmapChart' => Json::encode(
-                    ActivityHeatmapChartBuilder::fromActivities(
+                    ActivityHeatmapChartBuilder::create(
                         activities: $allActivities,
+                        activityIntensity: $this->activityIntensity,
                         now: $now,
                     )->build()
                 ),
@@ -481,8 +477,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                             heartRateData: $heartRateData,
                             // @phpstan-ignore-next-line
                             averageHeartRate: $activity->getAverageHeartRate(),
-                            // @phpstan-ignore-next-line
-                            athleteMaxHeartRate: $activity->getAthleteMaxHeartRate()
+                            athleteMaxHeartRate: $this->athlete->getMaxHeartRate($activity->getStartDate())
                         )->build(),
                     ) : null,
                     'powerDistributionChart' => $powerData ? Json::encode(

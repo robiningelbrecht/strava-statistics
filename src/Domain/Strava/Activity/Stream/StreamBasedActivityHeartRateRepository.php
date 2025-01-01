@@ -6,7 +6,7 @@ namespace App\Domain\Strava\Activity\Stream;
 
 use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\ActivityRepository;
-use App\Domain\Strava\Athlete\AthleteBirthday;
+use App\Domain\Strava\Athlete\Athlete;
 use App\Domain\Strava\Athlete\HeartRateZone;
 
 final class StreamBasedActivityHeartRateRepository implements ActivityHeartRateRepository
@@ -17,7 +17,7 @@ final class StreamBasedActivityHeartRateRepository implements ActivityHeartRateR
     public function __construct(
         private readonly ActivityRepository $activityRepository,
         private readonly ActivityStreamRepository $activityStreamRepository,
-        private readonly AthleteBirthday $athleteBirthday,
+        private readonly Athlete $athlete,
     ) {
     }
 
@@ -63,7 +63,6 @@ final class StreamBasedActivityHeartRateRepository implements ActivityHeartRateR
 
         $activities = $this->activityRepository->findAll();
         $heartRateStreams = $this->activityStreamRepository->findByStreamType(StreamType::HEART_RATE);
-        $athleteBirthday = $this->athleteBirthday;
 
         /** @var \App\Domain\Strava\Activity\Activity $activity */
         foreach ($activities as $activity) {
@@ -80,10 +79,7 @@ final class StreamBasedActivityHeartRateRepository implements ActivityHeartRateR
                 continue;
             }
 
-            $activity->enrichWithAthleteBirthday($athleteBirthday);
-            if (!$athleteMaxHeartRate = $activity->getAthleteMaxHeartRate()) {
-                continue;
-            }
+            $athleteMaxHeartRate = $this->athlete->getMaxHeartRate($activity->getStartDate());
 
             /** @var ActivityStream $stream */
             $stream = $heartRateStreamsForActivity->getFirst();
