@@ -77,24 +77,17 @@ ACTIVITY_TYPES_TO_IMPORT='["Ride", "VirtualRide"]'
 # Your birthday. Needed to calculate heart rate zones.
 ATHLETE_BIRTHDAY=YYYY-MM-DD
 # History of weight (in kg or pounds, depending on UNIT_SYSTEM). Needed to calculate relative w/kg.
+# Check https://github.com/robiningelbrecht/strava-statistics/wiki for more info.
 ATHLETE_WEIGHTS='{
     "YYYY-MM-DD": 74.6,
     "YYYY-MM-DD": 70.3
 }'
-# History of FTP. Needed to calculate activity stress level
+# History of FTP. Needed to calculate activity stress level.
+# Check https://github.com/robiningelbrecht/strava-statistics/wiki for more info.
 FTP_VALUES='{
     "YYYY-MM-DD": 198,
     "YYYY-MM-DD": 220
 }'
-```
-
-### Permission issues
-
-You might encounter an `SQLSTATE[HY000] [14] unable to open database file` error. There's an [open issue](https://github.com/robiningelbrecht/strava-statistics/issues/57) to investigate this. In the mean time, you can run following commands manually to fix this:
-
-```bash
-> chmod -R 777 storage/database
-> chmod -R 777 storage/files
 ```
 
 ### Import all challenges and trophies
@@ -121,6 +114,10 @@ You can configure a crontab on your host system:
 0 18 * * * docker compose exec app bin/console app:strava:import-data && 
 docker compose exec app bin/console app:strava:build-files
 ```
+
+## 📚 Wiki
+
+Read [the wiki](https://github.com/robiningelbrecht/strava-statistics/wiki) before opening new issues. The question you have might be answered over there.
 
 ## 🧐 Some things to consider
 
