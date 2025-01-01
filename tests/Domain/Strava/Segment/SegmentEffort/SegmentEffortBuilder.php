@@ -43,7 +43,7 @@ final class SegmentEffortBuilder
         );
     }
 
-    public function withId(SegmentEffortId $id): self
+    public function withSegmentEffortId(SegmentEffortId $id): self
     {
         $this->segmentEffortId = $id;
 

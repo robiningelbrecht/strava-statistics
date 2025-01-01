@@ -52,19 +52,19 @@ class DbalSegmentEffortRepositoryTest extends ContainerTestCase
     public function testFindBySegmentId(): void
     {
         $segmentEffortOne = SegmentEffortBuilder::fromDefaults()
-            ->withId(SegmentEffortId::fromUnprefixed(1))
+            ->withSegmentEffortId(SegmentEffortId::fromUnprefixed(1))
             ->withSegmentId(SegmentId::fromUnprefixed(1))
             ->build();
         $this->segmentEffortRepository->add($segmentEffortOne);
 
         $segmentEffortTwo = SegmentEffortBuilder::fromDefaults()
-            ->withId(SegmentEffortId::fromUnprefixed(2))
+            ->withSegmentEffortId(SegmentEffortId::fromUnprefixed(2))
             ->withSegmentId(SegmentId::fromUnprefixed(1))
             ->build();
         $this->segmentEffortRepository->add($segmentEffortTwo);
 
         $segmentEffortThree = SegmentEffortBuilder::fromDefaults()
-            ->withId(SegmentEffortId::fromUnprefixed(3))
+            ->withSegmentEffortId(SegmentEffortId::fromUnprefixed(3))
             ->withSegmentId(SegmentId::fromUnprefixed(2))
             ->build();
         $this->segmentEffortRepository->add($segmentEffortThree);
@@ -78,19 +78,19 @@ class DbalSegmentEffortRepositoryTest extends ContainerTestCase
     public function testCountBySegmentId(): void
     {
         $segmentEffortOne = SegmentEffortBuilder::fromDefaults()
-            ->withId(SegmentEffortId::fromUnprefixed(1))
+            ->withSegmentEffortId(SegmentEffortId::fromUnprefixed(1))
             ->withSegmentId(SegmentId::fromUnprefixed(1))
             ->build();
         $this->segmentEffortRepository->add($segmentEffortOne);
 
         $segmentEffortTwo = SegmentEffortBuilder::fromDefaults()
-            ->withId(SegmentEffortId::fromUnprefixed(2))
+            ->withSegmentEffortId(SegmentEffortId::fromUnprefixed(2))
             ->withSegmentId(SegmentId::fromUnprefixed(1))
             ->build();
         $this->segmentEffortRepository->add($segmentEffortTwo);
 
         $segmentEffortThree = SegmentEffortBuilder::fromDefaults()
-            ->withId(SegmentEffortId::fromUnprefixed(3))
+            ->withSegmentEffortId(SegmentEffortId::fromUnprefixed(3))
             ->withSegmentId(SegmentId::fromUnprefixed(2))
             ->build();
         $this->segmentEffortRepository->add($segmentEffortThree);
@@ -104,19 +104,19 @@ class DbalSegmentEffortRepositoryTest extends ContainerTestCase
     public function testFindByActivityId(): void
     {
         $segmentEffortOne = SegmentEffortBuilder::fromDefaults()
-            ->withId(SegmentEffortId::fromUnprefixed(1))
+            ->withSegmentEffortId(SegmentEffortId::fromUnprefixed(1))
             ->withActivityId(ActivityId::fromUnprefixed(1))
             ->build();
         $this->segmentEffortRepository->add($segmentEffortOne);
 
         $segmentEffortTwo = SegmentEffortBuilder::fromDefaults()
-            ->withId(SegmentEffortId::fromUnprefixed(2))
+            ->withSegmentEffortId(SegmentEffortId::fromUnprefixed(2))
             ->withActivityId(ActivityId::fromUnprefixed(1))
             ->build();
         $this->segmentEffortRepository->add($segmentEffortTwo);
 
         $segmentEffortThree = SegmentEffortBuilder::fromDefaults()
-            ->withId(SegmentEffortId::fromUnprefixed(3))
+            ->withSegmentEffortId(SegmentEffortId::fromUnprefixed(3))
             ->withActivityId(ActivityId::fromUnprefixed(2))
             ->build();
         $this->segmentEffortRepository->add($segmentEffortThree);

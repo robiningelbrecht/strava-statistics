@@ -5,25 +5,22 @@ declare(strict_types=1);
 namespace App\Domain\Strava\Segment\SegmentEffort;
 
 use App\Domain\Strava\Activity\ActivityWasDeleted;
+use App\Domain\Strava\Segment\SegmentEffort\DeleteActivitySegmentEfforts\DeleteActivitySegmentEfforts;
+use App\Infrastructure\CQRS\Bus\CommandBus;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 
 final readonly class SegmentEffortActivityManager
 {
     public function __construct(
-        private SegmentEffortRepository $segmentEffortRepository,
+        private CommandBus $commandBus,
     ) {
     }
 
     #[AsEventListener]
     public function reactToActivityWasDeleted(ActivityWasDeleted $event): void
     {
-        $segmentEfforts = $this->segmentEffortRepository->findByActivityId($event->getActivityId());
-        if ($segmentEfforts->isEmpty()) {
-            return;
-        }
-
-        foreach ($segmentEfforts as $segmentEffort) {
-            $this->segmentEffortRepository->delete($segmentEffort);
-        }
+        $this->commandBus->dispatch(new DeleteActivitySegmentEfforts(
+            $event->getActivityId())
+        );
     }
 }

@@ -6,6 +6,7 @@ use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\ActivityRepository;
 use App\Domain\Strava\Activity\ImportActivities\ImportActivities;
 use App\Domain\Strava\Activity\Stream\ActivityStreamRepository;
+use App\Domain\Strava\Segment\SegmentEffort\SegmentEffortId;
 use App\Domain\Strava\Segment\SegmentEffort\SegmentEffortRepository;
 use App\Domain\Strava\Strava;
 use App\Infrastructure\CQRS\Bus\CommandBus;
@@ -86,10 +87,33 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
                 ->withActivityId(ActivityId::fromUnprefixed(1001))
                 ->build()
         );
+        $this->getContainer()->get(SegmentEffortRepository::class)->add(
+            SegmentEffortBuilder::fromDefaults()
+                ->withSegmentEffortId(SegmentEffortId::random())
+                ->withActivityId(ActivityId::fromUnprefixed(1001))
+                ->build()
+        );
+        $this->getContainer()->get(ActivityStreamRepository::class)->add(
+            ActivityStreamBuilder::fromDefaults()
+                ->withActivityId(ActivityId::fromUnprefixed(1001))
+                ->build()
+        );
 
         $this->commandBus->dispatch(new ImportActivities($output));
 
         $this->assertMatchesTextSnapshot($output);
+        $this->assertCount(
+            5,
+            $this->getContainer()->get(ActivityRepository::class)->findAll()->toArray()
+        );
+        $this->assertCount(
+            0,
+            $this->getContainer()->get(SegmentEffortRepository::class)->findByActivityId(ActivityId::fromUnprefixed(1001))
+        );
+        $this->assertCount(
+            0,
+            $this->getContainer()->get(ActivityStreamRepository::class)->findByActivityId(ActivityId::fromUnprefixed(1001))
+        );
     }
 
     public function testHandleWithoutActivityDelete(): void

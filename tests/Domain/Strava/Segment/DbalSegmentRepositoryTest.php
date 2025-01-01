@@ -44,13 +44,13 @@ class DbalSegmentRepositoryTest extends ContainerTestCase
         $this->segmentRepository->add($segmentOne);
         $this->getContainer()->get(SegmentEffortRepository::class)->add(
             SegmentEffortBuilder::fromDefaults()
-            ->withId(SegmentEffortId::fromUnprefixed(1))
+            ->withSegmentEffortId(SegmentEffortId::fromUnprefixed(1))
             ->withSegmentId($segmentOne->getId())
             ->build()
         );
         $this->getContainer()->get(SegmentEffortRepository::class)->add(
             SegmentEffortBuilder::fromDefaults()
-                ->withId(SegmentEffortId::fromUnprefixed(2))
+                ->withSegmentEffortId(SegmentEffortId::fromUnprefixed(2))
                 ->withSegmentId($segmentOne->getId())
                 ->build()
         );
@@ -66,7 +66,7 @@ class DbalSegmentRepositoryTest extends ContainerTestCase
         $this->segmentRepository->add($segmentThree);
         $this->getContainer()->get(SegmentEffortRepository::class)->add(
             SegmentEffortBuilder::fromDefaults()
-                ->withId(SegmentEffortId::fromUnprefixed(3))
+                ->withSegmentEffortId(SegmentEffortId::fromUnprefixed(3))
                 ->withSegmentId($segmentThree->getId())
                 ->build()
         );

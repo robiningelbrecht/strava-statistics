@@ -259,7 +259,7 @@ trait ProvideTestData
 
         $segmentEffortRepository->add(
             SegmentEffortBuilder::fromDefaults()
-                ->withId(SegmentEffortId::fromUnprefixed('1'))
+                ->withSegmentEffortId(SegmentEffortId::fromUnprefixed('1'))
                 ->withSegmentId(SegmentId::fromUnprefixed('1'))
                 ->withActivityId(ActivityId::fromUnprefixed('9542782314'))
                 ->withData([
@@ -272,7 +272,7 @@ trait ProvideTestData
         );
         $segmentEffortRepository->add(
             SegmentEffortBuilder::fromDefaults()
-                ->withId(SegmentEffortId::fromUnprefixed('alpe-du-zwift'))
+                ->withSegmentEffortId(SegmentEffortId::fromUnprefixed('alpe-du-zwift'))
                 ->withSegmentId(SegmentId::fromUnprefixed('17267489'))
                 ->withActivityId(ActivityId::fromUnprefixed('9542782314'))
                 ->withData([
@@ -285,7 +285,7 @@ trait ProvideTestData
         );
         $segmentEffortRepository->add(
             SegmentEffortBuilder::fromDefaults()
-                ->withId(SegmentEffortId::fromUnprefixed('2'))
+                ->withSegmentEffortId(SegmentEffortId::fromUnprefixed('2'))
                 ->withSegmentId(SegmentId::fromUnprefixed('1'))
                 ->withActivityId(ActivityId::fromUnprefixed('9542782314'))
                 ->withData([
@@ -298,7 +298,7 @@ trait ProvideTestData
         );
         $segmentEffortRepository->add(
             SegmentEffortBuilder::fromDefaults()
-                ->withId(SegmentEffortId::fromUnprefixed('3'))
+                ->withSegmentEffortId(SegmentEffortId::fromUnprefixed('3'))
                 ->withSegmentId(SegmentId::fromUnprefixed('2'))
                 ->withActivityId(ActivityId::fromUnprefixed('9542782314'))
                 ->withData([

@@ -67,7 +67,7 @@ class ImportSegmentsCommandHandlerTest extends ContainerTestCase
         );
         $this->getContainer()->get(SegmentEffortRepository::class)->add(
             SegmentEffortBuilder::fromDefaults()
-                ->withId(SegmentEffortId::fromUnprefixed(2))
+                ->withSegmentEffortId(SegmentEffortId::fromUnprefixed(2))
                 ->withSegmentId(SegmentId::fromUnprefixed('1'))
                 ->withActivityId(ActivityId::fromUnprefixed(9542782314))
                 ->withData([
