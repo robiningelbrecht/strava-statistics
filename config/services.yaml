@@ -6,6 +6,7 @@
 parameters:
     env(UnitSystem): 'metric'
     env(ACTIVITY_TYPES_TO_IMPORT): '["Ride", "VirtualRide"]'
+    env(DATABASE_URL): "sqlite:///%kernel.project_dir%/storage/database/strava.db?charset=utf8mb4"
 
 services:
     # default configuration for services in *this* file
