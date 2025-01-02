@@ -16,6 +16,11 @@ trait MeasurementFromFloat
         return new self($value);
     }
 
+    public function isZeroOrLower(): bool
+    {
+        return $this->value <= 0;
+    }
+
     public static function zero(): self
     {
         return self::from(0);

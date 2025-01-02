@@ -235,7 +235,10 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                     DaytimeStatsChartsBuilder::fromDaytimeStats($dayTimeStats)->build(),
                 ),
                 'daytimeStats' => $dayTimeStats,
-                'distanceBreakdown' => DistanceBreakdown::fromActivities($activitiesPerSportType[SportType::RIDE->value]),
+                'distanceBreakdown' => DistanceBreakdown::create(
+                    activities: $activitiesPerSportType[SportType::RIDE->value],
+                    unitSystem: $this->unitSystem
+                ),
                 'trivia' => Trivia::fromActivities($allActivities),
                 'ftpHistoryChart' => !$allFtps->isEmpty() ? Json::encode(
                     FtpHistoryChartBuilder::fromFtps(

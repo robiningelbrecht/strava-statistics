@@ -5,20 +5,25 @@ declare(strict_types=1);
 namespace App\Domain\Strava\Activity;
 
 use App\Domain\Measurement\Length\Kilometer;
-use App\Domain\Measurement\Length\Meter;
-use App\Domain\Measurement\Velocity\KmPerHour;
+use App\Domain\Measurement\UnitSystem;
 use Carbon\CarbonInterval;
 
 final readonly class DistanceBreakdown
 {
     private function __construct(
         private Activities $activities,
+        private UnitSystem $unitSystem,
     ) {
     }
 
-    public static function fromActivities(Activities $activities): self
-    {
-        return new self($activities);
+    public static function create(
+        Activities $activities,
+        UnitSystem $unitSystem,
+    ): self {
+        return new self(
+            activities: $activities,
+            unitSystem: $unitSystem
+        );
     }
 
     /**
@@ -28,16 +33,16 @@ final readonly class DistanceBreakdown
     {
         $numberOfBreakdowns = 11;
         $statistics = [];
-        $longestDistanceForActivity = $this->activities->max(
+        $longestDistanceForActivity = Kilometer::from($this->activities->max(
             fn (Activity $activity) => $activity->getDistance()->toFloat()
-        );
+        ))->toUnitSystem($this->unitSystem);
 
-        $breakdownOnKm = ceil(($longestDistanceForActivity / $numberOfBreakdowns) / 5) * 5;
+        $breakdownOnDistance = ceil(($longestDistanceForActivity->toFloat() / $numberOfBreakdowns) / 5) * 5;
 
-        $range = range($breakdownOnKm, ceil($longestDistanceForActivity / $breakdownOnKm) * $breakdownOnKm, $breakdownOnKm);
+        $range = range($breakdownOnDistance, ceil($longestDistanceForActivity->toFloat() / $breakdownOnDistance) * $breakdownOnDistance, $breakdownOnDistance);
         foreach ($range as $breakdownLimit) {
             $statistics[$breakdownLimit] = [
-                'label' => sprintf('%d - %d km', $breakdownLimit - $breakdownOnKm, $breakdownLimit),
+                'label' => sprintf('%d - %d %s', $breakdownLimit - $breakdownOnDistance, $breakdownLimit, $longestDistanceForActivity->getSymbol()),
                 'numberOfWorkouts' => 0,
                 'totalDistance' => 0,
                 'totalElevation' => 0,
@@ -49,15 +54,16 @@ final readonly class DistanceBreakdown
 
         foreach ($this->activities as $activity) {
             /** @var Activity $activity */
-            $distance = $activity->getDistance()->toFloat();
-            if ($distance <= 0) {
+            $distance = $activity->getDistance()->toUnitSystem($this->unitSystem);
+            if ($distance->isZeroOrLower()) {
                 continue;
             }
-            $distanceBreakdown = ceil($activity->getDistance()->toFloat() / $breakdownOnKm) * $breakdownOnKm;
+            $elevation = $activity->getElevation()->toUnitSystem($this->unitSystem);
+            $distanceBreakdown = ceil($distance->toFloat() / $breakdownOnDistance) * $breakdownOnDistance;
 
             ++$statistics[$distanceBreakdown]['numberOfWorkouts'];
-            $statistics[$distanceBreakdown]['totalDistance'] += $activity->getDistance()->toFloat();
-            $statistics[$distanceBreakdown]['totalElevation'] += $activity->getElevation()->toFloat();
+            $statistics[$distanceBreakdown]['totalDistance'] += $distance->toFloat();
+            $statistics[$distanceBreakdown]['totalElevation'] += $elevation->toFloat();
             $statistics[$distanceBreakdown]['movingTime'] += $activity->getMovingTimeInSeconds();
             $statistics[$distanceBreakdown]['averageDistance'] = $statistics[$distanceBreakdown]['totalDistance'] / $statistics[$distanceBreakdown]['numberOfWorkouts'];
             if ($statistics[$distanceBreakdown]['movingTime'] > 0) {
@@ -67,10 +73,10 @@ final readonly class DistanceBreakdown
         }
 
         foreach ($statistics as $distanceBreakdown => $statistic) {
-            $statistics[$distanceBreakdown]['totalDistance'] = Kilometer::from($statistic['totalDistance']);
-            $statistics[$distanceBreakdown]['averageDistance'] = Kilometer::from($statistic['averageDistance']);
-            $statistics[$distanceBreakdown]['totalElevation'] = Meter::from($statistic['totalElevation']);
-            $statistics[$distanceBreakdown]['averageSpeed'] = KmPerHour::from($statistic['averageSpeed']);
+            $statistics[$distanceBreakdown]['totalDistance'] = $this->unitSystem->distance($statistic['totalDistance']);
+            $statistics[$distanceBreakdown]['averageDistance'] = $this->unitSystem->distance($statistic['averageDistance']);
+            $statistics[$distanceBreakdown]['totalElevation'] = $this->unitSystem->elevation($statistic['totalElevation']);
+            $statistics[$distanceBreakdown]['averageSpeed'] = $this->unitSystem->speed($statistic['averageSpeed']);
         }
 
         return $statistics;
