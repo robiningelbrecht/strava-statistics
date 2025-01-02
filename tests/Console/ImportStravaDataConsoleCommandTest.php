@@ -3,7 +3,6 @@
 namespace App\Tests\Console;
 
 use App\Console\ImportStravaDataConsoleCommand;
-use App\Domain\Strava\MaxStravaUsageHasBeenReached;
 use App\Infrastructure\CQRS\Bus\CommandBus;
 use App\Infrastructure\CQRS\Bus\DomainCommand;
 use App\Infrastructure\Doctrine\MigrationRunner;
@@ -21,23 +20,13 @@ class ImportStravaDataConsoleCommandTest extends ConsoleCommandTestCase
 
     private ImportStravaDataConsoleCommand $importStravaDataConsoleCommand;
     private MockObject $commandBus;
-    private MockObject $maxStravaUsageHasBeenReached;
     private MockObject $migrationRunner;
 
     public function testExecute(): void
     {
-        $this->maxStravaUsageHasBeenReached
-            ->expects($this->once())
-            ->method('clear');
-
         $this->migrationRunner
             ->expects($this->once())
             ->method('run');
-
-        $this->maxStravaUsageHasBeenReached
-            ->expects($this->once())
-            ->method('hasReached')
-            ->willReturn(false);
 
         $this->commandBus
             ->expects($this->any())
@@ -53,30 +42,19 @@ class ImportStravaDataConsoleCommandTest extends ConsoleCommandTestCase
 
     public function testExecuteWithMaxStravaUsageReached(): void
     {
-        $this->maxStravaUsageHasBeenReached
-            ->expects($this->never())
-            ->method('clear');
-
         $this->migrationRunner
             ->expects($this->once())
             ->method('run');
 
         $this->commandBus
-            ->expects($this->never())
+            ->expects($this->any())
             ->method('dispatch');
-
-        $this->maxStravaUsageHasBeenReached
-            ->expects($this->once())
-            ->method('hasReached')
-            ->willReturn(true);
 
         $command = $this->getCommandInApplication('app:strava:import-data');
         $commandTester = new CommandTester($command);
         $commandTester->execute([
             'command' => $command->getName(),
         ]);
-
-        $this->assertMatchesTextSnapshot($commandTester->getDisplay());
     }
 
     public function testExecuteWithInsufficientPermissions(): void
@@ -84,21 +62,12 @@ class ImportStravaDataConsoleCommandTest extends ConsoleCommandTestCase
         $this->importStravaDataConsoleCommand = new ImportStravaDataConsoleCommand(
             $this->commandBus = $this->createMock(CommandBus::class),
             new UnwritablePermissionChecker(),
-            $this->maxStravaUsageHasBeenReached = $this->createMock(MaxStravaUsageHasBeenReached::class),
             $this->migrationRunner = $this->createMock(MigrationRunner::class)
         );
-
-        $this->maxStravaUsageHasBeenReached
-            ->expects($this->never())
-            ->method('clear');
 
         $this->migrationRunner
             ->expects($this->never())
             ->method('run');
-
-        $this->maxStravaUsageHasBeenReached
-            ->expects($this->never())
-            ->method('hasReached');
 
         $this->commandBus
             ->expects($this->never())
@@ -121,7 +90,6 @@ class ImportStravaDataConsoleCommandTest extends ConsoleCommandTestCase
         $this->importStravaDataConsoleCommand = new ImportStravaDataConsoleCommand(
             $this->commandBus = $this->createMock(CommandBus::class),
             new SuccessfulPermissionChecker(),
-            $this->maxStravaUsageHasBeenReached = $this->createMock(MaxStravaUsageHasBeenReached::class),
             $this->migrationRunner = $this->createMock(MigrationRunner::class)
         );
     }

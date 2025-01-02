@@ -10,7 +10,6 @@ use App\Domain\Strava\Activity\ActivityRepository;
 use App\Domain\Strava\Activity\ActivityType;
 use App\Domain\Strava\Activity\ActivityTypesToImport;
 use App\Domain\Strava\Gear\GearId;
-use App\Domain\Strava\MaxStravaUsageHasBeenReached;
 use App\Domain\Strava\Strava;
 use App\Domain\Strava\StravaDataImportStatus;
 use App\Domain\Strava\StravaErrorStatusCode;
@@ -41,7 +40,6 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
         private KeyValueStore $keyValueStore,
         private FilesystemOperator $filesystem,
         private ActivityTypesToImport $activityTypesToImport,
-        private MaxStravaUsageHasBeenReached $maxStravaUsageHasBeenReached,
         private StravaDataImportStatus $stravaDataImportStatus,
         private UuidFactory $uuidFactory,
         private Sleep $sleep,
@@ -159,16 +157,16 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                     // Try to avoid Strava rate limits.
                     $this->sleep->sweetDreams(10);
                 } catch (ClientException|RequestException $exception) {
-                    if (!$exception->getResponse() || !StravaErrorStatusCode::tryFrom(
-                        $exception->getResponse()->getStatusCode()
-                    )) {
+                    $stravaErrorStatusCode = StravaErrorStatusCode::tryFrom(
+                        $exception->getResponse()?->getStatusCode() ?? ''
+                    );
+                    if (!$exception->getResponse() || !$stravaErrorStatusCode) {
                         // Re-throw, we only want to catch supported error codes.
                         throw $exception;
                     }
                     // This will allow initial imports with a lot of activities to proceed the next day.
                     // This occurs when we exceed Strava API rate limits or throws an unexpected error.
-                    $this->maxStravaUsageHasBeenReached->markAsReached();
-                    $command->getOutput()->writeln('<error>You probably reached Strava API rate limits. You will need to import the rest of your activities tomorrow</error>');
+                    $command->getOutput()->writeln(sprintf('<error>%s</error>', $stravaErrorStatusCode->getErrorMessage($exception)));
 
                     return;
                 }

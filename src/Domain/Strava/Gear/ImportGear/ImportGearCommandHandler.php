@@ -5,7 +5,6 @@ namespace App\Domain\Strava\Gear\ImportGear;
 use App\Domain\Strava\Activity\ActivityRepository;
 use App\Domain\Strava\Gear\Gear;
 use App\Domain\Strava\Gear\GearRepository;
-use App\Domain\Strava\MaxStravaUsageHasBeenReached;
 use App\Domain\Strava\Strava;
 use App\Domain\Strava\StravaDataImportStatus;
 use App\Domain\Strava\StravaErrorStatusCode;
@@ -23,7 +22,6 @@ final readonly class ImportGearCommandHandler implements CommandHandler
         private Strava $strava,
         private ActivityRepository $activityRepository,
         private GearRepository $gearRepository,
-        private MaxStravaUsageHasBeenReached $maxStravaUsageHasBeenReached,
         private StravaDataImportStatus $stravaDataImportStatus,
         private Clock $clock,
         private Sleep $sleep,
@@ -41,16 +39,16 @@ final readonly class ImportGearCommandHandler implements CommandHandler
             try {
                 $stravaGear = $this->strava->getGear($gearId);
             } catch (ClientException|RequestException $exception) {
-                if (!$exception->getResponse() || !StravaErrorStatusCode::tryFrom(
-                    $exception->getResponse()->getStatusCode()
-                )) {
+                $stravaErrorStatusCode = StravaErrorStatusCode::tryFrom(
+                    $exception->getResponse()?->getStatusCode() ?? ''
+                );
+                if (!$exception->getResponse() || !$stravaErrorStatusCode) {
                     // Re-throw, we only want to catch supported error codes.
                     throw $exception;
                 }
                 // This will allow initial imports with a lot of activities to proceed the next day.
                 // This occurs when we exceed Strava API rate limits or throws an unexpected error.
-                $this->maxStravaUsageHasBeenReached->markAsReached();
-                $command->getOutput()->writeln('<error>You probably reached Strava API rate limits. You will need to import the rest of your activities tomorrow</error>');
+                $command->getOutput()->writeln(sprintf('<error>%s</error>', $stravaErrorStatusCode->getErrorMessage($exception)));
 
                 return;
             }

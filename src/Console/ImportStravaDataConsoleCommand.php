@@ -9,7 +9,6 @@ use App\Domain\Strava\Athlete\Weight\ImportAthleteWeight\ImportAthleteWeight;
 use App\Domain\Strava\Challenge\ImportChallenges\ImportChallenges;
 use App\Domain\Strava\Ftp\ImportFtp\ImportFtp;
 use App\Domain\Strava\Gear\ImportGear\ImportGear;
-use App\Domain\Strava\MaxStravaUsageHasBeenReached;
 use App\Domain\Strava\Segment\ImportSegments\ImportSegments;
 use App\Infrastructure\CQRS\Bus\CommandBus;
 use App\Infrastructure\Doctrine\MigrationRunner;
@@ -27,7 +26,6 @@ final class ImportStravaDataConsoleCommand extends Command
     public function __construct(
         private readonly CommandBus $commandBus,
         private readonly PermissionChecker $fileSystemPermissionChecker,
-        private readonly MaxStravaUsageHasBeenReached $maxStravaUsageHasBeenReached,
         private readonly MigrationRunner $migrationRunner,
     ) {
         parent::__construct();
@@ -44,15 +42,6 @@ final class ImportStravaDataConsoleCommand extends Command
         }
 
         $this->migrationRunner->run();
-
-        if ($this->maxStravaUsageHasBeenReached->hasReached()) {
-            $output->writeln('<error>You probably reached Strava API rate limits. You will need to import the rest of your activities tomorrow</error>');
-
-            return Command::SUCCESS;
-        }
-
-        $this->fileSystemPermissionChecker->ensureWriteAccess();
-        $this->maxStravaUsageHasBeenReached->clear();
 
         $this->commandBus->dispatch(new ImportActivities($output));
         $this->commandBus->dispatch(new ImportActivityStreams($output));

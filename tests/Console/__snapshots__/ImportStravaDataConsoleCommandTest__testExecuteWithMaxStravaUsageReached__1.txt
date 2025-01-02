@@ -1,1 +1,0 @@
-You probably reached Strava API rate limits. You will need to import the rest of your activities tomorrow
