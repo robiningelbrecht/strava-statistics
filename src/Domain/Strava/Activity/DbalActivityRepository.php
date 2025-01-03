@@ -5,6 +5,7 @@ namespace App\Domain\Strava\Activity;
 use App\Domain\Nominatim\Location;
 use App\Domain\Strava\Gear\GearId;
 use App\Domain\Strava\Gear\GearIds;
+use App\Domain\Strava\SportType;
 use App\Infrastructure\Eventing\EventBus;
 use App\Infrastructure\Exception\EntityNotFound;
 use App\Infrastructure\Serialization\Json;
@@ -24,13 +25,13 @@ final class DbalActivityRepository implements ActivityRepository
 
     public function add(Activity $activity): void
     {
-        $sql = 'INSERT INTO Activity (activityId, startDateTime, activityType, data, weather, gearId, location)
-        VALUES (:activityId, :startDateTime, :activityType, :data, :weather, :gearId, :location)';
+        $sql = 'INSERT INTO Activity (activityId, startDateTime, sportType, data, weather, gearId, location)
+        VALUES (:activityId, :startDateTime, :sportType, :data, :weather, :gearId, :location)';
 
         $this->connection->executeStatement($sql, [
             'activityId' => $activity->getId(),
             'startDateTime' => $activity->getStartDate(),
-            'activityType' => $activity->getType()->value,
+            'sportType' => $activity->getSportType()->value,
             'data' => Json::encode($this->cleanData($activity->getData())),
             'weather' => Json::encode($activity->getAllWeatherData()),
             'gearId' => $activity->getGearId(),
@@ -143,7 +144,7 @@ final class DbalActivityRepository implements ActivityRepository
         ));
     }
 
-    public function findMostRiddenState(): ?string
+    public function findMostActiveState(): ?string
     {
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder->select("JSON_EXTRACT(location, '$.state') as state")
@@ -165,7 +166,7 @@ final class DbalActivityRepository implements ActivityRepository
         return Activity::fromState(
             activityId: ActivityId::fromString($result['activityId']),
             startDateTime: SerializableDateTime::fromString($result['startDateTime']),
-            activityType: ActivityType::from($result['activityType']),
+            sportType: SportType::from($result['sportType']),
             data: Json::decode($result['data']),
             location: $location ? Location::fromState($location) : null,
             weather: Json::decode($result['weather'] ?? '[]'),

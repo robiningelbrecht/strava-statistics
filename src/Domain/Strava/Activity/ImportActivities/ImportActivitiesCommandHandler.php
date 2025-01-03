@@ -7,9 +7,9 @@ use App\Domain\Nominatim\Nominatim;
 use App\Domain\Strava\Activity\Activity;
 use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\ActivityRepository;
-use App\Domain\Strava\Activity\ActivityType;
-use App\Domain\Strava\Activity\ActivityTypesToImport;
+use App\Domain\Strava\Activity\SportTypesToImport;
 use App\Domain\Strava\Gear\GearId;
+use App\Domain\Strava\SportType;
 use App\Domain\Strava\Strava;
 use App\Domain\Strava\StravaDataImportStatus;
 use App\Domain\Strava\StravaErrorStatusCode;
@@ -39,7 +39,7 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
         private ActivityRepository $activityRepository,
         private KeyValueStore $keyValueStore,
         private FilesystemOperator $filesystem,
-        private ActivityTypesToImport $activityTypesToImport,
+        private SportTypesToImport $sportTypesToImport,
         private StravaDataImportStatus $stravaDataImportStatus,
         private UuidFactory $uuidFactory,
         private Sleep $sleep,
@@ -65,10 +65,10 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
         );
 
         foreach ($this->strava->getActivities() as $stravaActivity) {
-            if (!$activityType = ActivityType::tryFrom($stravaActivity['type'])) {
+            if (!$sportType = SportType::tryFrom($stravaActivity['sport_type'])) {
                 continue;
             }
-            if (!$this->activityTypesToImport->has($activityType)) {
+            if (!$this->sportTypesToImport->has($sportType)) {
                 continue;
             }
 
@@ -82,7 +82,7 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                     ->updateKudoCount($stravaActivity['kudos_count'] ?? 0)
                     ->updateGearId(GearId::fromOptionalUnprefixed($stravaActivity['gear_id'] ?? null));
 
-                if (!$activity->getLocation() && $activityType->supportsReverseGeocoding()
+                if (!$activity->getLocation() && $sportType->supportsReverseGeocoding()
                     && $activity->getLatitude() && $activity->getLongitude()) {
                     $reverseGeocodedAddress = $this->nominatim->reverseGeocode(Coordinate::createFromLatAndLng(
                         latitude: $activity->getLatitude(),
@@ -106,7 +106,7 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                     $activity = Activity::create(
                         activityId: $activityId,
                         startDateTime: $startDate,
-                        activityType: $activityType,
+                        sportType: $sportType,
                         data: $this->strava->getActivity($activityId),
                         gearId: GearId::fromOptionalUnprefixed($stravaActivity['gear_id'] ?? null)
                     );
@@ -133,7 +133,7 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                         $activity->updateLocalImagePaths($localImagePaths);
                     }
 
-                    if ($activityType->supportsWeather() && $activity->getLatitude() && $activity->getLongitude()) {
+                    if ($sportType->supportsWeather() && $activity->getLatitude() && $activity->getLongitude()) {
                         $weather = $this->openMeteo->getWeatherStats(
                             $activity->getLatitude(),
                             $activity->getLongitude(),
@@ -142,7 +142,7 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                         $activity->updateWeather($weather);
                     }
 
-                    if ($activityType->supportsReverseGeocoding() && $activity->getLatitude() && $activity->getLongitude()) {
+                    if ($sportType->supportsReverseGeocoding() && $activity->getLatitude() && $activity->getLongitude()) {
                         $reverseGeocodedAddress = $this->nominatim->reverseGeocode(Coordinate::createFromLatAndLng(
                             latitude: $activity->getLatitude(),
                             longitude: $activity->getLongitude(),

@@ -5,7 +5,7 @@
     {% endif %}
     <a href="#" data-model-content-url="activity/{{ activity.getId() }}.html" class="{{ classes|join(' ') }}" rel="nofollow">
         {% if not hideIcon %}
-            {% if activity.getType().isVirtual() %}
+            {% if activity.getSportType().isVirtual() %}
                 {% if activity.isZwiftRide() %}
                     {{ renderSvg('zwift-logo') }}
                 {% elseif activity.isRouvyRide() %}
@@ -14,7 +14,7 @@
                     {{ renderSvg('indoor-bike') }}
                 {% endif %}
             {% else %}
-                {{ renderSvg(activity.getType().getSvgIcon()) }}
+                {{ renderSvg(activity.getSportType().getActivityType().getSvgIcon()) }}
             {% endif %}
         {% endif %}
         {% if ellipses %}

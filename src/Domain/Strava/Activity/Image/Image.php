@@ -7,24 +7,24 @@ use App\Domain\Strava\Activity\Activity;
 final readonly class Image
 {
     private function __construct(
-        private string $gitHubImageLocation,
+        private string $imageLocation,
         private Activity $activity,
     ) {
     }
 
     public static function create(
-        string $gitHubImageLocation,
+        string $imageLocation,
         Activity $activity,
     ): self {
         return new self(
-            gitHubImageLocation: $gitHubImageLocation,
+            imageLocation: $imageLocation,
             activity: $activity
         );
     }
 
-    public function getGitHubImageUrl(): string
+    public function getImageUrl(): string
     {
-        return $this->gitHubImageLocation;
+        return $this->imageLocation;
     }
 
     public function getActivity(): Activity

@@ -27,7 +27,7 @@ final readonly class ActivityBasedImageRepository implements ImageRepository
                 ...$images,
                 ...array_map(
                     fn (string $path) => Image::create(
-                        gitHubImageLocation: $path,
+                        imageLocation: $path,
                         activity: $activity
                     ),
                     $activity->getLocalImagePaths()

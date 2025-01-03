@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Domain\Strava\Segment;
 
 use App\Domain\Measurement\Length\Kilometer;
-use App\Domain\Strava\Activity\ActivityType;
 use App\Domain\Strava\Segment\SegmentEffort\SegmentEffort;
+use App\Domain\Strava\SportType;
 use App\Infrastructure\ValueObject\String\Name;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -16,6 +16,7 @@ final class Segment
     private ?SegmentEffort $bestEffort = null;
     private int $numberOfTimesRidden = 0;
     private ?string $deviceName = null;
+    private ?SportType $sportType = null;
 
     /**
      * @param array<mixed> $data
@@ -84,9 +85,14 @@ final class Segment
         return $this->data['maximum_grade'];
     }
 
-    public function getActivityType(): ActivityType
+    public function getSportType(): ?SportType
     {
-        return ActivityType::from($this->data['activity_type']);
+        return $this->sportType;
+    }
+
+    public function enrichWithSportType(SportType $sportType): void
+    {
+        $this->sportType = $sportType;
     }
 
     public function isZwiftSegment(): bool

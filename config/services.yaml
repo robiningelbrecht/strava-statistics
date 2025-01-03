@@ -5,7 +5,7 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     env(UnitSystem): 'metric'
-    env(ACTIVITY_TYPES_TO_IMPORT): '["Ride", "VirtualRide"]'
+    env(SPORT_TYPES_TO_IMPORT): '["Ride", "VirtualRide"]'
     env(DATABASE_URL): "sqlite:///%kernel.project_dir%/storage/database/strava.db?charset=utf8mb4"
 
 services:
@@ -79,9 +79,9 @@ services:
         factory: [ App\Domain\Strava\Athlete\Athlete, 'create' ]
         arguments: ['@athleteBirthDate']
 
-    App\Domain\Strava\Activity\ActivityTypesToImport:
-        factory: [ 'App\Domain\Strava\Activity\ActivityTypesToImport', from ]
-        arguments: [ '%env(json:ACTIVITY_TYPES_TO_IMPORT)%' ]
+    App\Domain\Strava\Activity\SportTypesToImport:
+        factory: [ 'App\Domain\Strava\Activity\SportTypesToImport', from ]
+        arguments: [ '%env(json:SPORT_TYPES_TO_IMPORT)%' ]
 
     App\Domain\Strava\Athlete\Weight\ImportAthleteWeight\AthleteWeightsFromEnvFile:
         factory: [ 'App\Domain\Strava\Athlete\Weight\ImportAthleteWeight\AthleteWeightsFromEnvFile', fromString ]

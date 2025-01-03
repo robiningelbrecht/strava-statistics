@@ -61,12 +61,12 @@ final class Activities extends Collection
 
     public function filterOnActivityType(ActivityType $activityType): Activities
     {
-        return $this->filter(fn (Activity $activity) => $activityType === $activity->getType());
+        return $this->filter(fn (Activity $activity) => $activityType === $activity->getSportType()->getActivityType());
     }
 
     public function filterOnSportType(SportType $sportType): Activities
     {
-        return $this->filter(fn (Activity $activity) => $sportType === $activity->getType()->getSportType());
+        return $this->filter(fn (Activity $activity) => $sportType === $activity->getSportType());
     }
 
     public function getByActivityId(ActivityId $activityId): Activity
@@ -94,13 +94,14 @@ final class Activities extends Collection
         return $years;
     }
 
-    public function getActivityTypes(): ActivityTypes
+    public function getSportTypes(): SportTypes
     {
-        $uniqueActivityTypes = [];
+        $uniqueSportTypes = [];
         foreach ($this as $activity) {
-            $uniqueActivityTypes[$activity->getType()->value] = $activity->getType();
+            $sportType = $activity->getSportType();
+            $uniqueSportTypes[$sportType->value] = $sportType;
         }
 
-        return ActivityTypes::fromArray(array_values($uniqueActivityTypes));
+        return SportTypes::fromArray(array_values($uniqueSportTypes));
     }
 }

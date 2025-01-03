@@ -20,5 +20,5 @@ interface ActivityRepository
 
     public function findUniqueGearIds(): GearIds;
 
-    public function findMostRiddenState(): ?string;
+    public function findMostActiveState(): ?string;
 }

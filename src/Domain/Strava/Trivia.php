@@ -4,6 +4,7 @@ namespace App\Domain\Strava;
 
 use App\Domain\Strava\Activity\Activities;
 use App\Domain\Strava\Activity\Activity;
+use App\Domain\Strava\Activity\ActivityType;
 use App\Infrastructure\ValueObject\Time\Dates;
 
 final readonly class Trivia
@@ -81,7 +82,7 @@ final readonly class Trivia
 
     public function getLongestRide(): ?Activity
     {
-        $bikeActivities = $this->activities->filterOnSportType(SportType::RIDE);
+        $bikeActivities = $this->activities->filterOnActivityType(ActivityType::RIDE);
 
         if (!$longestActivity = $bikeActivities->getFirst()) {
             return null;
@@ -98,7 +99,7 @@ final readonly class Trivia
 
     public function getFastestRide(): ?Activity
     {
-        $bikeActivities = $this->activities->filterOnSportType(SportType::RIDE);
+        $bikeActivities = $this->activities->filterOnActivityType(ActivityType::RIDE);
 
         if (!$fastestActivity = $bikeActivities->getFirst()) {
             return null;

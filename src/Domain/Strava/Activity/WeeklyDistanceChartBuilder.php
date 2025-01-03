@@ -17,7 +17,7 @@ final readonly class WeeklyDistanceChartBuilder
     ) {
     }
 
-    public static function fromActivities(
+    public static function create(
         Activities $activities,
         UnitSystem $unitSystem,
         SerializableDateTime $now,

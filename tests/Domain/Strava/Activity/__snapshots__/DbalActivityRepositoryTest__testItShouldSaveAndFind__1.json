@@ -2,7 +2,7 @@
     {
         "activityId": "activity-903645",
         "startDateTime": "2023-10-10 00:00:00",
-        "activityType": "Ride",
+        "sportType": "Ride",
         "data": "{\"kudos_count\":1,\"name\":\"Test activity\"}",
         "location": "null",
         "weather": "[]",
