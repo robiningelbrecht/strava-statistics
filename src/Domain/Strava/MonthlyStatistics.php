@@ -26,19 +26,6 @@ final readonly class MonthlyStatistics
         $this->statistics = $this->buildStatistics();
     }
 
-    /**
-     * @return ActivityType[]
-     */
-    public function getActivityTypes(): array
-    {
-        $uniqueActivityTypes = [];
-        foreach ($this->activities as $activity) {
-            $uniqueActivityTypes[$activity->getType()->value] = $activity->getType();
-        }
-
-        return array_values($uniqueActivityTypes);
-    }
-
     public static function fromActivitiesAndChallenges(
         Activities $activities,
         Challenges $challenges,

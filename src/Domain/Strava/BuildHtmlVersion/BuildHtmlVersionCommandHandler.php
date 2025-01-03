@@ -99,6 +99,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
         foreach (SportType::cases() as $sportType) {
             $activitiesPerSportType[$sportType->value] = $allActivities->filterOnSportType($sportType);
         }
+        $importedActivityTypes = $allActivities->getActivityTypes();
         $allChallenges = $this->challengeRepository->findAll();
         $allGear = $this->gearRepository->findAll();
         $allImages = $this->imageRepository->findAll();
@@ -297,6 +298,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
             'build/html/photos.html',
             $this->twig->load('html/photos.html.twig')->render([
                 'images' => $allImages,
+                'activityTypes' => $importedActivityTypes,
             ]),
         );
 
@@ -386,6 +388,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
             'build/html/monthly-stats.html',
             $this->twig->load('html/monthly-stats.html.twig')->render([
                 'monthlyStatistics' => $monthlyStatistics,
+                'activityTypes' => $importedActivityTypes,
             ]),
         );
 

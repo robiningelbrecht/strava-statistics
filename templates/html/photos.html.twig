@@ -14,7 +14,7 @@
         <!-- PHOTOS -->
         <div class="mb-4 border-b border-gray-200">
             <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="photoTypeTab" data-tabs-toggle="#photoTypeTabContent" role="tablist">
-                {% for activityType in enum('App\\Domain\\Strava\\Activity\\ActivityType').cases %}
+                {% for activityType in activityTypes %}
                     {% set imageCount =  images|filter(image => image.getActivity().getType() == activityType)|length %}
                     {% if imageCount > 0 %}
                         <li class="mr-2" role="presentation">
@@ -27,7 +27,7 @@
             </ul>
         </div>
         <div id="photoTypeTabContent">
-            {% for activityType in enum('App\\Domain\\Strava\\Activity\\ActivityType').cases %}
+            {% for activityType in activityTypes %}
                 <div class="gap-4 columns-2 md:columns-3 lg:columns-4" id="{{ activityType.value }}" role="tabpanel" aria-labelledby="{{ activityType.value }}-tab">
                     {% for image in images|filter(image => image.getActivity().getType() == activityType) %}
                         <div class="mb-4 break-inside-avoid-column bg-white border border-gray-200 rounded-lg shadow">

@@ -1,7 +1,6 @@
-<p align="center">
-    <img src="public/assets/images/strava.png"
-         alt="Strava">
-</p>
+<img src="public/assets/images/logo.png" alt="Strava" align="center">
+
+<h1 align="center">Strava Statistics</h1>
 
 <p align="center">
 <a href="https://github.com/robiningelbrecht/strava-statistics/actions/workflows/ci.yml"><img src="https://github.com/robiningelbrecht/strava-statistics/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
@@ -69,8 +68,9 @@ STRAVA_REFRESH_TOKEN=YOUR_REFRESH_TOKEN
 
 # Allowed options: metric or imperial
 UNIT_SYSTEM=metric
-# Activity types to import. Allowed options: "Ride", "VirtualRide" and "Run"
-ACTIVITY_TYPES_TO_IMPORT='["Ride", "VirtualRide"]'
+# Activity types to import. Leave empty to import all activity types
+# Allowed options: "Ride", "VirtualRide" and "Run"
+ACTIVITY_TYPES_TO_IMPORT='[]'
 # Your birthday. Needed to calculate heart rate zones.
 ATHLETE_BIRTHDAY=YYYY-MM-DD
 # History of weight (in kg or pounds, depending on UNIT_SYSTEM). Needed to calculate relative w/kg.

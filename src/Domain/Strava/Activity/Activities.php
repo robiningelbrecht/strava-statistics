@@ -93,4 +93,14 @@ final class Activities extends Collection
 
         return $years;
     }
+
+    public function getActivityTypes(): ActivityTypes
+    {
+        $uniqueActivityTypes = [];
+        foreach ($this as $activity) {
+            $uniqueActivityTypes[$activity->getType()->value] = $activity->getType();
+        }
+
+        return ActivityTypes::fromArray(array_values($uniqueActivityTypes));
+    }
 }
