@@ -14,7 +14,7 @@ final readonly class FtpHistoryChartBuilder
     ) {
     }
 
-    public static function fromFtps(
+    public static function create(
         Ftps $ftps,
         SerializableDateTime $now,
     ): self {

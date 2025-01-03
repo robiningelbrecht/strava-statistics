@@ -9,7 +9,6 @@ enum ActivityType: string
     case RIDE = 'Ride';
     case VIRTUAL_RIDE = 'VirtualRide';
     case RUN = 'Run';
-    case OTHER = 'Other';
 
     public function supportsWeather(): bool
     {
@@ -31,7 +30,6 @@ enum ActivityType: string
         return match ($this) {
             ActivityType::RIDE, ActivityType::VIRTUAL_RIDE => SportType::RIDE,
             ActivityType::RUN => SportType::RUN,
-            ActivityType::OTHER => SportType::OTHER,
         };
     }
 
@@ -40,7 +38,6 @@ enum ActivityType: string
         return match ($this) {
             ActivityType::RIDE => 'bike',
             ActivityType::RUN => 'run',
-            ActivityType::OTHER => 'question-mark',
             default => throw new \RuntimeException(sprintf('No icon found for activityType %s', $this->value)),
         };
     }
@@ -51,7 +48,6 @@ enum ActivityType: string
             ActivityType::RIDE => 'emerald-600',
             ActivityType::VIRTUAL_RIDE => 'orange-500',
             ActivityType::RUN => 'yellow-300',
-            ActivityType::OTHER => 'grey-500',
         };
     }
 }

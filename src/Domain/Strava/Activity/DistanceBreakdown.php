@@ -31,6 +31,10 @@ final readonly class DistanceBreakdown
      */
     public function getRows(): array
     {
+        if ($this->activities->isEmpty()) {
+            return [];
+        }
+
         $numberOfBreakdowns = 11;
         $statistics = [];
         $longestDistanceForActivity = Kilometer::from($this->activities->max(

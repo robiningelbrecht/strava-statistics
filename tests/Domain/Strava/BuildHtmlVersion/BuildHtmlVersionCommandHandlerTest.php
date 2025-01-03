@@ -38,6 +38,26 @@ class BuildHtmlVersionCommandHandlerTest extends ContainerTestCase
         $this->assertMatchesTextSnapshot($output);
     }
 
+    public function testHandleForRunningActivitiesOnly(): void
+    {
+        $this->provideRunningOnlyTestSet();
+
+        $output = new SpyOutput();
+        $this->commandBus->dispatch(new BuildHtmlVersion($output));
+
+        /** @var \App\Tests\Infrastructure\FileSystem\SpyFileSystem $fileSystem */
+        $fileSystem = $this->getContainer()->get(FilesystemOperator::class);
+        foreach ($fileSystem->getWrites() as $location => $content) {
+            $this->snapshotName = $location;
+            if (str_ends_with($location, '.json')) {
+                $this->assertMatchesJsonSnapshot($content);
+                continue;
+            }
+            $this->assertMatchesHtmlSnapshot($content);
+        }
+        $this->assertMatchesTextSnapshot($output);
+    }
+
     protected function getSnapshotId(): string
     {
         return new \ReflectionClass($this)->getShortName().'--'.

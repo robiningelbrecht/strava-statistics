@@ -8,7 +8,7 @@
 
 ## Description
 
-Fixes [ISSUE_NUMBER]
+Fixes ISSUE_NUMBER
 
 ## Checklist
 
