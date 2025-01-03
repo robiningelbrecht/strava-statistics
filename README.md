@@ -68,8 +68,9 @@ STRAVA_REFRESH_TOKEN=YOUR_REFRESH_TOKEN
 
 # Allowed options: metric or imperial
 UNIT_SYSTEM=metric
-# Activity types to import. Allowed options: "Ride", "VirtualRide" and "Run"
-ACTIVITY_TYPES_TO_IMPORT='["Ride", "VirtualRide"]'
+# Activity types to import. Leave empty to import all activity types
+# Allowed options: "Ride", "VirtualRide" and "Run"
+ACTIVITY_TYPES_TO_IMPORT='[]'
 # Your birthday. Needed to calculate heart rate zones.
 ATHLETE_BIRTHDAY=YYYY-MM-DD
 # History of weight (in kg or pounds, depending on UNIT_SYSTEM). Needed to calculate relative w/kg.
