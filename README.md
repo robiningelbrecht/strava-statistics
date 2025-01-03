@@ -1,4 +1,6 @@
-<img src="public/assets/images/logo.png" alt="Strava" align="center">
+<p align="center">
+  <img src="public/assets/images/logo.png" width="250" alt="Logo" >
+</p>
 
 <h1 align="center">Strava Statistics</h1>
 
