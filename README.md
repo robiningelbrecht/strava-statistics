@@ -61,9 +61,6 @@ services:
 ### .env
 
 ```bash
-# Leave this unchanged.
-DATABASE_URL="sqlite:///%kernel.project_dir%/storage/database/strava.db?charset=utf8mb4"
-
 # The client id of your Strava app.
 STRAVA_CLIENT_ID=YOUR_CLIENT_ID
 # The client secret of your Strava app.
