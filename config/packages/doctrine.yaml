@@ -32,6 +32,7 @@ when@test:
     dbal:
       # "TEST_TOKEN" is typically set by ParaTest
       dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+      url: 'sqlite:///%kernel.project_dir%/tests/strava.db?charset=utf8mb4'
 
 when@prod:
   doctrine:
