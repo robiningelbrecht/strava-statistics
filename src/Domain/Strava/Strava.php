@@ -6,17 +6,22 @@ use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\Stream\StreamType;
 use App\Domain\Strava\Challenge\ImportChallenges\ImportChallengesCommandHandler;
 use App\Domain\Strava\Gear\GearId;
+use App\Infrastructure\Logging\Monolog;
 use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\Time\Sleep;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use League\Flysystem\FilesystemOperator;
+use Monolog\Attribute\WithMonologChannel;
+use Psr\Log\LoggerInterface;
 
+#[WithMonologChannel('strava-app')]
 class Strava
 {
     /** @var array<mixed> */
     private static array $cachedAthlete = [];
+    private static ?string $cachedAccessToken = null;
 
     public function __construct(
         private readonly Client $client,
@@ -25,6 +30,7 @@ class Strava
         private readonly StravaRefreshToken $stravaRefreshToken,
         private readonly FilesystemOperator $filesystemOperator,
         private readonly Sleep $sleep,
+        private readonly LoggerInterface $logger,
     ) {
     }
 
@@ -41,11 +47,24 @@ class Strava
         ], $options);
         $response = $this->client->request($method, $path, $options);
 
+        $this->logger->info(new Monolog(
+            $method,
+            $path,
+            'x-ratelimit-limit: '.$response->getHeaderLine('x-ratelimit-limit'),
+            'x-ratelimit-usage: '.$response->getHeaderLine('x-ratelimit-usage'),
+            'x-readratelimit-limit: '.$response->getHeaderLine('x-readratelimit-limit'),
+            'x-readratelimit-usage: '.$response->getHeaderLine('x-readratelimit-usage'),
+        ));
+
         return $response->getBody()->getContents();
     }
 
     private function getAccessToken(): string
     {
+        if (!is_null(Strava::$cachedAccessToken)) {
+            return Strava::$cachedAccessToken;
+        }
+
         $response = $this->request('oauth/token', 'POST', [
             RequestOptions::FORM_PARAMS => [
                 'client_id' => (string) $this->stravaClientId,
@@ -55,7 +74,9 @@ class Strava
             ],
         ]);
 
-        return Json::decode($response)['access_token'] ?? throw new \RuntimeException('Could not fetch Strava accessToken');
+        Strava::$cachedAccessToken = Json::decode($response)['access_token'] ?? throw new \RuntimeException('Could not fetch Strava accessToken');
+
+        return Strava::$cachedAccessToken;
     }
 
     /**

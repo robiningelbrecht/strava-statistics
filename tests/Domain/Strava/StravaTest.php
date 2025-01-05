@@ -16,6 +16,7 @@ use GuzzleHttp\Psr7\Response;
 use League\Flysystem\FilesystemOperator;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 use Spatie\Snapshots\MatchesSnapshots;
 
 class StravaTest extends TestCase
@@ -29,6 +30,7 @@ class StravaTest extends TestCase
     private StravaClientSecret $stravaClientSecret;
     private StravaRefreshToken $stravaRefreshToken;
     private MockObject $filesystemOperator;
+    private LoggerInterface $logger;
 
     public function testGetAthlete(): void
     {
@@ -52,6 +54,10 @@ class StravaTest extends TestCase
                 return new Response(200, [], Json::encode(['weight' => 68, 'id' => 10]));
             });
 
+        $this->logger
+            ->expects($this->exactly(2))
+            ->method('info');
+
         $this->strava->getAthlete();
         // Test static cache.
         $this->strava->getAthlete();
@@ -59,19 +65,10 @@ class StravaTest extends TestCase
 
     public function testGetActivities(): void
     {
-        $matcher = $this->exactly(2);
         $this->client
-            ->expects($matcher)
+            ->expects($this->once())
             ->method('request')
-            ->willReturnCallback(function (string $method, string $path, array $options) use ($matcher) {
-                if (1 === $matcher->numberOfInvocations()) {
-                    $this->assertEquals('POST', $method);
-                    $this->assertEquals('oauth/token', $path);
-                    $this->assertMatchesJsonSnapshot($options);
-
-                    return new Response(200, [], Json::encode(['access_token' => 'theAccessToken']));
-                }
-
+            ->willReturnCallback(function (string $method, string $path, array $options) {
                 $this->assertEquals('GET', $method);
                 $this->assertEquals('api/v3/athlete/activities', $path);
                 $this->assertMatchesJsonSnapshot($options);
@@ -79,24 +76,19 @@ class StravaTest extends TestCase
                 return new Response(200, [], Json::encode([]));
             });
 
+        $this->logger
+            ->expects($this->once())
+            ->method('info');
+
         $this->strava->getActivities();
     }
 
     public function testGetActivity(): void
     {
-        $matcher = $this->exactly(2);
         $this->client
-            ->expects($matcher)
+            ->expects($this->once())
             ->method('request')
-            ->willReturnCallback(function (string $method, string $path, array $options) use ($matcher) {
-                if (1 === $matcher->numberOfInvocations()) {
-                    $this->assertEquals('POST', $method);
-                    $this->assertEquals('oauth/token', $path);
-                    $this->assertMatchesJsonSnapshot($options);
-
-                    return new Response(200, [], Json::encode(['access_token' => 'theAccessToken']));
-                }
-
+            ->willReturnCallback(function (string $method, string $path, array $options) {
                 $this->assertEquals('GET', $method);
                 $this->assertEquals('api/v3/activities/3', $path);
                 $this->assertMatchesJsonSnapshot($options);
@@ -104,24 +96,19 @@ class StravaTest extends TestCase
                 return new Response(200, [], Json::encode([]));
             });
 
+        $this->logger
+            ->expects($this->once())
+            ->method('info');
+
         $this->strava->getActivity(ActivityId::fromUnprefixed(3));
     }
 
     public function testGetActivityZones(): void
     {
-        $matcher = $this->exactly(2);
         $this->client
-            ->expects($matcher)
+            ->expects($this->once())
             ->method('request')
-            ->willReturnCallback(function (string $method, string $path, array $options) use ($matcher) {
-                if (1 === $matcher->numberOfInvocations()) {
-                    $this->assertEquals('POST', $method);
-                    $this->assertEquals('oauth/token', $path);
-                    $this->assertMatchesJsonSnapshot($options);
-
-                    return new Response(200, [], Json::encode(['access_token' => 'theAccessToken']));
-                }
-
+            ->willReturnCallback(function (string $method, string $path, array $options) {
                 $this->assertEquals('GET', $method);
                 $this->assertEquals('api/v3/activities/3/zones', $path);
                 $this->assertMatchesJsonSnapshot($options);
@@ -129,24 +116,19 @@ class StravaTest extends TestCase
                 return new Response(200, [], Json::encode([]));
             });
 
+        $this->logger
+            ->expects($this->once())
+            ->method('info');
+
         $this->strava->getActivityZones(ActivityId::fromUnprefixed(3));
     }
 
     public function testGetAllActivityStreams(): void
     {
-        $matcher = $this->exactly(2);
         $this->client
-            ->expects($matcher)
+            ->expects($this->once())
             ->method('request')
-            ->willReturnCallback(function (string $method, string $path, array $options) use ($matcher) {
-                if (1 === $matcher->numberOfInvocations()) {
-                    $this->assertEquals('POST', $method);
-                    $this->assertEquals('oauth/token', $path);
-                    $this->assertMatchesJsonSnapshot($options);
-
-                    return new Response(200, [], Json::encode(['access_token' => 'theAccessToken']));
-                }
-
+            ->willReturnCallback(function (string $method, string $path, array $options) {
                 $this->assertEquals('GET', $method);
                 $this->assertEquals('api/v3/activities/3/streams', $path);
                 $this->assertMatchesJsonSnapshot($options);
@@ -154,24 +136,19 @@ class StravaTest extends TestCase
                 return new Response(200, [], Json::encode([]));
             });
 
+        $this->logger
+            ->expects($this->once())
+            ->method('info');
+
         $this->strava->getAllActivityStreams(ActivityId::fromUnprefixed(3));
     }
 
     public function testGetAllActivityPhotos(): void
     {
-        $matcher = $this->exactly(2);
         $this->client
-            ->expects($matcher)
+            ->expects($this->once())
             ->method('request')
-            ->willReturnCallback(function (string $method, string $path, array $options) use ($matcher) {
-                if (1 === $matcher->numberOfInvocations()) {
-                    $this->assertEquals('POST', $method);
-                    $this->assertEquals('oauth/token', $path);
-                    $this->assertMatchesJsonSnapshot($options);
-
-                    return new Response(200, [], Json::encode(['access_token' => 'theAccessToken']));
-                }
-
+            ->willReturnCallback(function (string $method, string $path, array $options) {
                 $this->assertEquals('GET', $method);
                 $this->assertEquals('api/v3/activities/3/photos', $path);
                 $this->assertMatchesJsonSnapshot($options);
@@ -179,30 +156,29 @@ class StravaTest extends TestCase
                 return new Response(200, [], Json::encode([]));
             });
 
+        $this->logger
+            ->expects($this->once())
+            ->method('info');
+
         $this->strava->getActivityPhotos(ActivityId::fromUnprefixed(3));
     }
 
     public function testGetGear(): void
     {
-        $matcher = $this->exactly(2);
         $this->client
-            ->expects($matcher)
+            ->expects($this->once())
             ->method('request')
-            ->willReturnCallback(function (string $method, string $path, array $options) use ($matcher) {
-                if (1 === $matcher->numberOfInvocations()) {
-                    $this->assertEquals('POST', $method);
-                    $this->assertEquals('oauth/token', $path);
-                    $this->assertMatchesJsonSnapshot($options);
-
-                    return new Response(200, [], Json::encode(['access_token' => 'theAccessToken']));
-                }
-
+            ->willReturnCallback(function (string $method, string $path, array $options) {
                 $this->assertEquals('GET', $method);
                 $this->assertEquals('api/v3/gear/3', $path);
                 $this->assertMatchesJsonSnapshot($options);
 
                 return new Response(200, [], Json::encode([]));
             });
+
+        $this->logger
+            ->expects($this->once())
+            ->method('info');
 
         $this->strava->getGear(GearId::fromUnprefixed(3));
     }
@@ -219,6 +195,10 @@ class StravaTest extends TestCase
                 return new Response(200, [], file_get_contents(__DIR__.'/public-profile.html'));
             });
 
+        $this->logger
+            ->expects($this->once())
+            ->method('info');
+
         $challenges = $this->strava->getChallengesOnPublicProfile();
         $this->assertMatchesJsonSnapshot($challenges);
     }
@@ -234,6 +214,10 @@ class StravaTest extends TestCase
 
                 return new Response(200, [], '');
             });
+
+        $this->logger
+            ->expects($this->once())
+            ->method('info');
 
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenges on public profile'));
 
@@ -252,6 +236,10 @@ class StravaTest extends TestCase
                 return new Response(200, [], file_get_contents(__DIR__.'/public-profile-without-name.html'));
             });
 
+        $this->logger
+            ->expects($this->once())
+            ->method('info');
+
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenge name'));
 
         $this->strava->getChallengesOnPublicProfile();
@@ -268,6 +256,10 @@ class StravaTest extends TestCase
 
                 return new Response(200, [], file_get_contents(__DIR__.'/public-profile-without-teaser.html'));
             });
+
+        $this->logger
+            ->expects($this->once())
+            ->method('info');
 
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenge teaser'));
 
@@ -286,6 +278,10 @@ class StravaTest extends TestCase
                 return new Response(200, [], file_get_contents(__DIR__.'/public-profile-without-logo.html'));
             });
 
+        $this->logger
+            ->expects($this->once())
+            ->method('info');
+
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenge logoUrl'));
 
         $this->strava->getChallengesOnPublicProfile();
@@ -302,6 +298,10 @@ class StravaTest extends TestCase
 
                 return new Response(200, [], file_get_contents(__DIR__.'/public-profile-without-url.html'));
             });
+
+        $this->logger
+            ->expects($this->once())
+            ->method('info');
 
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenge url'));
 
@@ -320,6 +320,10 @@ class StravaTest extends TestCase
                 return new Response(200, [], file_get_contents(__DIR__.'/public-profile-without-id.html'));
             });
 
+        $this->logger
+            ->expects($this->once())
+            ->method('info');
+
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenge challengeId'));
 
         $this->strava->getChallengesOnPublicProfile();
@@ -337,6 +341,10 @@ class StravaTest extends TestCase
                 return new Response(200, [], file_get_contents(__DIR__.'/public-profile-without-time.html'));
             });
 
+        $this->logger
+            ->expects($this->once())
+            ->method('info');
+
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenge timestamp'));
 
         $this->strava->getChallengesOnPublicProfile();
@@ -353,6 +361,10 @@ class StravaTest extends TestCase
 
                 return new Response(200, [], file_get_contents(__DIR__.'/public-profile-with-empty-time.html'));
             });
+
+        $this->logger
+            ->expects($this->once())
+            ->method('info');
 
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenge timestamp'));
 
@@ -372,6 +384,10 @@ class StravaTest extends TestCase
             ->with('storage/files/strava-challenge-history.html')
             ->willReturn(file_get_contents(__DIR__.'/trophy-case.html'));
 
+        $this->logger
+            ->expects($this->never())
+            ->method('info');
+
         $challenges = $this->strava->getChallengesOnTrophyCase();
         $this->assertMatchesJsonSnapshot($challenges);
     }
@@ -386,6 +402,10 @@ class StravaTest extends TestCase
         $this->filesystemOperator
             ->expects($this->never())
             ->method('read');
+
+        $this->logger
+            ->expects($this->never())
+            ->method('info');
 
         $challenges = $this->strava->getChallengesOnTrophyCase();
         $this->assertEmpty($challenges);
@@ -404,6 +424,10 @@ class StravaTest extends TestCase
             ->with('storage/files/strava-challenge-history.html')
             ->willReturn(ImportChallengesCommandHandler::DEFAULT_STRAVA_CHALLENGE_HISTORY);
 
+        $this->logger
+            ->expects($this->never())
+            ->method('info');
+
         $challenges = $this->strava->getChallengesOnTrophyCase();
         $this->assertEmpty($challenges);
     }
@@ -420,6 +444,10 @@ class StravaTest extends TestCase
             ->method('read')
             ->with('storage/files/strava-challenge-history.html')
             ->willReturn('');
+
+        $this->logger
+            ->expects($this->never())
+            ->method('info');
 
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenges from trophy case'));
 
@@ -439,6 +467,10 @@ class StravaTest extends TestCase
             ->with('storage/files/strava-challenge-history.html')
             ->willReturn("<ul class='list-block-grid list-trophies'>YEAHBABY</ul>");
 
+        $this->logger
+            ->expects($this->never())
+            ->method('info');
+
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenges from trophy case'));
 
         $this->strava->getChallengesOnTrophyCase();
@@ -456,6 +488,10 @@ class StravaTest extends TestCase
             ->method('read')
             ->with('storage/files/strava-challenge-history.html')
             ->willReturn(file_get_contents(__DIR__.'/trophy-case-without-name.html'));
+
+        $this->logger
+            ->expects($this->never())
+            ->method('info');
 
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenge name'));
 
@@ -475,6 +511,10 @@ class StravaTest extends TestCase
             ->with('storage/files/strava-challenge-history.html')
             ->willReturn(file_get_contents(__DIR__.'/trophy-case-without-teaser.html'));
 
+        $this->logger
+            ->expects($this->never())
+            ->method('info');
+
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenge teaser'));
 
         $this->strava->getChallengesOnTrophyCase();
@@ -492,6 +532,10 @@ class StravaTest extends TestCase
             ->method('read')
             ->with('storage/files/strava-challenge-history.html')
             ->willReturn(file_get_contents(__DIR__.'/trophy-case-without-logo.html'));
+
+        $this->logger
+            ->expects($this->never())
+            ->method('info');
 
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenge logoUrl'));
 
@@ -511,6 +555,10 @@ class StravaTest extends TestCase
             ->with('storage/files/strava-challenge-history.html')
             ->willReturn(file_get_contents(__DIR__.'/trophy-case-without-url.html'));
 
+        $this->logger
+            ->expects($this->never())
+            ->method('info');
+
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenge url'));
 
         $this->strava->getChallengesOnTrophyCase();
@@ -528,6 +576,10 @@ class StravaTest extends TestCase
             ->method('read')
             ->with('storage/files/strava-challenge-history.html')
             ->willReturn(file_get_contents(__DIR__.'/trophy-case-without-id.html'));
+
+        $this->logger
+            ->expects($this->never())
+            ->method('info');
 
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenge challengeId'));
 
@@ -547,6 +599,10 @@ class StravaTest extends TestCase
             ->with('storage/files/strava-challenge-history.html')
             ->willReturn(file_get_contents(__DIR__.'/trophy-case-without-timestamp.html'));
 
+        $this->logger
+            ->expects($this->never())
+            ->method('info');
+
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenge timestamp'));
 
         $this->strava->getChallengesOnTrophyCase();
@@ -565,6 +621,10 @@ class StravaTest extends TestCase
             ->with('storage/files/strava-challenge-history.html')
             ->willReturn(file_get_contents(__DIR__.'/trophy-case-with-empty-timestamp.html'));
 
+        $this->logger
+            ->expects($this->never())
+            ->method('info');
+
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenge timestamp'));
 
         $this->strava->getChallengesOnTrophyCase();
@@ -582,6 +642,10 @@ class StravaTest extends TestCase
                 return new Response(200, [], '');
             });
 
+        $this->logger
+            ->expects($this->never())
+            ->method('info');
+
         $this->strava->downloadImage('uri');
     }
 
@@ -594,6 +658,7 @@ class StravaTest extends TestCase
         $this->stravaClientSecret = StravaClientSecret::fromString('clientSecret');
         $this->stravaRefreshToken = StravaRefreshToken::fromString('refreshToken');
         $this->filesystemOperator = $this->createMock(FilesystemOperator::class);
+        $this->logger = $this->createMock(LoggerInterface::class);
 
         $this->strava = new Strava(
             client: $this->client,
@@ -601,7 +666,8 @@ class StravaTest extends TestCase
             stravaClientSecret: $this->stravaClientSecret,
             stravaRefreshToken: $this->stravaRefreshToken,
             filesystemOperator: $this->filesystemOperator,
-            sleep: new NullSleep()
+            sleep: new NullSleep(),
+            logger: $this->logger
         );
     }
 }
