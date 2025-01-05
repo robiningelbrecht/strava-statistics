@@ -7,7 +7,6 @@ use App\Domain\Strava\Activity\Stream\ActivityStream;
 use App\Domain\Strava\Activity\Stream\ActivityStreamRepository;
 use App\Domain\Strava\Activity\Stream\StreamType;
 use App\Domain\Strava\Strava;
-use App\Domain\Strava\StravaErrorStatusCode;
 use App\Infrastructure\CQRS\Bus\Command;
 use App\Infrastructure\CQRS\Bus\CommandHandler;
 use App\Infrastructure\Time\Sleep;
@@ -34,31 +33,31 @@ final readonly class ImportActivityStreamsCommandHandler implements CommandHandl
                 // Streams for this activity have been imported already, skip.
                 continue;
             }
-            $stravaStreams = [];
+
             try {
                 $stravaStreams = $this->strava->getAllActivityStreams($activityId);
             } catch (ClientException|RequestException $exception) {
-                if (!$exception->getResponse() || !in_array($exception->getResponse()->getStatusCode(), [404, ...array_map(
-                    fn (StravaErrorStatusCode $errorStatusCode) => $errorStatusCode->value,
-                    StravaErrorStatusCode::cases(),
-                )])) {
+                if (!$exception->getResponse()) {
                     // Re-throw, we only want to catch supported error codes.
                     throw $exception;
                 }
 
-                $stravaErrorStatusCode = StravaErrorStatusCode::tryFrom(
-                    $exception->getResponse()->getStatusCode()
-                );
-                if ($stravaErrorStatusCode) {
+                if (404 === $exception->getResponse()->getStatusCode()) {
+                    // Try to avoid Strava rate limits.
+                    $this->sleep->sweetDreams(10);
+                    // Skip.
+                    continue;
+                }
+
+                if (429 === $exception->getResponse()->getStatusCode()) {
                     // This will allow initial imports with a lot of activities to proceed the next day.
                     // This occurs when we exceed Strava API rate limits or throws an unexpected error.
-                    $command->getOutput()->writeln(sprintf('<error>%s</error>', $stravaErrorStatusCode->getErrorMessage($exception)));
+                    $command->getOutput()->writeln('<error>You probably reached Strava API rate limits. You will need to import the rest of your activities tomorrow</error>');
                     break;
                 }
 
-                if (404 === $exception->getResponse()->getStatusCode()) {
-                    continue;
-                }
+                $command->getOutput()->writeln(sprintf('<error>Strava API threw error: %s</error>', $exception->getMessage()));
+                break;
             }
 
             $stravaStreams = array_filter(

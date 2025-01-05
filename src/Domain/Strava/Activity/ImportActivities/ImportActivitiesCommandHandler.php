@@ -12,7 +12,6 @@ use App\Domain\Strava\Activity\ActivityTypesToImport;
 use App\Domain\Strava\Gear\GearId;
 use App\Domain\Strava\Strava;
 use App\Domain\Strava\StravaDataImportStatus;
-use App\Domain\Strava\StravaErrorStatusCode;
 use App\Domain\Weather\OpenMeteo\OpenMeteo;
 use App\Infrastructure\CQRS\Bus\Command;
 use App\Infrastructure\CQRS\Bus\CommandHandler;
@@ -157,16 +156,20 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                     // Try to avoid Strava rate limits.
                     $this->sleep->sweetDreams(10);
                 } catch (ClientException|RequestException $exception) {
-                    $stravaErrorStatusCode = StravaErrorStatusCode::tryFrom(
-                        $exception->getResponse()?->getStatusCode() ?? ''
-                    );
-                    if (!$exception->getResponse() || !$stravaErrorStatusCode) {
+                    if (!$exception->getResponse()) {
                         // Re-throw, we only want to catch supported error codes.
                         throw $exception;
                     }
-                    // This will allow initial imports with a lot of activities to proceed the next day.
-                    // This occurs when we exceed Strava API rate limits or throws an unexpected error.
-                    $command->getOutput()->writeln(sprintf('<error>%s</error>', $stravaErrorStatusCode->getErrorMessage($exception)));
+
+                    if (429 === $exception->getResponse()->getStatusCode()) {
+                        // This will allow initial imports with a lot of activities to proceed the next day.
+                        // This occurs when we exceed Strava API rate limits or throws an unexpected error.
+                        $command->getOutput()->writeln('<error>You probably reached Strava API rate limits. You will need to import the rest of your activities tomorrow</error>');
+
+                        return;
+                    }
+
+                    $command->getOutput()->writeln(sprintf('<error>Strava API threw error: %s</error>', $exception->getMessage()));
 
                     return;
                 }
