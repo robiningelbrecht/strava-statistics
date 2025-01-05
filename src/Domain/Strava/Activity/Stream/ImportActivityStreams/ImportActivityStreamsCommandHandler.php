@@ -34,19 +34,15 @@ final readonly class ImportActivityStreamsCommandHandler implements CommandHandl
                 continue;
             }
 
+            $stravaStreams = [];
             try {
                 $stravaStreams = $this->strava->getAllActivityStreams($activityId);
+                // Try to avoid Strava rate limits.
+                $this->sleep->sweetDreams(10);
             } catch (ClientException|RequestException $exception) {
                 if (!$exception->getResponse()) {
                     // Re-throw, we only want to catch supported error codes.
                     throw $exception;
-                }
-
-                if (404 === $exception->getResponse()->getStatusCode()) {
-                    // Try to avoid Strava rate limits.
-                    $this->sleep->sweetDreams(10);
-                    // Skip.
-                    continue;
                 }
 
                 if (429 === $exception->getResponse()->getStatusCode()) {
@@ -56,8 +52,10 @@ final readonly class ImportActivityStreamsCommandHandler implements CommandHandl
                     break;
                 }
 
-                $command->getOutput()->writeln(sprintf('<error>Strava API threw error: %s</error>', $exception->getMessage()));
-                break;
+                if (404 !== $exception->getResponse()->getStatusCode()) {
+                    $command->getOutput()->writeln(sprintf('<error>Strava API threw error: %s</error>', $exception->getMessage()));
+                    break;
+                }
             }
 
             $stravaStreams = array_filter(
@@ -88,9 +86,6 @@ final readonly class ImportActivityStreamsCommandHandler implements CommandHandl
                 $this->activityStreamRepository->add($stream);
                 $command->getOutput()->writeln(sprintf('  => Imported activity stream "%s"', $stream->getName()));
             }
-
-            // Try to avoid Strava rate limits.
-            $this->sleep->sweetDreams(10);
         }
     }
 }
