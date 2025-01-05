@@ -129,7 +129,7 @@ Read [the wiki](https://github.com/robiningelbrecht/strava-statistics/wiki) befo
 
 ## 💡 Feature request?
 
-For any feedback, help or feature requests, please [open a new issue](https://github.com/robiningelbrecht/strava-statictics/issues/new)
+For any feedback, help or feature requests, please [open a new issue](https://github.com/robiningelbrecht/strava-statistics/issues/new/choose)
 
 ## 💻 Local development
 
