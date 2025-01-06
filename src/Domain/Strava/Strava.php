@@ -45,6 +45,12 @@ class Strava
         $options = array_merge([
             'base_uri' => 'https://www.strava.com/',
         ], $options);
+
+        if ('GET' === $method) {
+            // Try to avoid Strava rate limits.
+            $this->sleep->sweetDreams(10);
+        }
+
         $response = $this->client->request($method, $path, $options);
 
         $this->logger->info(new Monolog(
@@ -55,11 +61,6 @@ class Strava
             'x-readratelimit-limit: '.$response->getHeaderLine('x-readratelimit-limit'),
             'x-readratelimit-usage: '.$response->getHeaderLine('x-readratelimit-usage'),
         ));
-
-        if ('GET' === $method) {
-            // Try to avoid Strava rate limits.
-            $this->sleep->sweetDreams(10);
-        }
 
         return $response->getBody()->getContents();
     }
