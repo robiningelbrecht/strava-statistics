@@ -217,8 +217,8 @@
                 </a>
             </div>
             <div class="flex justify-center gap-x-1 text-xs text-center text-gray-500">
-                <span>v0.2.12</span>
-                <span class="hidden" data-latest-version data-current-version="v0.2.12">
+                <span>v0.2.13</span>
+                <span class="hidden" data-latest-version data-current-version="v0.2.13">
                     (latest: <a class="underline" href="https://github.com/robiningelbrecht/strava-statistics/releases/tag/%5BLATEST_VERSION%5D">[LATEST_VERSION]</a>)
                 </span>
             </div>
@@ -239,7 +239,7 @@
         </div>
         <!-- JS LOADED CONTENT -->
         <div id="js-loaded-content"></div>
-        <div id="modal-skeleton" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-[61] justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div id="modal-skeleton" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-[1500] justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
             <div class="relative p-4 w-full max-w-7xl max-h-full">
                 <!-- Modal spinner -->
                 <div class="spinner hidden p-4 items-center justify-center h-auto bg-white rounded-lg shadow">
@@ -429,7 +429,7 @@
                 modal = new Modal(modalSkeletonNode, {
                     placement: 'bottom',
                     closable: true,
-                    backdropClasses: 'bg-gray-900 bg-opacity-50 fixed inset-0 z-[60]',
+                    backdropClasses: 'bg-gray-900 bg-opacity-50 fixed inset-0 z-[1400]',
                     onShow: async () => {
                         const response = await fetch(node.getAttribute('data-model-content-url'));
                         // Remove loading state.
