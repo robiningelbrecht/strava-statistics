@@ -97,6 +97,11 @@
                     </div>
                 </div>
                 <div class="grid grid-cols-7 gap-px leading-6 text-xs w-full bg-gray-200 border">
+                    {#
+                    class="bg-emerald-600/[.1] border-l-emerald-600"
+                    class="bg-orange-500/[.1] border-l-orange-500"
+                    class="bg-yellow-300/[.1] border-l-yellow-300"
+                    #}
                     {% for day in calendar.getDays() %}
                         <div class="py-2 px-3 {{ day.isCurrentMonth ? 'bg-white' : 'bg-gray-100' }}">
                             <div class="text-right text-gray-400">
