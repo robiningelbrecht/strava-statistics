@@ -1147,12 +1147,12 @@ input:checked + .toggle-bg {
   z-index: 1100;
 }
 
-.z-\[60\] {
-  z-index: 60;
+.z-\[1400\] {
+  z-index: 1400;
 }
 
-.z-\[61\] {
-  z-index: 61;
+.z-\[1500\] {
+  z-index: 1500;
 }
 
 .col-span-2 {
