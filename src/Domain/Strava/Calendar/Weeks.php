@@ -21,21 +21,14 @@ final class Weeks extends Collection
         SerializableDateTime $startDate,
         SerializableDateTime $now,
     ): self {
-        $period = new \DatePeriod(
-            $startDate,
-            new \DateInterval('P1W'),
-            $now
-        );
-
         $weeks = [];
-        foreach ($period as $date) {
-            $date = SerializableDateTime::fromDateTimeImmutable($date);
-            $week = Week::fromYearAndWeekNumber(
-                year: $date->getYearAndWeekNumber()[0],
-                weekNumber: $date->getYearAndWeekNumber()[1]
-            );
-
-            $weeks[$week->getId()] = $week;
+        for ($year = $startDate->getYear(); $year <= $now->getYear(); ++$year) {
+            $weekNumberStart = $year === $startDate->getYear() ? $startDate->getWeekNumber() : 1;
+            $weekNumberStop = $year === $now->getYear() ? $now->getWeekNumber() : 52;
+            for ($weekNumber = $weekNumberStart; $weekNumber <= $weekNumberStop; ++$weekNumber) {
+                $week = Week::fromYearAndWeekNumber($year, $weekNumber);
+                $weeks[$week->getId()] = $week;
+            }
         }
 
         return Weeks::fromArray(array_values($weeks));
