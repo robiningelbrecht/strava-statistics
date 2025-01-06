@@ -49,8 +49,11 @@ app-import-data:
 app-build-files:
 	docker compose exec app bin/console app:strava:build-files
 
+app-build-flowbite:
+	npx tailwindcss -i public/assets/flowbite/tailwind.css -o public/assets/flowbite/tailwind.min.css
+
 app-build-all:
 	@make build-containers
 	@make app-build-files
-	npx tailwindcss -i public/assets/flowbite/tailwind.css -o public/assets/flowbite/tailwind.min.css --minify
+	@make app-build-flowbite
 	@make build-containers
