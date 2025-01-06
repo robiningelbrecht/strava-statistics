@@ -50,6 +50,10 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
         /** @var \App\Tests\Infrastructure\FileSystem\SpyFileSystem $fileSystem */
         $fileSystem = $this->getContainer()->get(FilesystemOperator::class);
         $this->assertMatchesJsonSnapshot($fileSystem->getWrites());
+
+        $this->assertMatchesJsonSnapshot(
+            $this->getConnection()->executeQuery('SELECT * FROM KeyValue')->fetchAllAssociative()
+        );
     }
 
     public function testHandleWithActivityDelete(): void
@@ -111,6 +115,11 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
         $this->commandBus->dispatch(new ImportActivities($output));
 
         $this->assertMatchesTextSnapshot($output);
+
+        $this->assertMatchesJsonSnapshot(
+            $this->getConnection()->executeQuery('SELECT * FROM KeyValue')->fetchAllAssociative()
+        );
+
         $this->assertCount(
             5,
             $this->getContainer()->get(ActivityRepository::class)->findAll()->toArray()

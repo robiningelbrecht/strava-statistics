@@ -24,7 +24,7 @@ class ImportGearCommandHandlerTest extends ContainerTestCase
     private CommandBus $commandBus;
     private SpyStrava $strava;
 
-    public function testHandle(): void
+    public function testHandleWithTooManyRequests(): void
     {
         $output = new SpyOutput();
         $this->strava->setMaxNumberOfCallsBeforeTriggering429(3);
@@ -56,6 +56,52 @@ class ImportGearCommandHandlerTest extends ContainerTestCase
         $this->commandBus->dispatch(new ImportGear($output));
 
         $this->assertMatchesTextSnapshot($output);
+
+        $this->assertEmpty(
+            $this->getConnection()->executeQuery('SELECT * FROM KeyValue')->fetchAllAssociative()
+        );
+
+        /** @var \App\Tests\Infrastructure\FileSystem\SpyFileSystem $fileSystem */
+        $fileSystem = $this->getContainer()->get(FilesystemOperator::class);
+        $this->assertEmpty($fileSystem->getWrites());
+    }
+
+    public function testHandle(): void
+    {
+        $output = new SpyOutput();
+        $this->strava->setMaxNumberOfCallsBeforeTriggering429(10000);
+
+        $this->getContainer()->get(GearRepository::class)->add(
+            GearBuilder::fromDefaults()
+                ->withGearId(GearId::fromUnprefixed('b12659861'))
+                ->build()
+        );
+        $this->getContainer()->get(ActivityRepository::class)->add(
+            ActivityBuilder::fromDefaults()
+                ->withActivityId(ActivityId::fromUnprefixed(1))
+                ->withGearId(GearId::fromUnprefixed('b12659861'))
+                ->build()
+        );
+        $this->getContainer()->get(ActivityRepository::class)->add(
+            ActivityBuilder::fromDefaults()
+                ->withActivityId(ActivityId::fromUnprefixed(2))
+                ->withGearId(GearId::fromUnprefixed('b12659743'))
+                ->build()
+        );
+        $this->getContainer()->get(ActivityRepository::class)->add(
+            ActivityBuilder::fromDefaults()
+                ->withActivityId(ActivityId::fromUnprefixed(3))
+                ->withGearId(GearId::fromUnprefixed('b12659792'))
+                ->build()
+        );
+
+        $this->commandBus->dispatch(new ImportGear($output));
+
+        $this->assertMatchesTextSnapshot($output);
+
+        $this->assertMatchesJsonSnapshot(
+            $this->getConnection()->executeQuery('SELECT * FROM KeyValue')->fetchAllAssociative()
+        );
 
         /** @var \App\Tests\Infrastructure\FileSystem\SpyFileSystem $fileSystem */
         $fileSystem = $this->getContainer()->get(FilesystemOperator::class);

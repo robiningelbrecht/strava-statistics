@@ -36,6 +36,8 @@ final readonly class ImportGearCommandHandler implements CommandHandler
             try {
                 $stravaGear = $this->strava->getGear($gearId);
             } catch (ClientException|RequestException $exception) {
+                $this->stravaDataImportStatus->markGearImportAsUncompleted();
+
                 if (!$exception->getResponse()) {
                     // Re-throw, we only want to catch supported error codes.
                     throw $exception;

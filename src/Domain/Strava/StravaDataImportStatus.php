@@ -27,12 +27,22 @@ final readonly class StravaDataImportStatus
         ));
     }
 
+    public function markActivityImportAsUncompleted(): void
+    {
+        $this->keyValueStore->clear(Key::STRAVA_ACTIVITY_IMPORT);
+    }
+
     public function markGearImportAsCompleted(): void
     {
         $this->keyValueStore->save(KeyValue::fromState(
             key: Key::STRAVA_GEAR_IMPORT,
             value: Value::fromString($this->clock->getCurrentDateTimeImmutable()->format('Y-m-d')),
         ));
+    }
+
+    public function markGearImportAsUncompleted(): void
+    {
+        $this->keyValueStore->clear(Key::STRAVA_GEAR_IMPORT);
     }
 
     public function isCompleted(): bool

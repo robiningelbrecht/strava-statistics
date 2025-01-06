@@ -154,6 +154,8 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                     unset($activityIdsToDelete[(string) $activity->getId()]);
                     $command->getOutput()->writeln(sprintf('  => Imported activity "%s"', $activity->getName()));
                 } catch (ClientException|RequestException $exception) {
+                    $this->stravaDataImportStatus->markActivityImportAsUncompleted();
+
                     if (!$exception->getResponse()) {
                         // Re-throw, we only want to catch supported error codes.
                         throw $exception;

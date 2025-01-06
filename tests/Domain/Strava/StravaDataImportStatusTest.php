@@ -19,6 +19,13 @@ class StravaDataImportStatusTest extends ContainerTestCase
         $this->assertFalse($this->stravaDataImportStatus->isCompleted());
         $this->stravaDataImportStatus->markGearImportAsCompleted();
         $this->assertTrue($this->stravaDataImportStatus->isCompleted());
+
+        $this->stravaDataImportStatus->markActivityImportAsUncompleted();
+        $this->assertFalse($this->stravaDataImportStatus->isCompleted());
+        $this->stravaDataImportStatus->markActivityImportAsCompleted();
+        $this->assertTrue($this->stravaDataImportStatus->isCompleted());
+        $this->stravaDataImportStatus->markGearImportAsUncompleted();
+        $this->assertFalse($this->stravaDataImportStatus->isCompleted());
     }
 
     #[\Override]

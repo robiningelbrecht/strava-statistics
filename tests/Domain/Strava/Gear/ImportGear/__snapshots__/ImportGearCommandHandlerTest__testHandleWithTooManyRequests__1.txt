@@ -1,0 +1,4 @@
+Importing gear...
+  => Imported/updated gear "Existing gear"
+  => Imported/updated gear "Zwift Hub"
+<error>You probably reached Strava API rate limits. You will need to import the rest of your activities tomorrow</error>
