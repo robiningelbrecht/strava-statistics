@@ -153,8 +153,6 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                     $this->activityRepository->add($activity);
                     unset($activityIdsToDelete[(string) $activity->getId()]);
                     $command->getOutput()->writeln(sprintf('  => Imported activity "%s"', $activity->getName()));
-                    // Try to avoid Strava rate limits.
-                    $this->sleep->sweetDreams(10);
                 } catch (ClientException|RequestException $exception) {
                     if (!$exception->getResponse()) {
                         // Re-throw, we only want to catch supported error codes.

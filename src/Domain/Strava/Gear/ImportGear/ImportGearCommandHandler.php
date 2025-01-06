@@ -11,7 +11,6 @@ use App\Infrastructure\CQRS\Bus\Command;
 use App\Infrastructure\CQRS\Bus\CommandHandler;
 use App\Infrastructure\Exception\EntityNotFound;
 use App\Infrastructure\Time\Clock\Clock;
-use App\Infrastructure\Time\Sleep;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 
@@ -23,7 +22,6 @@ final readonly class ImportGearCommandHandler implements CommandHandler
         private GearRepository $gearRepository,
         private StravaDataImportStatus $stravaDataImportStatus,
         private Clock $clock,
-        private Sleep $sleep,
     ) {
     }
 
@@ -72,8 +70,6 @@ final readonly class ImportGearCommandHandler implements CommandHandler
                 $this->gearRepository->add($gear);
             }
             $command->getOutput()->writeln(sprintf('  => Imported/updated gear "%s"', $gear->getName()));
-            // Try to avoid Strava rate limits.
-            $this->sleep->sweetDreams(10);
         }
         $this->stravaDataImportStatus->markGearImportAsCompleted();
     }

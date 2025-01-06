@@ -56,6 +56,11 @@ class Strava
             'x-readratelimit-usage: '.$response->getHeaderLine('x-readratelimit-usage'),
         ));
 
+        if ('GET' === $method) {
+            // Try to avoid Strava rate limits.
+            $this->sleep->sweetDreams(10);
+        }
+
         return $response->getBody()->getContents();
     }
 

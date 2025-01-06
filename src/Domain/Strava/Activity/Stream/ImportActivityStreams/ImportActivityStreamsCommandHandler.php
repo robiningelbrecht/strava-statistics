@@ -9,7 +9,6 @@ use App\Domain\Strava\Activity\Stream\StreamType;
 use App\Domain\Strava\Strava;
 use App\Infrastructure\CQRS\Bus\Command;
 use App\Infrastructure\CQRS\Bus\CommandHandler;
-use App\Infrastructure\Time\Sleep;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 
@@ -19,7 +18,6 @@ final readonly class ImportActivityStreamsCommandHandler implements CommandHandl
         private Strava $strava,
         private ActivityRepository $activityRepository,
         private ActivityStreamRepository $activityStreamRepository,
-        private Sleep $sleep,
     ) {
     }
 
@@ -37,8 +35,6 @@ final readonly class ImportActivityStreamsCommandHandler implements CommandHandl
             $stravaStreams = [];
             try {
                 $stravaStreams = $this->strava->getAllActivityStreams($activityId);
-                // Try to avoid Strava rate limits.
-                $this->sleep->sweetDreams(10);
             } catch (ClientException|RequestException $exception) {
                 if (!$exception->getResponse()) {
                     // Re-throw, we only want to catch supported error codes.
