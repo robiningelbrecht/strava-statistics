@@ -290,12 +290,6 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
             );
         }
 
-        $command->getOutput()->writeln('  => Building activities.html');
-        $this->filesystem->write(
-            'build/html/activities.html',
-            $this->twig->load('html/activities.html.twig')->render(),
-        );
-
         $command->getOutput()->writeln('  => Building photos.html');
         $this->filesystem->write(
             'build/html/photos.html',
@@ -369,6 +363,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                     'segment' => $segment,
                 ]),
                 searchables: $segment->getSearchables(),
+                filterables: [],
                 sortValues: [
                     'name' => (string) $segment->getName(),
                     'distance' => round($segment->getDistance()->toFloat(), 2),
@@ -468,7 +463,14 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
             ]),
         );
 
-        $command->getOutput()->writeln('  => Building activity.html');
+        $command->getOutput()->writeln('  => Building activities.html');
+        $this->filesystem->write(
+            'build/html/activities.html',
+            $this->twig->load('html/activities.html.twig')->render([
+                'sportTypes' => $importedSportTypes,
+            ]),
+        );
+
         $dataDatableRows = [];
         foreach ($allActivities as $activity) {
             $heartRateData = $this->activityHeartRateRepository->findTimeInSecondsPerHeartRateForActivity($activity->getId());
@@ -508,17 +510,8 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                     'activity' => $activity,
                 ]),
                 searchables: $activity->getSearchables(),
-                // @phpstan-ignore-next-line
-                sortValues: [
-                    'start-date' => $activity->getStartDate()->getTimestamp(),
-                    'distance' => $activity->getDistance()->toFloat(),
-                    'elevation' => $activity->getElevation()->toFloat(),
-                    'moving-time' => $activity->getMovingTimeInSeconds(),
-                    'power' => $activity->getAveragePower(),
-                    'speed' => round($activity->getAverageSpeed()->toFloat(), 1),
-                    'heart-rate' => $activity->getAverageHeartRate(),
-                    'calories' => $activity->getCalories(),
-                ]
+                filterables: $activity->getFilterables(),
+                sortValues: $activity->getSortables()
             );
         }
 

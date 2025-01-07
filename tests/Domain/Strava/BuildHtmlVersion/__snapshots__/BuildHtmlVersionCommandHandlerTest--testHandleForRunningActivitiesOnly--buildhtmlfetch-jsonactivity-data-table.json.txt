@@ -6,7 +6,6 @@
   => Enriching activities with data
   => Building index.html
   => Building dashboard.html
-  => Building activities.html
   => Building photos.html
   => Building challenges.html
   => Building eddington.html
@@ -14,4 +13,4 @@
   => Building monthly-stats.html
   => Building gear-stats.html
   => Building heatmap.html
-  => Building activity.html
+  => Building activities.html

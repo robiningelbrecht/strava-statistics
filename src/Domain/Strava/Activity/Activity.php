@@ -407,14 +407,6 @@ final class Activity
         ));
     }
 
-    /**
-     * @return string[]
-     */
-    public function getSearchables(): array
-    {
-        return [$this->getName(), 'is-'.$this->getSportType()->value];
-    }
-
     public function delete(): void
     {
         $this->recordThat(new ActivityWasDeleted($this->getId()));
@@ -436,5 +428,39 @@ final class Activity
     public function updateLocation(?Location $location = null): void
     {
         $this->location = $location;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getSearchables(): array
+    {
+        return [$this->getName()];
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function getFilterables(): array{
+        return [
+            'sportType'=> $this->getSportType()->value
+        ];
+    }
+
+    /**
+     * @return array<string, string|int|float>
+     */
+    public function getSortables(): array{
+
+        return array_filter([
+            'start-date' => $this->getStartDate()->getTimestamp(),
+            'distance' => $this->getDistance()->toFloat(),
+            'elevation' => $this->getElevation()->toFloat(),
+            'moving-time' => $this->getMovingTimeInSeconds(),
+            'power' => $this->getAveragePower(),
+            'speed' => round($this->getAverageSpeed()->toFloat(), 1),
+            'heart-rate' => $this->getAverageHeartRate(),
+            'calories' => $this->getCalories(),
+        ]);
     }
 }

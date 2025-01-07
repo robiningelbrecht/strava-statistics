@@ -10,23 +10,28 @@ final readonly class DataTableRow implements \JsonSerializable
         private string $markup,
         /** @var string[] */
         private array $searchables,
+        /** @var array<string, string> */
+        private array $filterables,
         /** @var array<string, string|int|float> */
         private array $sortValues,
     ) {
     }
 
     /**
-     * @param string[]                        $searchables
+     * @param string[]  $searchables
+     * @param array<string, string> $filterables
      * @param array<string, string|int|float> $sortValues
      */
     public static function create(
         string $markup,
         array $searchables,
+        array $filterables,
         array $sortValues,
     ): self {
         return new self(
             markup: $markup,
             searchables: $searchables,
+            filterables: $filterables,
             sortValues: $sortValues
         );
     }
@@ -60,6 +65,7 @@ final readonly class DataTableRow implements \JsonSerializable
         return [
             'active' => true,
             'searchables' => implode(' ', $this->getSearchables()),
+            'filterables'=> $this->filterables,
             'sort' => $this->getSortValues(),
             'markup' => $this->getMarkup(),
         ];

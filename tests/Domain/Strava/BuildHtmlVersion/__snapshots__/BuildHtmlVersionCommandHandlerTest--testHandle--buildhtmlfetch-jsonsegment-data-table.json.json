@@ -2,6 +2,7 @@
     {
         "active": true,
         "searchables": "Segment One favourite starred",
+        "filterables": [],
         "sort": {
             "name": "Segment One",
             "distance": 0.1,
@@ -13,6 +14,7 @@
     {
         "active": true,
         "searchables": "Segment Two",
+        "filterables": [],
         "sort": {
             "name": "Segment Two",
             "distance": 0.11,
@@ -24,6 +26,7 @@
     {
         "active": true,
         "searchables": "🏔️ 🏔️ Alpe du Zwift favourite starred is-kom",
+        "filterables": [],
         "sort": {
             "name": "🏔️ 🏔️ Alpe du Zwift",
             "distance": 0.1,

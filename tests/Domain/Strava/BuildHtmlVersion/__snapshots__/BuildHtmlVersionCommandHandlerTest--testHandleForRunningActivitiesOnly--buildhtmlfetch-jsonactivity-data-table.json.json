@@ -1,7 +1,10 @@
 [
     {
         "active": true,
-        "searchables": "Watopia Flat Forward in London is-Run",
+        "searchables": "Watopia Flat Forward in London",
+        "filterables": {
+            "sportType": "Run"
+        },
         "sort": {
             "start-date": 1693499735,
             "distance": 33.547599999999996,
@@ -16,7 +19,10 @@
     },
     {
         "active": true,
-        "searchables": "Morning Ride is-Run",
+        "searchables": "Morning Ride",
+        "filterables": {
+            "sportType": "Run"
+        },
         "sort": {
             "start-date": 1690623243,
             "distance": 12.4151,
@@ -31,7 +37,10 @@
     },
     {
         "active": true,
-        "searchables": "Morning Ride is-Run",
+        "searchables": "Morning Ride",
+        "filterables": {
+            "sportType": "Run"
+        },
         "sort": {
             "start-date": 1690536843,
             "distance": 12.4151,
@@ -46,7 +55,10 @@
     },
     {
         "active": true,
-        "searchables": "Morning Ride is-Run",
+        "searchables": "Morning Ride",
+        "filterables": {
+            "sportType": "Run"
+        },
         "sort": {
             "start-date": 1674984843,
             "distance": 112.41510000000001,

@@ -1,7 +1,10 @@
 [
     {
         "active": true,
-        "searchables": "Night Ride is-Ride",
+        "searchables": "Night Ride",
+        "filterables": {
+            "sportType": "Ride"
+        },
         "sort": {
             "start-date": 1694552738,
             "distance": 6.1064,
@@ -16,7 +19,10 @@
     },
     {
         "active": true,
-        "searchables": "Night Ride is-Ride",
+        "searchables": "Night Ride",
+        "filterables": {
+            "sportType": "Ride"
+        },
         "sort": {
             "start-date": 1694466338,
             "distance": 6.1064,
@@ -31,7 +37,10 @@
     },
     {
         "active": true,
-        "searchables": "Night Ride is-Ride",
+        "searchables": "Night Ride",
+        "filterables": {
+            "sportType": "Ride"
+        },
         "sort": {
             "start-date": 1693947938,
             "distance": 6.1064,
@@ -46,7 +55,10 @@
     },
     {
         "active": true,
-        "searchables": "Night Ride is-Ride",
+        "searchables": "Night Ride",
+        "filterables": {
+            "sportType": "Ride"
+        },
         "sort": {
             "start-date": 1693861538,
             "distance": 6.1064,
@@ -61,7 +73,10 @@
     },
     {
         "active": true,
-        "searchables": "Watopia Flat Forward in London is-VirtualRide",
+        "searchables": "Watopia Flat Forward in London",
+        "filterables": {
+            "sportType": "VirtualRide"
+        },
         "sort": {
             "start-date": 1693499735,
             "distance": 33.547599999999996,
@@ -76,7 +91,10 @@
     },
     {
         "active": true,
-        "searchables": "Virtual ride non Zwift is-VirtualRide",
+        "searchables": "Virtual ride non Zwift",
+        "filterables": {
+            "sportType": "VirtualRide"
+        },
         "sort": {
             "start-date": 1690821335,
             "distance": 33.547599999999996,
@@ -91,10 +109,12 @@
     },
     {
         "active": true,
-        "searchables": "Virtual ride non Zwift is-VirtualRide",
+        "searchables": "Virtual ride non Zwift",
+        "filterables": {
+            "sportType": "VirtualRide"
+        },
         "sort": {
             "start-date": 1690734935,
-            "distance": 0,
             "elevation": 278,
             "moving-time": 3786,
             "power": 192,
@@ -106,7 +126,10 @@
     },
     {
         "active": true,
-        "searchables": "Morning Ride is-Ride",
+        "searchables": "Morning Ride",
+        "filterables": {
+            "sportType": "Ride"
+        },
         "sort": {
             "start-date": 1690623243,
             "distance": 12.4151,
@@ -121,7 +144,10 @@
     },
     {
         "active": true,
-        "searchables": "Morning Ride is-Ride",
+        "searchables": "Morning Ride",
+        "filterables": {
+            "sportType": "Ride"
+        },
         "sort": {
             "start-date": 1690536843,
             "distance": 12.4151,
@@ -136,7 +162,10 @@
     },
     {
         "active": true,
-        "searchables": "Morning Ride is-Ride",
+        "searchables": "Morning Ride",
+        "filterables": {
+            "sportType": "Ride"
+        },
         "sort": {
             "start-date": 1674984843,
             "distance": 112.41510000000001,
@@ -151,10 +180,12 @@
     },
     {
         "active": true,
-        "searchables": "Virtual ride non Zwift is-VirtualRide",
+        "searchables": "Virtual ride non Zwift",
+        "filterables": {
+            "sportType": "VirtualRide"
+        },
         "sort": {
             "start-date": 1659198935,
-            "distance": 0,
             "elevation": 278,
             "moving-time": 3786,
             "power": 192,
@@ -166,7 +197,10 @@
     },
     {
         "active": true,
-        "searchables": "Virtual ride non Zwift is-Run",
+        "searchables": "Virtual ride non Zwift",
+        "filterables": {
+            "sportType": "Run"
+        },
         "sort": {
             "start-date": 1659198935,
             "distance": 50,
