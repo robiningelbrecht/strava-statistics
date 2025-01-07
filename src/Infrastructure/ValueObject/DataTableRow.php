@@ -58,6 +58,14 @@ final readonly class DataTableRow implements \JsonSerializable
     }
 
     /**
+     * @return array<string, string>
+     */
+    public function getFilterables(): array
+    {
+        return $this->filterables;
+    }
+
+    /**
      * @return array<mixed>
      */
     public function jsonSerialize(): array
@@ -65,7 +73,7 @@ final readonly class DataTableRow implements \JsonSerializable
         return [
             'active' => true,
             'searchables' => implode(' ', $this->getSearchables()),
-            'filterables' => $this->filterables,
+            'filterables' => $this->getFilterables(),
             'sort' => $this->getSortValues(),
             'markup' => $this->getMarkup(),
         ];

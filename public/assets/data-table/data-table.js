@@ -16,14 +16,15 @@ const initDataTables = async (callbackFn) => {
 
         fetch(settings.url).then(async function (response) {
             const dataRows = await response.json();
+            const $scrollElement = dataTableWrapperNode.querySelector('.scroll-area');
 
             const clusterize = new Clusterize({
-                rows: filterDataRows(dataRows),
-                scrollElem: dataTableWrapperNode.querySelector('.scroll-area'),
+                rows: filterOnActiveRows(dataRows),
+                scrollElem: $scrollElement,
                 contentElem: dataTable.querySelector('tbody'),
                 no_data_class: 'clusterize-loading',
-                callbacks:{
-                    clusterChanged: ()=> {
+                callbacks: {
+                    clusterChanged: () => {
                         callbackFn();
                     }
                 }
@@ -33,14 +34,14 @@ const initDataTables = async (callbackFn) => {
             let sortAsc = false;
             const sortableColumns = dataTable.querySelectorAll('thead tr th[data-dataTable-sort]');
             sortableColumns.forEach(element => {
-                element.addEventListener('click', ()=> {
+                element.addEventListener('click', () => {
                     const sortOn = element.getAttribute('data-dataTable-sort');
-                    if(sortOn === sortOnPrevious){
+                    if (sortOn === sortOnPrevious) {
                         sortAsc = !sortAsc;
                     }
                     sortOnPrevious = sortOn;
                     // Highlight sorting icons.
-                    sortableColumns.forEach(el=>el.querySelector('.sorting-icon').setAttribute('aria-sort', 'none'))
+                    sortableColumns.forEach(el => el.querySelector('.sorting-icon').setAttribute('aria-sort', 'none'))
                     element.querySelector('.sorting-icon').setAttribute('aria-sort', sortAsc ? 'ascending' : 'descending');
                     // Do the actual sort.
                     dataRows.sort((a, b) => {
@@ -49,22 +50,56 @@ const initDataTables = async (callbackFn) => {
                         return 0;
                     });
                     // Update the rows.
-                    clusterize.update(filterDataRows(dataRows));
+                    clusterize.update(filterOnActiveRows(dataRows));
+                    $scrollElement.scrollTop = 0;
                 });
             });
 
             searchInput.addEventListener('keyup', e => {
-                const search = e.target.value.toLowerCase();
-                for (let i = 0, ii = dataRows.length; i < ii; i++) {
-                    const searchables = dataRows[i].searchables.toLowerCase();
-                    dataRows[i].active = !(searchables.indexOf(search) === -1);
-                }
-                clusterize.update(filterDataRows(dataRows));
+                clusterize.update(filterOnActiveRows(applySearchAndFiltersToDataRows(dataRows, dataTableWrapperNode)));
+            });
+
+            const filters = dataTableWrapperNode.querySelectorAll('[data-dataTable-filter][data-dataTable-filter-value]');
+            filters.forEach(element => {
+                element.addEventListener('click', () => {
+                    clusterize.update(filterOnActiveRows(applySearchAndFiltersToDataRows(dataRows, dataTableWrapperNode)));
+                    $scrollElement.scrollTop = 0;
+                });
+            });
+
+            dataTableWrapperNode.querySelector('[data-dataTable-reset]').addEventListener('click', () => {
+                location.reload();
             });
         });
     });
 };
 
-const filterDataRows = function (rows) {
+const applySearchAndFiltersToDataRows = function (dataRows, $dataTableNode) {
+    const $searchInput = $dataTableNode.querySelector('input[type="search"]');
+    const searchValue = $searchInput.value;
+
+    const $activeFilters = $dataTableNode.querySelectorAll('[data-dataTable-filter][data-dataTable-filter-value]:checked');
+
+    const filters = [];
+    $activeFilters.forEach(element => {
+        const filterName = element.getAttribute('data-dataTable-filter');
+        filters[filterName] = element.getAttribute('data-dataTable-filter-value').toLowerCase();
+    });
+
+    for (let i = 0; i < dataRows.length; i++) {
+        const filterables = dataRows[i].filterables;
+        const searchables = dataRows[i].searchables.toLowerCase();
+        dataRows[i].active = !(searchables.indexOf(searchValue) === -1);
+
+        for (const filter in filters) {
+            const filterValue = filters[filter];
+            dataRows[i].active = dataRows[i].active && filter in filterables && filterables[filter].toLowerCase() === filterValue
+        }
+    }
+
+    return dataRows;
+};
+
+const filterOnActiveRows = function (rows) {
     return rows.filter((row) => row.active).map((row) => row.markup);
 }
