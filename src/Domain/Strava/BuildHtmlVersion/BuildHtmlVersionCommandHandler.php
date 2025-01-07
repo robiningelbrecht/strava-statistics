@@ -363,7 +363,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                     'segment' => $segment,
                 ]),
                 searchables: $segment->getSearchables(),
-                filterables: [],
+                filterables: $segment->getFilterables(),
                 sortValues: $segment->getSortables()
             );
         }

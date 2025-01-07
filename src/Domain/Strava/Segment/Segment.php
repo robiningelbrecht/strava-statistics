@@ -68,11 +68,16 @@ final class Segment
 
     public function getName(): Name
     {
-        if ($this->isKOM()) {
-            return Name::fromString('🏔️ '.$this->name);
+        $parts = [];
+        if($this->isStarred()){
+            $parts[]= '⭐️';
         }
+        if ($this->isKOM()) {
+            $parts[]= '🏔️';
+        }
+        $parts[] = $this->name;
 
-        return $this->name;
+        return Name::fromString(implode(' ', $parts));
     }
 
     public function getDistance(): Kilometer
@@ -118,18 +123,6 @@ final class Segment
         return $this->data;
     }
 
-    /**
-     * @return string[]
-     */
-    public function getSearchables(): array
-    {
-        return array_filter([
-            (string) $this->getName(),
-            $this->isStarred() ? 'favourite starred' : null,
-            $this->isKOM() ? 'is-kom' : null,
-        ]);
-    }
-
     public function getBestEffort(): ?SegmentEffort
     {
         return $this->bestEffort;
@@ -157,6 +150,28 @@ final class Segment
         }
 
         return (bool) $this->data['starred'];
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getSearchables(): array
+    {
+        return array_filter([
+            (string) $this->getName(),
+        ]);
+    }
+
+    /**
+     * @return array<string, bool>
+     */
+    public function getFilterables(): array
+    {
+        return [
+            'isKom' => $this->isKOM(),
+            'isFavourite' => $this->isStarred(),
+            'sportType' => $this->getSportType()->value,
+        ];
     }
 
     /**
