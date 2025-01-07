@@ -375,7 +375,9 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
 
         $this->filesystem->write(
             'build/html/segments.html',
-            $this->twig->load('html/segments.html.twig')->render(),
+            $this->twig->load('html/segments.html.twig')->render([
+                'sportTypes' => $importedSportTypes,
+            ]),
         );
 
         $command->getOutput()->writeln('  => Building monthly-stats.html');

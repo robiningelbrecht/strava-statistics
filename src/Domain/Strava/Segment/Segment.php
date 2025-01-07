@@ -69,11 +69,11 @@ final class Segment
     public function getName(): Name
     {
         $parts = [];
-        if($this->isStarred()){
-            $parts[]= '⭐️';
+        if ($this->isStarred()) {
+            $parts[] = '⭐️';
         }
         if ($this->isKOM()) {
-            $parts[]= '🏔️';
+            $parts[] = '🏔️';
         }
         $parts[] = $this->name;
 
@@ -163,14 +163,14 @@ final class Segment
     }
 
     /**
-     * @return array<string, bool>
+     * @return array<string, string>
      */
     public function getFilterables(): array
     {
         return [
-            'isKom' => $this->isKOM(),
-            'isFavourite' => $this->isStarred(),
-            'sportType' => $this->getSportType()->value,
+            'isKom' => $this->isKOM() ? 'isKom' : '',
+            'isFavourite' => $this->isStarred() ? 'isFavourite' : '',
+            'sportType' => $this->getSportType() ? $this->getSportType()->value : '',
         ];
     }
 

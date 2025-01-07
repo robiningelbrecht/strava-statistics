@@ -16,9 +16,6 @@
                 {% endif %}
                 <span class="truncate">{{ segment.getName()|ellipses(50) }}</span>
             </a>
-            {% if segment.isStarred() %}
-                {{ renderSvg('star') }}
-            {% endif %}
         </div>
     </td>
     <td class="px-2 py-2">
