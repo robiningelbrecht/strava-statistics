@@ -59,8 +59,6 @@ class StravaTest extends TestCase
             ->method('info');
 
         $this->strava->getAthlete();
-        // Test static cache.
-        $this->strava->getAthlete();
     }
 
     public function testGetActivities(): void
@@ -199,7 +197,7 @@ class StravaTest extends TestCase
             ->expects($this->once())
             ->method('info');
 
-        $challenges = $this->strava->getChallengesOnPublicProfile();
+        $challenges = $this->strava->getChallengesOnPublicProfile('10');
         $this->assertMatchesJsonSnapshot($challenges);
     }
 
@@ -221,7 +219,7 @@ class StravaTest extends TestCase
 
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenges on public profile'));
 
-        $this->strava->getChallengesOnPublicProfile();
+        $this->strava->getChallengesOnPublicProfile('10');
     }
 
     public function testGetChallengesOnPublicProfileWhenNameNotFound(): void
@@ -242,7 +240,7 @@ class StravaTest extends TestCase
 
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenge name'));
 
-        $this->strava->getChallengesOnPublicProfile();
+        $this->strava->getChallengesOnPublicProfile('10');
     }
 
     public function testGetChallengesOnPublicProfileWhenTeaserNotFound(): void
@@ -263,7 +261,7 @@ class StravaTest extends TestCase
 
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenge teaser'));
 
-        $this->strava->getChallengesOnPublicProfile();
+        $this->strava->getChallengesOnPublicProfile('10');
     }
 
     public function testGetChallengesOnPublicProfileWhenLogoNotFound(): void
@@ -284,7 +282,7 @@ class StravaTest extends TestCase
 
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenge logoUrl'));
 
-        $this->strava->getChallengesOnPublicProfile();
+        $this->strava->getChallengesOnPublicProfile('10');
     }
 
     public function testGetChallengesOnPublicProfileWhenUrlNotFound(): void
@@ -305,7 +303,7 @@ class StravaTest extends TestCase
 
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenge url'));
 
-        $this->strava->getChallengesOnPublicProfile();
+        $this->strava->getChallengesOnPublicProfile('10');
     }
 
     public function testGetChallengesOnPublicProfileWhenIdNotFound(): void
@@ -326,7 +324,7 @@ class StravaTest extends TestCase
 
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenge challengeId'));
 
-        $this->strava->getChallengesOnPublicProfile();
+        $this->strava->getChallengesOnPublicProfile('10');
     }
 
     public function testGetChallengesOnPublicProfileWhenTimeNotFound(): void
@@ -347,7 +345,7 @@ class StravaTest extends TestCase
 
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenge timestamp'));
 
-        $this->strava->getChallengesOnPublicProfile();
+        $this->strava->getChallengesOnPublicProfile('10');
     }
 
     public function testGetChallengesOnPublicProfileWhenTimeNIsEmpty(): void
@@ -368,7 +366,7 @@ class StravaTest extends TestCase
 
         $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenge timestamp'));
 
-        $this->strava->getChallengesOnPublicProfile();
+        $this->strava->getChallengesOnPublicProfile('10');
     }
 
     public function testGetChallengesOnTrophyCase(): void

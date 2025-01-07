@@ -19,8 +19,6 @@ use Psr\Log\LoggerInterface;
 #[WithMonologChannel('strava-app')]
 class Strava
 {
-    /** @var array<mixed> */
-    private static array $cachedAthlete = [];
     private static ?string $cachedAccessToken = null;
 
     public function __construct(
@@ -90,17 +88,11 @@ class Strava
      */
     public function getAthlete(): array
     {
-        if (!empty(Strava::$cachedAthlete)) {
-            return Strava::$cachedAthlete;
-        }
-
-        Strava::$cachedAthlete = Json::decode($this->request('api/v3/athlete', 'GET', [
+        return Json::decode($this->request('api/v3/athlete', 'GET', [
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$this->getAccessToken(),
             ],
         ]));
-
-        return Strava::$cachedAthlete;
     }
 
     /**
@@ -197,9 +189,8 @@ class Strava
     /**
      * @return array<mixed>
      */
-    public function getChallengesOnPublicProfile(): array
+    public function getChallengesOnPublicProfile(string $athleteId): array
     {
-        $athleteId = $this->getAthlete()['id'];
         $contents = $this->request('athletes/'.$athleteId);
         if (!preg_match_all('/<li class="Trophies_listItem[\S]*">(?<matches>[\s\S]*)<\/li>/U', $contents, $matches)) {
             throw new \RuntimeException('Could not fetch Strava challenges on public profile');

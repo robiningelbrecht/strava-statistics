@@ -8,6 +8,7 @@ use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\ValueObject\Geography\Coordinate;
 use App\Infrastructure\ValueObject\Geography\Latitude;
 use App\Infrastructure\ValueObject\Geography\Longitude;
+use App\Tests\Infrastructure\Time\Sleep\NullSleep;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -52,6 +53,7 @@ class LiveNominatimTest extends TestCase
 
         $this->nominatim = new LiveNominatim(
             $this->client,
+            new NullSleep(),
         );
     }
 }

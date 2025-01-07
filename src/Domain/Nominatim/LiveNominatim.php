@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Nominatim;
 
 use App\Infrastructure\Serialization\Json;
+use App\Infrastructure\Time\Sleep;
 use App\Infrastructure\ValueObject\Geography\Coordinate;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
@@ -13,6 +14,7 @@ final readonly class LiveNominatim implements Nominatim
 {
     public function __construct(
         private Client $client,
+        private Sleep $sleep,
     ) {
     }
 
@@ -34,6 +36,8 @@ final readonly class LiveNominatim implements Nominatim
         );
 
         $response = Json::decode($response->getBody()->getContents());
+
+        $this->sleep->sweetDreams(1);
 
         return Location::fromState($response['address']);
     }

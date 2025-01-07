@@ -4,23 +4,36 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Athlete;
 
+use App\Infrastructure\ValueObject\String\Name;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
-final readonly class Athlete
+final readonly class Athlete implements \JsonSerializable
 {
     private function __construct(
-        private SerializableDateTime $birthDate,
+        /** @var array<string, mixed> */
+        private array $data,
     ) {
     }
 
-    public static function create(SerializableDateTime $birthDate): self
+    /**
+     * @param array<string, mixed> $data
+     */
+    public static function create(
+        array $data,
+    ): self {
+        return new self(
+            data: $data,
+        );
+    }
+
+    public function getAthleteId(): string
     {
-        return new self($birthDate);
+        return (string) $this->data['id'];
     }
 
     public function getBirthDate(): SerializableDateTime
     {
-        return $this->birthDate;
+        return SerializableDateTime::fromString($this->data['birthDate']);
     }
 
     public function getAgeInYears(SerializableDateTime $on): int
@@ -31,5 +44,18 @@ final readonly class Athlete
     public function getMaxHeartRate(SerializableDateTime $on): int
     {
         return 220 - $this->getAgeInYears($on);
+    }
+
+    public function getName(): Name
+    {
+        return Name::fromString(sprintf('%s %s', $this->data['firstname'] ?? 'John', $this->data['lastname'] ?? 'Doe'));
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function jsonSerialize(): array
+    {
+        return $this->data;
     }
 }

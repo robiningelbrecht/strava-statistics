@@ -2,6 +2,7 @@
 
 namespace App\Domain\Strava\Challenge\ImportChallenges;
 
+use App\Domain\Strava\Athlete\AthleteRepository;
 use App\Domain\Strava\Challenge\Challenge;
 use App\Domain\Strava\Challenge\ChallengeId;
 use App\Domain\Strava\Challenge\ChallengeRepository;
@@ -20,6 +21,7 @@ final readonly class ImportChallengesCommandHandler implements CommandHandler
     public function __construct(
         private Strava $strava,
         private ChallengeRepository $challengeRepository,
+        private AthleteRepository $athleteRepository,
         private FilesystemOperator $filesystem,
         private UuidFactory $uuidFactory,
         private Sleep $sleep,
@@ -38,10 +40,11 @@ final readonly class ImportChallengesCommandHandler implements CommandHandler
             );
         }
 
+        $athlete = $this->athleteRepository->find();
         $challenges = [];
         $challengesAddedInCurrentRun = [];
         try {
-            $challenges = $this->strava->getChallengesOnPublicProfile();
+            $challenges = $this->strava->getChallengesOnPublicProfile($athlete->getAthleteId());
         } catch (\Throwable $e) {
             $command->getOutput()->writeln('Could not import challenges from public profile: '.$e->getMessage());
         }

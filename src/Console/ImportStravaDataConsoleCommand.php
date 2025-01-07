@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Domain\Strava\Activity\ImportActivities\ImportActivities;
 use App\Domain\Strava\Activity\Stream\CalculateBestStreamAverages\CalculateBestStreamAverages;
 use App\Domain\Strava\Activity\Stream\ImportActivityStreams\ImportActivityStreams;
+use App\Domain\Strava\Athlete\ImportAthlete\ImportAthlete;
 use App\Domain\Strava\Athlete\Weight\ImportAthleteWeight\ImportAthleteWeight;
 use App\Domain\Strava\Challenge\ImportChallenges\ImportChallenges;
 use App\Domain\Strava\Ftp\ImportFtp\ImportFtp;
@@ -43,6 +44,7 @@ final class ImportStravaDataConsoleCommand extends Command
 
         $this->migrationRunner->run();
 
+        $this->commandBus->dispatch(new ImportAthlete($output));
         $this->commandBus->dispatch(new ImportActivities($output));
         $this->commandBus->dispatch(new ImportActivityStreams($output));
         $this->commandBus->dispatch(new ImportSegments($output));

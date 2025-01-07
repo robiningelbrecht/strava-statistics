@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <link rel="icon" type="image/x-icon" href="assets/images/logo.png">
-    <title>Strava activities | Robin Ingelbrecht</title>
+    <title>Strava activities | {{ athlete.getName() }}</title>
     <link href="assets/flowbite/tailwind.min.css" rel="stylesheet"/>
     <link href="assets/leaflet/leaflet.css" rel="stylesheet"/>
     <link href="assets/data-table/clusterize.min.css" rel="stylesheet">
@@ -271,7 +271,7 @@
         </div>
         <div class="hidden absolute lg:flex flex-col justify-center bottom-0 left-0 p-4 w-full bg-white z-20">
             <div class="flex justify-center gap-px">
-                <a href="https://www.strava.com/athletes/{{ athleteId }}" target="_blank"
+                <a href="https://www.strava.com/athletes/{{ athlete.getAthleteId() }}" target="_blank"
                    class="inline-flex justify-center p-2 text-gray-500 rounded cursor-pointer hover:text-[#fc4c01] hover:bg-gray-100">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <g stroke-width="0"></g>

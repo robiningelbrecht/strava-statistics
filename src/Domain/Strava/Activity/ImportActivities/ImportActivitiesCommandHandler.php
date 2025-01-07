@@ -16,11 +16,6 @@ use App\Domain\Weather\OpenMeteo\OpenMeteo;
 use App\Infrastructure\CQRS\Bus\Command;
 use App\Infrastructure\CQRS\Bus\CommandHandler;
 use App\Infrastructure\Exception\EntityNotFound;
-use App\Infrastructure\KeyValue\Key;
-use App\Infrastructure\KeyValue\KeyValue;
-use App\Infrastructure\KeyValue\KeyValueStore;
-use App\Infrastructure\KeyValue\Value;
-use App\Infrastructure\Time\Sleep;
 use App\Infrastructure\ValueObject\Geography\Coordinate;
 use App\Infrastructure\ValueObject\Identifier\UuidFactory;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
@@ -36,12 +31,10 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
         private OpenMeteo $openMeteo,
         private Nominatim $nominatim,
         private ActivityRepository $activityRepository,
-        private KeyValueStore $keyValueStore,
         private FilesystemOperator $filesystem,
         private ActivityTypesToImport $activityTypesToImport,
         private StravaDataImportStatus $stravaDataImportStatus,
         private UuidFactory $uuidFactory,
-        private Sleep $sleep,
     ) {
     }
 
@@ -49,13 +42,6 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
     {
         assert($command instanceof ImportActivities);
         $command->getOutput()->writeln('Importing activities...');
-
-        $athlete = $this->strava->getAthlete();
-        // Store in KeyValue store, so we don't need to query Strava again.
-        $this->keyValueStore->save(KeyValue::fromState(
-            key: Key::ATHLETE_ID,
-            value: Value::fromString($athlete['id'])
-        ));
 
         $allActivityIds = $this->activityRepository->findActivityIds();
         $activityIdsToDelete = array_combine(
@@ -89,7 +75,6 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                     ));
 
                     $activity->updateLocation($reverseGeocodedAddress);
-                    $this->sleep->sweetDreams(1);
                 }
 
                 $this->activityRepository->update($activity);

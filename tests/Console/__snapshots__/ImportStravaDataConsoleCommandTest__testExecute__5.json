@@ -1,5 +1,5 @@
 {
-    "commandName": "App\\Domain\\Strava\\Challenge\\ImportChallenges\\ImportChallenges",
+    "commandName": "App\\Domain\\Strava\\Gear\\ImportGear\\ImportGear",
     "payload": {
         "output": {}
     }

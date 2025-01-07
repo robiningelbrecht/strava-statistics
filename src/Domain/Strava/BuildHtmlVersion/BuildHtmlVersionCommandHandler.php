@@ -28,7 +28,7 @@ use App\Domain\Strava\Activity\WeekdayStats\WeekdayStatsChartsBuilder;
 use App\Domain\Strava\Activity\WeeklyDistanceChartBuilder;
 use App\Domain\Strava\Activity\YearlyDistance\YearlyDistanceChartBuilder;
 use App\Domain\Strava\Activity\YearlyDistance\YearlyStatistics;
-use App\Domain\Strava\Athlete\Athlete;
+use App\Domain\Strava\Athlete\AthleteRepository;
 use App\Domain\Strava\Athlete\HeartRateZone;
 use App\Domain\Strava\Athlete\TimeInHeartRateZoneChartBuilder;
 use App\Domain\Strava\Athlete\Weight\AthleteWeightRepository;
@@ -52,8 +52,6 @@ use App\Domain\Strava\Trivia;
 use App\Infrastructure\CQRS\Bus\Command;
 use App\Infrastructure\CQRS\Bus\CommandHandler;
 use App\Infrastructure\Exception\EntityNotFound;
-use App\Infrastructure\KeyValue\Key;
-use App\Infrastructure\KeyValue\KeyValueStore;
 use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\Time\Clock\Clock;
 use App\Infrastructure\ValueObject\DataTableRow;
@@ -73,12 +71,11 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
         private ActivityPowerRepository $activityPowerRepository,
         private ActivityStreamRepository $activityStreamRepository,
         private ActivityHeartRateRepository $activityHeartRateRepository,
+        private AthleteRepository $athleteRepository,
         private AthleteWeightRepository $athleteWeightRepository,
         private SegmentRepository $segmentRepository,
         private SegmentEffortRepository $segmentEffortRepository,
         private FtpRepository $ftpRepository,
-        private KeyValueStore $keyValueStore,
-        private Athlete $athlete,
         private ActivityIntensity $activityIntensity,
         private UnitSystem $unitSystem,
         private Environment $twig,
@@ -93,7 +90,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
 
         $now = $this->clock->getCurrentDateTimeImmutable();
 
-        $athleteId = $this->keyValueStore->find(Key::ATHLETE_ID);
+        $athlete = $this->athleteRepository->find();
         $allActivities = $this->activityRepository->findAll();
         $activitiesPerSportType = [];
         foreach (SportType::cases() as $sportType) {
@@ -188,7 +185,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                 'completedChallenges' => count($allChallenges),
                 'totalPhotoCount' => count($allImages),
                 'lastUpdate' => $now,
-                'athleteId' => $athleteId,
+                'athlete' => $athlete,
                 'currentAppVersion' => self::APP_VERSION,
             ]),
         );
@@ -483,7 +480,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                             heartRateData: $heartRateData,
                             // @phpstan-ignore-next-line
                             averageHeartRate: $activity->getAverageHeartRate(),
-                            athleteMaxHeartRate: $this->athlete->getMaxHeartRate($activity->getStartDate())
+                            athleteMaxHeartRate: $athlete->getMaxHeartRate($activity->getStartDate())
                         )->build(),
                     ) : null,
                     'powerDistributionChart' => $powerData ? Json::encode(

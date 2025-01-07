@@ -16,7 +16,7 @@ class DbalKeyValueStoreTest extends ContainerTestCase
     public function testFind(): void
     {
         $keyValue = KeyValue::fromState(
-            key: Key::STRAVA_LIMITS_HAVE_BEEN_REACHED,
+            key: Key::ATHLETE,
             value: Value::fromString('1989-08-14'),
         );
         $this->keyValueStore->save($keyValue);
@@ -24,27 +24,27 @@ class DbalKeyValueStoreTest extends ContainerTestCase
 
         $this->assertEquals(
             $keyValue->getValue(),
-            $this->keyValueStore->find(Key::STRAVA_LIMITS_HAVE_BEEN_REACHED)
+            $this->keyValueStore->find(Key::ATHLETE)
         );
     }
 
     public function testClear(): void
     {
         $keyValue = KeyValue::fromState(
-            key: Key::STRAVA_LIMITS_HAVE_BEEN_REACHED,
+            key: Key::ATHLETE,
             value: Value::fromString('1989-08-14'),
         );
         $this->keyValueStore->save($keyValue);
-        $this->keyValueStore->clear(Key::STRAVA_LIMITS_HAVE_BEEN_REACHED);
+        $this->keyValueStore->clear(Key::ATHLETE);
 
         $this->expectException(EntityNotFound::class);
-        $this->keyValueStore->find(Key::STRAVA_LIMITS_HAVE_BEEN_REACHED);
+        $this->keyValueStore->find(Key::ATHLETE);
     }
 
     public function testItShouldThrowWhenNotFound(): void
     {
         $this->expectException(EntityNotFound::class);
-        $this->keyValueStore->find(Key::STRAVA_LIMITS_HAVE_BEEN_REACHED);
+        $this->keyValueStore->find(Key::ATHLETE);
     }
 
     #[\Override]

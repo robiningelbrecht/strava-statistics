@@ -68,15 +68,10 @@ services:
         factory: [ App\Domain\Strava\StravaRefreshToken, 'fromString' ]
         arguments: ['%env(string:STRAVA_REFRESH_TOKEN)%']
 
-    athleteBirthDate:
+    App\Domain\Strava\Athlete\AthleteBirthDate:
         class: App\Domain\Strava\Athlete\AthleteBirthDate
         factory: [ App\Domain\Strava\Athlete\AthleteBirthDate, 'fromString' ]
         arguments: ['%env(string:ATHLETE_BIRTHDAY)%']
-
-    App\Domain\Strava\Athlete\Athlete:
-        class: App\Domain\Strava\Athlete\Athlete
-        factory: [ App\Domain\Strava\Athlete\Athlete, 'create' ]
-        arguments: ['@athleteBirthDate']
 
     App\Domain\Strava\Activity\ActivityTypesToImport:
         factory: [ 'App\Domain\Strava\Activity\ActivityTypesToImport', from ]

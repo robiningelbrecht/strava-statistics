@@ -32,7 +32,7 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
     public function testHandleWithTooManyRequests(): void
     {
         $output = new SpyOutput();
-        $this->strava->setMaxNumberOfCallsBeforeTriggering429(8);
+        $this->strava->setMaxNumberOfCallsBeforeTriggering429(7);
 
         $this->getContainer()->get(ActivityRepository::class)->add(
             ActivityBuilder::fromDefaults()
@@ -51,7 +51,7 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
         $fileSystem = $this->getContainer()->get(FilesystemOperator::class);
         $this->assertMatchesJsonSnapshot($fileSystem->getWrites());
 
-        $this->assertMatchesJsonSnapshot(
+        $this->assertEmpty(
             $this->getConnection()->executeQuery('SELECT * FROM KeyValue')->fetchAllAssociative()
         );
     }

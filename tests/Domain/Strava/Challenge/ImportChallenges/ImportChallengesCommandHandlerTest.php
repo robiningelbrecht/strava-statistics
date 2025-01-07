@@ -2,6 +2,8 @@
 
 namespace App\Tests\Domain\Strava\Challenge\ImportChallenges;
 
+use App\Domain\Strava\Athlete\Athlete;
+use App\Domain\Strava\Athlete\AthleteRepository;
 use App\Domain\Strava\Challenge\ChallengeId;
 use App\Domain\Strava\Challenge\ChallengeRepository;
 use App\Domain\Strava\Challenge\ImportChallenges\ImportChallenges;
@@ -32,6 +34,11 @@ class ImportChallengesCommandHandlerTest extends ContainerTestCase
                 ->build()
         );
 
+        $this->getContainer()->get(AthleteRepository::class)->save(Athlete::create([
+            'id' => 100,
+            'birthDate' => '1989-08-14',
+        ]));
+
         $this->commandBus->dispatch(new ImportChallenges($output));
 
         $this->assertMatchesTextSnapshot($output);
@@ -52,6 +59,11 @@ class ImportChallengesCommandHandlerTest extends ContainerTestCase
                 ->withChallengeId(ChallengeId::fromUnprefixed('2023-10_challenge_2'))
                 ->build()
         );
+
+        $this->getContainer()->get(AthleteRepository::class)->save(Athlete::create([
+            'id' => 100,
+            'birthDate' => '1989-08-14',
+        ]));
 
         $this->commandBus->dispatch(new ImportChallenges($output));
 

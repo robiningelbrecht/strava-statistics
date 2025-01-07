@@ -162,7 +162,7 @@ class SpyStrava extends Strava
     }
 
     #[\Override]
-    public function getChallengesOnPublicProfile(): array
+    public function getChallengesOnPublicProfile(string $athleteId): array
     {
         ++$this->numberOfCallsExecuted;
         $this->throw429IfMaxNumberOfCallsIsExceeded();

@@ -15,9 +15,9 @@ class AthleteTest extends TestCase
         SerializableDateTime $athleteBirthday,
         int $expectedAge): void
     {
-        $athlete = Athlete::create(
-            $athleteBirthday
-        );
+        $athlete = Athlete::create([
+            'birthDate' => $athleteBirthday->format('Y-m-d'),
+        ]);
 
         $this->assertEquals(
             $expectedAge,

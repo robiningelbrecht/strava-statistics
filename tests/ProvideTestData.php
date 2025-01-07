@@ -11,6 +11,8 @@ use App\Domain\Strava\Activity\ActivityRepository;
 use App\Domain\Strava\Activity\ActivityType;
 use App\Domain\Strava\Activity\Stream\ActivityStreamRepository;
 use App\Domain\Strava\Activity\Stream\StreamType;
+use App\Domain\Strava\Athlete\Athlete;
+use App\Domain\Strava\Athlete\AthleteRepository;
 use App\Domain\Strava\Athlete\Weight\AthleteWeightRepository;
 use App\Domain\Strava\Challenge\ChallengeId;
 use App\Domain\Strava\Challenge\ChallengeRepository;
@@ -22,10 +24,6 @@ use App\Domain\Strava\Segment\SegmentEffort\SegmentEffortId;
 use App\Domain\Strava\Segment\SegmentEffort\SegmentEffortRepository;
 use App\Domain\Strava\Segment\SegmentId;
 use App\Domain\Strava\Segment\SegmentRepository;
-use App\Infrastructure\KeyValue\DbalKeyValueStore;
-use App\Infrastructure\KeyValue\Key;
-use App\Infrastructure\KeyValue\KeyValue;
-use App\Infrastructure\KeyValue\Value;
 use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\ValueObject\String\Name;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
@@ -362,13 +360,14 @@ trait ProvideTestData
                 ->build()
         );
 
-        /** @var DbalKeyValueStore $keyValueStore */
-        $keyValueStore = $this->getContainer()->get(DbalKeyValueStore::class);
-        $keyValue = KeyValue::fromState(
-            key: Key::ATHLETE_ID,
-            value: Value::fromString('100'),
-        );
-        $keyValueStore->save($keyValue);
+        /** @var AthleteRepository $athleteRepository */
+        $athleteRepository = $this->getContainer()->get(AthleteRepository::class);
+        $athleteRepository->save(Athlete::create([
+            'id' => 100,
+            'birthDate' => '1989-08-14',
+            'firstname' => 'Robin',
+            'lastname' => 'Ingelbrecht',
+        ]));
     }
 
     public function provideRunningOnlyTestSet(): void
@@ -471,12 +470,13 @@ trait ProvideTestData
                 ->build()
         );
 
-        /** @var DbalKeyValueStore $keyValueStore */
-        $keyValueStore = $this->getContainer()->get(DbalKeyValueStore::class);
-        $keyValue = KeyValue::fromState(
-            key: Key::ATHLETE_ID,
-            value: Value::fromString('100'),
-        );
-        $keyValueStore->save($keyValue);
+        /** @var AthleteRepository $athleteRepository */
+        $athleteRepository = $this->getContainer()->get(AthleteRepository::class);
+        $athleteRepository->save(Athlete::create([
+            'id' => 100,
+            'birthDate' => '1989-08-14',
+            'firstname' => 'Robin',
+            'lastname' => 'Ingelbrecht',
+        ]));
     }
 }

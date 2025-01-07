@@ -4,9 +4,12 @@ namespace App\Tests\Domain\Strava\Activity;
 
 use App\Domain\Strava\Activity\ActivityIntensity;
 use App\Domain\Strava\Athlete\Athlete;
+use App\Domain\Strava\Athlete\AthleteRepository;
+use App\Domain\Strava\Athlete\KeyValueBasedAthleteRepository;
 use App\Domain\Strava\Ftp\DbalFtpRepository;
 use App\Domain\Strava\Ftp\FtpRepository;
 use App\Domain\Strava\Ftp\FtpValue;
+use App\Infrastructure\KeyValue\KeyValueStore;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use App\Tests\ContainerTestCase;
 use App\Tests\Domain\Strava\Ftp\FtpBuilder;
@@ -15,6 +18,7 @@ class ActivityIntensityTest extends ContainerTestCase
 {
     private ActivityIntensity $activityIntensity;
     private FtpRepository $ftpRepository;
+    private AthleteRepository $athleteRepository;
 
     public function testCalculateWithFtp(): void
     {
@@ -23,6 +27,10 @@ class ActivityIntensityTest extends ContainerTestCase
             ->withFtp(FtpValue::fromInt(250))
             ->build();
         $this->ftpRepository->save($ftp);
+
+        $this->athleteRepository->save(Athlete::create([
+            'birthDate' => '1989-08-14',
+        ]));
 
         $activity = ActivityBuilder::fromDefaults()
             ->withData([
@@ -46,6 +54,10 @@ class ActivityIntensityTest extends ContainerTestCase
             ])
             ->build();
 
+        $this->athleteRepository->save(Athlete::create([
+            'birthDate' => '1989-08-14',
+        ]));
+
         $this->assertEquals(
             100,
             $this->activityIntensity->calculate($activity),
@@ -60,6 +72,10 @@ class ActivityIntensityTest extends ContainerTestCase
             ])
             ->build();
 
+        $this->athleteRepository->save(Athlete::create([
+            'birthDate' => '1989-08-14',
+        ]));
+
         $this->assertNull(
             $this->activityIntensity->calculate($activity),
         );
@@ -73,9 +89,12 @@ class ActivityIntensityTest extends ContainerTestCase
         $this->ftpRepository = new DbalFtpRepository(
             $this->getConnection()
         );
+        $this->athleteRepository = new KeyValueBasedAthleteRepository(
+            $this->getContainer()->get(KeyValueStore::class)
+        );
 
         $this->activityIntensity = new ActivityIntensity(
-            Athlete::create(SerializableDateTime::fromString('1989-08-14')),
+            $this->athleteRepository,
             $this->ftpRepository
         );
     }

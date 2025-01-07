@@ -1,5 +1,5 @@
 {
-    "commandName": "App\\Domain\\Strava\\Athlete\\Weight\\ImportAthleteWeight\\ImportAthleteWeight",
+    "commandName": "App\\Domain\\Strava\\Ftp\\ImportFtp\\ImportFtp",
     "payload": {
         "output": {}
     }

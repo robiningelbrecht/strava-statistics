@@ -4,20 +4,21 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Activity;
 
-use App\Domain\Strava\Athlete\Athlete;
+use App\Domain\Strava\Athlete\AthleteRepository;
 use App\Domain\Strava\Ftp\FtpRepository;
 use App\Infrastructure\Exception\EntityNotFound;
 
 final readonly class ActivityIntensity
 {
     public function __construct(
-        private Athlete $athlete,
+        private AthleteRepository $athleteRepository,
         private FtpRepository $ftpRepository,
     ) {
     }
 
     public function calculate(Activity $activity): ?int
     {
+        $athlete = $this->athleteRepository->find();
         try {
             // To calculate intensity, we need
             // 1) Max and average heart rate
@@ -34,7 +35,7 @@ final readonly class ActivityIntensity
         }
 
         if ($averageHeartRate = $activity->getAverageHeartRate()) {
-            $athleteMaxHeartRate = $this->athlete->getMaxHeartRate($activity->getStartDate());
+            $athleteMaxHeartRate = $athlete->getMaxHeartRate($activity->getStartDate());
             // Use simplified, less accurate calculation.
             // maxHeartRate = = (220 - age) x 0.92
             // intensityFactor = averageHeartRate / maxHeartRate
