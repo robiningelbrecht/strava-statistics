@@ -32,18 +32,18 @@
         "nesbot/carbon": "*",
         "ramsey/uuid": "^4.7",
         "respect/validation": "^2.3",
-        "symfony/console": "7.1.*",
-        "symfony/dotenv": "7.1.*",
+        "symfony/console": "7.2.*",
+        "symfony/dotenv": "7.2.*",
         "symfony/flex": "^2",
-        "symfony/framework-bundle": "7.1.*",
-        "symfony/lock": "7.1.*",
-        "symfony/messenger": "7.1.*",
+        "symfony/framework-bundle": "7.2.*",
+        "symfony/lock": "7.2.*",
+        "symfony/messenger": "7.2.*",
         "symfony/monolog-bundle": "*",
-        "symfony/process": "7.1.*",
-        "symfony/rate-limiter": "7.1.*",
-        "symfony/runtime": "7.1.*",
-        "symfony/twig-bundle": "7.1.*",
-        "symfony/yaml": "7.1.*",
+        "symfony/process": "7.2.*",
+        "symfony/rate-limiter": "7.2.*",
+        "symfony/runtime": "7.2.*",
+        "symfony/twig-bundle": "7.2.*",
+        "symfony/yaml": "7.2.*",
         "twig/twig": "*"
     },
     "require-dev": {
@@ -99,7 +99,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "7.1.*"
+            "require": "7.2.*"
         }
     }
 }
