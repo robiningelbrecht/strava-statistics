@@ -159,6 +159,19 @@ final class Segment
         return (bool) $this->data['starred'];
     }
 
+    /**
+     * @return array<string, string|int|float>
+     */
+    public function getSortables(): array
+    {
+        return array_filter([
+            'name' => (string) $this->getName(),
+            'distance' => round($this->getDistance()->toFloat(), 2),
+            'max-gradient' => $this->getMaxGradient(),
+            'ride-count' => $this->getNumberOfTimesRidden(),
+        ]);
+    }
+
     public function isKOM(): bool
     {
         $komSegmentIds = [

@@ -441,17 +441,18 @@ final class Activity
     /**
      * @return array<string, string>
      */
-    public function getFilterables(): array{
+    public function getFilterables(): array
+    {
         return [
-            'sportType'=> $this->getSportType()->value
+            'sportType' => $this->getSportType()->value,
         ];
     }
 
     /**
      * @return array<string, string|int|float>
      */
-    public function getSortables(): array{
-
+    public function getSortables(): array
+    {
         return array_filter([
             'start-date' => $this->getStartDate()->getTimestamp(),
             'distance' => $this->getDistance()->toFloat(),
