@@ -19,7 +19,7 @@ final readonly class YearlyStatistics
     ) {
     }
 
-    public static function fromActivities(
+    public static function create(
         Activities $activities,
         Years $years,
     ): self {
@@ -27,7 +27,7 @@ final readonly class YearlyStatistics
     }
 
     /**
-     * @return array<mixed>
+     * @return array<int, mixed>
      */
     public function getStatistics(): array
     {

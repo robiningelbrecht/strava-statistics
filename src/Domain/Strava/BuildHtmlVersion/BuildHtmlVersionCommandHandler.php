@@ -193,6 +193,8 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
 
         $weeklyDistanceCharts = [];
         $distanceBreakdowns = [];
+        $yearlyDistanceCharts = [];
+        $yearlyStatistics = [];
         foreach (ActivityType::cases() as $activityType) {
             if ($activitiesPerActivityType[$activityType->value]->isEmpty()) {
                 continue;
@@ -210,6 +212,21 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                 $distanceBreakdowns[$activityType->value] = DistanceBreakdown::create(
                     activities: $activitiesPerActivityType[$activityType->value],
                     unitSystem: $this->unitSystem
+                );
+            }
+
+            if ($activityType->supportsYearlyStats()) {
+                $yearlyDistanceCharts[$activityType->value] = Json::encode(
+                    YearlyDistanceChartBuilder::fromActivities(
+                        activities: $activitiesPerActivityType[$activityType->value],
+                        unitSystem: $this->unitSystem,
+                        now: $now
+                    )->build()
+                );
+
+                $yearlyStatistics[$activityType->value] = YearlyStatistics::create(
+                    activities: $activitiesPerActivityType[$activityType->value],
+                    years: $allYears
                 );
             }
         }
@@ -260,17 +277,8 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                     months: $allMonths,
                     activities: $allActivities
                 ),
-                'yearlyDistanceChart' => Json::encode(
-                    YearlyDistanceChartBuilder::fromActivities(
-                        activities: $allActivities,
-                        unitSystem: $this->unitSystem,
-                        now: $now
-                    )->build()
-                ),
-                'yearlyStatistics' => YearlyStatistics::fromActivities(
-                    activities: $allActivities,
-                    years: $allYears
-                ),
+                'yearlyDistanceCharts' => $yearlyDistanceCharts,
+                'yearlyStatistics' => $yearlyStatistics,
             ]),
         );
 

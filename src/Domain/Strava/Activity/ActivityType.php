@@ -35,6 +35,14 @@ enum ActivityType: string
         };
     }
 
+    public function supportsYearlyStats(): bool
+    {
+        return match ($this) {
+            self::RUN, self::RIDE, self::WALK => true,
+            default => false,
+        };
+    }
+
     public function getColor(): string
     {
         return match ($this) {
