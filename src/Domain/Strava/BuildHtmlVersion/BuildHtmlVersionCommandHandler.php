@@ -192,24 +192,26 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
         $command->getOutput()->writeln('  => Building dashboard.html');
 
         $weeklyDistanceCharts = [];
-
+        $distanceBreakdowns = [];
         foreach (ActivityType::cases() as $activityType) {
-            $activities = $allActivities->filterOnActivityType($activityType);
-            if ($activities->isEmpty()) {
+            if ($activitiesPerActivityType[$activityType->value]->isEmpty()) {
                 continue;
             }
 
-            $chartData = WeeklyDistanceChartBuilder::create(
-                activities: $activities,
+            if ($activityType->supportsWeeklyDistanceStats() && $chartData = WeeklyDistanceChartBuilder::create(
+                activities: $activitiesPerActivityType[$activityType->value],
                 unitSystem: $this->unitSystem,
                 now: $now,
-            )->build();
-
-            if (empty($chartData)) {
-                continue;
+            )->build()) {
+                $weeklyDistanceCharts[$activityType->value] = Json::encode($chartData);
             }
 
-            $weeklyDistanceCharts[$activityType->value] = Json::encode($chartData);
+            if ($activityType->supportsDistanceBreakdownStats()) {
+                $distanceBreakdowns[$activityType->value] = DistanceBreakdown::create(
+                    activities: $activitiesPerActivityType[$activityType->value],
+                    unitSystem: $this->unitSystem
+                );
+            }
         }
 
         $this->filesystem->write(
@@ -237,10 +239,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                     DaytimeStatsChartsBuilder::fromDaytimeStats($dayTimeStats)->build(),
                 ),
                 'daytimeStats' => $dayTimeStats,
-                'distanceBreakdown' => DistanceBreakdown::create(
-                    activities: $activitiesPerActivityType[ActivityType::RIDE->value],
-                    unitSystem: $this->unitSystem
-                ),
+                'distanceBreakdowns' => $distanceBreakdowns,
                 'trivia' => Trivia::fromActivities($allActivities),
                 'ftpHistoryChart' => !$allFtps->isEmpty() ? Json::encode(
                     FtpHistoryChartBuilder::create(

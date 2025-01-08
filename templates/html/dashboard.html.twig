@@ -136,10 +136,10 @@
             {% if weeklyDistanceCharts|length > 1 %}
                 <div class="mb-4 border-b border-gray-200">
                     <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="weeklyDistancesActivityTypeTab" data-tabs-toggle="#weeklyDistancesActivityTypeTabContent" role="tablist">
-                        {% for sportType,chart in weeklyDistanceCharts %}
+                        {% for activityType,chart in weeklyDistanceCharts %}
                             <li class="mr-2" role="presentation">
-                                <a href="#dashboard" data-tabs-target="#{{ sportType }}" role="tab" aria-controls="{{ sportType }}" class="inline-flex items-center justify-center p-2 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 aria-selected:text-strava-orange aria-selected:border-strava-orange group">
-                                    {{ sportType }}s
+                                <a href="#dashboard" data-tabs-target="#{{ activityType }}" role="tab" aria-controls="{{ activityType }}" class="inline-flex items-center justify-center p-2 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 aria-selected:text-strava-orange aria-selected:border-strava-orange group">
+                                    {{ activityType }}s
                                 </a>
                             </li>
                         {% endfor %}
@@ -147,8 +147,8 @@
                 </div>
             {% endif %}
             <div id="weeklyDistancesActivityTypeTabContent">
-                {% for sportType,chart in weeklyDistanceCharts %}
-                    <div id="{{ sportType }}" role="tabpanel" aria-labelledby="{{ sportType }}-tab">
+                {% for activityType,chart in weeklyDistanceCharts %}
+                    <div id="{{ activityType }}" role="tabpanel" aria-labelledby="{{ activityType }}-tab">
                         <div class="h-80" data-echarts-options='{{ chart }}'></div>
                     </div>
                 {% endfor %}
@@ -382,77 +382,94 @@
                     </table>
                 </div>
             </div>
-            {% if distanceBreakdown.getRows()|length > 0 %}
-                <!-- DISTANCE BREAKDOWN -->
-                <div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-6">
-                    <h3 class="mb-4 text-lg font-semibold">
-                        Ride distance breakdown
-                    </h3>
-                    <div class="relative overflow-x-auto">
-                        <table class="w-full text-sm text-center text-gray-500">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-                            <tr>
-                                <th scope="col" class="px-2 py-3 sticky left-0 bg-gray-50">
-
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    # rides
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    <div class="flex items-center justify-center">
-                                        {{ renderSvg('distance') }}
-                                    </div>
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    <div class="flex items-center justify-center">
-                                        {{ renderSvg('elevation') }}
-                                    </div>
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    <div class="flex items-center justify-center">
-                                        {{ renderSvg('time') }}
-                                    </div>
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    <div class="flex items-center justify-center">
-                                        {{ renderSvg('speed') }}
-                                    </div>
-                                </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for statistic in distanceBreakdown.getRows() %}
-                                <tr class="bg-white border-b">
-                                    <th scope="row" class="px-2 py-2 sticky left-0 bg-white font-medium text-gray-900 whitespace-nowrap">
-                                        <div>{{ statistic.label }}</div>
-                                    </th>
-                                    <td class="px-6 py-2">
-                                        {{ statistic.numberOfWorkouts }}
-                                    </td>
-                                    <td class="px-6 py-2 truncate">
-                                        {% if statistic.totalDistance.toFloat() > 0 %}
-                                            {{ renderComponent('measurement', {'measurement': statistic.averageDistance, 'precision': 0, 'symbolSuffix': 'avg'}) }} /
-                                            {{ renderComponent('measurement', {'measurement': statistic.totalDistance, 'precision': 0, 'symbolSuffix': 'total'}) }}
-                                        {% else %}
-                                            0<span class="text-xs">{{ statistic.totalDistance.getSymbol() }}</span>
-                                        {% endif %}
-                                    </td>
-                                    <td class="px-6 py-2 truncate">
-                                        {{ renderComponent('measurement', {'measurement': statistic.totalElevation, 'precision': 0}) }}
-                                    </td>
-                                    <td class="px-6 py-2 truncate">
-                                        {{ statistic.movingTimeForHumans }}
-                                    </td>
-                                    <td class="px-6 py-2 truncate">
-                                        {{ renderComponent('measurement', {'measurement': statistic.averageSpeed, 'precision': 1}) }}
-                                    </td>
-                                </tr>
+            <!-- DISTANCE BREAKDOWN -->
+            <div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-6">
+                <h3 class="mb-4 text-lg font-semibold">
+                    Distance breakdown
+                </h3>
+                {% if distanceBreakdowns|length > 1 %}
+                    <div class="mb-4 border-b border-gray-200">
+                        <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="distanceBreakdownActivityTypeTab" data-tabs-toggle="#distanceBreakdownActivityTypeTabContent" role="tablist">
+                            {% for activityType,distanceBreakdown in distanceBreakdowns %}
+                                <li class="mr-2" role="presentation">
+                                    <a href="#dashboard" data-tabs-target="#{{ activityType }}" role="tab" aria-controls="{{ activityType }}" class="inline-flex items-center justify-center p-2 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 aria-selected:text-strava-orange aria-selected:border-strava-orange group">
+                                        {{ activityType }}s
+                                    </a>
+                                </li>
                             {% endfor %}
-                            </tbody>
-                        </table>
+                        </ul>
                     </div>
+                {% endif %}
+                <div id="distanceBreakdownActivityTypeTabContent">
+                    {% for activityType,distanceBreakdown in distanceBreakdowns %}
+                        {% if distanceBreakdown.getRows()|length > 0 %}
+                            <div class="relative overflow-x-auto">
+                                <table class="w-full text-sm text-center text-gray-500">
+                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-2 py-3 sticky left-0 bg-gray-50">
+
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            # {{ activityType }}s
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            <div class="flex items-center justify-center">
+                                                {{ renderSvg('distance') }}
+                                            </div>
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            <div class="flex items-center justify-center">
+                                                {{ renderSvg('elevation') }}
+                                            </div>
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            <div class="flex items-center justify-center">
+                                                {{ renderSvg('time') }}
+                                            </div>
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            <div class="flex items-center justify-center">
+                                                {{ renderSvg('speed') }}
+                                            </div>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for statistic in distanceBreakdown.getRows() %}
+                                        <tr class="bg-white border-b">
+                                            <th scope="row" class="px-2 py-2 sticky left-0 bg-white font-medium text-gray-900 whitespace-nowrap">
+                                                <div>{{ statistic.label }}</div>
+                                            </th>
+                                            <td class="px-6 py-2">
+                                                {{ statistic.numberOfWorkouts }}
+                                            </td>
+                                            <td class="px-6 py-2 truncate">
+                                                {% if statistic.totalDistance.toFloat() > 0 %}
+                                                    {{ renderComponent('measurement', {'measurement': statistic.averageDistance, 'precision': 0, 'symbolSuffix': 'avg'}) }} /
+                                                    {{ renderComponent('measurement', {'measurement': statistic.totalDistance, 'precision': 0, 'symbolSuffix': 'total'}) }}
+                                                {% else %}
+                                                    0<span class="text-xs">{{ statistic.totalDistance.getSymbol() }}</span>
+                                                {% endif %}
+                                            </td>
+                                            <td class="px-6 py-2 truncate">
+                                                {{ renderComponent('measurement', {'measurement': statistic.totalElevation, 'precision': 0}) }}
+                                            </td>
+                                            <td class="px-6 py-2 truncate">
+                                                {{ statistic.movingTimeForHumans }}
+                                            </td>
+                                            <td class="px-6 py-2 truncate">
+                                                {{ renderComponent('measurement', {'measurement': statistic.averageSpeed, 'precision': 1}) }}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
                 </div>
-            {% endif %}
+            </div>
             <!-- TRIVIA -->
             <div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-6">
                 <h3 class="mb-4 text-lg font-semibold">

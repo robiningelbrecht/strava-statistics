@@ -19,6 +19,22 @@ enum ActivityType: string
         };
     }
 
+    public function supportsWeeklyDistanceStats(): bool
+    {
+        return match ($this) {
+            self::RUN, self::RIDE, self::WALK, self::WATER_SPORTS, => true,
+            default => false,
+        };
+    }
+
+    public function supportsDistanceBreakdownStats(): bool
+    {
+        return match ($this) {
+            self::RUN, self::RIDE, => true,
+            default => false,
+        };
+    }
+
     public function getColor(): string
     {
         return match ($this) {
