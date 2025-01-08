@@ -36,6 +36,7 @@ final readonly class FtpHistoryChartBuilder
                 'trigger' => 'axis',
             ],
             'grid' => [
+                'top' => '2%',
                 'left' => '3%',
                 'right' => '4%',
                 'bottom' => '3%',

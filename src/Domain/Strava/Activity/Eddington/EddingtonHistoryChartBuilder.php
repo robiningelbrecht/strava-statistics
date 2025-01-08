@@ -84,6 +84,7 @@ final readonly class EddingtonHistoryChartBuilder
             'yAxis' => [
                 [
                     'type' => 'value',
+                    'minInterval' => 1,
                     'splitLine' => [
                         'show' => false,
                     ],

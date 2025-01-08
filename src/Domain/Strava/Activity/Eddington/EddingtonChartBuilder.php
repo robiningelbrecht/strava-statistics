@@ -33,7 +33,7 @@ final readonly class EddingtonChartBuilder
         $timesCompletedData = $this->eddington->getTimesCompletedData();
         $eddingtonNumber = $this->eddington->getNumber();
 
-        $yAxisMaxValue = ceil(max($timesCompletedData) / 30) * 30;
+        $yAxisMaxValue = max(ceil(max($timesCompletedData) / 30) * 30, $longestDistanceInADay);
         $yAxisInterval = ceil(($yAxisMaxValue / 5) / 30) * 30;
 
         $timesCompletedDataForChart = $timesCompletedData;

@@ -138,7 +138,7 @@
                     <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="weeklyDistancesActivityTypeTab" data-tabs-toggle="#weeklyDistancesActivityTypeTabContent" role="tablist">
                         {% for activityType,chart in weeklyDistanceCharts %}
                             <li class="mr-2" role="presentation">
-                                <a href="#dashboard" data-tabs-target="#{{ activityType }}" role="tab" aria-controls="{{ activityType }}" class="inline-flex items-center justify-center p-2 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 aria-selected:text-strava-orange aria-selected:border-strava-orange group">
+                                <a href="#dashboard" data-tabs-target="#weeklyDistances{{ activityType }}" role="tab" aria-controls="weeklyDistances{{ activityType }}" class="inline-flex items-center justify-center p-2 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 aria-selected:text-strava-orange aria-selected:border-strava-orange group">
                                     {{ activityType }}s
                                 </a>
                             </li>
@@ -148,7 +148,7 @@
             {% endif %}
             <div id="weeklyDistancesActivityTypeTabContent">
                 {% for activityType,chart in weeklyDistanceCharts %}
-                    <div id="{{ activityType }}" role="tabpanel" aria-labelledby="{{ activityType }}-tab">
+                    <div id="weeklyDistances{{ activityType }}" role="tabpanel" aria-labelledby="weeklyDistances{{ activityType }}-tab">
                         <div class="h-80" data-echarts-options='{{ chart }}'></div>
                     </div>
                 {% endfor %}
@@ -392,7 +392,7 @@
                         <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="distanceBreakdownActivityTypeTab" data-tabs-toggle="#distanceBreakdownActivityTypeTabContent" role="tablist">
                             {% for activityType,distanceBreakdown in distanceBreakdowns %}
                                 <li class="mr-2" role="presentation">
-                                    <a href="#dashboard" data-tabs-target="#{{ activityType }}" role="tab" aria-controls="{{ activityType }}" class="inline-flex items-center justify-center p-2 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 aria-selected:text-strava-orange aria-selected:border-strava-orange group">
+                                    <a href="#dashboard" data-tabs-target="#distanceBreakdown{{ activityType }}" role="tab" aria-controls="distanceBreakdown{{ activityType }}" class="inline-flex items-center justify-center p-2 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 aria-selected:text-strava-orange aria-selected:border-strava-orange group">
                                         {{ activityType }}s
                                     </a>
                                 </li>
@@ -403,7 +403,7 @@
                 <div id="distanceBreakdownActivityTypeTabContent">
                     {% for activityType,distanceBreakdown in distanceBreakdowns %}
                         {% if distanceBreakdown.getRows()|length > 0 %}
-                            <div class="relative overflow-x-auto">
+                            <div class="relative overflow-x-auto" id="distanceBreakdown{{ activityType }}" role="tabpanel" aria-labelledby="distanceBreakdown{{ activityType }}-tab">
                                 <table class="w-full text-sm text-center text-gray-500">
                                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                     <tr>
@@ -705,7 +705,7 @@
                     <h3 class="mb-4 text-lg font-semibold">
                         FTP history
                     </h3>
-                    <div class="h-full min-h-64" data-echarts-options='{{ ftpHistoryChart }}'></div>
+                    <div class="h-full min-h-[16rem]" data-echarts-options='{{ ftpHistoryChart }}'></div>
                 </div>
             {% endif %}
         </div>

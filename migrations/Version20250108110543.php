@@ -26,7 +26,7 @@ INNER JOIN SegmentEffort ON child.segmentId = SegmentEffort.segmentId
 INNER JOIN Activity ON SegmentEffort.activityId = Activity.activityId
 WHERE child.segmentId = Segment.segmentId))');
 
-        $this->addSql('UPDATE Segment SET data = JSON_SET(Segment.data, "$.sport_type",  (SELECT JSON_EXTRACT(Activity.data, "$.sport_type") 
+        $this->addSql('UPDATE Segment SET data = JSON_SET(Segment.data, "$.sport_type",  (SELECT Activity.sportType
 FROM Segment child
 INNER JOIN SegmentEffort ON child.segmentId = SegmentEffort.segmentId
 INNER JOIN Activity ON SegmentEffort.activityId = Activity.activityId
