@@ -10,7 +10,10 @@ final readonly class DoctrineMigrationRunner implements MigrationRunner
 {
     public function run(): void
     {
-        $process = new Process(['/var/www/bin/console', 'doctrine:migrations:migrate', '--no-interaction']);
+        $process = new Process(
+            command: ['/var/www/bin/console', 'doctrine:migrations:migrate', '--no-interaction'],
+            timeout: null
+        );
         $process->run();
 
         if (!$process->isSuccessful()) {
