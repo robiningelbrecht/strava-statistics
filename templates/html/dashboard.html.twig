@@ -188,21 +188,23 @@
                         <tbody>
                         {% set timeIntervals =  [5, 10, 30, 60, 300, 480, 1200, 3600] %}
                         {% for timeInterval in timeIntervals %}
-                            {% set powerOutput = powerOutputs[timeInterval] %}
-                            <tr class="bg-white border-b">
-                                <td class="px-6 py-2 sticky left-0 bg-white font-medium text-gray-900 whitespace-nowrap">
-                                    {{ powerOutput.getTime() }}
-                                </td>
-                                <td class="px-2 py-2">
-                                    {{ powerOutput.getPower() }}<span class="text-xs">w</span>
-                                </td>
-                                <td class="px-2 py-2">
-                                    {{ powerOutput.getRelativePower() }}<span class="text-xs">w/kg</span>
-                                </td>
-                                <td class="px-6 py-2 text-left truncate">
-                                    {{ renderComponent('activity-title', {'activity': powerOutput.getActivity()}) }}
-                                </td>
-                            </tr>
+                            {% if powerOutputs[timeInterval] %}
+                                {% set powerOutput = powerOutputs[timeInterval] %}
+                                <tr class="bg-white border-b">
+                                    <td class="px-6 py-2 sticky left-0 bg-white font-medium text-gray-900 whitespace-nowrap">
+                                        {{ powerOutput.getTime() }}
+                                    </td>
+                                    <td class="px-2 py-2">
+                                        {{ powerOutput.getPower() }}<span class="text-xs">w</span>
+                                    </td>
+                                    <td class="px-2 py-2">
+                                        {{ powerOutput.getRelativePower() }}<span class="text-xs">w/kg</span>
+                                    </td>
+                                    <td class="px-6 py-2 text-left truncate">
+                                        {{ renderComponent('activity-title', {'activity': powerOutput.getActivity()}) }}
+                                    </td>
+                                </tr>
+                            {% endif %}
                         {% endfor %}
                         </tbody>
                     </table>
