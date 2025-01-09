@@ -83,7 +83,11 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
 
                 $this->activityRepository->update($activity);
                 unset($activityIdsToDelete[(string) $activity->getId()]);
-                $command->getOutput()->writeln(sprintf('  => Updated activity "%s"', $activity->getName()));
+                $command->getOutput()->writeln(sprintf(
+                    '  => Updated activity "%s - %s"',
+                    $activity->getName(),
+                    $activity->getStartDate()->format('d-m-Y'))
+                );
             } catch (EntityNotFound) {
                 try {
                     $startDate = SerializableDateTime::createFromFormat(
@@ -141,7 +145,11 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
 
                     $this->activityRepository->add($activity);
                     unset($activityIdsToDelete[(string) $activity->getId()]);
-                    $command->getOutput()->writeln(sprintf('  => Imported activity "%s"', $activity->getName()));
+                    $command->getOutput()->writeln(sprintf(
+                        '  => Imported activity "%s - %s"',
+                        $activity->getName(),
+                        $activity->getStartDate()->format('d-m-Y'))
+                    );
                 } catch (ClientException|RequestException $exception) {
                     $this->stravaDataImportStatus->markActivityImportAsUncompleted();
 
@@ -175,7 +183,11 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
             $activity->delete();
             $this->activityRepository->delete($activity);
 
-            $command->getOutput()->writeln(sprintf('  => Deleted activity "%s"', $activity->getName()));
+            $command->getOutput()->writeln(sprintf(
+                '  => Deleted activity "%s - %s"',
+                $activity->getName(),
+                $activity->getStartDate()->format('d-m-Y'))
+            );
         }
     }
 }
