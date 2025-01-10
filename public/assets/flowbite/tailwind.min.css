@@ -1367,6 +1367,10 @@ input:checked + .toggle-bg {
   height: 100vh;
 }
 
+.max-h-\[calc\(100vh-200px\)\] {
+  max-height: calc(100vh - 200px);
+}
+
 .max-h-\[calc\(100vh-240px\)\] {
   max-height: calc(100vh - 240px);
 }
