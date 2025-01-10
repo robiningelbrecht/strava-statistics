@@ -117,10 +117,14 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
             if ($activitiesPerActivityType[$activityType->value]->isEmpty()) {
                 continue;
             }
-            $eddingtonPerActivityType[$activityType->value] = Eddington::fromActivities(
+            $eddington = Eddington::fromActivities(
                 activities: $activitiesPerActivityType[$activityType->value],
                 unitSystem: $this->unitSystem
             );
+            if ($eddington->getNumber() <= 0) {
+                continue;
+            }
+            $eddingtonPerActivityType[$activityType->value] = $eddington;
         }
 
         $command->getOutput()->writeln('  => Calculating weekday stats');
@@ -214,10 +218,14 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
             }
 
             if ($activityType->supportsDistanceBreakdownStats()) {
-                $distanceBreakdowns[$activityType->value] = DistanceBreakdown::create(
+                $distanceBreakdown = DistanceBreakdown::create(
                     activities: $activitiesPerActivityType[$activityType->value],
                     unitSystem: $this->unitSystem
                 );
+
+                if ($build = $distanceBreakdown->build()) {
+                    $distanceBreakdowns[$activityType->value] = $build;
+                }
             }
 
             if ($activityType->supportsYearlyStats()) {

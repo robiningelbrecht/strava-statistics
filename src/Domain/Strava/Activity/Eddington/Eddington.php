@@ -71,7 +71,7 @@ final class Eddington
             return $this->eddingtonNumber;
         }
 
-        $number = 1;
+        $number = 0;
         for ($distance = 1; $distance <= $this->getLongestDistanceInADay(); ++$distance) {
             $timesCompleted = count(array_filter($this->getDistancesPerDay(), fn (float $distanceForDay) => $distanceForDay >= $distance));
             if ($timesCompleted < $distance) {

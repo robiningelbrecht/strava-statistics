@@ -29,7 +29,7 @@ final readonly class DistanceBreakdown
     /**
      * @return array<mixed>
      */
-    public function getRows(): array
+    public function build(): array
     {
         if ($this->activities->isEmpty()) {
             return [];
@@ -40,6 +40,10 @@ final readonly class DistanceBreakdown
         $longestDistanceForActivity = Kilometer::from($this->activities->max(
             fn (Activity $activity) => $activity->getDistance()->toFloat()
         ))->toUnitSystem($this->unitSystem);
+
+        if ($longestDistanceForActivity->isZeroOrLower()) {
+            return [];
+        }
 
         $breakdownOnDistance = ceil(($longestDistanceForActivity->toFloat() / $numberOfBreakdowns) / 5) * 5;
 
