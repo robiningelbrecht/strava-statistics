@@ -124,7 +124,7 @@ final class Eddington
             }
         }
 
-        return $history;
+        return array_reverse($history, true);
     }
 
     public static function fromActivities(

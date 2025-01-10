@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Tests\Domain\Nominatim;
+namespace App\Tests\Infrastructure\Geocoding\Nominatim;
 
-use App\Domain\Nominatim\LiveNominatim;
-use App\Domain\Nominatim\Nominatim;
+use App\Infrastructure\Geocoding\Nominatim\LiveNominatim;
+use App\Infrastructure\Geocoding\Nominatim\Nominatim;
 use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\ValueObject\Geography\Coordinate;
 use App\Infrastructure\ValueObject\Geography\Latitude;

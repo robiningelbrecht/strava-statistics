@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Nominatim;
+namespace App\Infrastructure\Geocoding\Nominatim;
 
 final readonly class Location implements \JsonSerializable
 {

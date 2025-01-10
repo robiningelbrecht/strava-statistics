@@ -3,7 +3,6 @@
 namespace App\Domain\Strava\Activity\ImportActivities;
 
 use App\Domain\Measurement\Length\Meter;
-use App\Domain\Nominatim\Nominatim;
 use App\Domain\Strava\Activity\Activity;
 use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\ActivityRepository;
@@ -16,6 +15,7 @@ use App\Domain\Weather\OpenMeteo\OpenMeteo;
 use App\Infrastructure\CQRS\Bus\Command;
 use App\Infrastructure\CQRS\Bus\CommandHandler;
 use App\Infrastructure\Exception\EntityNotFound;
+use App\Infrastructure\Geocoding\Nominatim\Nominatim;
 use App\Infrastructure\ValueObject\Geography\Coordinate;
 use App\Infrastructure\ValueObject\Identifier\UuidFactory;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;

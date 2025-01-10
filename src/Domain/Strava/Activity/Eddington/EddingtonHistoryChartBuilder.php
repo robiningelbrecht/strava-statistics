@@ -41,6 +41,30 @@ final readonly class EddingtonHistoryChartBuilder
             ];
         }
 
+        /** @var array<mixed> $currentEddington */
+        $currentEddington = end($data);
+
+        if (0 !== $currentEddington[1] % 10) {
+            $markPoints[] = [
+                'value' => $currentEddington[1],
+                'coord' => [
+                    $currentEddington[0],
+                    $currentEddington[1],
+                ],
+                'symbolSize' => 50,
+                'symbolOffset' => [
+                    0,
+                    -15,
+                ],
+                'itemStyle' => [
+                    'color' => 'rgba(227, 73, 2, 0.8)',
+                ],
+                'label' => [
+                    'color' => '#FFFFFF',
+                ],
+            ];
+        }
+
         return [
             'animation' => true,
             'backgroundColor' => null,
@@ -48,7 +72,6 @@ final readonly class EddingtonHistoryChartBuilder
                 'trigger' => 'axis',
             ],
             'grid' => [
-                'top' => '3%',
                 'left' => '3%',
                 'right' => '4%',
                 'bottom' => '3%',
@@ -109,7 +132,7 @@ final readonly class EddingtonHistoryChartBuilder
                         'symbolSize' => 0,
                         'symbolOffset' => [
                             0,
-                            -15,
+                            -20,
                         ],
                         'silent' => true,
                         'itemStyle' => [

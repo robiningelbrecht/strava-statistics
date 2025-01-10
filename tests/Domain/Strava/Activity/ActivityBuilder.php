@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\Strava\Activity;
 
-use App\Domain\Nominatim\Location;
 use App\Domain\Strava\Activity\Activity;
 use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\SportType\SportType;
 use App\Domain\Strava\Gear\GearId;
+use App\Infrastructure\Geocoding\Nominatim\Location;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
 final class ActivityBuilder
