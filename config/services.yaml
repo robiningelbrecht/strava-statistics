@@ -82,7 +82,6 @@ services:
         factory: [ 'App\Domain\Strava\Activity\ActivitiesToSkipDuringImport', from ]
         arguments: [ '%env(json:ACTIVITIES_TO_SKIP_DURING_IMPORT)%' ]
 
-
     App\Domain\Strava\Athlete\Weight\ImportAthleteWeight\AthleteWeightsFromEnvFile:
         factory: [ 'App\Domain\Strava\Athlete\Weight\ImportAthleteWeight\AthleteWeightsFromEnvFile', fromString ]
         arguments: [ '%env(string:ATHLETE_WEIGHTS)%',  '@App\Domain\Measurement\UnitSystem']
