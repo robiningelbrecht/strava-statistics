@@ -40,7 +40,7 @@ abstract class Collection implements \Countable, \IteratorAggregate, \JsonSerial
     /**
      * @param T $item
      */
-    public function has($item): bool
+    public function has(mixed $item): bool
     {
         $this->guardItemIsInstanceOfItemClassName($item);
 
@@ -52,7 +52,7 @@ abstract class Collection implements \Countable, \IteratorAggregate, \JsonSerial
      *
      * @return Collection<T>
      */
-    public function add($item): self
+    public function add(mixed $item): self
     {
         $this->guardItemIsInstanceOfItemClassName($item);
         $this->items[] = $item;
@@ -153,13 +153,13 @@ abstract class Collection implements \Countable, \IteratorAggregate, \JsonSerial
      */
     public function map(\Closure $closure): array
     {
-        return array_map(fn ($item): mixed => $closure($item), $this->items);
+        return array_map(fn (mixed $item): mixed => $closure($item), $this->items);
     }
 
     public function sum(\Closure $closure): int|float
     {
         /** @var array<float|int> $numbers */
-        $numbers = $this->map(fn ($item): int|float => $closure($item));
+        $numbers = $this->map(fn (mixed $item): int|float => $closure($item));
 
         return array_sum($numbers);
     }
@@ -167,7 +167,7 @@ abstract class Collection implements \Countable, \IteratorAggregate, \JsonSerial
     public function max(\Closure $closure): mixed
     {
         /** @var non-empty-array<float|int> $numbers */
-        $numbers = $this->map(fn ($item): int|float => $closure($item));
+        $numbers = $this->map(fn (mixed $item): int|float => $closure($item));
 
         return max($numbers);
     }
@@ -175,7 +175,7 @@ abstract class Collection implements \Countable, \IteratorAggregate, \JsonSerial
     public function min(\Closure $closure): mixed
     {
         /** @var non-empty-array<float|int> $numbers */
-        $numbers = $this->map(fn ($item): int|float => $closure($item));
+        $numbers = $this->map(fn (mixed $item): int|float => $closure($item));
 
         return min($numbers);
     }
@@ -186,12 +186,12 @@ abstract class Collection implements \Countable, \IteratorAggregate, \JsonSerial
             return static::fromArray(array_filter($this->items));
         }
 
-        return static::fromArray(array_filter($this->items, fn ($item): mixed => $closure($item)));
+        return static::fromArray(array_filter($this->items, fn (mixed $item): mixed => $closure($item)));
     }
 
     public function usort(\Closure $closure): static
     {
-        usort($this->items, fn ($a, $b) => $closure($a, $b));
+        usort($this->items, fn (mixed $a, mixed $b) => $closure($a, $b));
 
         return static::fromArray($this->items);
     }
@@ -214,7 +214,7 @@ abstract class Collection implements \Countable, \IteratorAggregate, \JsonSerial
     /**
      * @param T $item
      */
-    private function guardItemIsInstanceOfItemClassName($item): void
+    private function guardItemIsInstanceOfItemClassName(mixed $item): void
     {
         $itemClassName = $this->getItemClassName();
         if (!$item instanceof $itemClassName) {

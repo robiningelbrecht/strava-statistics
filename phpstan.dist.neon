@@ -1,6 +1,13 @@
+includes:
+    - vendor/tomasvotruba/type-coverage/config/extension.neon
 parameters:
     level: 8
     paths:
         - src/
     ignoreErrors:
         - identifier: missingType.generics
+    type_coverage:
+        return: 100
+        param: 100
+        property: 100
+        constant: 100

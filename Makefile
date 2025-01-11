@@ -30,19 +30,20 @@ migrate-diff:
 migrate-run:
 	@make console arg="doctrine:migrations:migrate"
 
+composer:
+	@make dcr cmd="composer $(arg)"
+
+# Code quality tools.
 phpunit:
 	@make dcr cmd="vendor/bin/phpunit -d --enable-pretty-print -d --compact $(arg)"
 
 phpstan:
 	@make dcr cmd="vendor/bin/phpstan --memory-limit=1G $(arg)"
 
-composer:
-	@make dcr cmd="composer $(arg)"
-
 csfix:
 	@make dcr cmd="vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php"
 
-
+# Helpers to manage app imports.
 app-import-data:
 	docker compose exec app bin/console app:strava:import-data
 
