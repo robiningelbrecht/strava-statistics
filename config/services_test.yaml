@@ -26,8 +26,8 @@ services:
     App\Domain\Weather\OpenMeteo\OpenMeteo:
         class: App\Tests\Domain\Weather\OpenMeteo\SpyOpenMeteo
 
-    App\Domain\Nominatim\Nominatim:
-        class: App\Tests\Domain\Nominatim\SpyNominatim
+    App\Infrastructure\Geocoding\Nominatim\Nominatim:
+        class: App\Tests\Infrastructure\Geocoding\Nominatim\SpyNominatim
 
     App\Infrastructure\Time\ResourceUsage\ResourceUsage:
         class: App\Tests\Infrastructure\Time\ResourceUsage\FixedResourceUsage
