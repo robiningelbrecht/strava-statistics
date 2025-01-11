@@ -89,6 +89,9 @@ FTP_VALUES='{
     "YYYY-MM-DD": 198,
     "YYYY-MM-DD": 220
 }'
+# An array of activity ids to skip during import. 
+# This allows you to not import specific activities.
+# ACTIVITIES_TO_SKIP_DURING_IMPORT='["123456", "654321"]'
 ```
 
 ### Import all challenges and trophies

@@ -24,7 +24,7 @@ final class SportTypesToImport extends Collection
         }
 
         return self::fromArray(array_map(
-            fn ($type) => SportType::from($type),
+            fn (string $type) => SportType::from($type),
             $types
         ));
     }

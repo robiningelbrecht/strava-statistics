@@ -5,7 +5,8 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     env(UnitSystem): 'metric'
-    env(SPORT_TYPES_TO_IMPORT): '["Ride", "VirtualRide", "MountainBikeRide", "GravelRide", "EBikeRide", "EMountainBikeRide"]'
+    env(SPORT_TYPES_TO_IMPORT): '[]'
+    env(ACTIVITIES_TO_SKIP_DURING_IMPORT): '[]'
 
 services:
     # default configuration for services in *this* file
@@ -76,6 +77,11 @@ services:
     App\Domain\Strava\Activity\SportType\SportTypesToImport:
         factory: [ 'App\Domain\Strava\Activity\SportType\SportTypesToImport', from ]
         arguments: [ '%env(json:SPORT_TYPES_TO_IMPORT)%' ]
+
+    App\Domain\Strava\Activity\ActivitiesToSkipDuringImport:
+        factory: [ 'App\Domain\Strava\Activity\ActivitiesToSkipDuringImport', from ]
+        arguments: [ '%env(json:ACTIVITIES_TO_SKIP_DURING_IMPORT)%' ]
+
 
     App\Domain\Strava\Athlete\Weight\ImportAthleteWeight\AthleteWeightsFromEnvFile:
         factory: [ 'App\Domain\Strava\Athlete\Weight\ImportAthleteWeight\AthleteWeightsFromEnvFile', fromString ]

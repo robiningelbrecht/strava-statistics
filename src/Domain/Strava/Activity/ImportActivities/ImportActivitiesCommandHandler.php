@@ -3,6 +3,7 @@
 namespace App\Domain\Strava\Activity\ImportActivities;
 
 use App\Domain\Measurement\Length\Meter;
+use App\Domain\Strava\Activity\ActivitiesToSkipDuringImport;
 use App\Domain\Strava\Activity\Activity;
 use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\ActivityRepository;
@@ -33,6 +34,7 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
         private ActivityRepository $activityRepository,
         private FilesystemOperator $filesystem,
         private SportTypesToImport $sportTypesToImport,
+        private ActivitiesToSkipDuringImport $activitiesToSkipDuringImport,
         private StravaDataImportStatus $stravaDataImportStatus,
         private UuidFactory $uuidFactory,
     ) {
@@ -62,6 +64,9 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
             }
 
             $activityId = ActivityId::fromUnprefixed((string) $stravaActivity['id']);
+            if ($this->activitiesToSkipDuringImport->has($activityId)) {
+                continue;
+            }
             try {
                 $activity = $this->activityRepository->find($activityId);
                 $activity
