@@ -34,6 +34,8 @@ final readonly class ImportSegmentsCommandHandler implements CommandHandler
 
         $segmentsAddedInCurrentRun = [];
 
+        $countSegmentsAdded = 0;
+        $countSegmentEffortsAdded = 0;
         /** @var Activity $activity */
         foreach ($this->activityRepository->findAll() as $activity) {
             if (!$segmentEfforts = $activity->getSegmentEfforts()) {
@@ -56,7 +58,6 @@ final readonly class ImportSegmentsCommandHandler implements CommandHandler
                         ],
                     ],
                 );
-
                 // Do not import segments that have been imported in the current run.
                 if (!isset($segmentsAddedInCurrentRun[(string) $segmentId])) {
                     // Check if the segment is imported in a previous run.
@@ -65,14 +66,13 @@ final readonly class ImportSegmentsCommandHandler implements CommandHandler
                     } catch (EntityNotFound) {
                         $this->segmentRepository->add($segment);
                         $segmentsAddedInCurrentRun[(string) $segmentId] = $segmentId;
-                        $command->getOutput()->writeln(sprintf('  => Added segment "%s"', $segment->getName()));
+                        ++$countSegmentsAdded;
                     }
                 }
 
                 $segmentEffortId = SegmentEffortId::fromUnprefixed((string) $activitySegmentEffort['id']);
                 try {
-                    $segmentEffort = $this->segmentEffortRepository->find($segmentEffortId);
-                    $this->segmentEffortRepository->update($segmentEffort);
+                    $this->segmentEffortRepository->find($segmentEffortId);
                 } catch (EntityNotFound) {
                     $this->segmentEffortRepository->add(SegmentEffort::create(
                         segmentEffortId: $segmentEffortId,
@@ -84,11 +84,11 @@ final readonly class ImportSegmentsCommandHandler implements CommandHandler
                         ),
                         data: $activitySegmentEffort
                     ));
-                    $command->getOutput()->writeln(sprintf('  => Added segment effort for "%s"', $segment->getName()));
+                    ++$countSegmentEffortsAdded;
                 }
             }
-
-            $this->activityRepository->update($activity);
         }
+
+        $command->getOutput()->writeln(sprintf('  => Added %d new segments and %d new segment efforts', $countSegmentsAdded, $countSegmentEffortsAdded));
     }
 }

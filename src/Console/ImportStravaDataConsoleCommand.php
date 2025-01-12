@@ -44,6 +44,7 @@ final class ImportStravaDataConsoleCommand extends Command
             return Command::SUCCESS;
         }
 
+        $output->writeln('Running database migrations');
         $this->migrationRunner->run();
 
         $this->commandBus->dispatch(new ImportAthlete($output));

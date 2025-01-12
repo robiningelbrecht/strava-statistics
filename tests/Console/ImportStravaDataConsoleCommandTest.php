@@ -45,6 +45,8 @@ class ImportStravaDataConsoleCommandTest extends ConsoleCommandTestCase
         $commandTester->execute([
             'command' => $command->getName(),
         ]);
+
+        $this->assertMatchesTextSnapshot($commandTester->getDisplay());
     }
 
     public function testExecuteWithMaxStravaUsageReached(): void

@@ -1,0 +1,2 @@
+Running database migrations
+Database got vacuumed 🧹

@@ -1,7 +1,7 @@
 doctrine:
   dbal:
     url: 'sqlite:///%kernel.project_dir%/storage/database/strava.db?charset=utf8mb4'
-    profiling_collect_backtrace: '%kernel.debug%'
+    profiling_collect_backtrace: false
     use_savepoints: true
   orm:
     auto_generate_proxy_classes: true
