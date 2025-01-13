@@ -204,6 +204,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
         $distanceBreakdowns = [];
         $yearlyDistanceCharts = [];
         $yearlyStatistics = [];
+        /** @var \App\Domain\Strava\Activity\ActivityType $activityType */
         foreach ($importedActivityTypes as $activityType) {
             if ($activitiesPerActivityType[$activityType->value]->isEmpty()) {
                 continue;
