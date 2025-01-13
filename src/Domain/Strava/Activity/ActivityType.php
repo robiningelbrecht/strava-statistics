@@ -7,8 +7,8 @@ enum ActivityType: string
     case RIDE = 'Ride';
     case RUN = 'Run';
     case WALK = 'Walk';
-    case WATER_SPORTS = 'WaterSports';
-    case WINTER_SPORTS = 'WinterSports';
+    case WATER_SPORTS = 'WaterSport';
+    case WINTER_SPORTS = 'WinterSport';
     case OTHER = 'Other';
 
     public function supportsEddington(): bool
@@ -38,7 +38,7 @@ enum ActivityType: string
     public function supportsYearlyStats(): bool
     {
         return match ($this) {
-            self::RUN, self::RIDE, self::WALK => true,
+            self::RUN, self::RIDE, self::WALK, self::WATER_SPORTS => true,
             default => false,
         };
     }
