@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Activity\SportType;
 
+use App\Infrastructure\Repository\DbalRepository;
 use Doctrine\DBAL\Connection;
 
-final readonly class DbalSportTypeRepository implements SportTypeRepository
+final readonly class DbalSportTypeRepository extends DbalRepository implements SportTypeRepository
 {
     public function __construct(
-        private Connection $connection,
+        Connection $connection,
         private SportTypesToImport $sportTypesToImport,
     ) {
+        parent::__construct($connection);
     }
 
     public function findAll(): SportTypes

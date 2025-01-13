@@ -3,16 +3,11 @@
 namespace App\Domain\Strava\Ftp;
 
 use App\Infrastructure\Exception\EntityNotFound;
+use App\Infrastructure\Repository\DbalRepository;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
-use Doctrine\DBAL\Connection;
 
-final readonly class DbalFtpRepository implements FtpRepository
+final readonly class DbalFtpRepository extends DbalRepository implements FtpRepository
 {
-    public function __construct(
-        private Connection $connection,
-    ) {
-    }
-
     public function removeAll(): void
     {
         $this->connection->executeStatement('DELETE FROM Ftp');

@@ -5,15 +5,10 @@ declare(strict_types=1);
 namespace App\Infrastructure\KeyValue;
 
 use App\Infrastructure\Exception\EntityNotFound;
-use Doctrine\DBAL\Connection;
+use App\Infrastructure\Repository\DbalRepository;
 
-final readonly class DbalKeyValueStore implements KeyValueStore
+final readonly class DbalKeyValueStore extends DbalRepository implements KeyValueStore
 {
-    public function __construct(
-        private Connection $connection,
-    ) {
-    }
-
     public function save(KeyValue $keyValue): void
     {
         $sql = 'REPLACE INTO KeyValue (`key`, `value`)

@@ -3,17 +3,12 @@
 namespace App\Domain\Strava\Gear;
 
 use App\Infrastructure\Exception\EntityNotFound;
+use App\Infrastructure\Repository\DbalRepository;
 use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
-use Doctrine\DBAL\Connection;
 
-final readonly class DbalGearRepository implements GearRepository
+final readonly class DbalGearRepository extends DbalRepository implements GearRepository
 {
-    public function __construct(
-        private Connection $connection,
-    ) {
-    }
-
     public function add(Gear $gear): void
     {
         $sql = 'INSERT INTO Gear (gearId, createdOn, data, distanceInMeter)

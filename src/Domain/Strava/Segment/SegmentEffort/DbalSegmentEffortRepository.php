@@ -9,16 +9,18 @@ use App\Domain\Strava\Segment\SegmentEffort\DeleteActivitySegmentEfforts\Segment
 use App\Domain\Strava\Segment\SegmentId;
 use App\Infrastructure\Eventing\EventBus;
 use App\Infrastructure\Exception\EntityNotFound;
+use App\Infrastructure\Repository\DbalRepository;
 use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use Doctrine\DBAL\Connection;
 
-final readonly class DbalSegmentEffortRepository implements SegmentEffortRepository
+final readonly class DbalSegmentEffortRepository extends DbalRepository implements SegmentEffortRepository
 {
     public function __construct(
-        private Connection $connection,
+        Connection $connection,
         private EventBus $eventBus,
     ) {
+        parent::__construct($connection);
     }
 
     public function add(SegmentEffort $segmentEffort): void

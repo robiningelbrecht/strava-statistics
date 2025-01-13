@@ -4,18 +4,13 @@ namespace App\Domain\Strava\Activity\Stream;
 
 use App\Domain\Strava\Activity\ActivityId;
 use App\Infrastructure\Exception\EntityNotFound;
+use App\Infrastructure\Repository\DbalRepository;
 use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use Doctrine\DBAL\ArrayParameterType;
-use Doctrine\DBAL\Connection;
 
-final readonly class DbalActivityStreamRepository implements ActivityStreamRepository
+final readonly class DbalActivityStreamRepository extends DbalRepository implements ActivityStreamRepository
 {
-    public function __construct(
-        private Connection $connection,
-    ) {
-    }
-
     public function add(ActivityStream $stream): void
     {
         $sql = 'INSERT INTO ActivityStream (activityId, streamType, data, createdOn, bestAverages)

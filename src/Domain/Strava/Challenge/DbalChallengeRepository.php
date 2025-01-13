@@ -3,17 +3,12 @@
 namespace App\Domain\Strava\Challenge;
 
 use App\Infrastructure\Exception\EntityNotFound;
+use App\Infrastructure\Repository\DbalRepository;
 use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
-use Doctrine\DBAL\Connection;
 
-final readonly class DbalChallengeRepository implements ChallengeRepository
+final readonly class DbalChallengeRepository extends DbalRepository implements ChallengeRepository
 {
-    public function __construct(
-        private Connection $connection,
-    ) {
-    }
-
     public function add(Challenge $challenge): void
     {
         $sql = 'INSERT INTO Challenge (challengeId, createdOn, data)

@@ -9,7 +9,7 @@ use Doctrine\DBAL\Connection;
 abstract readonly class DbalRepository
 {
     public function __construct(
-        protected Connection $dbalConnection,
+        protected Connection $connection,
     ) {
     }
 }
