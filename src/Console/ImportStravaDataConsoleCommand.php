@@ -14,6 +14,7 @@ use App\Domain\Strava\Segment\ImportSegments\ImportSegments;
 use App\Infrastructure\CQRS\Bus\CommandBus;
 use App\Infrastructure\Doctrine\MigrationRunner;
 use App\Infrastructure\FileSystem\PermissionChecker;
+use App\Infrastructure\Time\ResourceUsage\ResourceUsage;
 use Doctrine\DBAL\Connection;
 use League\Flysystem\UnableToCreateDirectory;
 use League\Flysystem\UnableToWriteFile;
@@ -29,6 +30,7 @@ final class ImportStravaDataConsoleCommand extends Command
         private readonly CommandBus $commandBus,
         private readonly PermissionChecker $fileSystemPermissionChecker,
         private readonly MigrationRunner $migrationRunner,
+        private readonly ResourceUsage $resourceUsage,
         private readonly Connection $connection,
     ) {
         parent::__construct();
@@ -44,7 +46,9 @@ final class ImportStravaDataConsoleCommand extends Command
             return Command::SUCCESS;
         }
 
-        $output->writeln('Running database migrations');
+        $this->resourceUsage->startTimer();
+
+        $output->writeln('Running database migrations...');
         $this->migrationRunner->run();
 
         $this->commandBus->dispatch(new ImportAthlete($output));
@@ -59,6 +63,12 @@ final class ImportStravaDataConsoleCommand extends Command
 
         $this->connection->executeStatement('VACUUM');
         $output->writeln('Database got vacuumed 🧹');
+
+        $this->resourceUsage->stopTimer();
+        $output->writeln(sprintf(
+            '<info>%s</info>',
+            $this->resourceUsage->format(),
+        ));
 
         return Command::SUCCESS;
     }

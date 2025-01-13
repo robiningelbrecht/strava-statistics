@@ -7,8 +7,10 @@ use App\Infrastructure\CQRS\Bus\CommandBus;
 use App\Infrastructure\CQRS\Bus\DomainCommand;
 use App\Infrastructure\Doctrine\MigrationRunner;
 use App\Infrastructure\Serialization\Json;
+use App\Infrastructure\Time\ResourceUsage\ResourceUsage;
 use App\Tests\Infrastructure\FileSystem\SuccessfulPermissionChecker;
 use App\Tests\Infrastructure\FileSystem\UnwritablePermissionChecker;
+use App\Tests\Infrastructure\Time\ResourceUsage\FixedResourceUsage;
 use Doctrine\DBAL\Connection;
 use PHPUnit\Framework\MockObject\MockObject;
 use Spatie\Snapshots\MatchesSnapshots;
@@ -23,6 +25,7 @@ class ImportStravaDataConsoleCommandTest extends ConsoleCommandTestCase
     private MockObject $commandBus;
     private MockObject $migrationRunner;
     private MockObject $connection;
+    private ResourceUsage $resourceUsage;
 
     public function testExecute(): void
     {
@@ -77,6 +80,7 @@ class ImportStravaDataConsoleCommandTest extends ConsoleCommandTestCase
             $this->commandBus,
             new UnwritablePermissionChecker(),
             $this->migrationRunner,
+            $this->resourceUsage,
             $this->connection,
         );
 
@@ -111,6 +115,7 @@ class ImportStravaDataConsoleCommandTest extends ConsoleCommandTestCase
             $this->commandBus = $this->createMock(CommandBus::class),
             new SuccessfulPermissionChecker(),
             $this->migrationRunner = $this->createMock(MigrationRunner::class),
+            $this->resourceUsage = new FixedResourceUsage(),
             $this->connection = $this->createMock(Connection::class),
         );
     }

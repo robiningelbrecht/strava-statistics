@@ -1,2 +1,3 @@
-Running database migrations
+Running database migrations...
 Database got vacuumed 🧹
+Time: 10s, Memory: 45MB
