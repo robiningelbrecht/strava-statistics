@@ -122,12 +122,14 @@ final readonly class DbalActivityStreamRepository extends DbalRepository impleme
         ));
     }
 
-    public function findWithoutBestAverages(): ActivityStreams
+    public function findWithoutBestAverages(int $limit): ActivityStreams
     {
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder->select('*')
             ->from('ActivityStream')
-            ->andWhere('bestAverages IS NULL');
+            ->andWhere('bestAverages IS NULL')
+            ->orderBy('activityId')
+            ->setMaxResults(100);
 
         return ActivityStreams::fromArray(array_map(
             fn (array $result) => $this->hydrate($result),
@@ -164,7 +166,7 @@ final readonly class DbalActivityStreamRepository extends DbalRepository impleme
             streamType: StreamType::from($result['streamType']),
             streamData: Json::decode($result['data']),
             createdOn: SerializableDateTime::fromString($result['createdOn']),
-            bestAverages: Json::decode($result['bestAverages'] ?: '[]'),
+            bestAverages: Json::decode($result['bestAverages'] ?? '[]'),
         );
     }
 }

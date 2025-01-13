@@ -175,7 +175,7 @@ class DbalActivityStreamRepositoryTest extends ContainerTestCase
 
         $this->assertEquals(
             ActivityStreams::fromArray([$streamOne]),
-            $this->activityStreamRepository->findWithoutBestAverages()
+            $this->activityStreamRepository->findWithoutBestAverages(10)
         );
     }
 

@@ -32,14 +32,4 @@ final readonly class Pagination
     {
         return new self($this->offset + $this->limit, $this->limit);
     }
-
-    public function getPageSize(): int
-    {
-        return $this->limit;
-    }
-
-    public function toSqlLimit(): string
-    {
-        return ' LIMIT '.$this->getLimit().' OFFSET '.$this->getOffset();
-    }
 }

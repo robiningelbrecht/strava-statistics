@@ -21,18 +21,25 @@ final readonly class CalculateBestStreamAveragesCommandHandler implements Comman
         assert($command instanceof CalculateBestStreamAverages);
         $command->getOutput()->writeln('Calculating best stream averages...');
 
-        $streams = $this->activityStreamRepository->findWithoutBestAverages();
-        /** @var \App\Domain\Strava\Activity\Stream\ActivityStream $stream */
-        foreach ($streams as $stream) {
-            $bestAverages = [];
-            foreach (ActivityPowerRepository::TIME_INTERVAL_IN_SECONDS_OVERALL as $timeIntervalInSeconds) {
-                if (!$bestAverage = $stream->calculateBestAverageForTimeInterval($timeIntervalInSeconds)) {
-                    continue;
+        $countCalculatedStreams = 0;
+        do {
+            $streams = $this->activityStreamRepository->findWithoutBestAverages(100);
+
+            /** @var \App\Domain\Strava\Activity\Stream\ActivityStream $stream */
+            foreach ($streams as $stream) {
+                $bestAverages = [];
+                foreach (ActivityPowerRepository::TIME_INTERVAL_IN_SECONDS_OVERALL as $timeIntervalInSeconds) {
+                    if (!$bestAverage = $stream->calculateBestAverageForTimeInterval($timeIntervalInSeconds)) {
+                        continue;
+                    }
+                    $bestAverages[$timeIntervalInSeconds] = $bestAverage;
                 }
-                $bestAverages[$timeIntervalInSeconds] = $bestAverage;
+                ++$countCalculatedStreams;
+                $stream->updateBestAverages($bestAverages);
+                $this->activityStreamRepository->update($stream);
             }
-            $stream->updateBestAverages($bestAverages);
-            $this->activityStreamRepository->update($stream);
-        }
+        } while (!$streams->isEmpty());
+
+        $command->getOutput()->writeln(sprintf('  => Calculated averages for %d streams', $countCalculatedStreams));
     }
 }
