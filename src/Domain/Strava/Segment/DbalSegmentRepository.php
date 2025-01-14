@@ -6,6 +6,7 @@ namespace App\Domain\Strava\Segment;
 
 use App\Infrastructure\Exception\EntityNotFound;
 use App\Infrastructure\Repository\DbalRepository;
+use App\Infrastructure\Repository\Pagination;
 use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\ValueObject\String\Name;
 
@@ -38,11 +39,13 @@ final readonly class DbalSegmentRepository extends DbalRepository implements Seg
         return $this->hydrate($result);
     }
 
-    public function findAll(): Segments
+    public function findAll(Pagination $pagination): Segments
     {
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder->select('*', '(SELECT COUNT(*) FROM SegmentEffort WHERE SegmentEffort.segmentId = Segment.segmentId) as countCompleted')
             ->from('Segment')
+            ->setFirstResult($pagination->getOffset())
+            ->setMaxResults($pagination->getLimit())
             ->orderBy('countCompleted', 'DESC');
 
         return Segments::fromArray(array_map(

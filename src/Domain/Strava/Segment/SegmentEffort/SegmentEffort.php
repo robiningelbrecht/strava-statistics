@@ -14,6 +14,8 @@ use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
+#[ORM\Index(name: 'SegmentEffort_segmentIndex', columns: ['segmentId'])]
+#[ORM\Index(name: 'SegmentEffort_activityIndex', columns: ['activityId'])]
 final class SegmentEffort
 {
     use TimeFormatter;

@@ -53,6 +53,7 @@ use App\Domain\Strava\Trivia;
 use App\Infrastructure\CQRS\Bus\Command;
 use App\Infrastructure\CQRS\Bus\CommandHandler;
 use App\Infrastructure\Exception\EntityNotFound;
+use App\Infrastructure\Repository\Pagination;
 use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\Time\Clock\Clock;
 use App\Infrastructure\ValueObject\DataTableRow;
@@ -106,7 +107,6 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
         $allGear = $this->gearRepository->findAll();
         $allImages = $this->imageRepository->findAll();
         $allFtps = $this->ftpRepository->findAll();
-        $allSegments = $this->segmentRepository->findAll();
 
         $command->getOutput()->writeln('  => Calculating Eddington');
         $eddingtonPerActivityType = [];
@@ -360,35 +360,42 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
 
         $command->getOutput()->writeln('  => Building segments.html');
         $dataDatableRows = [];
-        /** @var Segment $segment */
-        foreach ($allSegments as $segment) {
-            $segmentEfforts = $this->segmentEffortRepository->findBySegmentId($segment->getId(), 10);
-            $segment->enrichWithNumberOfTimesRidden($this->segmentEffortRepository->countBySegmentId($segment->getId()));
-            $segment->enrichWithBestEffort($segmentEfforts->getBestEffort());
+        $pagination = Pagination::fromOffsetAndLimit(0, 100);
 
-            /** @var \App\Domain\Strava\Segment\SegmentEffort\SegmentEffort $segmentEffort */
-            foreach ($segmentEfforts as $segmentEffort) {
-                $activity = $allActivities->getByActivityId($segmentEffort->getActivityId());
-                $segmentEffort->enrichWithActivity($activity);
+        do {
+            $segments = $this->segmentRepository->findAll($pagination);
+            /** @var Segment $segment */
+            foreach ($segments as $segment) {
+                $segmentEfforts = $this->segmentEffortRepository->findBySegmentId($segment->getId(), 10);
+                $segment->enrichWithNumberOfTimesRidden($this->segmentEffortRepository->countBySegmentId($segment->getId()));
+                $segment->enrichWithBestEffort($segmentEfforts->getBestEffort());
+
+                /** @var \App\Domain\Strava\Segment\SegmentEffort\SegmentEffort $segmentEffort */
+                foreach ($segmentEfforts as $segmentEffort) {
+                    $activity = $allActivities->getByActivityId($segmentEffort->getActivityId());
+                    $segmentEffort->enrichWithActivity($activity);
+                }
+
+                $this->filesystem->write(
+                    'build/html/segment/'.$segment->getId().'.html',
+                    $this->twig->load('html/segment.html.twig')->render([
+                        'segment' => $segment,
+                        'segmentEfforts' => $segmentEfforts->slice(0, 10),
+                    ]),
+                );
+
+                $dataDatableRows[] = DataTableRow::create(
+                    markup: $this->twig->load('html/data-table/segment-data-table-row.html.twig')->render([
+                        'segment' => $segment,
+                    ]),
+                    searchables: $segment->getSearchables(),
+                    filterables: $segment->getFilterables(),
+                    sortValues: $segment->getSortables()
+                );
             }
 
-            $this->filesystem->write(
-                'build/html/segment/'.$segment->getId().'.html',
-                $this->twig->load('html/segment.html.twig')->render([
-                    'segment' => $segment,
-                    'segmentEfforts' => $segmentEfforts->slice(0, 10),
-                ]),
-            );
-
-            $dataDatableRows[] = DataTableRow::create(
-                markup: $this->twig->load('html/data-table/segment-data-table-row.html.twig')->render([
-                    'segment' => $segment,
-                ]),
-                searchables: $segment->getSearchables(),
-                filterables: $segment->getFilterables(),
-                sortValues: $segment->getSortables()
-            );
-        }
+            $pagination = $pagination->next();
+        } while (!$segments->isEmpty());
 
         $this->filesystem->write(
             'build/html/fetch-json/segment-data-table.json',
