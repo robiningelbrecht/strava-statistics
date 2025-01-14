@@ -7,9 +7,23 @@ enum ActivityType: string
     case RIDE = 'Ride';
     case RUN = 'Run';
     case WALK = 'Walk';
-    case WATER_SPORTS = 'WaterSport';
-    case WINTER_SPORTS = 'WinterSport';
+    case WATER_SPORTS = 'WaterSports';
+    case WINTER_SPORTS = 'WinterSports';
     case OTHER = 'Other';
+
+    public function getSingularLabel(): string
+    {
+        return ucwords(str_replace('_', ' ', strtolower($this->name)));
+    }
+
+    public function getPluralLabel(): string
+    {
+        if (in_array($this, [ActivityType::WATER_SPORTS, ActivityType::WINTER_SPORTS, ActivityType::OTHER])) {
+            return $this->getSingularLabel();
+        }
+
+        return $this->getSingularLabel().'s';
+    }
 
     public function supportsEddington(): bool
     {

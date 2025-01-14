@@ -67,9 +67,10 @@ enum SportType: string
 
     public function getSingularLabel(): string
     {
-        if(self::HIIT === $this){
+        if (self::HIIT === $this) {
             return 'HIIT';
         }
+
         return ucwords(str_replace('_', ' ', strtolower($this->name)));
     }
 
@@ -79,7 +80,7 @@ enum SportType: string
             return $this->getSingularLabel();
         }
 
-        if(in_array($this->getActivityType(), [ActivityType::WATER_SPORTS, ActivityType::WINTER_SPORTS, ActivityType::OTHER])){
+        if (in_array($this->getActivityType(), [ActivityType::WATER_SPORTS, ActivityType::WINTER_SPORTS, ActivityType::OTHER])) {
             return $this->getSingularLabel();
         }
 

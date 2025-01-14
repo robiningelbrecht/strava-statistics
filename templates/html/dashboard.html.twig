@@ -139,7 +139,7 @@
                         {% for activityType,chart in weeklyDistanceCharts %}
                             <li class="mr-2" role="presentation">
                                 <a href="#dashboard" data-tabs-target="#weeklyDistances{{ activityType }}" role="tab" aria-controls="weeklyDistances{{ activityType }}" class="inline-flex items-center justify-center p-2 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 aria-selected:text-strava-orange aria-selected:border-strava-orange group">
-                                    {{ activityType }}s
+                                    {{ enum('App\\Domain\\Strava\\Activity\\ActivityType').from(activityType).getPluralLabel() }}
                                 </a>
                             </li>
                         {% endfor %}
@@ -395,7 +395,7 @@
                             {% for activityType,distanceBreakdown in distanceBreakdowns %}
                                 <li class="mr-2" role="presentation">
                                     <a href="#dashboard" data-tabs-target="#distanceBreakdown{{ activityType }}" role="tab" aria-controls="distanceBreakdown{{ activityType }}" class="inline-flex items-center justify-center p-2 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 aria-selected:text-strava-orange aria-selected:border-strava-orange group">
-                                        {{ activityType }}s
+                                        {{ enum('App\\Domain\\Strava\\Activity\\ActivityType').from(activityType).getPluralLabel() }}
                                     </a>
                                 </li>
                             {% endfor %}
@@ -412,7 +412,7 @@
 
                                         </th>
                                         <th scope="col" class="px-6 py-3">
-                                            # {{ activityType }}s
+                                            # {{ enum('App\\Domain\\Strava\\Activity\\ActivityType').from(activityType).getPluralLabel() }}
                                         </th>
                                         <th scope="col" class="px-6 py-3">
                                             <div class="flex items-center justify-center">
@@ -584,7 +584,7 @@
                             {% for activityType,chart in yearlyDistanceCharts %}
                                 <li class="mr-2" role="presentation">
                                     <a href="#dashboard" data-tabs-target="#yearlyDistances{{ activityType }}" role="tab" aria-controls="yearlyDistances{{ activityType }}" class="inline-flex items-center justify-center p-2 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 aria-selected:text-strava-orange aria-selected:border-strava-orange group">
-                                        {{ activityType }}s
+                                        {{ enum('App\\Domain\\Strava\\Activity\\ActivityType').from(activityType).getPluralLabel() }}
                                     </a>
                                 </li>
                             {% endfor %}

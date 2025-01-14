@@ -8,10 +8,10 @@ use App\Domain\Strava\Activity\ReadModel\ActivityDetailsRepository;
 use App\Domain\Strava\Activity\ReadModel\DbalActivityDetailsRepository;
 use App\Domain\Strava\Activity\WriteModel\ActivityRepository;
 use App\Domain\Strava\Activity\WriteModel\DbalActivityRepository;
-use App\Infrastructure\Eventing\EventBus;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use App\Tests\ContainerTestCase;
 use App\Tests\Domain\Strava\Activity\WriteModel\ActivityBuilder;
+use App\Tests\Infrastructure\Eventing\SpyEventBus;
 
 class DbalActivityDetailsRepositoryTest extends ContainerTestCase
 {
@@ -47,11 +47,9 @@ class DbalActivityDetailsRepositoryTest extends ContainerTestCase
     {
         parent::setUp();
 
-        $this->eventBus = $this->createMock(EventBus::class);
-
         $this->activityRepository = new DbalActivityRepository(
             $this->getConnection(),
-            $this->eventBus
+            new SpyEventBus()
         );
         $this->activityDetailsRepository = new DbalActivityDetailsRepository($this->getConnection());
     }
