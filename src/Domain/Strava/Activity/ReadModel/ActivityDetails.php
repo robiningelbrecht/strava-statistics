@@ -294,7 +294,7 @@ final class ActivityDetails
      */
     public function getSegmentEfforts(): array
     {
-        return !empty($result['segmentEfforts']) ? Json::decode($result['segmentEfforts']) : [];
+        return !empty($this->segmentEfforts) ? Json::decode($this->segmentEfforts) : [];
     }
 
     public function getLocation(): ?Location

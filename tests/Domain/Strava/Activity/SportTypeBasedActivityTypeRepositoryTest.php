@@ -11,6 +11,7 @@ use App\Domain\Strava\Activity\SportType\SportTypesToImport;
 use App\Domain\Strava\Activity\SportTypeBasedActivityTypeRepository;
 use App\Domain\Strava\Activity\WriteModel\ActivityRepository;
 use App\Tests\ContainerTestCase;
+use App\Tests\Domain\Strava\Activity\WriteModel\ActivityBuilder;
 
 class SportTypeBasedActivityTypeRepositoryTest extends ContainerTestCase
 {

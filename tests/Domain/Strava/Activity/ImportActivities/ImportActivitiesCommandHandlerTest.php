@@ -7,6 +7,7 @@ use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\ImportActivities\ImportActivities;
 use App\Domain\Strava\Activity\ImportActivities\ImportActivitiesCommandHandler;
 use App\Domain\Strava\Activity\NumberOfNewActivitiesToProcessPerImport;
+use App\Domain\Strava\Activity\ReadModel\ActivityDetailsRepository;
 use App\Domain\Strava\Activity\SportType\SportTypesToImport;
 use App\Domain\Strava\Activity\Stream\ActivityStreamRepository;
 use App\Domain\Strava\Activity\WriteModel\ActivityRepository;
@@ -18,10 +19,11 @@ use App\Domain\Strava\Strava;
 use App\Domain\Strava\StravaDataImportStatus;
 use App\Domain\Weather\OpenMeteo\OpenMeteo;
 use App\Infrastructure\Geocoding\Nominatim\Nominatim;
+use App\Infrastructure\Repository\Pagination;
 use App\Infrastructure\ValueObject\Identifier\UuidFactory;
 use App\Tests\ContainerTestCase;
-use App\Tests\Domain\Strava\Activity\ActivityBuilder;
 use App\Tests\Domain\Strava\Activity\Stream\ActivityStreamBuilder;
+use App\Tests\Domain\Strava\Activity\WriteModel\ActivityBuilder;
 use App\Tests\Domain\Strava\Segment\SegmentBuilder;
 use App\Tests\Domain\Strava\Segment\SegmentEffort\SegmentEffortBuilder;
 use App\Tests\Domain\Strava\SpyStrava;
@@ -129,7 +131,7 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
 
         $this->assertCount(
             5,
-            $this->getContainer()->get(ActivityRepository::class)->findAll()->toArray()
+            $this->getContainer()->get(ActivityDetailsRepository::class)->findAll()->toArray()
         );
         $this->assertCount(
             0,
@@ -137,7 +139,7 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
         );
         $this->assertCount(
             0,
-            $this->getContainer()->get(SegmentRepository::class)->findAll()
+            $this->getContainer()->get(SegmentRepository::class)->findAll(Pagination::fromOffsetAndLimit(0, 100))
         );
         $this->assertCount(
             0,
@@ -195,7 +197,7 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
 
         $this->assertCount(
             2,
-            $this->getContainer()->get(ActivityRepository::class)->findAll()->toArray()
+            $this->getContainer()->get(ActivityDetailsRepository::class)->findAll()->toArray()
         );
     }
 

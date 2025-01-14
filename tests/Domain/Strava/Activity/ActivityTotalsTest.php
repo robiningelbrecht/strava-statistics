@@ -5,6 +5,7 @@ namespace App\Tests\Domain\Strava\Activity;
 use App\Domain\Strava\Activity\ActivityTotals;
 use App\Domain\Strava\Activity\ReadModel\Activities;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
+use App\Tests\Domain\Strava\Activity\ReadModel\ActivityDetailsBuilder;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
@@ -25,7 +26,7 @@ class ActivityTotalsTest extends TestCase
             [
                 ActivityTotals::fromActivities(
                     activities: Activities::fromArray([
-                        ActivityBuilder::fromDefaults()
+                        ActivityDetailsBuilder::fromDefaults()
                             ->withStartDateTime(SerializableDateTime::fromString('2023-11-24'))
                             ->build(),
                     ]),
@@ -35,7 +36,7 @@ class ActivityTotalsTest extends TestCase
             [
                 ActivityTotals::fromActivities(
                     activities: Activities::fromArray([
-                        ActivityBuilder::fromDefaults()
+                        ActivityDetailsBuilder::fromDefaults()
                             ->withStartDateTime(SerializableDateTime::fromString('2023-11-01'))
                             ->build(),
                     ]),
@@ -45,7 +46,7 @@ class ActivityTotalsTest extends TestCase
             [
                 ActivityTotals::fromActivities(
                     activities: Activities::fromArray([
-                        ActivityBuilder::fromDefaults()
+                        ActivityDetailsBuilder::fromDefaults()
                             ->withStartDateTime(SerializableDateTime::fromString('2023-04-24'))
                             ->build(),
                     ]),
@@ -54,7 +55,7 @@ class ActivityTotalsTest extends TestCase
             ],  [
                 ActivityTotals::fromActivities(
                     activities: Activities::fromArray([
-                        ActivityBuilder::fromDefaults()
+                        ActivityDetailsBuilder::fromDefaults()
                             ->withStartDateTime(SerializableDateTime::fromString('2022-11-24'))
                             ->build(),
                     ]),
@@ -64,7 +65,7 @@ class ActivityTotalsTest extends TestCase
             [
                 ActivityTotals::fromActivities(
                     activities: Activities::fromArray([
-                        ActivityBuilder::fromDefaults()
+                        ActivityDetailsBuilder::fromDefaults()
                             ->withStartDateTime(SerializableDateTime::fromString('2017-11-24'))
                             ->build(),
                     ]),

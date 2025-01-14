@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Tests\Domain\Strava\Activity;
+namespace App\Tests\Domain\Strava\Activity\WriteModel;
 
 use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\ActivityIds;
-use App\Domain\Strava\Activity\ReadModel\Activities;
 use App\Domain\Strava\Activity\WriteModel\ActivityRepository;
 use App\Domain\Strava\Activity\WriteModel\DbalActivityRepository;
 use App\Domain\Strava\Gear\GearId;
@@ -55,11 +54,6 @@ class DbalActivityRepositoryTest extends ContainerTestCase
             ->build();
         $this->activityRepository->add($activity);
 
-        $this->assertEquals(
-            1,
-            $activity->getKudoCount()
-        );
-
         $activity->updateKudoCount(3);
         $activity->updateGearId(GearId::fromUnprefixed('10'));
         $this->activityRepository->update($activity);
@@ -104,30 +98,6 @@ class DbalActivityRepositoryTest extends ContainerTestCase
     {
         $this->expectException(EntityNotFound::class);
         $this->activityRepository->find(ActivityId::fromUnprefixed(1));
-    }
-
-    public function testFindAll(): void
-    {
-        $activityOne = ActivityBuilder::fromDefaults()
-            ->withActivityId(ActivityId::fromUnprefixed(1))
-            ->withStartDateTime(SerializableDateTime::fromString('2023-10-10 14:00:34'))
-            ->build();
-        $this->activityRepository->add($activityOne);
-        $activityTwo = ActivityBuilder::fromDefaults()
-            ->withActivityId(ActivityId::fromUnprefixed(2))
-            ->withStartDateTime(SerializableDateTime::fromString('2023-10-10 13:00:34'))
-            ->build();
-        $this->activityRepository->add($activityTwo);
-        $activityThree = ActivityBuilder::fromDefaults()
-            ->withActivityId(ActivityId::fromUnprefixed(3))
-            ->withStartDateTime(SerializableDateTime::fromString('2023-10-09 14:00:34'))
-            ->build();
-        $this->activityRepository->add($activityThree);
-
-        $this->assertEquals(
-            Activities::fromArray([$activityOne, $activityTwo, $activityThree]),
-            $this->activityRepository->findAll()
-        );
     }
 
     public function testFindActivityIds(): void

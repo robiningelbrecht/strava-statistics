@@ -10,7 +10,7 @@ use App\Domain\Strava\Gear\ImportGear\ImportGear;
 use App\Domain\Strava\Strava;
 use App\Infrastructure\CQRS\Bus\CommandBus;
 use App\Tests\ContainerTestCase;
-use App\Tests\Domain\Strava\Activity\ActivityBuilder;
+use App\Tests\Domain\Strava\Activity\WriteModel\ActivityBuilder;
 use App\Tests\Domain\Strava\Gear\GearBuilder;
 use App\Tests\Domain\Strava\SpyStrava;
 use App\Tests\SpyOutput;

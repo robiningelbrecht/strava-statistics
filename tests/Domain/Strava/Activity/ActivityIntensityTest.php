@@ -12,6 +12,7 @@ use App\Domain\Strava\Ftp\FtpValue;
 use App\Infrastructure\KeyValue\KeyValueStore;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use App\Tests\ContainerTestCase;
+use App\Tests\Domain\Strava\Activity\ReadModel\ActivityDetailsBuilder;
 use App\Tests\Domain\Strava\Ftp\FtpBuilder;
 
 class ActivityIntensityTest extends ContainerTestCase
@@ -32,11 +33,9 @@ class ActivityIntensityTest extends ContainerTestCase
             'birthDate' => '1989-08-14',
         ]));
 
-        $activity = ActivityBuilder::fromDefaults()
-            ->withData([
-                'average_watts' => 250,
-                'moving_time' => 3600,
-            ])
+        $activity = ActivityDetailsBuilder::fromDefaults()
+            ->withAveragePower(250)
+            ->withMovingTimeInSeconds(3600)
             ->build();
 
         $this->assertEquals(
@@ -47,11 +46,9 @@ class ActivityIntensityTest extends ContainerTestCase
 
     public function testCalculateWithHeartRate(): void
     {
-        $activity = ActivityBuilder::fromDefaults()
-            ->withData([
-                'average_heartrate' => 171,
-                'moving_time' => 3600,
-            ])
+        $activity = ActivityDetailsBuilder::fromDefaults()
+            ->withAverageHeartRate(171)
+            ->withMovingTimeInSeconds(3600)
             ->build();
 
         $this->athleteRepository->save(Athlete::create([
@@ -66,10 +63,8 @@ class ActivityIntensityTest extends ContainerTestCase
 
     public function testCalculateShouldBeNull(): void
     {
-        $activity = ActivityBuilder::fromDefaults()
-            ->withData([
-                'moving_time' => 3600,
-            ])
+        $activity = ActivityDetailsBuilder::fromDefaults()
+            ->withMovingTimeInSeconds(3600)
             ->build();
 
         $this->athleteRepository->save(Athlete::create([

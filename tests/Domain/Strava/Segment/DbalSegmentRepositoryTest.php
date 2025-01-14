@@ -9,6 +9,7 @@ use App\Domain\Strava\Segment\SegmentId;
 use App\Domain\Strava\Segment\SegmentRepository;
 use App\Domain\Strava\Segment\Segments;
 use App\Infrastructure\Exception\EntityNotFound;
+use App\Infrastructure\Repository\Pagination;
 use App\Infrastructure\ValueObject\String\Name;
 use App\Tests\ContainerTestCase;
 use App\Tests\Domain\Strava\Segment\SegmentEffort\SegmentEffortBuilder;
@@ -73,7 +74,7 @@ class DbalSegmentRepositoryTest extends ContainerTestCase
 
         $this->assertEquals(
             Segments::fromArray([$segmentOne, $segmentThree, $segmentTwo]),
-            $this->segmentRepository->findAll()
+            $this->segmentRepository->findAll(Pagination::fromOffsetAndLimit(0, 100))
         );
     }
 
@@ -117,7 +118,7 @@ class DbalSegmentRepositoryTest extends ContainerTestCase
 
         $this->assertEquals(
             Segments::fromArray([$segmentOne, $segmentThree]),
-            $this->segmentRepository->findAll()
+            $this->segmentRepository->findAll(Pagination::fromOffsetAndLimit(0, 100))
         );
     }
 

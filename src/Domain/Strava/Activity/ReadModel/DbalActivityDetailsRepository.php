@@ -110,7 +110,7 @@ final class DbalActivityDetailsRepository implements ActivityDetailsRepository
             ->groupBy("JSON_EXTRACT(location, '$.state')")
             ->orderBy('COUNT(*)', 'DESC');
 
-        return $queryBuilder->executeQuery()->fetchOne();
+        return ((string) $queryBuilder->executeQuery()->fetchOne()) ?: null;
     }
 
     /**
@@ -125,9 +125,9 @@ final class DbalActivityDetailsRepository implements ActivityDetailsRepository
             startDateTime: SerializableDateTime::fromString($result['startDateTime']),
             sportType: SportType::from($result['sportType']),
             name: Name::fromString($result['name']),
-            description: $result['description'],
+            description: $result['description'] ?: '',
             distance: Kilometer::from($result['distance'] / 1000),
-            elevation: Meter::from($result['elevation']),
+            elevation: Meter::from($result['elevation'] ?: 0),
             latitude: Latitude::fromOptionalString((string) $result['latitude']),
             longitude: Longitude::fromOptionalString((string) $result['longitude']),
             calories: (int) ($result['calories'] ?? 0),
@@ -138,14 +138,14 @@ final class DbalActivityDetailsRepository implements ActivityDetailsRepository
             averageHeartRate: ((int) $result['averageHeartRate']) ?: null,
             maxHeartRate: ((int) $result['maxHeartRate']) ?: null,
             averageCadence: ((int) $result['averageCadence']) ?: null,
-            movingTimeInSeconds: $result['movingTimeInSeconds'],
+            movingTimeInSeconds: $result['movingTimeInSeconds'] ?: 0,
             kudoCount: $result['kudoCount'] ?: 0,
             totalImageCount: $result['totalPhotoCount'] ?: 0,
             deviceName: $result['deviceName'],
             localImagePaths: !empty($result['localImagePaths']) ? Json::decode($result['localImagePaths']) : [],
             polyline: $result['polyline'],
             location: $location ? Location::fromState($location) : null,
-            segmentEfforts: $result['segmentEfforts'],
+            segmentEfforts: $result['segmentEfforts'] ?: '[]',
             weather: $result['weather'] ?? '[]',
             gearId: GearId::fromOptionalString($result['gearId']),
         );

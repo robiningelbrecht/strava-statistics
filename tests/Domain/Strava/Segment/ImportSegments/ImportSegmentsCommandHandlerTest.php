@@ -10,7 +10,7 @@ use App\Domain\Strava\Segment\SegmentEffort\SegmentEffortRepository;
 use App\Domain\Strava\Segment\SegmentId;
 use App\Infrastructure\CQRS\Bus\CommandBus;
 use App\Tests\ContainerTestCase;
-use App\Tests\Domain\Strava\Activity\ActivityBuilder;
+use App\Tests\Domain\Strava\Activity\WriteModel\ActivityBuilder;
 use App\Tests\Domain\Strava\Segment\SegmentEffort\SegmentEffortBuilder;
 use App\Tests\SpyOutput;
 use Spatie\Snapshots\MatchesSnapshots;
@@ -29,6 +29,7 @@ class ImportSegmentsCommandHandlerTest extends ContainerTestCase
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::fromUnprefixed(1))
                 ->withData([
+                    'name' => 'Test activity 1',
                     'device_name' => 'Zwift',
                     'segment_efforts' => [
                         [
@@ -47,6 +48,7 @@ class ImportSegmentsCommandHandlerTest extends ContainerTestCase
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::fromUnprefixed(2))
                 ->withData([
+                    'name' => 'Test activity 2',
                     'segment_efforts' => [
                         [
                             'id' => '2',
@@ -63,7 +65,9 @@ class ImportSegmentsCommandHandlerTest extends ContainerTestCase
         $this->getContainer()->get(ActivityRepository::class)->add(
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::fromUnprefixed(3))
-                ->withData([])
+                ->withData([
+                    'name' => 'Test activity 3',
+                ])
                 ->build()
         );
         $this->getContainer()->get(SegmentEffortRepository::class)->add(

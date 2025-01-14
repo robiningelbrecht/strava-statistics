@@ -9,7 +9,7 @@ use App\Domain\Strava\Activity\SportType\SportTypes;
 use App\Domain\Strava\Activity\SportType\SportTypesToImport;
 use App\Domain\Strava\Activity\WriteModel\ActivityRepository;
 use App\Tests\ContainerTestCase;
-use App\Tests\Domain\Strava\Activity\ActivityBuilder;
+use App\Tests\Domain\Strava\Activity\WriteModel\ActivityBuilder;
 
 class DbalSportTypeRepositoryTest extends ContainerTestCase
 {
