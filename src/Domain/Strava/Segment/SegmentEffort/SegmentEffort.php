@@ -6,8 +6,8 @@ namespace App\Domain\Strava\Segment\SegmentEffort;
 
 use App\Domain\Measurement\Length\Kilometer;
 use App\Domain\Measurement\Velocity\KmPerHour;
-use App\Domain\Strava\Activity\Activity;
 use App\Domain\Strava\Activity\ActivityId;
+use App\Domain\Strava\Activity\WriteModel\Activity;
 use App\Domain\Strava\Segment\SegmentId;
 use App\Infrastructure\Time\TimeFormatter;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;

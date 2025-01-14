@@ -2,9 +2,9 @@
 
 namespace App\Domain\Strava;
 
-use App\Domain\Strava\Activity\Activities;
-use App\Domain\Strava\Activity\Activity;
 use App\Domain\Strava\Activity\ActivityType;
+use App\Domain\Strava\Activity\WriteModel\Activities;
+use App\Domain\Strava\Activity\WriteModel\Activity;
 use App\Infrastructure\ValueObject\Time\Dates;
 
 final readonly class Trivia

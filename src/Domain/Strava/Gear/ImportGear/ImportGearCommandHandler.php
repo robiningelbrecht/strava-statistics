@@ -2,7 +2,7 @@
 
 namespace App\Domain\Strava\Gear\ImportGear;
 
-use App\Domain\Strava\Activity\ActivityRepository;
+use App\Domain\Strava\Activity\WriteModel\ActivityRepository;
 use App\Domain\Strava\Gear\Gear;
 use App\Domain\Strava\Gear\GearRepository;
 use App\Domain\Strava\Strava;

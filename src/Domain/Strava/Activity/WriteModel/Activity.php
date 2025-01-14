@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Domain\Strava\Activity;
+namespace App\Domain\Strava\Activity\WriteModel;
 
 use App\Domain\Measurement\Length\Kilometer;
 use App\Domain\Measurement\Length\Meter;
 use App\Domain\Measurement\Velocity\KmPerHour;
+use App\Domain\Strava\Activity\ActivityId;
+use App\Domain\Strava\Activity\ActivityWasDeleted;
 use App\Domain\Strava\Activity\SportType\SportType;
 use App\Domain\Strava\Activity\Stream\PowerOutput;
 use App\Domain\Strava\Gear\GearId;

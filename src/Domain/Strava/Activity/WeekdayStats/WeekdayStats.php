@@ -6,8 +6,8 @@ namespace App\Domain\Strava\Activity\WeekdayStats;
 
 use App\Domain\Measurement\Length\Kilometer;
 use App\Domain\Measurement\Length\Meter;
-use App\Domain\Strava\Activity\Activities;
-use App\Domain\Strava\Activity\Activity;
+use App\Domain\Strava\Activity\WriteModel\Activities;
+use App\Domain\Strava\Activity\WriteModel\Activity;
 use Carbon\CarbonInterval;
 
 final readonly class WeekdayStats

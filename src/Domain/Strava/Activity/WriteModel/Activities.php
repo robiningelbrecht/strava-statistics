@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Strava\Activity;
+namespace App\Domain\Strava\Activity\WriteModel;
 
+use App\Domain\Strava\Activity\ActivityId;
+use App\Domain\Strava\Activity\ActivityType;
 use App\Domain\Strava\Activity\SportType\SportType;
 use App\Domain\Strava\Calendar\Month;
 use App\Domain\Strava\Calendar\Week;

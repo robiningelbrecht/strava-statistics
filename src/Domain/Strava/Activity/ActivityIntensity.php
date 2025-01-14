@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Activity;
 
+use App\Domain\Strava\Activity\WriteModel\Activity;
 use App\Domain\Strava\Athlete\AthleteRepository;
 use App\Domain\Strava\Ftp\FtpRepository;
 use App\Infrastructure\Exception\EntityNotFound;

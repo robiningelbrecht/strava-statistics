@@ -4,12 +4,12 @@ namespace App\Domain\Strava\Activity\ImportActivities;
 
 use App\Domain\Measurement\Length\Meter;
 use App\Domain\Strava\Activity\ActivitiesToSkipDuringImport;
-use App\Domain\Strava\Activity\Activity;
 use App\Domain\Strava\Activity\ActivityId;
-use App\Domain\Strava\Activity\ActivityRepository;
 use App\Domain\Strava\Activity\NumberOfNewActivitiesToProcessPerImport;
 use App\Domain\Strava\Activity\SportType\SportType;
 use App\Domain\Strava\Activity\SportType\SportTypesToImport;
+use App\Domain\Strava\Activity\WriteModel\Activity;
+use App\Domain\Strava\Activity\WriteModel\ActivityRepository;
 use App\Domain\Strava\Gear\GearId;
 use App\Domain\Strava\Strava;
 use App\Domain\Strava\StravaDataImportStatus;

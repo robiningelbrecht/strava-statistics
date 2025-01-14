@@ -4,6 +4,8 @@ namespace App\Domain\Strava\Activity;
 
 use App\Domain\Measurement\Length\Kilometer;
 use App\Domain\Measurement\Length\Meter;
+use App\Domain\Strava\Activity\WriteModel\Activities;
+use App\Domain\Strava\Activity\WriteModel\Activity;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use Carbon\CarbonInterval;
 

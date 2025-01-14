@@ -2,11 +2,11 @@
 
 namespace App\Tests\Domain\Strava\Activity;
 
-use App\Domain\Strava\Activity\Activities;
 use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\ActivityIds;
-use App\Domain\Strava\Activity\ActivityRepository;
-use App\Domain\Strava\Activity\DbalActivityRepository;
+use App\Domain\Strava\Activity\WriteModel\Activities;
+use App\Domain\Strava\Activity\WriteModel\ActivityRepository;
+use App\Domain\Strava\Activity\WriteModel\DbalActivityRepository;
 use App\Domain\Strava\Gear\GearId;
 use App\Domain\Strava\Gear\GearIds;
 use App\Infrastructure\Eventing\EventBus;

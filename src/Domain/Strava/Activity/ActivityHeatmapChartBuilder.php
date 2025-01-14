@@ -2,6 +2,8 @@
 
 namespace App\Domain\Strava\Activity;
 
+use App\Domain\Strava\Activity\WriteModel\Activities;
+use App\Domain\Strava\Activity\WriteModel\Activity;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
 final readonly class ActivityHeatmapChartBuilder

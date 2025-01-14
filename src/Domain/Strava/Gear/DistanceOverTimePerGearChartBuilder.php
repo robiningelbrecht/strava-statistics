@@ -6,8 +6,8 @@ namespace App\Domain\Strava\Gear;
 
 use App\Domain\Measurement\Length\Kilometer;
 use App\Domain\Measurement\UnitSystem;
-use App\Domain\Strava\Activity\Activities;
-use App\Domain\Strava\Activity\Activity;
+use App\Domain\Strava\Activity\WriteModel\Activities;
+use App\Domain\Strava\Activity\WriteModel\Activity;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
 final readonly class DistanceOverTimePerGearChartBuilder

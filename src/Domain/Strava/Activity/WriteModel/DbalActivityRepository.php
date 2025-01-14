@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Domain\Strava\Activity;
+namespace App\Domain\Strava\Activity\WriteModel;
 
+use App\Domain\Strava\Activity\ActivityId;
+use App\Domain\Strava\Activity\ActivityIds;
 use App\Domain\Strava\Activity\SportType\SportType;
 use App\Domain\Strava\Gear\GearId;
 use App\Domain\Strava\Gear\GearIds;

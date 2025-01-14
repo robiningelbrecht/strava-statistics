@@ -6,7 +6,6 @@ use App\Domain\Measurement\Length\Kilometer;
 use App\Domain\Measurement\UnitSystem;
 use App\Domain\Strava\Activity\ActivityHeatmapChartBuilder;
 use App\Domain\Strava\Activity\ActivityIntensity;
-use App\Domain\Strava\Activity\ActivityRepository;
 use App\Domain\Strava\Activity\ActivityTotals;
 use App\Domain\Strava\Activity\ActivityTypeRepository;
 use App\Domain\Strava\Activity\DaytimeStats\DaytimeStats;
@@ -28,6 +27,7 @@ use App\Domain\Strava\Activity\Stream\StreamTypes;
 use App\Domain\Strava\Activity\WeekdayStats\WeekdayStats;
 use App\Domain\Strava\Activity\WeekdayStats\WeekdayStatsChartsBuilder;
 use App\Domain\Strava\Activity\WeeklyDistanceChartBuilder;
+use App\Domain\Strava\Activity\WriteModel\ActivityRepository;
 use App\Domain\Strava\Activity\YearlyDistance\YearlyDistanceChartBuilder;
 use App\Domain\Strava\Activity\YearlyDistance\YearlyStatistics;
 use App\Domain\Strava\Athlete\AthleteRepository;
@@ -152,7 +152,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
         $bestPowerOutputs = $this->activityPowerRepository->findBest();
 
         $command->getOutput()->writeln('  => Enriching activities with data');
-        /** @var \App\Domain\Strava\Activity\Activity $activity */
+        /** @var \App\Domain\Strava\Activity\WriteModel\Activity $activity */
         foreach ($allActivities as $activity) {
             $activity->enrichWithBestPowerOutputs(
                 $this->activityPowerRepository->findBestForActivity($activity->getId())
