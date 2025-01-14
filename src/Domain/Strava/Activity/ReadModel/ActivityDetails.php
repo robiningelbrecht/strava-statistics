@@ -14,10 +14,12 @@ use App\Domain\Strava\Gear\GearId;
 use App\Domain\Strava\LeafletMap;
 use App\Domain\Weather\OpenMeteo\Weather;
 use App\Infrastructure\Geocoding\Nominatim\Location;
+use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\Time\TimeFormatter;
 use App\Infrastructure\ValueObject\Geography\Coordinate;
 use App\Infrastructure\ValueObject\Geography\Latitude;
 use App\Infrastructure\ValueObject\Geography\Longitude;
+use App\Infrastructure\ValueObject\String\Name;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
 final class ActivityDetails
@@ -25,21 +27,39 @@ final class ActivityDetails
     use TimeFormatter;
 
     private ?string $gearName = null;
+    private ?int $maxCadence = null;
     /** @var array<mixed> */
     private array $bestPowerOutputs = [];
 
-    /**
-     * @param array<mixed> $data
-     * @param array<mixed> $weather
-     */
     public function __construct(
         private readonly ActivityId $activityId,
         private readonly SerializableDateTime $startDateTime,
         private readonly SportType $sportType,
-        private array $data,
-        private readonly ?Location $location = null,
-        private readonly array $weather = [],
-        private readonly ?GearId $gearId = null,
+        private readonly Name $name,
+        private readonly string $description,
+        private readonly Kilometer $distance,
+        private readonly Meter $elevation,
+        private readonly ?Latitude $latitude,
+        private readonly ?Longitude $longitude,
+        private readonly int $calories,
+        private readonly ?int $averagePower,
+        private readonly ?int $maxPower,
+        private readonly KmPerHour $averageSpeed,
+        private readonly KmPerHour $maxSpeed,
+        private readonly ?int $averageHeartRate,
+        private readonly ?int $maxHeartRate,
+        private readonly ?int $averageCadence,
+        private readonly int $movingTimeInSeconds,
+        private readonly int $kudoCount,
+        private readonly int $totalImageCount,
+        private readonly ?string $deviceName,
+        /** @var array<string> */
+        private readonly array $localImagePaths,
+        private readonly ?string $polyline,
+        private readonly ?Location $location,
+        private readonly string $segmentEfforts,
+        private readonly string $weather,
+        private readonly ?GearId $gearId,
     ) {
     }
 
@@ -60,17 +80,17 @@ final class ActivityDetails
 
     public function getLatitude(): ?Latitude
     {
-        return Latitude::fromOptionalString((string) ($this->data['start_latlng'][0] ?? null));
+        return $this->latitude;
     }
 
     public function getLongitude(): ?Longitude
     {
-        return Longitude::fromOptionalString((string) ($this->data['start_latlng'][1] ?? null));
+        return $this->longitude;
     }
 
     public function getKudoCount(): int
     {
-        return $this->data['kudos_count'] ?? 0;
+        return $this->kudoCount;
     }
 
     public function getGearId(): ?GearId
@@ -108,21 +128,22 @@ final class ActivityDetails
 
     public function getWeather(): ?Weather
     {
+        $decodedWeather = Json::decode($this->weather);
         $hour = $this->getStartDate()->getHourWithoutLeadingZero();
-        if (!empty($this->weather['hourly']['time'][$hour])) {
+        if (!empty($decodedWeather['hourly']['time'][$hour])) {
             // Use weather known for the given hour.
             $weather = [];
-            foreach ($this->weather['hourly'] as $metric => $values) {
+            foreach ($decodedWeather['hourly'] as $metric => $values) {
                 $weather[$metric] = $values[$hour];
             }
 
             return Weather::fromMap($weather);
         }
 
-        if (!empty($this->weather['daily'])) {
+        if (!empty($decodedWeather['daily'])) {
             // Use weather known for that day.
             $weather = [];
-            foreach ($this->weather['daily'] as $metric => $values) {
+            foreach ($decodedWeather['daily'] as $metric => $values) {
                 $weather[$metric] = reset($values);
             }
 
@@ -137,103 +158,87 @@ final class ActivityDetails
      */
     public function getLocalImagePaths(): array
     {
-        return $this->data['localImagePaths'] ?? [];
+        return $this->localImagePaths;
     }
 
     public function getTotalImageCount(): int
     {
-        return $this->data['total_photo_count'] ?? 0;
+        return $this->totalImageCount;
     }
 
     public function getName(): string
     {
-        return trim(str_replace('Zwift - ', '', $this->data['name']));
+        return trim(str_replace('Zwift - ', '', (string) $this->name));
     }
 
     public function getDescription(): string
     {
-        return trim($this->data['description'] ?? '');
+        return trim($this->description);
     }
 
     public function getDistance(): Kilometer
     {
-        return Kilometer::from($this->data['distance'] / 1000);
+        return $this->distance;
     }
 
     public function getElevation(): Meter
     {
-        return Meter::from($this->data['total_elevation_gain']);
+        return $this->elevation;
     }
 
     public function getCalories(): int
     {
-        return (int) ($this->data['calories'] ?? 0);
+        return $this->calories;
     }
 
     public function getAveragePower(): ?int
     {
-        if (isset($this->data['average_watts'])) {
-            return (int) round($this->data['average_watts']);
-        }
-
-        return null;
+        return $this->averagePower;
     }
 
     public function getMaxPower(): ?int
     {
-        if (isset($this->data['max_watts'])) {
-            return (int) round($this->data['max_watts']);
-        }
-
-        return null;
+        return $this->maxPower;
     }
 
     public function getAverageSpeed(): KmPerHour
     {
-        return KmPerHour::from($this->data['average_speed'] * 3.6);
+        return $this->averageSpeed;
     }
 
     public function getMaxSpeed(): KmPerHour
     {
-        return KmPerHour::from($this->data['max_speed'] * 3.6);
+        return $this->maxSpeed;
     }
 
     public function getAverageHeartRate(): ?int
     {
-        if (isset($this->data['average_heartrate'])) {
-            return (int) round($this->data['average_heartrate']);
-        }
-
-        return null;
+        return $this->averageHeartRate;
     }
 
     public function getMaxHeartRate(): ?int
     {
-        if (isset($this->data['max_heartrate'])) {
-            return (int) round($this->data['max_heartrate']);
-        }
-
-        return null;
+        return $this->maxHeartRate;
     }
 
     public function getAverageCadence(): ?int
     {
-        return !empty($this->data['average_cadence']) ? (int) round($this->data['average_cadence']) : null;
+        return $this->averageCadence;
     }
 
     public function getMaxCadence(): ?int
     {
-        return $this->data['max_cadence'] ?? null;
+        return $this->maxCadence;
     }
 
     public function enrichWithMaxCadence(int $maxCadence): void
     {
-        $this->data['max_cadence'] = $maxCadence;
+        $this->maxCadence = $maxCadence;
     }
 
     public function getMovingTimeInSeconds(): int
     {
-        return $this->data['moving_time'];
+        return $this->movingTimeInSeconds;
     }
 
     public function getMovingTimeFormatted(): string
@@ -243,21 +248,17 @@ final class ActivityDetails
 
     public function getUrl(): string
     {
-        return 'https://www.strava.com/activities/'.$this->data['id'];
+        return 'https://www.strava.com/activities/'.$this->getId()->toUnprefixedString();
     }
 
     public function getPolylineSummary(): ?string
     {
-        return $this->data['map']['summary_polyline'] ?? null;
+        return $this->polyline;
     }
 
     public function getDeviceName(): ?string
     {
-        if (!isset($this->data['device_name'])) {
-            return null;
-        }
-
-        return $this->data['device_name'];
+        return $this->deviceName;
     }
 
     public function isZwiftRide(): bool
@@ -293,7 +294,7 @@ final class ActivityDetails
      */
     public function getSegmentEfforts(): array
     {
-        return $this->data['segment_efforts'] ?? [];
+        return !empty($result['segmentEfforts']) ? Json::decode($result['segmentEfforts']) : [];
     }
 
     public function getLocation(): ?Location
