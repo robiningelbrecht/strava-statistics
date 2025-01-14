@@ -7,7 +7,6 @@ namespace App\Domain\Strava\Activity\ReadModel;
 use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\ActivityType;
 use App\Domain\Strava\Activity\SportType\SportType;
-use App\Domain\Strava\Activity\WriteModel\Activity;
 use App\Domain\Strava\Calendar\Month;
 use App\Domain\Strava\Calendar\Week;
 use App\Infrastructure\ValueObject\Collection;
@@ -72,11 +71,11 @@ final class Activities extends Collection
         return $this->filter(fn (ActivityDetails $activity) => $sportType === $activity->getSportType());
     }
 
-    public function getByActivityId(ActivityId $activityId): Activity
+    public function getByActivityId(ActivityId $activityId): ActivityDetails
     {
         $activities = $this->filter(fn (ActivityDetails $activity) => $activityId == $activity->getId())->toArray();
 
-        /** @var Activity $activity */
+        /** @var ActivityDetails $activity */
         $activity = reset($activities);
 
         return $activity;

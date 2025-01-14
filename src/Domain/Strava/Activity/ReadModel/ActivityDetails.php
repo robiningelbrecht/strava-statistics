@@ -60,12 +60,12 @@ final class ActivityDetails
 
     public function getLatitude(): ?Latitude
     {
-        return Latitude::fromOptionalString($this->data['start_latlng'][0] ?? null);
+        return Latitude::fromOptionalString((string) ($this->data['start_latlng'][0] ?? null));
     }
 
     public function getLongitude(): ?Longitude
     {
-        return Longitude::fromOptionalString($this->data['start_latlng'][1] ?? null);
+        return Longitude::fromOptionalString((string) ($this->data['start_latlng'][1] ?? null));
     }
 
     public function getKudoCount(): int

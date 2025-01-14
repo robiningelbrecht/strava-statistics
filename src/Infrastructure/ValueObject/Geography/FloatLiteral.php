@@ -37,6 +37,9 @@ abstract readonly class FloatLiteral implements \JsonSerializable
         if (is_null($string)) {
             return null;
         }
+        if ('' === $string) {
+            return null;
+        }
 
         return static::fromString($string);
     }

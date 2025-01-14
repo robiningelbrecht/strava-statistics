@@ -7,7 +7,7 @@ namespace App\Domain\Strava\Segment\SegmentEffort;
 use App\Domain\Measurement\Length\Kilometer;
 use App\Domain\Measurement\Velocity\KmPerHour;
 use App\Domain\Strava\Activity\ActivityId;
-use App\Domain\Strava\Activity\WriteModel\Activity;
+use App\Domain\Strava\Activity\ReadModel\ActivityDetails;
 use App\Domain\Strava\Segment\SegmentId;
 use App\Infrastructure\Time\TimeFormatter;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
@@ -18,7 +18,7 @@ final class SegmentEffort
 {
     use TimeFormatter;
 
-    private ?Activity $activity = null;
+    private ?ActivityDetails $activity = null;
 
     /**
      * @param array<mixed> $data
@@ -139,12 +139,12 @@ final class SegmentEffort
         return $this->data;
     }
 
-    public function getActivity(): ?Activity
+    public function getActivity(): ?ActivityDetails
     {
         return $this->activity;
     }
 
-    public function enrichWithActivity(Activity $activity): void
+    public function enrichWithActivity(ActivityDetails $activity): void
     {
         $this->activity = $activity;
     }

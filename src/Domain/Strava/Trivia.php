@@ -5,7 +5,6 @@ namespace App\Domain\Strava;
 use App\Domain\Strava\Activity\ActivityType;
 use App\Domain\Strava\Activity\ReadModel\Activities;
 use App\Domain\Strava\Activity\ReadModel\ActivityDetails;
-use App\Domain\Strava\Activity\WriteModel\Activity;
 use App\Infrastructure\ValueObject\Time\Dates;
 
 final readonly class Trivia
@@ -135,7 +134,7 @@ final readonly class Trivia
     public function getMostConsecutiveDaysOfCycling(): Dates
     {
         return Dates::fromDates($this->activities->map(
-            fn (Activity $activity) => $activity->getStartDate(),
+            fn (ActivityDetails $activity) => $activity->getStartDate(),
         ))->getLongestConsecutiveDateRange();
     }
 }
