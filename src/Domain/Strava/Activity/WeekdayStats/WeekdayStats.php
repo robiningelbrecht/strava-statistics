@@ -6,8 +6,8 @@ namespace App\Domain\Strava\Activity\WeekdayStats;
 
 use App\Domain\Measurement\Length\Kilometer;
 use App\Domain\Measurement\Length\Meter;
-use App\Domain\Strava\Activity\WriteModel\Activities;
-use App\Domain\Strava\Activity\WriteModel\Activity;
+use App\Domain\Strava\Activity\ReadModel\Activities;
+use App\Domain\Strava\Activity\ReadModel\ActivityDetails;
 use Carbon\CarbonInterval;
 
 final readonly class WeekdayStats
@@ -32,7 +32,7 @@ final readonly class WeekdayStats
     {
         $statistics = [];
         $daysOfTheWeekMap = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        $totalMovingTime = $this->activities->sum(fn (Activity $activity) => $activity->getMovingTimeInSeconds());
+        $totalMovingTime = $this->activities->sum(fn (ActivityDetails $activity) => $activity->getMovingTimeInSeconds());
 
         foreach ([1, 2, 3, 4, 5, 6, 0] as $weekDay) {
             $statistics[$daysOfTheWeekMap[$weekDay]] = [
@@ -45,7 +45,7 @@ final readonly class WeekdayStats
             ];
         }
 
-        /** @var Activity $activity */
+        /** @var ActivityDetails $activity */
         foreach ($this->activities as $activity) {
             $weekDay = $daysOfTheWeekMap[$activity->getStartDate()->format('w')];
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Strava\Activity\Stream;
 
 use App\Domain\Strava\Activity\ActivityId;
-use App\Domain\Strava\Activity\WriteModel\ActivityRepository;
+use App\Domain\Strava\Activity\ReadModel\ActivityDetailsRepository;
 use App\Domain\Strava\Athlete\AthleteRepository;
 use App\Domain\Strava\Athlete\HeartRateZone;
 
@@ -15,7 +15,7 @@ final class StreamBasedActivityHeartRateRepository implements ActivityHeartRateR
     private static array $cachedHeartRateZonesPerActivity = [];
 
     public function __construct(
-        private readonly ActivityRepository $activityRepository,
+        private readonly ActivityDetailsRepository $activityRepository,
         private readonly ActivityStreamRepository $activityStreamRepository,
         private readonly AthleteRepository $athleteRepository,
     ) {
@@ -65,7 +65,7 @@ final class StreamBasedActivityHeartRateRepository implements ActivityHeartRateR
         $activities = $this->activityRepository->findAll();
         $heartRateStreams = $this->activityStreamRepository->findByStreamType(StreamType::HEART_RATE);
 
-        /** @var \App\Domain\Strava\Activity\WriteModel\Activity $activity */
+        /** @var \App\Domain\Strava\Activity\ReadModel\ActivityDetails $activity */
         foreach ($activities as $activity) {
             StreamBasedActivityHeartRateRepository::$cachedHeartRateZonesPerActivity[(string) $activity->getId()] = [
                 1 => 0,

@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Strava\Activity\WriteModel;
+namespace App\Domain\Strava\Activity\ReadModel;
 
 use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\ActivityType;
 use App\Domain\Strava\Activity\SportType\SportType;
+use App\Domain\Strava\Activity\WriteModel\Activity;
 use App\Domain\Strava\Calendar\Month;
 use App\Domain\Strava\Calendar\Week;
 use App\Infrastructure\ValueObject\Collection;
@@ -15,13 +16,13 @@ use App\Infrastructure\ValueObject\Time\Year;
 use App\Infrastructure\ValueObject\Time\Years;
 
 /**
- * @extends Collection<Activity>
+ * @extends Collection<\App\Domain\Strava\Activity\ReadModel\ActivityDetails>
  */
 final class Activities extends Collection
 {
     public function getItemClassName(): string
     {
-        return Activity::class;
+        return ActivityDetails::class;
     }
 
     public function getFirstActivityStartDate(): SerializableDateTime
@@ -43,37 +44,37 @@ final class Activities extends Collection
 
     public function filterOnDate(SerializableDateTime $date): Activities
     {
-        return $this->filter(fn (Activity $activity) => $activity->getStartDate()->format('Ymd') === $date->format('Ymd'));
+        return $this->filter(fn (ActivityDetails $activity) => $activity->getStartDate()->format('Ymd') === $date->format('Ymd'));
     }
 
     public function filterOnMonth(Month $month): Activities
     {
-        return $this->filter(fn (Activity $activity) => $activity->getStartDate()->format(Month::MONTH_ID_FORMAT) === $month->getId());
+        return $this->filter(fn (ActivityDetails $activity) => $activity->getStartDate()->format(Month::MONTH_ID_FORMAT) === $month->getId());
     }
 
     public function filterOnWeek(Week $week): Activities
     {
-        return $this->filter(fn (Activity $activity) => $activity->getStartDate()->getYearAndWeekNumberString() === $week->getId());
+        return $this->filter(fn (ActivityDetails $activity) => $activity->getStartDate()->getYearAndWeekNumberString() === $week->getId());
     }
 
     public function filterOnDateRange(SerializableDateTime $fromDate, SerializableDateTime $toDate): Activities
     {
-        return $this->filter(fn (Activity $activity) => $activity->getStartDate()->isAfterOrOn($fromDate) && $activity->getStartDate()->isBeforeOrOn($toDate));
+        return $this->filter(fn (ActivityDetails $activity) => $activity->getStartDate()->isAfterOrOn($fromDate) && $activity->getStartDate()->isBeforeOrOn($toDate));
     }
 
     public function filterOnActivityType(ActivityType $activityType): Activities
     {
-        return $this->filter(fn (Activity $activity) => $activityType === $activity->getSportType()->getActivityType());
+        return $this->filter(fn (ActivityDetails $activity) => $activityType === $activity->getSportType()->getActivityType());
     }
 
     public function filterOnSportType(SportType $sportType): Activities
     {
-        return $this->filter(fn (Activity $activity) => $sportType === $activity->getSportType());
+        return $this->filter(fn (ActivityDetails $activity) => $sportType === $activity->getSportType());
     }
 
     public function getByActivityId(ActivityId $activityId): Activity
     {
-        $activities = $this->filter(fn (Activity $activity) => $activityId == $activity->getId())->toArray();
+        $activities = $this->filter(fn (ActivityDetails $activity) => $activityId == $activity->getId())->toArray();
 
         /** @var Activity $activity */
         $activity = reset($activities);
@@ -84,7 +85,7 @@ final class Activities extends Collection
     public function getUniqueYears(): Years
     {
         $years = Years::empty();
-        /** @var Activity $activity */
+        /** @var ActivityDetails $activity */
         foreach ($this as $activity) {
             $activityYear = Year::fromInt($activity->getStartDate()->getYear());
             if ($years->has($activityYear)) {

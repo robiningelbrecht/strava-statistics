@@ -6,8 +6,8 @@ namespace App\Domain\Strava\Gear;
 
 use App\Domain\Measurement\Length\Kilometer;
 use App\Domain\Measurement\UnitSystem;
-use App\Domain\Strava\Activity\WriteModel\Activities;
-use App\Domain\Strava\Activity\WriteModel\Activity;
+use App\Domain\Strava\Activity\ReadModel\Activities;
+use App\Domain\Strava\Activity\ReadModel\ActivityDetails;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
 final readonly class DistanceOverTimePerGearChartBuilder
@@ -52,10 +52,10 @@ final readonly class DistanceOverTimePerGearChartBuilder
             $runningTotal = 0;
             foreach ($period as $date) {
                 $date = SerializableDateTime::fromDateTimeImmutable($date);
-                $activitiesOnThisDay = $this->activities->filterOnDate($date)->filter(fn (Activity $activity) => $activity->getGearId() == $gear->getId());
+                $activitiesOnThisDay = $this->activities->filterOnDate($date)->filter(fn (ActivityDetails $activity) => $activity->getGearId() == $gear->getId());
 
                 $runningTotal += $activitiesOnThisDay->sum(
-                    fn (Activity $activity) => $activity->getDistance()->toUnitSystem($this->unitSystem)->toFloat()
+                    fn (ActivityDetails $activity) => $activity->getDistance()->toUnitSystem($this->unitSystem)->toFloat()
                 );
                 $distanceOverTimePerGear[(string) $gear->getId()][] = [$date->format('Y-m-d'), round($runningTotal)];
             }

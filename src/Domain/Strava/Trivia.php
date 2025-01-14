@@ -3,7 +3,8 @@
 namespace App\Domain\Strava;
 
 use App\Domain\Strava\Activity\ActivityType;
-use App\Domain\Strava\Activity\WriteModel\Activities;
+use App\Domain\Strava\Activity\ReadModel\Activities;
+use App\Domain\Strava\Activity\ReadModel\ActivityDetails;
 use App\Domain\Strava\Activity\WriteModel\Activity;
 use App\Infrastructure\ValueObject\Time\Dates;
 
@@ -14,19 +15,19 @@ final readonly class Trivia
     ) {
     }
 
-    public static function fromActivities(Activities $activities): self
+    public static function create(Activities $activities): self
     {
         return new self($activities);
     }
 
     public function getTotalKudosReceived(): int
     {
-        return (int) $this->activities->sum(fn (Activity $activity) => $activity->getKudoCount());
+        return (int) $this->activities->sum(fn (ActivityDetails $activity) => $activity->getKudoCount());
     }
 
-    public function getMostKudotedActivity(): Activity
+    public function getMostKudotedActivity(): ActivityDetails
     {
-        /** @var Activity $mostKudotedActivity */
+        /** @var ActivityDetails $mostKudotedActivity */
         $mostKudotedActivity = $this->activities->getFirst();
         foreach ($this->activities as $activity) {
             if ($activity->getKudoCount() < $mostKudotedActivity->getKudoCount()) {
@@ -38,9 +39,9 @@ final readonly class Trivia
         return $mostKudotedActivity;
     }
 
-    public function getFirstActivity(): Activity
+    public function getFirstActivity(): ActivityDetails
     {
-        /** @var Activity $fistActivity */
+        /** @var ActivityDetails $fistActivity */
         $fistActivity = $this->activities->getFirst();
         foreach ($this->activities as $activity) {
             if ($activity->getStartDate() > $fistActivity->getStartDate()) {
@@ -52,9 +53,9 @@ final readonly class Trivia
         return $fistActivity;
     }
 
-    public function getEarliestActivity(): Activity
+    public function getEarliestActivity(): ActivityDetails
     {
-        /** @var Activity $earliestActivity */
+        /** @var ActivityDetails $earliestActivity */
         $earliestActivity = $this->activities->getFirst();
         foreach ($this->activities as $activity) {
             if ($activity->getStartDate()->getMinutesSinceStartOfDay() > $earliestActivity->getStartDate()->getMinutesSinceStartOfDay()) {
@@ -66,9 +67,9 @@ final readonly class Trivia
         return $earliestActivity;
     }
 
-    public function getLatestActivity(): Activity
+    public function getLatestActivity(): ActivityDetails
     {
-        /** @var Activity $latestActivity */
+        /** @var ActivityDetails $latestActivity */
         $latestActivity = $this->activities->getFirst();
         foreach ($this->activities as $activity) {
             if ($activity->getStartDate()->getMinutesSinceStartOfDay() < $latestActivity->getStartDate()->getMinutesSinceStartOfDay()) {
@@ -80,13 +81,14 @@ final readonly class Trivia
         return $latestActivity;
     }
 
-    public function getLongestRide(): ?Activity
+    public function getLongestRide(): ?ActivityDetails
     {
         $bikeActivities = $this->activities->filterOnActivityType(ActivityType::RIDE);
 
         if (!$longestActivity = $bikeActivities->getFirst()) {
             return null;
         }
+        /** @var ActivityDetails $activity */
         foreach ($bikeActivities as $activity) {
             if ($activity->getDistance()->toFloat() < $longestActivity->getDistance()->toFloat()) {
                 continue;
@@ -97,7 +99,7 @@ final readonly class Trivia
         return $longestActivity;
     }
 
-    public function getFastestRide(): ?Activity
+    public function getFastestRide(): ?ActivityDetails
     {
         $bikeActivities = $this->activities->filterOnActivityType(ActivityType::RIDE);
 
@@ -105,6 +107,7 @@ final readonly class Trivia
             return null;
         }
 
+        /** @var ActivityDetails $activity */
         foreach ($bikeActivities as $activity) {
             if ($activity->getAverageSpeed()->toFloat() < $fastestActivity->getAverageSpeed()->toFloat()) {
                 continue;
@@ -115,9 +118,9 @@ final readonly class Trivia
         return $fastestActivity;
     }
 
-    public function getActivityWithHighestElevation(): Activity
+    public function getActivityWithHighestElevation(): ActivityDetails
     {
-        /** @var Activity $mostElevationActivity */
+        /** @var ActivityDetails $mostElevationActivity */
         $mostElevationActivity = $this->activities->getFirst();
         foreach ($this->activities as $activity) {
             if ($activity->getElevation()->toFloat() < $mostElevationActivity->getElevation()->toFloat()) {

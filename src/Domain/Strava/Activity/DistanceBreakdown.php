@@ -6,8 +6,8 @@ namespace App\Domain\Strava\Activity;
 
 use App\Domain\Measurement\Length\Kilometer;
 use App\Domain\Measurement\UnitSystem;
-use App\Domain\Strava\Activity\WriteModel\Activities;
-use App\Domain\Strava\Activity\WriteModel\Activity;
+use App\Domain\Strava\Activity\ReadModel\Activities;
+use App\Domain\Strava\Activity\ReadModel\ActivityDetails;
 use Carbon\CarbonInterval;
 
 final readonly class DistanceBreakdown
@@ -40,7 +40,7 @@ final readonly class DistanceBreakdown
         $numberOfBreakdowns = 11;
         $statistics = [];
         $longestDistanceForActivity = Kilometer::from($this->activities->max(
-            fn (Activity $activity) => $activity->getDistance()->toFloat()
+            fn (ActivityDetails $activity) => $activity->getDistance()->toFloat()
         ))->toUnitSystem($this->unitSystem);
 
         if ($longestDistanceForActivity->isZeroOrLower()) {
@@ -63,7 +63,7 @@ final readonly class DistanceBreakdown
         }
 
         foreach ($this->activities as $activity) {
-            /** @var Activity $activity */
+            /** @var ActivityDetails $activity */
             $distance = $activity->getDistance()->toUnitSystem($this->unitSystem);
             if ($distance->isZeroOrLower()) {
                 continue;

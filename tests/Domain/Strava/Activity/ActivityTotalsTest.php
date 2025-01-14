@@ -3,7 +3,7 @@
 namespace App\Tests\Domain\Strava\Activity;
 
 use App\Domain\Strava\Activity\ActivityTotals;
-use App\Domain\Strava\Activity\WriteModel\Activities;
+use App\Domain\Strava\Activity\ReadModel\Activities;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;

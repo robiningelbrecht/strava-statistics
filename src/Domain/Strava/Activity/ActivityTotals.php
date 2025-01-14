@@ -4,8 +4,8 @@ namespace App\Domain\Strava\Activity;
 
 use App\Domain\Measurement\Length\Kilometer;
 use App\Domain\Measurement\Length\Meter;
-use App\Domain\Strava\Activity\WriteModel\Activities;
-use App\Domain\Strava\Activity\WriteModel\Activity;
+use App\Domain\Strava\Activity\ReadModel\Activities;
+use App\Domain\Strava\Activity\ReadModel\ActivityDetails;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use Carbon\CarbonInterval;
 
@@ -17,28 +17,33 @@ final readonly class ActivityTotals
     ) {
     }
 
+    public static function fromActivities(Activities $activities, SerializableDateTime $now): self
+    {
+        return new self($activities, $now);
+    }
+
     public function getDistance(): Kilometer
     {
         return Kilometer::from(
-            $this->activities->sum(fn (Activity $activity) => $activity->getDistance()->toFloat())
+            $this->activities->sum(fn (ActivityDetails $activity) => $activity->getDistance()->toFloat())
         );
     }
 
     public function getElevation(): Meter
     {
         return Meter::from(
-            $this->activities->sum(fn (Activity $activity) => $activity->getElevation()->toFloat())
+            $this->activities->sum(fn (ActivityDetails $activity) => $activity->getElevation()->toFloat())
         );
     }
 
     public function getCalories(): int
     {
-        return (int) $this->activities->sum(fn (Activity $activity) => $activity->getCalories());
+        return (int) $this->activities->sum(fn (ActivityDetails $activity) => $activity->getCalories());
     }
 
     public function getMovingTimeFormatted(): string
     {
-        $seconds = $this->activities->sum(fn (Activity $activity) => $activity->getMovingTimeInSeconds());
+        $seconds = $this->activities->sum(fn (ActivityDetails $activity) => $activity->getMovingTimeInSeconds());
 
         return CarbonInterval::seconds($seconds)->cascade()->forHumans(['short' => true, 'minimumUnit' => 'minute']);
     }
@@ -87,11 +92,6 @@ final readonly class ActivityTotals
 
     public function getTotalDaysOfWorkingOut(): int
     {
-        return count(array_unique($this->activities->map(fn (Activity $activity) => $activity->getStartDate()->format('Ymd'))));
-    }
-
-    public static function fromActivities(Activities $activities, SerializableDateTime $now): self
-    {
-        return new self($activities, $now);
+        return count(array_unique($this->activities->map(fn (ActivityDetails $activity) => $activity->getStartDate()->format('Ymd'))));
     }
 }

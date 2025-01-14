@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Segment\ImportSegments;
 
+use App\Domain\Strava\Activity\ReadModel\ActivityDetailsRepository;
 use App\Domain\Strava\Activity\WriteModel\Activity;
-use App\Domain\Strava\Activity\WriteModel\ActivityRepository;
 use App\Domain\Strava\Segment\Segment;
 use App\Domain\Strava\Segment\SegmentEffort\SegmentEffort;
 use App\Domain\Strava\Segment\SegmentEffort\SegmentEffortId;
@@ -21,7 +21,7 @@ use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 final readonly class ImportSegmentsCommandHandler implements CommandHandler
 {
     public function __construct(
-        private ActivityRepository $activityRepository,
+        private ActivityDetailsRepository $activityRepository,
         private SegmentRepository $segmentRepository,
         private SegmentEffortRepository $segmentEffortRepository,
     ) {
@@ -36,7 +36,7 @@ final readonly class ImportSegmentsCommandHandler implements CommandHandler
 
         $countSegmentsAdded = 0;
         $countSegmentEffortsAdded = 0;
-        /** @var Activity $activity */
+        /** @var \App\Domain\Strava\Activity\ReadModel\ActivityDetails $activity */
         foreach ($this->activityRepository->findAll() as $activity) {
             if (!$segmentEfforts = $activity->getSegmentEfforts()) {
                 // No segments or we already imported them activity.

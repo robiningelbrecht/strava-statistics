@@ -2,19 +2,19 @@
 
 namespace App\Domain\Strava\Activity\Image;
 
-use App\Domain\Strava\Activity\WriteModel\Activity;
+use App\Domain\Strava\Activity\ReadModel\ActivityDetails;
 
 final readonly class Image
 {
     private function __construct(
         private string $imageLocation,
-        private Activity $activity,
+        private ActivityDetails $activity,
     ) {
     }
 
     public static function create(
         string $imageLocation,
-        Activity $activity,
+        ActivityDetails $activity,
     ): self {
         return new self(
             imageLocation: $imageLocation,
@@ -27,7 +27,7 @@ final readonly class Image
         return $this->imageLocation;
     }
 
-    public function getActivity(): Activity
+    public function getActivity(): ActivityDetails
     {
         return $this->activity;
     }

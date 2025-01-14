@@ -2,12 +2,12 @@
 
 namespace App\Domain\Strava\Activity\Image;
 
-use App\Domain\Strava\Activity\WriteModel\ActivityRepository;
+use App\Domain\Strava\Activity\ReadModel\ActivityDetailsRepository;
 
 final readonly class ActivityBasedImageRepository implements ImageRepository
 {
     public function __construct(
-        private ActivityRepository $activityRepository,
+        private ActivityDetailsRepository $activityRepository,
     ) {
     }
 
@@ -18,7 +18,7 @@ final readonly class ActivityBasedImageRepository implements ImageRepository
     {
         $images = [];
         $activities = $this->activityRepository->findAll();
-        /** @var \App\Domain\Strava\Activity\WriteModel\Activity $activity */
+        /** @var \App\Domain\Strava\Activity\ReadModel\ActivityDetails $activity */
         foreach ($activities as $activity) {
             if (0 === $activity->getTotalImageCount()) {
                 continue;

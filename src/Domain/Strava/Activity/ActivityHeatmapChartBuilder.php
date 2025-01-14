@@ -2,8 +2,7 @@
 
 namespace App\Domain\Strava\Activity;
 
-use App\Domain\Strava\Activity\WriteModel\Activities;
-use App\Domain\Strava\Activity\WriteModel\Activity;
+use App\Domain\Strava\Activity\ReadModel\Activities;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
 final readonly class ActivityHeatmapChartBuilder
@@ -141,7 +140,7 @@ final readonly class ActivityHeatmapChartBuilder
         );
 
         $data = $rawData = [];
-        /** @var Activity $activity */
+        /** @var ReadModel\ActivityDetails $activity */
         foreach ($activities as $activity) {
             if (!$intensity = $this->activityIntensity->calculate($activity)) {
                 continue;

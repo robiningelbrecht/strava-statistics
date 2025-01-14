@@ -17,6 +17,7 @@ use App\Domain\Strava\Activity\Eddington\EddingtonHistoryChartBuilder;
 use App\Domain\Strava\Activity\HeartRateDistributionChartBuilder;
 use App\Domain\Strava\Activity\Image\ImageRepository;
 use App\Domain\Strava\Activity\PowerDistributionChartBuilder;
+use App\Domain\Strava\Activity\ReadModel\ActivityDetailsRepository;
 use App\Domain\Strava\Activity\SportType\SportTypeRepository;
 use App\Domain\Strava\Activity\Stream\ActivityHeartRateRepository;
 use App\Domain\Strava\Activity\Stream\ActivityPowerRepository;
@@ -27,7 +28,6 @@ use App\Domain\Strava\Activity\Stream\StreamTypes;
 use App\Domain\Strava\Activity\WeekdayStats\WeekdayStats;
 use App\Domain\Strava\Activity\WeekdayStats\WeekdayStatsChartsBuilder;
 use App\Domain\Strava\Activity\WeeklyDistanceChartBuilder;
-use App\Domain\Strava\Activity\WriteModel\ActivityRepository;
 use App\Domain\Strava\Activity\YearlyDistance\YearlyDistanceChartBuilder;
 use App\Domain\Strava\Activity\YearlyDistance\YearlyStatistics;
 use App\Domain\Strava\Athlete\AthleteRepository;
@@ -65,7 +65,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
     private const string APP_VERSION = 'v0.3.6';
 
     public function __construct(
-        private ActivityRepository $activityRepository,
+        private ActivityDetailsRepository $activityRepository,
         private ChallengeRepository $challengeRepository,
         private GearRepository $gearRepository,
         private ImageRepository $imageRepository,
@@ -152,7 +152,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
         $bestPowerOutputs = $this->activityPowerRepository->findBest();
 
         $command->getOutput()->writeln('  => Enriching activities with data');
-        /** @var \App\Domain\Strava\Activity\WriteModel\Activity $activity */
+        /** @var \App\Domain\Strava\Activity\ReadModel\ActivityDetails $activity */
         foreach ($allActivities as $activity) {
             $activity->enrichWithBestPowerOutputs(
                 $this->activityPowerRepository->findBestForActivity($activity->getId())
@@ -271,7 +271,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                 ),
                 'daytimeStats' => $dayTimeStats,
                 'distanceBreakdowns' => $distanceBreakdowns,
-                'trivia' => Trivia::fromActivities($allActivities),
+                'trivia' => Trivia::create($allActivities),
                 'ftpHistoryChart' => !$allFtps->isEmpty() ? Json::encode(
                     FtpHistoryChartBuilder::create(
                         ftps: $allFtps,

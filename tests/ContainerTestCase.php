@@ -2,7 +2,7 @@
 
 namespace App\Tests;
 
-use App\Domain\Strava\Activity\WriteModel\ActivityRepository;
+use App\Domain\Strava\Activity\ReadModel\ActivityDetailsRepository;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
@@ -29,7 +29,7 @@ abstract class ContainerTestCase extends KernelTestCase
         $this->createTestDatabase();
 
         // Empty the static cache of the activity repository between tests.
-        $this->getContainer()->get(ActivityRepository::class)::$cachedActivities = [];
+        $this->getContainer()->get(ActivityDetailsRepository::class)::$cachedActivities = [];
         $this->getContainer()->get(FilesystemOperator::class)->resetWrites();
     }
 

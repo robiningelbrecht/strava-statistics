@@ -4,7 +4,7 @@ namespace App\Tests\Domain\Strava\Activity;
 
 use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\ActivityIds;
-use App\Domain\Strava\Activity\WriteModel\Activities;
+use App\Domain\Strava\Activity\ReadModel\Activities;
 use App\Domain\Strava\Activity\WriteModel\ActivityRepository;
 use App\Domain\Strava\Activity\WriteModel\DbalActivityRepository;
 use App\Domain\Strava\Gear\GearId;

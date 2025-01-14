@@ -10,19 +10,33 @@ use App\Domain\Strava\Gear\GearIds;
 use App\Infrastructure\Eventing\EventBus;
 use App\Infrastructure\Exception\EntityNotFound;
 use App\Infrastructure\Geocoding\Nominatim\Location;
+use App\Infrastructure\Repository\DbalRepository;
 use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use Doctrine\DBAL\Connection;
 
-final class DbalActivityRepository implements ActivityRepository
+final readonly class DbalActivityRepository extends DbalRepository implements ActivityRepository
 {
-    /** @var array<int|string, Activities> */
-    public static array $cachedActivities = [];
-
     public function __construct(
-        private readonly Connection $connection,
-        private readonly EventBus $eventBus,
+        Connection $connection,
+        private EventBus $eventBus,
     ) {
+        parent::__construct($connection);
+    }
+
+    public function find(ActivityId $activityId): Activity
+    {
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $queryBuilder->select('*')
+            ->from('Activity')
+            ->andWhere('activityId = :activityId')
+            ->setParameter('activityId', $activityId);
+
+        if (!$result = $queryBuilder->executeQuery()->fetchAssociative()) {
+            throw new EntityNotFound(sprintf('Activity "%s" not found', $activityId));
+        }
+
+        return $this->hydrate($result);
     }
 
     public function add(Activity $activity): void
@@ -81,43 +95,6 @@ final class DbalActivityRepository implements ActivityRepository
         return $data;
     }
 
-    public function find(ActivityId $activityId): Activity
-    {
-        $queryBuilder = $this->connection->createQueryBuilder();
-        $queryBuilder->select('*')
-            ->from('Activity')
-            ->andWhere('activityId = :activityId')
-            ->setParameter('activityId', $activityId);
-
-        if (!$result = $queryBuilder->executeQuery()->fetchAssociative()) {
-            throw new EntityNotFound(sprintf('Activity "%s" not found', $activityId));
-        }
-
-        return $this->hydrate($result);
-    }
-
-    public function findAll(?int $limit = null): Activities
-    {
-        $cacheKey = $limit ?? 'all';
-        if (array_key_exists($cacheKey, DbalActivityRepository::$cachedActivities)) {
-            return DbalActivityRepository::$cachedActivities[$cacheKey];
-        }
-
-        $queryBuilder = $this->connection->createQueryBuilder();
-        $queryBuilder->select('*')
-            ->from('Activity')
-            ->orderBy('startDateTime', 'DESC')
-            ->setMaxResults($limit);
-
-        $activities = array_map(
-            fn (array $result) => $this->hydrate($result),
-            $queryBuilder->executeQuery()->fetchAllAssociative()
-        );
-        DbalActivityRepository::$cachedActivities[$cacheKey] = Activities::fromArray($activities);
-
-        return DbalActivityRepository::$cachedActivities[$cacheKey];
-    }
-
     public function findActivityIds(): ActivityIds
     {
         $queryBuilder = $this->connection->createQueryBuilder();
@@ -146,20 +123,8 @@ final class DbalActivityRepository implements ActivityRepository
         ));
     }
 
-    public function findMostActiveState(): ?string
-    {
-        $queryBuilder = $this->connection->createQueryBuilder();
-        $queryBuilder->select("JSON_EXTRACT(location, '$.state') as state")
-            ->from('Activity')
-            ->andWhere('state IS NOT NULL')
-            ->groupBy("JSON_EXTRACT(location, '$.state')")
-            ->orderBy('COUNT(*)', 'DESC');
-
-        return $queryBuilder->executeQuery()->fetchOne();
-    }
-
     /**
-     * @param array<mixed> $result
+     * @param array<string, mixed> $result
      */
     private function hydrate(array $result): Activity
     {

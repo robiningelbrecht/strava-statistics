@@ -4,8 +4,7 @@ namespace App\Domain\Strava\Activity;
 
 use App\Domain\Measurement\Length\Kilometer;
 use App\Domain\Measurement\UnitSystem;
-use App\Domain\Strava\Activity\WriteModel\Activities;
-use App\Domain\Strava\Activity\WriteModel\Activity;
+use App\Domain\Strava\Activity\ReadModel\Activities;
 use App\Domain\Strava\Calendar\Week;
 use App\Domain\Strava\Calendar\Weeks;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
@@ -191,7 +190,7 @@ final readonly class WeeklyDistanceChartBuilder
             $timePerWeek[$week->getId()] = 0;
         }
 
-        /** @var Activity $activity */
+        /** @var ReadModel\ActivityDetails $activity */
         foreach ($this->activities as $activity) {
             $week = $activity->getStartDate()->getYearAndWeekNumberString();
             if (!array_key_exists($week, $distancePerWeek)) {

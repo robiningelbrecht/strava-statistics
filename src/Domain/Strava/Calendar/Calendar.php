@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Calendar;
 
-use App\Domain\Strava\Activity\WriteModel\Activities;
+use App\Domain\Strava\Activity\ReadModel\Activities;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
 final readonly class Calendar
