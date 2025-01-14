@@ -67,11 +67,22 @@ enum SportType: string
 
     public function getSingularLabel(): string
     {
+        if(self::HIIT === $this){
+            return 'HIIT';
+        }
         return ucwords(str_replace('_', ' ', strtolower($this->name)));
     }
 
     public function getPluralLabel(): string
     {
+        if (str_ends_with($this->getSingularLabel(), 's')) {
+            return $this->getSingularLabel();
+        }
+
+        if(in_array($this->getActivityType(), [ActivityType::WATER_SPORTS, ActivityType::WINTER_SPORTS, ActivityType::OTHER])){
+            return $this->getSingularLabel();
+        }
+
         return $this->getSingularLabel().'s';
     }
 
