@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Twig;
 
 use App\Domain\Measurement\UnitSystem;
+use App\Infrastructure\Time\Format\DateAndTimeFormat;
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -13,6 +14,7 @@ final class TwigExtensions extends AbstractExtension
     public function __construct(
         private readonly Environment $twig,
         private readonly UnitSystem $unitSystem,
+        private readonly DateAndTimeFormat $dateAndTimeFormat,
     ) {
     }
 
@@ -23,6 +25,8 @@ final class TwigExtensions extends AbstractExtension
             new TwigFilter('repeat', StrRepeatTwigExtension::doRepeat(...)),
             new TwigFilter('ellipses', StrEllipsisTwigExtension::doEllipses(...)),
             new TwigFilter('formatNumber', FormatNumberTwigExtension::doFormat(...)),
+            new TwigFilter('formatDate', [new FormatDateAndTimeTwigExtension($this->dateAndTimeFormat), 'formatDate']),
+            new TwigFilter('formatTime', [new FormatDateAndTimeTwigExtension($this->dateAndTimeFormat), 'formatTime']),
             new TwigFilter('convertMeasurement', [new ConvertMeasurementTwigExtension($this->unitSystem), 'doConversion']),
         ];
     }

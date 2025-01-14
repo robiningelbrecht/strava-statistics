@@ -4,11 +4,13 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-    env(UnitSystem): 'metric'
+    env(UNIT_SYSTEM): 'metric'
     env(SPORT_TYPES_TO_IMPORT): '[]'
     env(ACTIVITIES_TO_SKIP_DURING_IMPORT): '[]'
     env(NUMBER_OF_NEW_ACTIVITIES_TO_PROCESS_PER_IMPORT): 250
     env(NTFY_URL): ''
+    env(TIME_FORMAT): 24
+    env(DATE_FORMAT): 'DAY-MONTH-YEAR'
 
 services:
     # default configuration for services in *this* file
@@ -55,6 +57,13 @@ services:
     App\Infrastructure\Notification\Ntfy\NtfyUrl:
         factory: [ App\Infrastructure\Notification\Ntfy\NtfyUrl, 'fromOptionalString' ]
         arguments: ['%env(string:NTFY_URL)%']
+
+    App\Infrastructure\Time\Format\DateAndTimeFormat:
+        factory: [ App\Infrastructure\Time\Format\DateAndTimeFormat, 'create' ]
+        arguments: [
+            '%env(enum:App\Infrastructure\Time\Format\DateFormat:DATE_FORMAT)%',
+            '%env(enum:App\Infrastructure\Time\Format\TimeFormat:TIME_FORMAT)%',
+        ]
 
     League\Flysystem\FilesystemOperator: '@default.storage'
 

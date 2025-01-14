@@ -120,6 +120,12 @@ NUMBER_OF_NEW_ACTIVITIES_TO_PROCESS_PER_IMPORT=250
 
 # Allowed options: metric or imperial
 UNIT_SYSTEM=metric
+# Time format to use when rendering the app
+# Allowed formats: 24 or 12 (includes AM and PM)
+TIME_FORMAT=24
+# Date format to use when rendering the app
+# Allowed formats: DAY-MONTH-YEAR or MONTH-DAY-YEAR
+DATE_FORMAT=DAY-MONTH-YEAR
 # Sport types to import. Leave empty to import all sport types
 # With this list you can also decide the order the sport types will be rendered in.
 # A full list of allowed options is available on https://github.com/robiningelbrecht/strava-statistics/wiki/Supported-sport-types/

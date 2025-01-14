@@ -15,7 +15,7 @@ use App\Domain\Strava\LeafletMap;
 use App\Domain\Weather\OpenMeteo\Weather;
 use App\Infrastructure\Geocoding\Nominatim\Location;
 use App\Infrastructure\Serialization\Json;
-use App\Infrastructure\Time\TimeFormatter;
+use App\Infrastructure\Time\Format\ProvideTimeFormats;
 use App\Infrastructure\ValueObject\Geography\Coordinate;
 use App\Infrastructure\ValueObject\Geography\Latitude;
 use App\Infrastructure\ValueObject\Geography\Longitude;
@@ -24,7 +24,7 @@ use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
 final class ActivityDetails
 {
-    use TimeFormatter;
+    use ProvideTimeFormats;
 
     private ?string $gearName = null;
     private ?int $maxCadence = null;

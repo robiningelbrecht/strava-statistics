@@ -9,7 +9,7 @@ use App\Domain\Measurement\Velocity\KmPerHour;
 use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\ReadModel\ActivityDetails;
 use App\Domain\Strava\Segment\SegmentId;
-use App\Infrastructure\Time\TimeFormatter;
+use App\Infrastructure\Time\Format\ProvideTimeFormats;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Index(name: 'SegmentEffort_activityIndex', columns: ['activityId'])]
 final class SegmentEffort
 {
-    use TimeFormatter;
+    use ProvideTimeFormats;
 
     private ?ActivityDetails $activity = null;
 

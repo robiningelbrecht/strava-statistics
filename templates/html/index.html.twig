@@ -300,7 +300,7 @@
                 </span>
             </div>
             <div class="text-xs text-center text-gray-500">
-                Updated on {{ lastUpdate.format('d-m-Y H:i') }}
+                Updated on {{ lastUpdate|formatDate('normal') }} {{ lastUpdate|formatTime() }}
             </div>
         </div>
     </aside>

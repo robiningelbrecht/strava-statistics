@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Time;
+namespace App\Infrastructure\Time\Format;
 
 use Carbon\CarbonInterval;
 
-trait TimeFormatter
+trait ProvideTimeFormats
 {
     public function formatDurationForHumans(int $timeInSeconds, bool $trimLeadingZeros = true): string
     {

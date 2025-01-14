@@ -64,7 +64,7 @@
                         {% for activity in mostRecentActivities %}
                             <tr class="{{ cycle(['bg-white border-b', 'border-b bg-gray-50'], loop.index0) }}">
                                 <td class="px-2 py-2">
-                                    <div class="w-[4.5rem]">{{ activity.getStartDate().format('d-m-y') }}</div>
+                                    <div class="w-[4.5rem]">{{ activity.getStartDate()|formatDate() }}</div>
                                 </td>
                                 <td class="px-2 py-2 truncate sticky left-0 {{ cycle(['bg-white', 'bg-gray-50'], loop.index0) }}">
                                     {{ renderComponent('activity-title', {'activity': activity, 'ellipses': 30}) }}
@@ -101,7 +101,7 @@
                 <p class="mb-3">
                     Since I began working out
                     <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg">{{ intro.getTotalDaysSinceFirstActivity() }}</kbd>
-                    ago on <span class="text-sm">{{ intro.getStartDate().format('d-m-Y') }}</span>, I had <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg">{{ intro.getTotalDaysOfWorkingOut() }} active days</kbd> of working out.
+                    ago on <span class="text-sm">{{ intro.getStartDate()|formatDate('normal') }}</span>, I had <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg">{{ intro.getTotalDaysOfWorkingOut() }} active days</kbd> of working out.
                 </p>
                 <p class="mb-3">
                     {% set convertedIntroDistance = intro.getDistance()|convertMeasurement %}
@@ -480,7 +480,7 @@
                         <div class="text-center">
                             {% set firstActivity = trivia.getFirstActivity() %}
                             <dd class="text-sm text-gray-500">First workout</dd>
-                            <dt class="mb-1 font-extrabold">{{ firstActivity.getStartDate().format('d-m-Y') }}</dt>
+                            <dt class="mb-1 font-extrabold">{{ firstActivity.getStartDate()|formatDate('normal') }}</dt>
                             <span class="text-xs">
                                 {{ renderComponent('activity-title', {'activity': firstActivity, 'ellipses': 30, 'hideIcon': true}) }}
                             </span>
@@ -490,7 +490,7 @@
                         <div class="text-center">
                             {% set earliestActivity = trivia.getEarliestActivity() %}
                             <dd class="text-sm text-gray-500">Earliest start time</dd>
-                            <dt class="mb-1 font-extrabold">{{ earliestActivity.getStartDate().format('H:i') }}</dt>
+                            <dt class="mb-1 font-extrabold">{{ earliestActivity.getStartDate()|formatTime() }}</dt>
                             <span class="text-xs">
                                 {{ renderComponent('activity-title', {'activity': earliestActivity, 'ellipses': 30, 'hideIcon': true}) }}
                             </span>
@@ -500,7 +500,7 @@
                         <div class="text-center">
                             {% set latestActivity = trivia.getLatestActivity() %}
                             <dd class="text-sm text-gray-500">Latest start time</dd>
-                            <dt class="mb-1 font-extrabold">{{ latestActivity.getStartDate().format('H:i') }}</dt>
+                            <dt class="mb-1 font-extrabold">{{ latestActivity.getStartDate()|formatTime() }}</dt>
                             <span class="text-xs">
                                 {{ renderComponent('activity-title', {'activity': latestActivity, 'ellipses': 30, 'hideIcon': true}) }}
                             </span>
@@ -563,9 +563,9 @@
                             <dd class="text-sm text-gray-500">Most consecutive days</dd>
                             <dt class="mb-1 font-extrabold">{{ mostConsecutiveDaysOfCycling|length }}</dt>
                             <div class="text-xs text-gray-500">
-                                {{ mostConsecutiveDaysOfCycling.getEarliestDate().format('d-m-Y') }}
+                                {{ mostConsecutiveDaysOfCycling.getEarliestDate()|formatDate('normal') }}
                                 <span class="font-medium">-</span>
-                                {{ mostConsecutiveDaysOfCycling.getLatestDate().format('d-m-Y') }}
+                                {{ mostConsecutiveDaysOfCycling.getLatestDate()|formatDate('normal') }}
                             </div>
                         </div>
                     </div>
