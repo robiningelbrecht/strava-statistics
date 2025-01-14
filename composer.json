@@ -1,8 +1,8 @@
 {
     "type": "project",
-    "license": "MIT",
-    "name": "robiningelbrecht/symfony-skeleton",
-    "description": "A Symfony skeleton I use to bootstrap new projects",
+    "license": "GPL-3.0-or-later",
+    "name": "robiningelbrecht/strava-statistics",
+    "description": "Strava Statistics is a self-hosted web app designed to provide you with better stats.",
     "authors": [
         {
             "name": "Robin Ingelbrecht",
@@ -11,8 +11,8 @@
     ],
     "keywords": [
         "PHP",
-        "symfony",
-        "skeleton"
+        "strava",
+        "self-hosted"
     ],
     "minimum-stability": "stable",
     "prefer-stable": true,

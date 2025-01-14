@@ -65,6 +65,16 @@ enum SportType: string
     case WORKOUT = 'Workout';
     case YOGA = 'Yoga';
 
+    public function getSingularLabel(): string
+    {
+        return ucwords(str_replace('_', ' ', strtolower($this->name)));
+    }
+
+    public function getPluralLabel(): string
+    {
+        return $this->getSingularLabel().'s';
+    }
+
     public function getActivityType(): ActivityType
     {
         return match ($this) {

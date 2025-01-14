@@ -37,7 +37,7 @@
                                     <input type="radio" id="{{ sportType.value }}" data-dataTable-filter="sportType" data-dataTable-filter-value="{{ sportType.value }}" name="sportType" value="{{ sportType.value }}" class="hidden peer" />
                                     <label for="{{ sportType.value }}" class="flex gap-x-1 items-center text-sm p-2 text-gray-500 border border-gray-200 rounded-lg cursor-pointer peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100">
                                         {{ renderSvg(sportType.getSvgIcon(), {'customPath': 'html/svg/sport-type'}) }}
-                                        <div>{{ sportType.value }}</div>
+                                        <div>{{ sportType.getSingularLabel() }}</div>
                                     </label>
                                 </li>
                             {% endfor %}

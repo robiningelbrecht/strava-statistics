@@ -84,7 +84,7 @@
                             {% set totalsForSportType = monthlyStatistics.getTotalsForSportType(sportType) %}
                             <tr class="font-semibold text-gray-900 {{ loop.first ? 'border-t-4' : '' }}">
                                 <td class="px-2 py-2 text-right sticky left-0 bg-white">
-                                    {{ sportType.value }}
+                                    {{ sportType.getPluralLabel() }}
                                 </td>
                                 <td class="px-2 py-2">
                                     {{ totalsForSportType.numberOfWorkouts }}

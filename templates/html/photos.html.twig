@@ -19,7 +19,7 @@
                     {% if imageCount > 0 %}
                         <li class="mr-2" role="presentation">
                             <a href="#photos" data-tabs-target="#{{ sportType.value }}" role="tab" aria-controls="{{ sportType.value }}" class="inline-flex items-center justify-center p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 aria-selected:text-strava-orange aria-selected:border-strava-orange group">
-                                {{ sportType.value }}s ({{ imageCount }})
+                                {{ sportType.getPluralLabel() }} ({{ imageCount }})
                             </a>
                         </li>
                     {% endif %}
