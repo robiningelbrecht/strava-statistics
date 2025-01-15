@@ -55,7 +55,8 @@ final class StreamBasedActivityPowerRepository implements ActivityPowerRepositor
                 try {
                     $athleteWeight = $this->athleteWeightRepository->find($activity->getStartDate())->getWeightInKg();
                 } catch (EntityNotFound) {
-                    throw new EntityNotFound(sprintf('Trying to calculate the relative power for activity "%s" on %s, but no corresponding athleteWeight was found. Make sure you configure the proper weights in your .env file', $activity->getName(), $activity->getStartDate()->format('Y-m-d')));
+                    throw new EntityNotFound(sprintf('Trying to calculate the relative power for activity "%s" on %s, but no corresponding athleteWeight was found. 
+                    Make sure you configure the proper weights in your .env file. Do not forgot to run the app:strava:import-data command after changing the weights', $activity->getName(), $activity->getStartDate()->format('Y-m-d')));
                 }
 
                 $relativePower = $athleteWeight->toFloat() > 0 ? round($bestAverageForTimeInterval / $athleteWeight->toFloat(), 2) : 0;
@@ -119,7 +120,8 @@ final class StreamBasedActivityPowerRepository implements ActivityPowerRepositor
             try {
                 $athleteWeight = $this->athleteWeightRepository->find($activity->getStartDate())->getWeightInKg();
             } catch (EntityNotFound) {
-                throw new EntityNotFound(sprintf('Trying to calculate the relative power for activity "%s" on %s, but no corresponding athleteWeight was found. Make sure you configure the proper weights in your .env file', $activity->getName(), $activity->getStartDate()->format('Y-m-d')));
+                throw new EntityNotFound(sprintf('Trying to calculate the relative power for activity "%s" on %s, but no corresponding athleteWeight was found. 
+                    Make sure you configure the proper weights in your .env file. Do not forgot to run the app:strava:import-data command after changing the weights', $activity->getName(), $activity->getStartDate()->format('Y-m-d')));
             }
 
             $relativePower = $athleteWeight->toFloat() > 0 ? round($bestAverageForTimeInterval / $athleteWeight->toFloat(), 2) : 0;
