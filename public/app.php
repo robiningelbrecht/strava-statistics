@@ -7,7 +7,7 @@ use Twig\Loader\FilesystemLoader;
 
 require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
 
-// This is the index that will be used to bootstrap the actual app in /build.
+// This is the index that is used to bootstrap the actual app in /build.
 $index = dirname(__DIR__).'/build/html/index.html';
 if (file_exists($index)) {
     echo file_get_contents($index);
