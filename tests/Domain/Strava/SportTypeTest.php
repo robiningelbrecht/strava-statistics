@@ -23,6 +23,15 @@ class SportTypeTest extends ContainerTestCase
         $this->assertMatchesHtmlSnapshot(implode(PHP_EOL, $snapshot));
     }
 
+    public function testGetTemplateName(): void
+    {
+        $snapshot = [];
+        foreach (SportType::cases() as $sportType) {
+            $snapshot[] = $sportType->getTemplateName();
+        }
+        $this->assertMatchesJsonSnapshot($snapshot);
+    }
+
     public function testGetSingularLabel(): void
     {
         $snapshot = [];

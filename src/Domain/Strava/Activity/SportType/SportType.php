@@ -65,6 +65,11 @@ enum SportType: string
     case WORKOUT = 'Workout';
     case YOGA = 'Yoga';
 
+    public function getTemplateName(): string
+    {
+        return str_replace(' ', '-', strtolower($this->getSingularLabel()));
+    }
+
     public function getSingularLabel(): string
     {
         if (self::HIIT === $this) {
