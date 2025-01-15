@@ -378,14 +378,14 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
 
                 $this->filesystem->write(
                     'build/html/segment/'.$segment->getId().'.html',
-                    $this->twig->load('html/segment.html.twig')->render([
+                    $this->twig->load('html/segment/segment.html.twig')->render([
                         'segment' => $segment,
                         'segmentEfforts' => $segmentEfforts->slice(0, 10),
                     ]),
                 );
 
                 $dataDatableRows[] = DataTableRow::create(
-                    markup: $this->twig->load('html/data-table/segment-data-table-row.html.twig')->render([
+                    markup: $this->twig->load('html/segment/segment-data-table-row.html.twig')->render([
                         'segment' => $segment,
                     ]),
                     searchables: $segment->getSearchables(),
@@ -404,7 +404,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
 
         $this->filesystem->write(
             'build/html/segments.html',
-            $this->twig->load('html/segments.html.twig')->render([
+            $this->twig->load('html/segment/segments.html.twig')->render([
                 'sportTypes' => $importedSportTypes,
             ]),
         );
@@ -492,7 +492,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
         $command->getOutput()->writeln('  => Building activities.html');
         $this->filesystem->write(
             'build/html/activities.html',
-            $this->twig->load('html/activities.html.twig')->render([
+            $this->twig->load('html/activity/activities.html.twig')->render([
                 'sportTypes' => $importedSportTypes,
             ]),
         );
@@ -505,7 +505,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
 
             $this->filesystem->write(
                 'build/html/activity/'.$activity->getId().'.html',
-                $this->twig->load('html/activity.html.twig')->render([
+                $this->twig->load('html/activity/activity.html.twig')->render([
                     'activity' => $activity,
                     'leaflet' => $leafletMap ? [
                         'routes' => [$activity->getPolylineSummary()],
@@ -531,7 +531,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
             );
 
             $dataDatableRows[] = DataTableRow::create(
-                markup: $this->twig->load('html/data-table/activity-data-table-row.html.twig')->render([
+                markup: $this->twig->load('html/activity/activity-data-table-row.html.twig')->render([
                     'timeIntervals' => ActivityPowerRepository::TIME_INTERVAL_IN_SECONDS,
                     'activity' => $activity,
                 ]),
