@@ -511,18 +511,16 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                         'routes' => [$activity->getPolylineSummary()],
                         'map' => $leafletMap,
                     ] : null,
-                    'heartRateDistributionChart' => $heartRateData ? Json::encode(
+                    'heartRateDistributionChart' => $heartRateData && $activity->getAverageHeartRate() ? Json::encode(
                         HeartRateDistributionChartBuilder::fromHeartRateData(
                             heartRateData: $heartRateData,
-                            // @phpstan-ignore-next-line
                             averageHeartRate: $activity->getAverageHeartRate(),
                             athleteMaxHeartRate: $athlete->getMaxHeartRate($activity->getStartDate())
                         )->build(),
                     ) : null,
-                    'powerDistributionChart' => $powerData ? Json::encode(
+                    'powerDistributionChart' => $powerData && $activity->getAveragePower() ? Json::encode(
                         PowerDistributionChartBuilder::fromPowerData(
                             powerData: $powerData,
-                            // @phpstan-ignore-next-line
                             averagePower: $activity->getAveragePower(),
                         )->build(),
                     ) : null,

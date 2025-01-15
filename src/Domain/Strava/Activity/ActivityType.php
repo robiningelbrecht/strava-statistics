@@ -11,6 +11,11 @@ enum ActivityType: string
     case WINTER_SPORTS = 'WinterSports';
     case OTHER = 'Other';
 
+    public function getTemplateName(): string
+    {
+        return str_replace(' ', '-', strtolower($this->getSingularLabel()));
+    }
+
     public function getSingularLabel(): string
     {
         return ucwords(str_replace('_', ' ', strtolower($this->name)));
