@@ -6,6 +6,7 @@ use App\Domain\Notification\SendNotification\SendNotification;
 use App\Domain\Strava\BuildHtmlVersion\BuildHtmlVersion;
 use App\Domain\Strava\StravaDataImportStatus;
 use App\Infrastructure\CQRS\Bus\CommandBus;
+use App\Infrastructure\Doctrine\MigrationRunner;
 use App\Infrastructure\Time\ResourceUsage\ResourceUsage;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -19,12 +20,18 @@ final class BuildStravaActivityFilesConsoleCommand extends Command
         private readonly CommandBus $commandBus,
         private readonly StravaDataImportStatus $stravaDataImportStatus,
         private readonly ResourceUsage $resourceUsage,
+        private readonly MigrationRunner $migrationRunner,
     ) {
         parent::__construct();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        if (!$this->migrationRunner->isAtLatestVersion()) {
+            $output->writeln('<error>Your database is not up to date with the migration schema. Run the import command before building the HTML files</error>');
+
+            return Command::SUCCESS;
+        }
         if (!$this->stravaDataImportStatus->isCompleted()) {
             $output->writeln('<error>Wait until all Strava data has been imported before building the app</error>');
 

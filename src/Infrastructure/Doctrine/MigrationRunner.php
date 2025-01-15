@@ -7,4 +7,6 @@ namespace App\Infrastructure\Doctrine;
 interface MigrationRunner
 {
     public function run(): void;
+
+    public function isAtLatestVersion(): bool;
 }

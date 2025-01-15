@@ -20,4 +20,15 @@ final readonly class DoctrineMigrationRunner implements MigrationRunner
             throw new CouldNotRunMigrations($process->getErrorOutput());
         }
     }
+
+    public function isAtLatestVersion(): bool
+    {
+        $process = new Process(
+            command: ['/var/www/bin/console', 'doctrine:migrations:status'],
+            timeout: null
+        );
+        $process->run();
+
+        return $process->isSuccessful() && str_contains($process->getOutput(), 'Already at latest version');
+    }
 }

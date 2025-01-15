@@ -11,4 +11,9 @@ final readonly class VoidMigrationRunner implements MigrationRunner
     public function run(): void
     {
     }
+
+    public function isAtLatestVersion(): bool
+    {
+        return true;
+    }
 }

@@ -6,11 +6,13 @@ use App\Console\BuildStravaActivityFilesConsoleCommand;
 use App\Domain\Strava\StravaDataImportStatus;
 use App\Infrastructure\CQRS\Bus\CommandBus;
 use App\Infrastructure\CQRS\Bus\DomainCommand;
+use App\Infrastructure\Doctrine\MigrationRunner;
 use App\Infrastructure\KeyValue\Key;
 use App\Infrastructure\KeyValue\KeyValue;
 use App\Infrastructure\KeyValue\KeyValueStore;
 use App\Infrastructure\KeyValue\Value;
 use App\Infrastructure\Serialization\Json;
+use App\Tests\Infrastructure\Doctrine\VoidMigrationRunner;
 use App\Tests\Infrastructure\Time\ResourceUsage\FixedResourceUsage;
 use PHPUnit\Framework\MockObject\MockObject;
 use Spatie\Snapshots\MatchesSnapshots;
@@ -23,6 +25,7 @@ class BuildStravaActivityFilesConsoleCommandTest extends ConsoleCommandTestCase
 
     private BuildStravaActivityFilesConsoleCommand $buildStravaActivityFilesConsoleCommand;
     private MockObject $commandBus;
+    private MockObject $migrationRunner;
 
     public function testExecute(): void
     {
@@ -35,6 +38,11 @@ class BuildStravaActivityFilesConsoleCommandTest extends ConsoleCommandTestCase
             Key::STRAVA_GEAR_IMPORT,
             Value::fromString('yes')
         ));
+
+        $this->migrationRunner
+            ->expects($this->once())
+            ->method('isAtLatestVersion')
+            ->willReturn(true);
 
         $this->commandBus
             ->expects($this->any())
@@ -52,6 +60,31 @@ class BuildStravaActivityFilesConsoleCommandTest extends ConsoleCommandTestCase
 
     public function testExecuteWhenStravaImportIsNotCompleted(): void
     {
+        $this->migrationRunner
+            ->expects($this->once())
+            ->method('isAtLatestVersion')
+            ->willReturn(true);
+
+        $this->commandBus
+            ->expects($this->never())
+            ->method('dispatch');
+
+        $command = $this->getCommandInApplication('app:strava:build-files');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute([
+            'command' => $command->getName(),
+        ]);
+
+        $this->assertMatchesTextSnapshot($commandTester->getDisplay());
+    }
+
+    public function testExecuteWhenMigrationSchemaNotUpToDate(): void
+    {
+        $this->migrationRunner
+            ->expects($this->once())
+            ->method('isAtLatestVersion')
+            ->willReturn(false);
+
         $this->commandBus
             ->expects($this->never())
             ->method('dispatch');
@@ -75,7 +108,8 @@ class BuildStravaActivityFilesConsoleCommandTest extends ConsoleCommandTestCase
         $this->buildStravaActivityFilesConsoleCommand = new BuildStravaActivityFilesConsoleCommand(
             $this->commandBus,
             $this->getContainer()->get(StravaDataImportStatus::class),
-            new FixedResourceUsage()
+            new FixedResourceUsage(),
+            $this->migrationRunner = $this->createMock(MigrationRunner::class),
         );
     }
 
