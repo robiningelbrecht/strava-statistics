@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Measurement\Mass;
+namespace App\Infrastructure\ValueObject\Measurement\Mass;
 
-use App\Domain\Measurement\Imperial;
-use App\Domain\Measurement\MeasurementFromFloat;
-use App\Domain\Measurement\Unit;
+use App\Infrastructure\ValueObject\Measurement\Imperial;
+use App\Infrastructure\ValueObject\Measurement\MeasurementFromFloat;
+use App\Infrastructure\ValueObject\Measurement\Unit;
 
 final readonly class Pound implements Unit, Imperial
 {

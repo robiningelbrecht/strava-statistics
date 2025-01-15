@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Twig;
 
-use App\Domain\Measurement\Imperial;
-use App\Domain\Measurement\Metric;
-use App\Domain\Measurement\Unit;
-use App\Domain\Measurement\UnitSystem;
+use App\Infrastructure\ValueObject\Measurement\Imperial;
+use App\Infrastructure\ValueObject\Measurement\Metric;
+use App\Infrastructure\ValueObject\Measurement\Unit;
+use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 
 final readonly class ConvertMeasurementTwigExtension
 {

@@ -2,11 +2,11 @@
 
 namespace App\Domain\Strava\Activity;
 
-use App\Domain\Measurement\Length\Kilometer;
-use App\Domain\Measurement\UnitSystem;
 use App\Domain\Strava\Activity\ReadModel\Activities;
 use App\Domain\Strava\Calendar\Week;
 use App\Domain\Strava\Calendar\Weeks;
+use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
+use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
 final readonly class WeeklyDistanceChartBuilder

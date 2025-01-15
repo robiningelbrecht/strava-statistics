@@ -2,8 +2,8 @@
 
 namespace App\Domain\Strava\Activity\Eddington;
 
-use App\Domain\Measurement\Length\Kilometer;
-use App\Domain\Measurement\UnitSystem;
+use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
+use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 
 final readonly class EddingtonChartBuilder
 {

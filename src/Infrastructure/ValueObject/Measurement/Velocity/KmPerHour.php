@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Measurement\Velocity;
+namespace App\Infrastructure\ValueObject\Measurement\Velocity;
 
-use App\Domain\Measurement\Length\Kilometer;
-use App\Domain\Measurement\MeasurementFromFloat;
-use App\Domain\Measurement\Metric;
-use App\Domain\Measurement\Unit;
+use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
+use App\Infrastructure\ValueObject\Measurement\MeasurementFromFloat;
+use App\Infrastructure\ValueObject\Measurement\Metric;
+use App\Infrastructure\ValueObject\Measurement\Unit;
 
 final readonly class KmPerHour implements Unit, Metric
 {

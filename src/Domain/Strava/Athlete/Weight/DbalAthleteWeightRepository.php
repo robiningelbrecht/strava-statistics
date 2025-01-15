@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Athlete\Weight;
 
-use App\Domain\Measurement\Mass\Gram;
 use App\Infrastructure\Exception\EntityNotFound;
 use App\Infrastructure\Repository\DbalRepository;
+use App\Infrastructure\ValueObject\Measurement\Mass\Gram;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
 final readonly class DbalAthleteWeightRepository extends DbalRepository implements AthleteWeightRepository

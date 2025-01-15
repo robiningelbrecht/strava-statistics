@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Athlete\Weight;
 
-use App\Domain\Measurement\Mass\Gram;
-use App\Domain\Measurement\Mass\Kilogram;
+use App\Infrastructure\ValueObject\Measurement\Mass\Gram;
+use App\Infrastructure\ValueObject\Measurement\Mass\Kilogram;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use Doctrine\ORM\Mapping as ORM;
 

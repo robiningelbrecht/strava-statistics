@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Measurement\Mass;
+namespace App\Infrastructure\ValueObject\Measurement\Mass;
 
-use App\Domain\Measurement\MeasurementFromFloat;
-use App\Domain\Measurement\Metric;
-use App\Domain\Measurement\Unit;
+use App\Infrastructure\ValueObject\Measurement\MeasurementFromFloat;
+use App\Infrastructure\ValueObject\Measurement\Metric;
+use App\Infrastructure\ValueObject\Measurement\Unit;
 
 final readonly class Gram implements Unit, Metric
 {

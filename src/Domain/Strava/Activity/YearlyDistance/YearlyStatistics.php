@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Activity\YearlyDistance;
 
-use App\Domain\Measurement\Length\Kilometer;
-use App\Domain\Measurement\Length\Meter;
 use App\Domain\Strava\Activity\ReadModel\Activities;
+use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
+use App\Infrastructure\ValueObject\Measurement\Length\Meter;
 use App\Infrastructure\ValueObject\Time\Years;
 use Carbon\CarbonInterval;
 

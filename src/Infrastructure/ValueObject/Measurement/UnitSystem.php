@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Measurement;
+namespace App\Infrastructure\ValueObject\Measurement;
 
-use App\Domain\Measurement\Length\Foot;
-use App\Domain\Measurement\Length\Kilometer;
-use App\Domain\Measurement\Length\Meter;
-use App\Domain\Measurement\Length\Mile;
-use App\Domain\Measurement\Velocity\KmPerHour;
-use App\Domain\Measurement\Velocity\MilesPerHour;
+use App\Infrastructure\ValueObject\Measurement\Length\Foot;
+use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
+use App\Infrastructure\ValueObject\Measurement\Length\Meter;
+use App\Infrastructure\ValueObject\Measurement\Length\Mile;
+use App\Infrastructure\ValueObject\Measurement\Velocity\KmPerHour;
+use App\Infrastructure\ValueObject\Measurement\Velocity\MilesPerHour;
 
 enum UnitSystem: string
 {

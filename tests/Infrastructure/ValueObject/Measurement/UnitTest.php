@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Tests\Domain\Measurement;
+namespace App\Tests\Infrastructure\ValueObject\Measurement;
 
-use App\Domain\Measurement\Length\Foot;
-use App\Domain\Measurement\Length\Kilometer;
-use App\Domain\Measurement\Length\Meter;
-use App\Domain\Measurement\Length\Mile;
-use App\Domain\Measurement\Mass\Gram;
-use App\Domain\Measurement\Mass\Kilogram;
-use App\Domain\Measurement\Mass\Pound;
-use App\Domain\Measurement\Unit;
-use App\Domain\Measurement\Velocity\KmPerHour;
-use App\Domain\Measurement\Velocity\MilesPerHour;
 use App\Infrastructure\Serialization\Json;
+use App\Infrastructure\ValueObject\Measurement\Length\Foot;
+use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
+use App\Infrastructure\ValueObject\Measurement\Length\Meter;
+use App\Infrastructure\ValueObject\Measurement\Length\Mile;
+use App\Infrastructure\ValueObject\Measurement\Mass\Gram;
+use App\Infrastructure\ValueObject\Measurement\Mass\Kilogram;
+use App\Infrastructure\ValueObject\Measurement\Mass\Pound;
+use App\Infrastructure\ValueObject\Measurement\Unit;
+use App\Infrastructure\ValueObject\Measurement\Velocity\KmPerHour;
+use App\Infrastructure\ValueObject\Measurement\Velocity\MilesPerHour;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;

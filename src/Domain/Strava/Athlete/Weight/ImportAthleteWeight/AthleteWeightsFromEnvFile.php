@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Athlete\Weight\ImportAthleteWeight;
 
-use App\Domain\Measurement\Mass\Kilogram;
-use App\Domain\Measurement\Mass\Pound;
-use App\Domain\Measurement\UnitSystem;
 use App\Domain\Strava\Athlete\Weight\AthleteWeight;
 use App\Domain\Strava\Athlete\Weight\AthleteWeights;
 use App\Infrastructure\Serialization\Json;
+use App\Infrastructure\ValueObject\Measurement\Mass\Kilogram;
+use App\Infrastructure\ValueObject\Measurement\Mass\Pound;
+use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
 final readonly class AthleteWeightsFromEnvFile

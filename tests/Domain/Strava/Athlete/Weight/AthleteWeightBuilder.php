@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\Strava\Athlete\Weight;
 
-use App\Domain\Measurement\Mass\Gram;
 use App\Domain\Strava\Athlete\Weight\AthleteWeight;
+use App\Infrastructure\ValueObject\Measurement\Mass\Gram;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
 final class AthleteWeightBuilder

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Measurement\Velocity;
+namespace App\Infrastructure\ValueObject\Measurement\Velocity;
 
-use App\Domain\Measurement\Imperial;
-use App\Domain\Measurement\Length\Mile;
-use App\Domain\Measurement\MeasurementFromFloat;
-use App\Domain\Measurement\Unit;
+use App\Infrastructure\ValueObject\Measurement\Imperial;
+use App\Infrastructure\ValueObject\Measurement\Length\Mile;
+use App\Infrastructure\ValueObject\Measurement\MeasurementFromFloat;
+use App\Infrastructure\ValueObject\Measurement\Unit;
 
 final readonly class MilesPerHour implements Unit, Imperial
 {

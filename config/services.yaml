@@ -65,6 +65,10 @@ services:
             '%env(enum:App\Infrastructure\Time\Format\TimeFormat:TIME_FORMAT)%',
         ]
 
+    App\Infrastructure\ValueObject\Measurement\UnitSystem:
+        factory: [ 'App\Infrastructure\ValueObject\Measurement\UnitSystem', from ]
+        arguments: [ '%env(string:UNIT_SYSTEM)%' ]
+
     League\Flysystem\FilesystemOperator: '@default.storage'
 
     GuzzleHttp\Client:
@@ -101,12 +105,8 @@ services:
 
     App\Domain\Strava\Athlete\Weight\ImportAthleteWeight\AthleteWeightsFromEnvFile:
         factory: [ 'App\Domain\Strava\Athlete\Weight\ImportAthleteWeight\AthleteWeightsFromEnvFile', fromString ]
-        arguments: [ '%env(string:ATHLETE_WEIGHTS)%',  '@App\Domain\Measurement\UnitSystem']
+        arguments: [ '%env(string:ATHLETE_WEIGHTS)%',  '@App\Infrastructure\ValueObject\Measurement\UnitSystem']
 
     App\Domain\Strava\Ftp\ImportFtp\FtpValuesFromEnvFile:
         factory: [ 'App\Domain\Strava\Ftp\ImportFtp\FtpValuesFromEnvFile', fromString ]
         arguments: [ '%env(string:FTP_VALUES)%' ]
-
-    App\Domain\Measurement\UnitSystem:
-        factory: [ 'App\Domain\Measurement\UnitSystem', from ]
-        arguments: [ '%env(string:UNIT_SYSTEM)%' ]

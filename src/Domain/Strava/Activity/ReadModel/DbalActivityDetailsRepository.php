@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Activity\ReadModel;
 
-use App\Domain\Measurement\Length\Kilometer;
-use App\Domain\Measurement\Length\Meter;
-use App\Domain\Measurement\Velocity\KmPerHour;
 use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\SportType\SportType;
 use App\Domain\Strava\Gear\GearId;
@@ -15,6 +12,9 @@ use App\Infrastructure\Geocoding\Nominatim\Location;
 use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\ValueObject\Geography\Latitude;
 use App\Infrastructure\ValueObject\Geography\Longitude;
+use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
+use App\Infrastructure\ValueObject\Measurement\Length\Meter;
+use App\Infrastructure\ValueObject\Measurement\Velocity\KmPerHour;
 use App\Infrastructure\ValueObject\String\Name;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use Doctrine\DBAL\Connection;

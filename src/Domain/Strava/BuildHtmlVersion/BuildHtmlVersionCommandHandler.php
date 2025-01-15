@@ -2,8 +2,6 @@
 
 namespace App\Domain\Strava\BuildHtmlVersion;
 
-use App\Domain\Measurement\Length\Kilometer;
-use App\Domain\Measurement\UnitSystem;
 use App\Domain\Strava\Activity\ActivityHeatmapChartBuilder;
 use App\Domain\Strava\Activity\ActivityIntensity;
 use App\Domain\Strava\Activity\ActivityTotals;
@@ -57,6 +55,8 @@ use App\Infrastructure\Repository\Pagination;
 use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\Time\Clock\Clock;
 use App\Infrastructure\ValueObject\DataTableRow;
+use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
+use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use App\Infrastructure\ValueObject\Time\Years;
 use League\Flysystem\FilesystemOperator;
 use Twig\Environment;

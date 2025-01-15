@@ -2,7 +2,6 @@
 
 namespace App\Domain\Strava\Activity\ImportActivities;
 
-use App\Domain\Measurement\Length\Meter;
 use App\Domain\Strava\Activity\ActivitiesToSkipDuringImport;
 use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\NumberOfNewActivitiesToProcessPerImport;
@@ -20,6 +19,7 @@ use App\Infrastructure\Exception\EntityNotFound;
 use App\Infrastructure\Geocoding\Nominatim\Nominatim;
 use App\Infrastructure\ValueObject\Geography\Coordinate;
 use App\Infrastructure\ValueObject\Identifier\UuidFactory;
+use App\Infrastructure\ValueObject\Measurement\Length\Meter;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use App\Infrastructure\ValueObject\Time\SerializableTimezone;
 use GuzzleHttp\Exception\ClientException;

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Activity\WeekdayStats;
 
-use App\Domain\Measurement\Length\Kilometer;
-use App\Domain\Measurement\Length\Meter;
 use App\Domain\Strava\Activity\ReadModel\Activities;
 use App\Domain\Strava\Activity\ReadModel\ActivityDetails;
+use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
+use App\Infrastructure\ValueObject\Measurement\Length\Meter;
 use Carbon\CarbonInterval;
 
 final readonly class WeekdayStats

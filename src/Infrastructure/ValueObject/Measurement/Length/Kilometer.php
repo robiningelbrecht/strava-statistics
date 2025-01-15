@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Measurement\Length;
+namespace App\Infrastructure\ValueObject\Measurement\Length;
 
-use App\Domain\Measurement\MeasurementFromFloat;
-use App\Domain\Measurement\Metric;
-use App\Domain\Measurement\Unit;
-use App\Domain\Measurement\UnitSystem;
+use App\Infrastructure\ValueObject\Measurement\MeasurementFromFloat;
+use App\Infrastructure\ValueObject\Measurement\Metric;
+use App\Infrastructure\ValueObject\Measurement\Unit;
+use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 
 final readonly class Kilometer implements Unit, Metric
 {

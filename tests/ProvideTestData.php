@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests;
 
-use App\Domain\Measurement\Mass\Gram;
 use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\SportType\SportType;
 use App\Domain\Strava\Activity\Stream\ActivityStreamRepository;
@@ -25,6 +24,7 @@ use App\Domain\Strava\Segment\SegmentId;
 use App\Domain\Strava\Segment\SegmentRepository;
 use App\Infrastructure\Geocoding\Nominatim\Location;
 use App\Infrastructure\Serialization\Json;
+use App\Infrastructure\ValueObject\Measurement\Mass\Gram;
 use App\Infrastructure\ValueObject\String\Name;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use App\Tests\Domain\Strava\Activity\Stream\ActivityStreamBuilder;

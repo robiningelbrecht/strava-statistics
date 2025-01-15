@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Athlete\Weight\ImportAthleteWeight;
 
-use App\Domain\Measurement\UnitSystem;
 use App\Domain\Strava\Athlete\Weight\AthleteWeightRepository;
 use App\Infrastructure\CQRS\Bus\Command;
 use App\Infrastructure\CQRS\Bus\CommandHandler;
+use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 
 final readonly class ImportAthleteWeightCommandHandler implements CommandHandler
 {

@@ -2,8 +2,8 @@
 
 namespace App\Tests\Domain\Strava\Athlete\Weight\ImportAthleteWeight;
 
-use App\Domain\Measurement\UnitSystem;
 use App\Domain\Strava\Athlete\Weight\ImportAthleteWeight\AthleteWeightsFromEnvFile;
+use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use PHPUnit\Framework\TestCase;
 
 class AthleteWeightsFromEnvFileTest extends TestCase

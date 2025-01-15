@@ -2,8 +2,8 @@
 
 namespace App\Domain\Strava\Activity\Eddington;
 
-use App\Domain\Measurement\UnitSystem;
 use App\Domain\Strava\Activity\ReadModel\Activities;
+use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
 final class Eddington

@@ -2,7 +2,7 @@
 
 namespace App\Domain\Strava\Gear;
 
-use App\Domain\Measurement\Length\Kilometer;
+use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use Doctrine\ORM\Mapping as ORM;
 

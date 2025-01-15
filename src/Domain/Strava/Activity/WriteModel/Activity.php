@@ -2,7 +2,6 @@
 
 namespace App\Domain\Strava\Activity\WriteModel;
 
-use App\Domain\Measurement\Length\Meter;
 use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\ActivityWasDeleted;
 use App\Domain\Strava\Activity\SportType\SportType;
@@ -11,6 +10,7 @@ use App\Infrastructure\Eventing\RecordsEvents;
 use App\Infrastructure\Geocoding\Nominatim\Location;
 use App\Infrastructure\ValueObject\Geography\Latitude;
 use App\Infrastructure\ValueObject\Geography\Longitude;
+use App\Infrastructure\ValueObject\Measurement\Length\Meter;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use Doctrine\ORM\Mapping as ORM;
 

@@ -2,11 +2,11 @@
 
 namespace App\Domain\Strava\Gear;
 
-use App\Domain\Measurement\Length\Kilometer;
-use App\Domain\Measurement\Length\Meter;
-use App\Domain\Measurement\Velocity\KmPerHour;
 use App\Domain\Strava\Activity\ReadModel\Activities;
 use App\Domain\Strava\Activity\ReadModel\ActivityDetails;
+use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
+use App\Infrastructure\ValueObject\Measurement\Length\Meter;
+use App\Infrastructure\ValueObject\Measurement\Velocity\KmPerHour;
 use Carbon\CarbonInterval;
 
 final readonly class GearStatistics

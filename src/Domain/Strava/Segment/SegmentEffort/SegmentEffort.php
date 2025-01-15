@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Segment\SegmentEffort;
 
-use App\Domain\Measurement\Length\Kilometer;
-use App\Domain\Measurement\Velocity\KmPerHour;
 use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\ReadModel\ActivityDetails;
 use App\Domain\Strava\Segment\SegmentId;
 use App\Infrastructure\Time\Format\ProvideTimeFormats;
+use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
+use App\Infrastructure\ValueObject\Measurement\Velocity\KmPerHour;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use Doctrine\ORM\Mapping as ORM;
 

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Challenge\Consistency;
 
-use App\Domain\Measurement\Length\Kilometer;
-use App\Domain\Measurement\Length\Meter;
 use App\Domain\Strava\Activity\ActivityType;
 use App\Domain\Strava\Activity\ReadModel\Activities;
 use App\Domain\Strava\Activity\ReadModel\ActivityDetails;
 use App\Domain\Strava\Calendar\Months;
 use App\Domain\Strava\Calendar\Week;
+use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
+use App\Infrastructure\ValueObject\Measurement\Length\Meter;
 
 final readonly class ChallengeConsistency
 {

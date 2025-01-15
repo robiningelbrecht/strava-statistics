@@ -2,10 +2,10 @@
 
 namespace App\Tests\Domain\Strava\Athlete\Weight;
 
-use App\Domain\Measurement\Mass\Gram;
 use App\Domain\Strava\Athlete\Weight\AthleteWeightRepository;
 use App\Domain\Strava\Athlete\Weight\DbalAthleteWeightRepository;
 use App\Infrastructure\Exception\EntityNotFound;
+use App\Infrastructure\ValueObject\Measurement\Mass\Gram;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use App\Tests\ContainerTestCase;
 
