@@ -2,32 +2,29 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Domain\Strava\Activity\ReadModel;
+namespace App\Tests\Domain\Strava\Activity;
 
+use App\Domain\Strava\Activity\Activity;
 use App\Domain\Strava\Activity\ActivityId;
-use App\Domain\Strava\Activity\ReadModel\ActivityDetails;
 use App\Domain\Strava\Activity\SportType\SportType;
 use App\Domain\Strava\Gear\GearId;
 use App\Infrastructure\Geocoding\Nominatim\Location;
-use App\Infrastructure\ValueObject\Geography\Latitude;
-use App\Infrastructure\ValueObject\Geography\Longitude;
+use App\Infrastructure\ValueObject\Geography\Coordinate;
 use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Measurement\Length\Meter;
 use App\Infrastructure\ValueObject\Measurement\Velocity\KmPerHour;
-use App\Infrastructure\ValueObject\String\Name;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
-final class ActivityDetailsBuilder
+final class ActivityBuilder
 {
-    private readonly ActivityId $activityId;
+    private ActivityId $activityId;
     private SerializableDateTime $startDateTime;
     private readonly SportType $sportType;
-    private readonly Name $name;
+    private readonly string $name;
     private readonly string $description;
     private readonly Kilometer $distance;
     private readonly Meter $elevation;
-    private readonly ?Latitude $latitude;
-    private readonly ?Longitude $longitude;
+    private readonly ?Coordinate $startingCoordinate;
     private readonly int $calories;
     private ?int $averagePower;
     private readonly ?int $maxPower;
@@ -43,10 +40,10 @@ final class ActivityDetailsBuilder
     /** @var array<string> */
     private readonly array $localImagePaths;
     private readonly ?string $polyline;
-    private readonly ?Location $location;
-    private readonly string $segmentEfforts;
+    private ?Location $location;
     private readonly string $weather;
-    private readonly ?GearId $gearId;
+    private ?GearId $gearId;
+    private readonly ?string $gearName;
 
     private function __construct()
     {
@@ -54,12 +51,11 @@ final class ActivityDetailsBuilder
         $this->startDateTime = SerializableDateTime::fromString('2023-10-10');
         $this->sportType = SportType::RIDE;
         $this->kudoCount = 1;
-        $this->name = Name::fromString('Test activity');
+        $this->name = 'Test activity';
         $this->description = '';
         $this->distance = Kilometer::from(10);
         $this->elevation = Meter::from(0);
-        $this->latitude = null;
-        $this->longitude = null;
+        $this->startingCoordinate = null;
         $this->calories = 0;
         $this->averagePower = null;
         $this->maxPower = null;
@@ -73,10 +69,10 @@ final class ActivityDetailsBuilder
         $this->deviceName = null;
         $this->localImagePaths = [];
         $this->polyline = null;
-        $this->segmentEfforts = '';
         $this->weather = '';
         $this->gearId = null;
         $this->location = null;
+        $this->gearName = null;
     }
 
     public static function fromDefaults(): self
@@ -84,9 +80,9 @@ final class ActivityDetailsBuilder
         return new self();
     }
 
-    public function build(): ActivityDetails
+    public function build(): Activity
     {
-        return new ActivityDetails(
+        return Activity::fromState(
             activityId: $this->activityId,
             startDateTime: $this->startDateTime,
             sportType: $this->sportType,
@@ -94,8 +90,7 @@ final class ActivityDetailsBuilder
             description: $this->description,
             distance: $this->distance,
             elevation: $this->elevation,
-            latitude: $this->latitude,
-            longitude: $this->longitude,
+            startingCoordinate: $this->startingCoordinate,
             calories: $this->calories,
             averagePower: $this->averagePower,
             maxPower: $this->maxPower,
@@ -106,15 +101,22 @@ final class ActivityDetailsBuilder
             averageCadence: $this->averageCadence,
             movingTimeInSeconds: $this->movingTimeInSeconds,
             kudoCount: $this->kudoCount,
-            totalImageCount: $this->totalImageCount,
             deviceName: $this->deviceName,
+            totalImageCount: $this->totalImageCount,
             localImagePaths: $this->localImagePaths,
             polyline: $this->polyline,
             location: $this->location,
-            segmentEfforts: $this->segmentEfforts,
             weather: $this->weather,
             gearId: $this->gearId,
+            gearName: $this->gearName
         );
+    }
+
+    public function withActivityId(ActivityId $activityId): self
+    {
+        $this->activityId = $activityId;
+
+        return $this;
     }
 
     public function withStartDateTime(SerializableDateTime $startDateTime): self
@@ -141,6 +143,20 @@ final class ActivityDetailsBuilder
     public function withAverageHeartRate(int $averageHeartRate): self
     {
         $this->averageHeartRate = $averageHeartRate;
+
+        return $this;
+    }
+
+    public function withGearId(GearId $gearId): self
+    {
+        $this->gearId = $gearId;
+
+        return $this;
+    }
+
+    public function withLocation(Location $location): self
+    {
+        $this->location = $location;
 
         return $this;
     }

@@ -4,8 +4,7 @@ namespace App\Domain\Weather\OpenMeteo;
 
 use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\Time\Clock\Clock;
-use App\Infrastructure\ValueObject\Geography\Latitude;
-use App\Infrastructure\ValueObject\Geography\Longitude;
+use App\Infrastructure\ValueObject\Geography\Coordinate;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
@@ -35,14 +34,13 @@ final readonly class LiveOpenMeteo implements OpenMeteo
      * @return array<mixed>
      */
     public function getWeatherStats(
-        Latitude $latitude,
-        Longitude $longitude,
+        Coordinate $coordinate,
         SerializableDateTime $date,
     ): array {
         $options = [
             RequestOptions::QUERY => [
-                'latitude' => $latitude->toFloat(),
-                'longitude' => $longitude->toFloat(),
+                'latitude' => $coordinate->getLatitude()->toFloat(),
+                'longitude' => $coordinate->getLongitude()->toFloat(),
                 'start_date' => $date->format('Y-m-d'),
                 'end_date' => $date->format('Y-m-d'),
                 'temperature_unit' => 'celsius',

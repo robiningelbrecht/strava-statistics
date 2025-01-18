@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Gear;
 
-use App\Domain\Strava\Activity\ReadModel\Activities;
+use App\Domain\Strava\Activity\Activities;
 use App\Domain\Strava\Calendar\Month;
 use App\Domain\Strava\Calendar\Months;
 use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
@@ -51,7 +51,7 @@ final readonly class DistancePerMonthPerGearChartBuilder
                 $distancePerGearAndMonth[(string) $gear->getId()][$month->getId()] = 0;
             }
         }
-        /** @var \App\Domain\Strava\Activity\ReadModel\ActivityDetails $activity */
+        /** @var \App\Domain\Strava\Activity\Activity $activity */
         foreach ($this->activities as $activity) {
             if (!$activity->getGearId()) {
                 continue;

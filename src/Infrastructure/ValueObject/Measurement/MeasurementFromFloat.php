@@ -31,6 +31,11 @@ trait MeasurementFromFloat
         return $this->value;
     }
 
+    public function toInt(): int
+    {
+        return (int) $this->value;
+    }
+
     public function __toString(): string
     {
         return (string) $this->toFloat();

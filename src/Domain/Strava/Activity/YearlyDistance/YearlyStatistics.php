@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Activity\YearlyDistance;
 
-use App\Domain\Strava\Activity\ReadModel\Activities;
+use App\Domain\Strava\Activity\Activities;
 use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Measurement\Length\Meter;
 use App\Infrastructure\ValueObject\Time\Years;
@@ -45,7 +45,7 @@ final readonly class YearlyStatistics
 
         $statistics = array_reverse($statistics, true);
 
-        /** @var \App\Domain\Strava\Activity\ReadModel\ActivityDetails $activity */
+        /** @var \App\Domain\Strava\Activity\Activity $activity */
         foreach ($this->activities as $activity) {
             $year = $activity->getStartDate()->getYear();
 

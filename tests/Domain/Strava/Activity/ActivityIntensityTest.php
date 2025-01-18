@@ -12,7 +12,6 @@ use App\Domain\Strava\Ftp\FtpValue;
 use App\Infrastructure\KeyValue\KeyValueStore;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use App\Tests\ContainerTestCase;
-use App\Tests\Domain\Strava\Activity\ReadModel\ActivityDetailsBuilder;
 use App\Tests\Domain\Strava\Ftp\FtpBuilder;
 
 class ActivityIntensityTest extends ContainerTestCase
@@ -33,7 +32,7 @@ class ActivityIntensityTest extends ContainerTestCase
             'birthDate' => '1989-08-14',
         ]));
 
-        $activity = ActivityDetailsBuilder::fromDefaults()
+        $activity = ActivityBuilder::fromDefaults()
             ->withAveragePower(250)
             ->withMovingTimeInSeconds(3600)
             ->build();
@@ -46,7 +45,7 @@ class ActivityIntensityTest extends ContainerTestCase
 
     public function testCalculateWithHeartRate(): void
     {
-        $activity = ActivityDetailsBuilder::fromDefaults()
+        $activity = ActivityBuilder::fromDefaults()
             ->withAverageHeartRate(171)
             ->withMovingTimeInSeconds(3600)
             ->build();
@@ -63,7 +62,7 @@ class ActivityIntensityTest extends ContainerTestCase
 
     public function testCalculateShouldBeNull(): void
     {
-        $activity = ActivityDetailsBuilder::fromDefaults()
+        $activity = ActivityBuilder::fromDefaults()
             ->withMovingTimeInSeconds(3600)
             ->build();
 

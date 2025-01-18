@@ -79,6 +79,8 @@ class StravaTest extends TestCase
             ->method('info');
 
         $this->strava->getActivities();
+        // Test static cache.
+        $this->strava->getActivities();
     }
 
     public function testGetActivity(): void

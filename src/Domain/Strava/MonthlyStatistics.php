@@ -2,8 +2,8 @@
 
 namespace App\Domain\Strava;
 
-use App\Domain\Strava\Activity\ReadModel\Activities;
-use App\Domain\Strava\Activity\ReadModel\ActivityDetails;
+use App\Domain\Strava\Activity\Activities;
+use App\Domain\Strava\Activity\Activity;
 use App\Domain\Strava\Activity\SportType\SportType;
 use App\Domain\Strava\Calendar\Month;
 use App\Domain\Strava\Calendar\Months;
@@ -62,7 +62,7 @@ final readonly class MonthlyStatistics
 
         $statistics = array_reverse($statistics, true);
 
-        /** @var ActivityDetails $activity */
+        /** @var Activity $activity */
         foreach ($this->activities as $activity) {
             $month = $activity->getStartDate()->format(Month::MONTH_ID_FORMAT);
 
@@ -123,10 +123,10 @@ final readonly class MonthlyStatistics
     {
         return [
             'numberOfWorkouts' => count($activities),
-            'totalDistance' => Kilometer::from($activities->sum(fn (ActivityDetails $activity) => $activity->getDistance()->toFloat())),
-            'totalElevation' => Meter::from($activities->sum(fn (ActivityDetails $activity) => $activity->getElevation()->toFloat())),
-            'totalCalories' => $activities->sum(fn (ActivityDetails $activity) => $activity->getCalories()),
-            'movingTime' => CarbonInterval::seconds($activities->sum(fn (ActivityDetails $activity) => $activity->getMovingTimeInSeconds()))->cascade()->forHumans(['short' => true, 'minimumUnit' => 'minute']),
+            'totalDistance' => Kilometer::from($activities->sum(fn (Activity $activity) => $activity->getDistance()->toFloat())),
+            'totalElevation' => Meter::from($activities->sum(fn (Activity $activity) => $activity->getElevation()->toFloat())),
+            'totalCalories' => $activities->sum(fn (Activity $activity) => $activity->getCalories()),
+            'movingTime' => CarbonInterval::seconds($activities->sum(fn (Activity $activity) => $activity->getMovingTimeInSeconds()))->cascade()->forHumans(['short' => true, 'minimumUnit' => 'minute']),
         ];
     }
 }

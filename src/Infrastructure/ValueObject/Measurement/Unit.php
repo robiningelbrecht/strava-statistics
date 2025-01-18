@@ -15,4 +15,6 @@ interface Unit extends \Stringable, \JsonSerializable
     public function getSymbol(): string;
 
     public function toFloat(): float;
+
+    public function toInt(): int;
 }

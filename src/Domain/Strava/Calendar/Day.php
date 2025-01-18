@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Calendar;
 
-use App\Domain\Strava\Activity\ReadModel\Activities;
+use App\Domain\Strava\Activity\Activities;
 
 final readonly class Day
 {

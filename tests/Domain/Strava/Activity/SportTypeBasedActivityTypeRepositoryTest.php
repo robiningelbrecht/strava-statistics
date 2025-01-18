@@ -3,15 +3,14 @@
 namespace App\Tests\Domain\Strava\Activity;
 
 use App\Domain\Strava\Activity\ActivityId;
+use App\Domain\Strava\Activity\ActivityRepository;
 use App\Domain\Strava\Activity\ActivityType;
 use App\Domain\Strava\Activity\ActivityTypes;
 use App\Domain\Strava\Activity\SportType\DbalSportTypeRepository;
 use App\Domain\Strava\Activity\SportType\SportType;
 use App\Domain\Strava\Activity\SportType\SportTypesToImport;
 use App\Domain\Strava\Activity\SportTypeBasedActivityTypeRepository;
-use App\Domain\Strava\Activity\WriteModel\ActivityRepository;
 use App\Tests\ContainerTestCase;
-use App\Tests\Domain\Strava\Activity\WriteModel\ActivityBuilder;
 
 class SportTypeBasedActivityTypeRepositoryTest extends ContainerTestCase
 {

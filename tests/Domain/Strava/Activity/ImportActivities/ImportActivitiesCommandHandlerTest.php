@@ -4,13 +4,12 @@ namespace App\Tests\Domain\Strava\Activity\ImportActivities;
 
 use App\Domain\Strava\Activity\ActivitiesToSkipDuringImport;
 use App\Domain\Strava\Activity\ActivityId;
+use App\Domain\Strava\Activity\ActivityRepository;
 use App\Domain\Strava\Activity\ImportActivities\ImportActivities;
 use App\Domain\Strava\Activity\ImportActivities\ImportActivitiesCommandHandler;
 use App\Domain\Strava\Activity\NumberOfNewActivitiesToProcessPerImport;
-use App\Domain\Strava\Activity\ReadModel\ActivityDetailsRepository;
 use App\Domain\Strava\Activity\SportType\SportTypesToImport;
 use App\Domain\Strava\Activity\Stream\ActivityStreamRepository;
-use App\Domain\Strava\Activity\WriteModel\ActivityRepository;
 use App\Domain\Strava\Segment\SegmentEffort\SegmentEffortId;
 use App\Domain\Strava\Segment\SegmentEffort\SegmentEffortRepository;
 use App\Domain\Strava\Segment\SegmentId;
@@ -22,8 +21,8 @@ use App\Infrastructure\Geocoding\Nominatim\Nominatim;
 use App\Infrastructure\Repository\Pagination;
 use App\Infrastructure\ValueObject\Identifier\UuidFactory;
 use App\Tests\ContainerTestCase;
+use App\Tests\Domain\Strava\Activity\ActivityBuilder;
 use App\Tests\Domain\Strava\Activity\Stream\ActivityStreamBuilder;
-use App\Tests\Domain\Strava\Activity\WriteModel\ActivityBuilder;
 use App\Tests\Domain\Strava\Segment\SegmentBuilder;
 use App\Tests\Domain\Strava\Segment\SegmentEffort\SegmentEffortBuilder;
 use App\Tests\Domain\Strava\SpyStrava;
@@ -131,7 +130,7 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
 
         $this->assertCount(
             5,
-            $this->getContainer()->get(ActivityDetailsRepository::class)->findAll()->toArray()
+            $this->getContainer()->get(ActivityRepository::class)->findAll()->toArray()
         );
         $this->assertCount(
             0,
@@ -197,7 +196,7 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
 
         $this->assertCount(
             2,
-            $this->getContainer()->get(ActivityDetailsRepository::class)->findAll()->toArray()
+            $this->getContainer()->get(ActivityRepository::class)->findAll()->toArray()
         );
     }
 

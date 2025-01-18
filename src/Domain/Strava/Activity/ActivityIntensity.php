@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Activity;
 
-use App\Domain\Strava\Activity\ReadModel\ActivityDetails;
 use App\Domain\Strava\Athlete\AthleteRepository;
 use App\Domain\Strava\Ftp\FtpRepository;
 use App\Infrastructure\Exception\EntityNotFound;
@@ -17,7 +16,7 @@ final readonly class ActivityIntensity
     ) {
     }
 
-    public function calculate(ActivityDetails $activity): ?int
+    public function calculate(Activity $activity): ?int
     {
         $athlete = $this->athleteRepository->find();
         try {

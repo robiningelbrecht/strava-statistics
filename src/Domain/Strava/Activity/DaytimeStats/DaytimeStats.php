@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Activity\DaytimeStats;
 
-use App\Domain\Strava\Activity\ReadModel\Activities;
-use App\Domain\Strava\Activity\ReadModel\ActivityDetails;
+use App\Domain\Strava\Activity\Activities;
+use App\Domain\Strava\Activity\Activity;
 use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Measurement\Length\Meter;
 use Carbon\CarbonInterval;
@@ -29,7 +29,7 @@ final readonly class DaytimeStats
     public function getData(): array
     {
         $statistics = [];
-        $totalMovingTime = $this->activities->sum(fn (ActivityDetails $activity) => $activity->getMovingTimeInSeconds());
+        $totalMovingTime = $this->activities->sum(fn (Activity $activity) => $activity->getMovingTimeInSeconds());
 
         foreach (Daytime::cases() as $daytime) {
             $statistics[$daytime->value] = [
@@ -43,7 +43,7 @@ final readonly class DaytimeStats
             ];
         }
 
-        /** @var ActivityDetails $activity */
+        /** @var Activity $activity */
         foreach ($this->activities as $activity) {
             $daytime = Daytime::fromSerializableDateTime($activity->getStartDate());
 

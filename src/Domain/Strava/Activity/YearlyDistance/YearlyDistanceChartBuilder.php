@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Activity\YearlyDistance;
 
-use App\Domain\Strava\Activity\ReadModel\Activities;
-use App\Domain\Strava\Activity\ReadModel\ActivityDetails;
+use App\Domain\Strava\Activity\Activities;
+use App\Domain\Strava\Activity\Activity;
 use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
@@ -83,7 +83,7 @@ final readonly class YearlyDistanceChartBuilder
                     }
 
                     $runningSum += $activitiesOnThisDay->sum(
-                        fn (ActivityDetails $activity) => $activity->getDistance()->toUnitSystem($this->unitSystem)->toFloat()
+                        fn (Activity $activity) => $activity->getDistance()->toUnitSystem($this->unitSystem)->toFloat()
                     );
                     $series[(string) $year]['data'][] = round($runningSum);
                 }

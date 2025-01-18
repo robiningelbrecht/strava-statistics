@@ -45,6 +45,17 @@ final readonly class StravaDataImportStatus
         $this->keyValueStore->clear(Key::STRAVA_GEAR_IMPORT);
     }
 
+    public function gearImportIsCompleted(): bool
+    {
+        try {
+            $this->keyValueStore->find(Key::STRAVA_GEAR_IMPORT);
+        } catch (EntityNotFound) {
+            return false;
+        }
+
+        return true;
+    }
+
     public function isCompleted(): bool
     {
         try {
@@ -53,12 +64,6 @@ final readonly class StravaDataImportStatus
             return false;
         }
 
-        try {
-            $this->keyValueStore->find(Key::STRAVA_GEAR_IMPORT);
-        } catch (EntityNotFound) {
-            return false;
-        }
-
-        return true;
+        return $this->gearImportIsCompleted();
     }
 }

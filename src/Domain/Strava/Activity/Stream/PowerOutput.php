@@ -2,7 +2,7 @@
 
 namespace App\Domain\Strava\Activity\Stream;
 
-use App\Domain\Strava\Activity\ReadModel\ActivityDetails;
+use App\Domain\Strava\Activity\Activity;
 
 final readonly class PowerOutput
 {
@@ -10,7 +10,7 @@ final readonly class PowerOutput
         private string $time,
         private int $power,
         private float $relativePower,
-        private ?ActivityDetails $activity = null,
+        private ?Activity $activity = null,
     ) {
     }
 
@@ -18,7 +18,7 @@ final readonly class PowerOutput
         string $time,
         int $power,
         float $relativePower,
-        ?ActivityDetails $activity = null,
+        ?Activity $activity = null,
     ): self {
         return new self(
             time: $time,
@@ -43,7 +43,7 @@ final readonly class PowerOutput
         return $this->relativePower;
     }
 
-    public function getActivity(): ?ActivityDetails
+    public function getActivity(): ?Activity
     {
         return $this->activity;
     }

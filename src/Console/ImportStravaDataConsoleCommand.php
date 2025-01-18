@@ -52,10 +52,10 @@ final class ImportStravaDataConsoleCommand extends Command
         $this->migrationRunner->run();
 
         $this->commandBus->dispatch(new ImportAthlete($output));
+        $this->commandBus->dispatch(new ImportGear($output));
         $this->commandBus->dispatch(new ImportActivities($output));
         $this->commandBus->dispatch(new ImportActivityStreams($output));
         $this->commandBus->dispatch(new ImportSegments($output));
-        $this->commandBus->dispatch(new ImportGear($output));
         $this->commandBus->dispatch(new ImportChallenges($output));
         $this->commandBus->dispatch(new ImportFtp($output));
         $this->commandBus->dispatch(new ImportAthleteWeight($output));

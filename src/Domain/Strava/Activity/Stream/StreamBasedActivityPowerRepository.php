@@ -3,7 +3,7 @@
 namespace App\Domain\Strava\Activity\Stream;
 
 use App\Domain\Strava\Activity\ActivityId;
-use App\Domain\Strava\Activity\ReadModel\ActivityDetailsRepository;
+use App\Domain\Strava\Activity\ActivityRepository;
 use App\Domain\Strava\Athlete\Weight\AthleteWeightRepository;
 use App\Infrastructure\Exception\EntityNotFound;
 use Carbon\CarbonInterval;
@@ -14,7 +14,7 @@ final class StreamBasedActivityPowerRepository implements ActivityPowerRepositor
     private static array $cachedPowerOutputs = [];
 
     public function __construct(
-        private readonly ActivityDetailsRepository $activityRepository,
+        private readonly ActivityRepository $activityRepository,
         private readonly AthleteWeightRepository $athleteWeightRepository,
         private readonly ActivityStreamRepository $activityStreamRepository,
     ) {
@@ -32,7 +32,7 @@ final class StreamBasedActivityPowerRepository implements ActivityPowerRepositor
         $activities = $this->activityRepository->findAll();
         $powerStreams = $this->activityStreamRepository->findByStreamType(StreamType::WATTS);
 
-        /** @var \App\Domain\Strava\Activity\ReadModel\ActivityDetails $activity */
+        /** @var \App\Domain\Strava\Activity\Activity $activity */
         foreach ($activities as $activity) {
             StreamBasedActivityPowerRepository::$cachedPowerOutputs[(string) $activity->getId()] = [];
             $powerStreamsForActivity = $powerStreams->filter(fn (ActivityStream $stream) => $stream->getActivityId() == $activity->getId());

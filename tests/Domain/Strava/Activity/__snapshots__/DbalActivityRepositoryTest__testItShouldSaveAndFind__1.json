@@ -1,11 +1,32 @@
 [
     {
+        "data": "{\"raw\":\"data\"}",
         "activityId": "activity-903645",
         "startDateTime": "2023-10-10 00:00:00",
         "sportType": "Ride",
-        "data": "{\"kudos_count\":1,\"name\":\"Test activity\"}",
-        "location": "null",
-        "weather": "[]",
-        "gearId": null
+        "name": "Test activity",
+        "description": "",
+        "distance": 10000,
+        "elevation": 0,
+        "calories": 0,
+        "averagePower": null,
+        "maxPower": null,
+        "averageSpeed": 0,
+        "maxSpeed": 0,
+        "averageHeartRate": null,
+        "maxHeartRate": null,
+        "averageCadence": null,
+        "movingTimeInSeconds": 10,
+        "kudoCount": 1,
+        "deviceName": null,
+        "totalImageCount": 0,
+        "localImagePaths": "",
+        "polyline": null,
+        "location": null,
+        "weather": null,
+        "gearId": null,
+        "gearName": null,
+        "startingCoordinateLatitude": null,
+        "startingCoordinateLongitude": null
     }
 ]

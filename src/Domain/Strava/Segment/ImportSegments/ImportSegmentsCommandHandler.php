@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Segment\ImportSegments;
 
-use App\Domain\Strava\Activity\ReadModel\ActivityDetailsRepository;
-use App\Domain\Strava\Activity\WriteModel\Activity;
+use App\Domain\Strava\Activity\Activity;
+use App\Domain\Strava\Activity\ActivityRepository;
+use App\Domain\Strava\Activity\ActivityWithRawDataRepository;
 use App\Domain\Strava\Segment\Segment;
 use App\Domain\Strava\Segment\SegmentEffort\SegmentEffort;
 use App\Domain\Strava\Segment\SegmentEffort\SegmentEffortId;
@@ -21,7 +22,8 @@ use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 final readonly class ImportSegmentsCommandHandler implements CommandHandler
 {
     public function __construct(
-        private ActivityDetailsRepository $activityRepository,
+        private ActivityRepository $activityRepository,
+        private ActivityWithRawDataRepository $activityWithRawDataRepository,
         private SegmentRepository $segmentRepository,
         private SegmentEffortRepository $segmentEffortRepository,
     ) {
@@ -36,13 +38,15 @@ final readonly class ImportSegmentsCommandHandler implements CommandHandler
 
         $countSegmentsAdded = 0;
         $countSegmentEffortsAdded = 0;
-        /** @var \App\Domain\Strava\Activity\ReadModel\ActivityDetails $activity */
-        foreach ($this->activityRepository->findAll() as $activity) {
-            if (!$segmentEfforts = $activity->getSegmentEfforts()) {
+        /* @var Activity $activity */
+        foreach ($this->activityRepository->findActivityIds() as $activityId) {
+            $activityWithRawData = $this->activityWithRawDataRepository->find($activityId);
+            if (!$segmentEfforts = $activityWithRawData->getSegmentEfforts()) {
                 // No segments or we already imported them activity.
                 continue;
             }
 
+            $activity = $activityWithRawData->getActivity();
             foreach ($segmentEfforts as $activitySegmentEffort) {
                 $activitySegment = $activitySegmentEffort['segment'];
                 $segmentId = SegmentId::fromUnprefixed((string) $activitySegment['id']);
@@ -52,6 +56,7 @@ final readonly class ImportSegmentsCommandHandler implements CommandHandler
                     name: Name::fromString($activitySegment['name']),
                     data: [
                         ...$activitySegment,
+                        // @TODO: move these to separate DB fields.
                         ...[
                             'device_name' => $activity->getDeviceName(),
                             'sport_type' => $activity->getSportType()->value,

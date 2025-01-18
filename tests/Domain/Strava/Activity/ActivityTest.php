@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Domain\Strava\Activity\WriteModel;
+namespace App\Tests\Domain\Strava\Activity;
 
 use App\Infrastructure\Serialization\Json;
 use PHPUnit\Framework\TestCase;

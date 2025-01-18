@@ -2,16 +2,36 @@
 
 namespace App\Infrastructure\ValueObject\Geography;
 
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Embeddable]
 final readonly class Coordinate implements \JsonSerializable
 {
     private function __construct(
+        #[ORM\Column(type: 'float', nullable: true)]
         private Latitude $latitude,
+        #[ORM\Column(type: 'float', nullable: true)]
         private Longitude $longitude)
     {
     }
 
     public static function createFromLatAndLng(Latitude $latitude, Longitude $longitude): Coordinate
     {
+        return new self(
+            $latitude,
+            $longitude
+        );
+    }
+
+    public static function createFromOptionalLatAndLng(?Latitude $latitude, ?Longitude $longitude): ?Coordinate
+    {
+        if (!$latitude) {
+            return null;
+        }
+        if (!$longitude) {
+            return null;
+        }
+
         return new self(
             $latitude,
             $longitude

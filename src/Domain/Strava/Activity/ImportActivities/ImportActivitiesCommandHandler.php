@@ -3,13 +3,16 @@
 namespace App\Domain\Strava\Activity\ImportActivities;
 
 use App\Domain\Strava\Activity\ActivitiesToSkipDuringImport;
+use App\Domain\Strava\Activity\Activity;
 use App\Domain\Strava\Activity\ActivityId;
+use App\Domain\Strava\Activity\ActivityRepository;
+use App\Domain\Strava\Activity\ActivityWithRawData;
+use App\Domain\Strava\Activity\ActivityWithRawDataRepository;
 use App\Domain\Strava\Activity\NumberOfNewActivitiesToProcessPerImport;
 use App\Domain\Strava\Activity\SportType\SportType;
 use App\Domain\Strava\Activity\SportType\SportTypesToImport;
-use App\Domain\Strava\Activity\WriteModel\Activity;
-use App\Domain\Strava\Activity\WriteModel\ActivityRepository;
 use App\Domain\Strava\Gear\GearId;
+use App\Domain\Strava\Gear\GearRepository;
 use App\Domain\Strava\Strava;
 use App\Domain\Strava\StravaDataImportStatus;
 use App\Domain\Weather\OpenMeteo\OpenMeteo;
@@ -17,11 +20,9 @@ use App\Infrastructure\CQRS\Bus\Command;
 use App\Infrastructure\CQRS\Bus\CommandHandler;
 use App\Infrastructure\Exception\EntityNotFound;
 use App\Infrastructure\Geocoding\Nominatim\Nominatim;
-use App\Infrastructure\ValueObject\Geography\Coordinate;
+use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\ValueObject\Identifier\UuidFactory;
 use App\Infrastructure\ValueObject\Measurement\Length\Meter;
-use App\Infrastructure\ValueObject\Time\SerializableDateTime;
-use App\Infrastructure\ValueObject\Time\SerializableTimezone;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 use League\Flysystem\FilesystemOperator;
@@ -33,6 +34,8 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
         private OpenMeteo $openMeteo,
         private Nominatim $nominatim,
         private ActivityRepository $activityRepository,
+        private ActivityWithRawDataRepository $activityWithRawDataRepository,
+        private GearRepository $gearRepository,
         private FilesystemOperator $filesystem,
         private SportTypesToImport $sportTypesToImport,
         private ActivitiesToSkipDuringImport $activitiesToSkipDuringImport,
@@ -47,6 +50,13 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
         assert($command instanceof ImportActivities);
         $command->getOutput()->writeln('Importing activities...');
 
+        if (!$this->stravaDataImportStatus->gearImportIsCompleted()) {
+            $command->getOutput()->writeln('<error>Not all gear has been imported yet, acticities cannot be imported</error>');
+
+            return;
+        }
+
+        $allGears = $this->gearRepository->findAll();
         $allActivityIds = $this->activityRepository->findActivityIds();
         $activityIdsToDelete = array_combine(
             $allActivityIds->map(fn (ActivityId $activityId) => (string) $activityId),
@@ -75,25 +85,33 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                 continue;
             }
             try {
-                $activity = $this->activityRepository->find($activityId);
+                $activityWithRawData = $this->activityWithRawDataRepository->find($activityId);
+                $activity = $activityWithRawData->getActivity();
+                $gearId = GearId::fromOptionalUnprefixed($stravaActivity['gear_id'] ?? null);
+
                 $activity
                     ->updateName($stravaActivity['name'])
                     ->updateDescription($stravaActivity['description'] ?? '')
                     ->updateElevation(Meter::from($stravaActivity['total_elevation_gain']))
                     ->updateKudoCount($stravaActivity['kudos_count'] ?? 0)
-                    ->updateGearId(GearId::fromOptionalUnprefixed($stravaActivity['gear_id'] ?? null));
+                    ->updateGear(
+                        $gearId,
+                        $gearId ? $allGears->getByGearId($gearId)->getName() : null
+                    );
 
                 if (!$activity->getLocation() && $sportType->supportsReverseGeocoding()
-                    && $activity->getLatitude() && $activity->getLongitude()) {
-                    $reverseGeocodedAddress = $this->nominatim->reverseGeocode(Coordinate::createFromLatAndLng(
-                        latitude: $activity->getLatitude(),
-                        longitude: $activity->getLongitude(),
-                    ));
-
+                    && $activity->getStartingCoordinate()) {
+                    $reverseGeocodedAddress = $this->nominatim->reverseGeocode($activity->getStartingCoordinate());
                     $activity->updateLocation($reverseGeocodedAddress);
                 }
 
-                $this->activityRepository->update($activity);
+                $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
+                    $activity,
+                    [
+                        ...$activityWithRawData->getRawData(),
+                        ...$stravaActivity,
+                    ]
+                ));
                 unset($activityIdsToDelete[(string) $activity->getId()]);
                 $command->getOutput()->writeln(sprintf(
                     '  => Updated activity "%s - %s"',
@@ -102,21 +120,15 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                 );
             } catch (EntityNotFound) {
                 try {
-                    $startDate = SerializableDateTime::createFromFormat(
-                        format: Activity::DATE_TIME_FORMAT,
-                        datetime: $stravaActivity['start_date_local'],
-                        timezone: SerializableTimezone::default(),
-                    );
-                    $activity = Activity::create(
-                        activityId: $activityId,
-                        startDateTime: $startDate,
-                        sportType: $sportType,
-                        data: $this->strava->getActivity($activityId),
-                        gearId: GearId::fromOptionalUnprefixed($stravaActivity['gear_id'] ?? null)
+                    $rawStravaData = $this->strava->getActivities();
+                    $gearId = GearId::fromOptionalUnprefixed($stravaActivity['gear_id'] ?? null);
+                    $activity = Activity::createFromRawData(
+                        rawData: $rawStravaData,
+                        gearId: $gearId,
+                        gearName: $gearId ? $allGears->getByGearId($gearId)->getName() : null
                     );
 
                     $localImagePaths = [];
-
                     if ($activity->getTotalImageCount() > 0) {
                         $photos = $this->strava->getActivityPhotos($activity->getId());
                         foreach ($photos as $photo) {
@@ -137,25 +149,23 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                         $activity->updateLocalImagePaths($localImagePaths);
                     }
 
-                    if ($sportType->supportsWeather() && $activity->getLatitude() && $activity->getLongitude()) {
+                    if ($sportType->supportsWeather() && $activity->getStartingCoordinate()) {
                         $weather = $this->openMeteo->getWeatherStats(
-                            $activity->getLatitude(),
-                            $activity->getLongitude(),
-                            $activity->getStartDate()
+                            coordinate: $activity->getStartingCoordinate(),
+                            date: $activity->getStartDate()
                         );
-                        $activity->updateWeather($weather);
+                        $activity->updateWeather(Json::encode($weather));
                     }
 
-                    if ($sportType->supportsReverseGeocoding() && $activity->getLatitude() && $activity->getLongitude()) {
-                        $reverseGeocodedAddress = $this->nominatim->reverseGeocode(Coordinate::createFromLatAndLng(
-                            latitude: $activity->getLatitude(),
-                            longitude: $activity->getLongitude(),
-                        ));
-
+                    if ($sportType->supportsReverseGeocoding() && $activity->getStartingCoordinate()) {
+                        $reverseGeocodedAddress = $this->nominatim->reverseGeocode($activity->getStartingCoordinate());
                         $activity->updateLocation($reverseGeocodedAddress);
                     }
 
-                    $this->activityRepository->add($activity);
+                    $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
+                        activity: $activity,
+                        rawData: $rawStravaData
+                    ));
                     unset($activityIdsToDelete[(string) $activity->getId()]);
 
                     $command->getOutput()->writeln(sprintf(

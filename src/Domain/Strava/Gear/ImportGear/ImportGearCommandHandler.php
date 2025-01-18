@@ -2,8 +2,9 @@
 
 namespace App\Domain\Strava\Gear\ImportGear;
 
-use App\Domain\Strava\Activity\WriteModel\ActivityRepository;
 use App\Domain\Strava\Gear\Gear;
+use App\Domain\Strava\Gear\GearId;
+use App\Domain\Strava\Gear\GearIds;
 use App\Domain\Strava\Gear\GearRepository;
 use App\Domain\Strava\Strava;
 use App\Domain\Strava\StravaDataImportStatus;
@@ -18,7 +19,6 @@ final readonly class ImportGearCommandHandler implements CommandHandler
 {
     public function __construct(
         private Strava $strava,
-        private ActivityRepository $activityRepository,
         private GearRepository $gearRepository,
         private StravaDataImportStatus $stravaDataImportStatus,
         private Clock $clock,
@@ -30,7 +30,10 @@ final readonly class ImportGearCommandHandler implements CommandHandler
         assert($command instanceof ImportGear);
         $command->getOutput()->writeln('Importing gear...');
 
-        $gearIds = $this->activityRepository->findUniqueGearIds();
+        $gearIds = GearIds::fromArray(array_unique(array_filter(array_map(
+            fn (array $activity) => GearId::fromOptionalUnprefixed($activity['gear_id']),
+            $this->strava->getActivities(),
+        ))));
 
         foreach ($gearIds as $gearId) {
             try {

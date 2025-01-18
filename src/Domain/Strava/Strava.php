@@ -20,6 +20,8 @@ use Psr\Log\LoggerInterface;
 class Strava
 {
     private static ?string $cachedAccessToken = null;
+    /** @var array<mixed>|null */
+    private static ?array $cachedActivitiesResponse = null;
 
     public function __construct(
         private readonly Client $client,
@@ -100,7 +102,11 @@ class Strava
      */
     public function getActivities(): array
     {
-        $allActivities = [];
+        if (!is_null(Strava::$cachedActivitiesResponse)) {
+            return Strava::$cachedActivitiesResponse;
+        }
+
+        Strava::$cachedActivitiesResponse = [];
 
         $page = 1;
         do {
@@ -113,11 +119,15 @@ class Strava
                     'per_page' => 200,
                 ],
             ]));
-            $allActivities = array_merge($allActivities, $activities);
+
+            Strava::$cachedActivitiesResponse = array_merge(
+                Strava::$cachedActivitiesResponse,
+                $activities
+            );
             ++$page;
         } while (count($activities) > 0);
 
-        return $allActivities;
+        return Strava::$cachedActivitiesResponse;
     }
 
     /**

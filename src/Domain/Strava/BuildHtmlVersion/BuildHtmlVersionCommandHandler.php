@@ -4,6 +4,7 @@ namespace App\Domain\Strava\BuildHtmlVersion;
 
 use App\Domain\Strava\Activity\ActivityHeatmapChartBuilder;
 use App\Domain\Strava\Activity\ActivityIntensity;
+use App\Domain\Strava\Activity\ActivityRepository;
 use App\Domain\Strava\Activity\ActivityTotals;
 use App\Domain\Strava\Activity\ActivityTypeRepository;
 use App\Domain\Strava\Activity\DaytimeStats\DaytimeStats;
@@ -15,7 +16,6 @@ use App\Domain\Strava\Activity\Eddington\EddingtonHistoryChartBuilder;
 use App\Domain\Strava\Activity\HeartRateDistributionChartBuilder;
 use App\Domain\Strava\Activity\Image\ImageRepository;
 use App\Domain\Strava\Activity\PowerDistributionChartBuilder;
-use App\Domain\Strava\Activity\ReadModel\ActivityDetailsRepository;
 use App\Domain\Strava\Activity\SportType\SportTypeRepository;
 use App\Domain\Strava\Activity\Stream\ActivityHeartRateRepository;
 use App\Domain\Strava\Activity\Stream\ActivityPowerRepository;
@@ -66,7 +66,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
     private const string APP_VERSION = 'v0.3.9';
 
     public function __construct(
-        private ActivityDetailsRepository $activityRepository,
+        private ActivityRepository $activityRepository,
         private ChallengeRepository $challengeRepository,
         private GearRepository $gearRepository,
         private ImageRepository $imageRepository,
@@ -152,7 +152,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
         $bestPowerOutputs = $this->activityPowerRepository->findBest();
 
         $command->getOutput()->writeln('  => Enriching activities with data');
-        /** @var \App\Domain\Strava\Activity\ReadModel\ActivityDetails $activity */
+        /** @var \App\Domain\Strava\Activity\Activity $activity */
         foreach ($allActivities as $activity) {
             $activity->enrichWithBestPowerOutputs(
                 $this->activityPowerRepository->findBestForActivity($activity->getId())
@@ -165,12 +165,6 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
 
             if (($cadenceStream = $streams->getByStreamType(StreamType::CADENCE)) && !empty($cadenceStream->getData())) {
                 $activity->enrichWithMaxCadence(max($cadenceStream->getData()));
-            }
-
-            if ($activity->getGearId()) {
-                $activity->enrichWithGearName(
-                    $this->gearRepository->find($activity->getGearId())->getName()
-                );
             }
         }
 
@@ -468,7 +462,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
             if (!$activity->getSportType()->supportsReverseGeocoding()) {
                 continue;
             }
-            if (!$polyline = $activity->getPolylineSummary()) {
+            if (!$polyline = $activity->getPolyline()) {
                 continue;
             }
             if (!$countryCode = $activity->getLocation()?->getCountryCode()) {
@@ -508,7 +502,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                 $this->twig->load('html/activity/activity.html.twig')->render([
                     'activity' => $activity,
                     'leaflet' => $leafletMap ? [
-                        'routes' => [$activity->getPolylineSummary()],
+                        'routes' => [$activity->getPolyline()],
                         'map' => $leafletMap,
                     ] : null,
                     'heartRateDistributionChart' => $heartRateData && $activity->getAverageHeartRate() ? Json::encode(

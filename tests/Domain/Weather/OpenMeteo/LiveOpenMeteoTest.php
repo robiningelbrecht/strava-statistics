@@ -5,6 +5,7 @@ namespace App\Tests\Domain\Weather\OpenMeteo;
 use App\Domain\Weather\OpenMeteo\LiveOpenMeteo;
 use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\Time\Clock\Clock;
+use App\Infrastructure\ValueObject\Geography\Coordinate;
 use App\Infrastructure\ValueObject\Geography\Latitude;
 use App\Infrastructure\ValueObject\Geography\Longitude;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
@@ -37,8 +38,10 @@ class LiveOpenMeteoTest extends TestCase
             });
 
         $this->liveOpenMeteo->getWeatherStats(
-            latitude: Latitude::fromString('80'),
-            longitude: Longitude::fromString('100'),
+            coordinate: Coordinate::createFromLatAndLng(
+                Latitude::fromString('80'),
+                Longitude::fromString('100')
+            ),
             date: SerializableDateTime::fromString('2023-10-31'),
         );
     }
@@ -57,8 +60,10 @@ class LiveOpenMeteoTest extends TestCase
             });
 
         $this->liveOpenMeteo->getWeatherStats(
-            latitude: Latitude::fromString('80'),
-            longitude: Longitude::fromString('100'),
+            coordinate: Coordinate::createFromLatAndLng(
+                Latitude::fromString('80'),
+                Longitude::fromString('100')
+            ),
             date: SerializableDateTime::fromString('2023-09-31'),
         );
     }
