@@ -51,7 +51,7 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
         $command->getOutput()->writeln('Importing activities...');
 
         if (!$this->stravaDataImportStatus->gearImportIsCompleted()) {
-            $command->getOutput()->writeln('<error>Not all gear has been imported yet, acticities cannot be imported</error>');
+            $command->getOutput()->writeln('<error>Not all gear has been imported yet, activities cannot be imported</error>');
 
             return;
         }
@@ -96,7 +96,7 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                     ->updateKudoCount($stravaActivity['kudos_count'] ?? 0)
                     ->updateGear(
                         $gearId,
-                        $gearId ? $allGears->getByGearId($gearId)->getName() : null
+                        $gearId ? $allGears->getByGearId($gearId)?->getName() : null
                     );
 
                 if (!$activity->getLocation() && $sportType->supportsReverseGeocoding()
@@ -120,12 +120,12 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                 );
             } catch (EntityNotFound) {
                 try {
-                    $rawStravaData = $this->strava->getActivities();
+                    $rawStravaData = $this->strava->getActivity($activityId);
                     $gearId = GearId::fromOptionalUnprefixed($stravaActivity['gear_id'] ?? null);
                     $activity = Activity::createFromRawData(
                         rawData: $rawStravaData,
                         gearId: $gearId,
-                        gearName: $gearId ? $allGears->getByGearId($gearId)->getName() : null
+                        gearName: $gearId ? $allGears->getByGearId($gearId)?->getName() : null
                     );
 
                     $localImagePaths = [];

@@ -5,11 +5,15 @@ namespace App\Tests\Domain\Strava\Activity\ImportActivities;
 use App\Domain\Strava\Activity\ActivitiesToSkipDuringImport;
 use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\ActivityRepository;
+use App\Domain\Strava\Activity\ActivityWithRawData;
+use App\Domain\Strava\Activity\ActivityWithRawDataRepository;
 use App\Domain\Strava\Activity\ImportActivities\ImportActivities;
 use App\Domain\Strava\Activity\ImportActivities\ImportActivitiesCommandHandler;
 use App\Domain\Strava\Activity\NumberOfNewActivitiesToProcessPerImport;
 use App\Domain\Strava\Activity\SportType\SportTypesToImport;
 use App\Domain\Strava\Activity\Stream\ActivityStreamRepository;
+use App\Domain\Strava\Gear\GearId;
+use App\Domain\Strava\Gear\GearRepository;
 use App\Domain\Strava\Segment\SegmentEffort\SegmentEffortId;
 use App\Domain\Strava\Segment\SegmentEffort\SegmentEffortRepository;
 use App\Domain\Strava\Segment\SegmentId;
@@ -18,11 +22,20 @@ use App\Domain\Strava\Strava;
 use App\Domain\Strava\StravaDataImportStatus;
 use App\Domain\Weather\OpenMeteo\OpenMeteo;
 use App\Infrastructure\Geocoding\Nominatim\Nominatim;
+use App\Infrastructure\KeyValue\Key;
+use App\Infrastructure\KeyValue\KeyValue;
+use App\Infrastructure\KeyValue\KeyValueStore;
+use App\Infrastructure\KeyValue\Value;
 use App\Infrastructure\Repository\Pagination;
+use App\Infrastructure\Serialization\Json;
+use App\Infrastructure\ValueObject\Geography\Coordinate;
+use App\Infrastructure\ValueObject\Geography\Latitude;
+use App\Infrastructure\ValueObject\Geography\Longitude;
 use App\Infrastructure\ValueObject\Identifier\UuidFactory;
 use App\Tests\ContainerTestCase;
 use App\Tests\Domain\Strava\Activity\ActivityBuilder;
 use App\Tests\Domain\Strava\Activity\Stream\ActivityStreamBuilder;
+use App\Tests\Domain\Strava\Gear\GearBuilder;
 use App\Tests\Domain\Strava\Segment\SegmentBuilder;
 use App\Tests\Domain\Strava\Segment\SegmentEffort\SegmentEffortBuilder;
 use App\Tests\Domain\Strava\SpyStrava;
@@ -37,19 +50,62 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
     private ImportActivitiesCommandHandler $importActivitiesCommandHandler;
     private SpyStrava $strava;
 
+    public function testHandleWithNotAllGearImported(): void
+    {
+        $output = new SpyOutput();
+        $this->strava->setMaxNumberOfCallsBeforeTriggering429(1000);
+
+        $this->getContainer()->get(ActivityWithRawDataRepository::class)->save(ActivityWithRawData::fromState(
+            ActivityBuilder::fromDefaults()
+                ->withActivityId(ActivityId::fromUnprefixed(4))
+                ->withStartingCoordinate(Coordinate::createFromLatAndLng(
+                    Latitude::fromString('51.2'),
+                    Longitude::fromString('3.18')
+                ))
+                ->build(), []
+        ));
+
+        $this->importActivitiesCommandHandler->handle(new ImportActivities($output));
+
+        $this->assertMatchesTextSnapshot((string) $output);
+
+        /** @var \App\Tests\Infrastructure\FileSystem\SpyFileSystem $fileSystem */
+        $fileSystem = $this->getContainer()->get(FilesystemOperator::class);
+        $this->assertEmpty($fileSystem->getWrites());
+
+        $this->assertEmpty(
+            $this->getConnection()->executeQuery('SELECT * FROM KeyValue')->fetchAllAssociative()
+        );
+    }
+
     public function testHandleWithTooManyRequests(): void
     {
         $output = new SpyOutput();
         $this->strava->setMaxNumberOfCallsBeforeTriggering429(7);
 
-        $this->getContainer()->get(ActivityRepository::class)->add(
+        $this->getContainer()->get(KeyValueStore::class)->save(KeyValue::fromState(
+            Key::STRAVA_GEAR_IMPORT,
+            Value::fromString('20205-01_18'),
+        ));
+
+        $this->getContainer()->get(GearRepository::class)->add(GearBuilder::fromDefaults()
+            ->withGearId(GearId::fromString('gear-b12659861'))
+            ->build()
+        );
+
+        $this->getContainer()->get(ActivityWithRawDataRepository::class)->save(ActivityWithRawData::fromState(
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::fromUnprefixed(4))
-                ->withData([
-                    'start_latlng' => [51.2, 3.18],
-                ])
-                ->build()
-        );
+                ->withStartingCoordinate(Coordinate::createFromLatAndLng(
+                    Latitude::fromString('51.2'),
+                    Longitude::fromString('3.18')
+                ))
+                ->build(),
+            [
+                'start_date_local' => '2024-01-01T02:58:29Z',
+                'start_latlng' => [51.2, 3.18],
+            ]
+        ));
 
         $this->importActivitiesCommandHandler->handle(new ImportActivities($output));
 
@@ -59,9 +115,9 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
         $fileSystem = $this->getContainer()->get(FilesystemOperator::class);
         $this->assertMatchesJsonSnapshot($fileSystem->getWrites());
 
-        $this->assertEmpty(
+        $this->assertMatchesJsonSnapshot(Json::encode(
             $this->getConnection()->executeQuery('SELECT * FROM KeyValue')->fetchAllAssociative()
-        );
+        ));
     }
 
     public function testHandleWithActivityDelete(): void
@@ -69,21 +125,34 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
         $output = new SpyOutput();
         $this->strava->setMaxNumberOfCallsBeforeTriggering429(1000);
 
-        $this->getContainer()->get(ActivityRepository::class)->add(
+        $this->getContainer()->get(KeyValueStore::class)->save(KeyValue::fromState(
+            Key::STRAVA_GEAR_IMPORT,
+            Value::fromString('20205-01_18'),
+        ));
+
+        $this->getContainer()->get(ActivityWithRawDataRepository::class)->save(ActivityWithRawData::fromState(
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::fromUnprefixed(4))
-                ->build()
-        );
+                ->build(),
+            []
+        ));
 
-        $this->getContainer()->get(ActivityRepository::class)->add(
+        $this->getContainer()->get(ActivityWithRawDataRepository::class)->save(ActivityWithRawData::fromState(
             ActivityBuilder::fromDefaults()
-                ->withData([
-                    'kudos_count' => 1,
-                    'name' => 'Delete this one',
-                ])
                 ->withActivityId(ActivityId::fromUnprefixed(1000))
-                ->build()
-        );
+                ->withStartingCoordinate(Coordinate::createFromLatAndLng(
+                    Latitude::fromString('51.2'),
+                    Longitude::fromString('3.18')
+                ))
+                ->withKudoCount(1)
+                ->withName('Delete this one')
+                ->build(),
+            [
+                'kudos_count' => 1,
+                'name' => 'Delete this one',
+            ]
+        ));
+
         $segmentEffortOne = SegmentEffortBuilder::fromDefaults()
             ->withActivityId(ActivityId::fromUnprefixed(1000))
             ->build();
@@ -93,15 +162,14 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
             ->build();
         $this->getContainer()->get(ActivityStreamRepository::class)->add($stream);
 
-        $this->getContainer()->get(ActivityRepository::class)->add(
+        $this->getContainer()->get(ActivityWithRawDataRepository::class)->save(ActivityWithRawData::fromState(
             ActivityBuilder::fromDefaults()
-                ->withData([
-                    'kudos_count' => 1,
-                    'name' => 'Delete this one as well',
-                ])
+                ->withKudoCount(1)
+                ->withName('Delete this one as well')
                 ->withActivityId(ActivityId::fromUnprefixed(1001))
-                ->build()
-        );
+                ->build(),
+            []
+        ));
         $this->getContainer()->get(SegmentEffortRepository::class)->add(
             SegmentEffortBuilder::fromDefaults()
                 ->withSegmentId(SegmentId::fromUnprefixed(1000))
@@ -151,11 +219,16 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
         $output = new SpyOutput();
         $this->strava->setMaxNumberOfCallsBeforeTriggering429(1000);
 
-        $this->getContainer()->get(ActivityRepository::class)->add(
+        $this->getContainer()->get(KeyValueStore::class)->save(KeyValue::fromState(
+            Key::STRAVA_GEAR_IMPORT,
+            Value::fromString('2025-01_18'),
+        ));
+
+        $this->getContainer()->get(ActivityWithRawDataRepository::class)->save(ActivityWithRawData::fromState(
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::fromUnprefixed(4))
-                ->build()
-        );
+                ->build(), []
+        ));
 
         $this->importActivitiesCommandHandler->handle(new ImportActivities($output));
 
@@ -169,6 +242,8 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
             $this->getContainer()->get(OpenMeteo::class),
             $this->getContainer()->get(Nominatim::class),
             $this->getContainer()->get(ActivityRepository::class),
+            $this->getContainer()->get(ActivityWithRawDataRepository::class),
+            $this->getContainer()->get(GearRepository::class),
             $this->getContainer()->get(FilesystemOperator::class),
             $this->getContainer()->get(SportTypesToImport::class),
             $this->getContainer()->get(ActivitiesToSkipDuringImport::class),
@@ -180,11 +255,16 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
         $output = new SpyOutput();
         $this->strava->setMaxNumberOfCallsBeforeTriggering429(1000);
 
-        $this->getContainer()->get(ActivityRepository::class)->add(
+        $this->getContainer()->get(KeyValueStore::class)->save(KeyValue::fromState(
+            Key::STRAVA_GEAR_IMPORT,
+            Value::fromString('2025-01-18'),
+        ));
+
+        $this->getContainer()->get(ActivityWithRawDataRepository::class)->save(ActivityWithRawData::fromState(
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::fromUnprefixed(2))
-                ->build()
-        );
+                ->build(), []
+        ));
 
         $this->importActivitiesCommandHandler->handle(new ImportActivities($output));
 
@@ -210,6 +290,8 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
             $this->getContainer()->get(OpenMeteo::class),
             $this->getContainer()->get(Nominatim::class),
             $this->getContainer()->get(ActivityRepository::class),
+            $this->getContainer()->get(ActivityWithRawDataRepository::class),
+            $this->getContainer()->get(GearRepository::class),
             $this->getContainer()->get(FilesystemOperator::class),
             $this->getContainer()->get(SportTypesToImport::class),
             $this->getContainer()->get(ActivitiesToSkipDuringImport::class),

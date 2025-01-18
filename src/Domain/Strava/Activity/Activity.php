@@ -51,7 +51,7 @@ final class Activity
         #[ORM\Column(type: 'string')]
         private string $name,
         #[ORM\Column(type: 'string', nullable: true)]
-        private string $description,
+        private ?string $description,
         #[ORM\Column(type: 'integer')]
         private readonly Kilometer $distance,
         #[ORM\Column(type: 'integer')]
@@ -124,19 +124,19 @@ final class Activity
                 Longitude::fromOptionalString($rawData['start_latlng'][0] ?? null),
             ),
             calories: (int) ($rawData['calories'] ?? 0),
-            averagePower: ((int) $rawData['average_watts']) ?: null,
-            maxPower: ((int) $rawData['max_watts']) ?: null,
+            averagePower: isset($rawData['average_watts']) ? (int) $rawData['average_watts'] : null,
+            maxPower: isset($rawData['max_watts']) ? (int) $rawData['max_watts'] : null,
             averageSpeed: KmPerHour::from($rawData['average_speed'] * 3.6),
             maxSpeed: KmPerHour::from($rawData['max_speed'] * 3.6),
             averageHeartRate: isset($rawData['averageHeartRate']) ? (int) round($rawData['averageHeartRate']) : null,
             maxHeartRate: isset($rawData['maxHeartRate']) ? (int) round($rawData['maxHeartRate']) : null,
             averageCadence: isset($rawData['averageCadence']) ? (int) round($rawData['averageCadence']) : null,
-            movingTimeInSeconds: $rawData['movingTimeInSeconds'] ?: 0,
+            movingTimeInSeconds: $rawData['movingTimeInSeconds'] ?? 0,
             kudoCount: $rawData['kudos_count'] ?? 0,
             deviceName: $rawData['device_name'],
             totalImageCount: $rawData['total_photo_count'] ?? 0,
             localImagePaths: [],
-            polyline: $rawData['polyline'],
+            polyline: $rawData['polyline'] ?? null,
             location: null,
             weather: null,
             gearId: $gearId,
@@ -152,7 +152,7 @@ final class Activity
         SerializableDateTime $startDateTime,
         SportType $sportType,
         string $name,
-        string $description,
+        ?string $description,
         Kilometer $distance,
         Meter $elevation,
         ?Coordinate $startingCoordinate,
@@ -327,7 +327,7 @@ final class Activity
 
     public function getDescription(): string
     {
-        return trim($this->description);
+        return trim($this->description ?? '');
     }
 
     public function updateDescription(string $description): self

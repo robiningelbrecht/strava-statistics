@@ -20,11 +20,11 @@ final class ActivityBuilder
     private ActivityId $activityId;
     private SerializableDateTime $startDateTime;
     private readonly SportType $sportType;
-    private readonly string $name;
+    private string $name;
     private readonly string $description;
     private readonly Kilometer $distance;
     private readonly Meter $elevation;
-    private readonly ?Coordinate $startingCoordinate;
+    private ?Coordinate $startingCoordinate;
     private readonly int $calories;
     private ?int $averagePower;
     private readonly ?int $maxPower;
@@ -34,7 +34,7 @@ final class ActivityBuilder
     private readonly ?int $maxHeartRate;
     private readonly ?int $averageCadence;
     private int $movingTimeInSeconds;
-    private readonly int $kudoCount;
+    private int $kudoCount;
     private readonly int $totalImageCount;
     private readonly ?string $deviceName;
     /** @var array<string> */
@@ -119,6 +119,20 @@ final class ActivityBuilder
         return $this;
     }
 
+    public function withName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function withKudoCount(int $kudoCount): self
+    {
+        $this->kudoCount = $kudoCount;
+
+        return $this;
+    }
+
     public function withStartDateTime(SerializableDateTime $startDateTime): self
     {
         $this->startDateTime = $startDateTime;
@@ -157,6 +171,13 @@ final class ActivityBuilder
     public function withLocation(Location $location): self
     {
         $this->location = $location;
+
+        return $this;
+    }
+
+    public function withStartingCoordinate(Coordinate $coordinate): self
+    {
+        $this->startingCoordinate = $coordinate;
 
         return $this;
     }
