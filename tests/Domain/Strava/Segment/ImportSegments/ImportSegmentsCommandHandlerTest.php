@@ -3,12 +3,14 @@
 namespace App\Tests\Domain\Strava\Segment\ImportSegments;
 
 use App\Domain\Strava\Activity\ActivityId;
-use App\Domain\Strava\Activity\ActivityRepository;
+use App\Domain\Strava\Activity\ActivityWithRawData;
+use App\Domain\Strava\Activity\ActivityWithRawDataRepository;
 use App\Domain\Strava\Segment\ImportSegments\ImportSegments;
 use App\Domain\Strava\Segment\SegmentEffort\SegmentEffortId;
 use App\Domain\Strava\Segment\SegmentEffort\SegmentEffortRepository;
 use App\Domain\Strava\Segment\SegmentId;
 use App\Infrastructure\CQRS\Bus\CommandBus;
+use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use App\Tests\ContainerTestCase;
 use App\Tests\Domain\Strava\Activity\ActivityBuilder;
 use App\Tests\Domain\Strava\Segment\SegmentEffort\SegmentEffortBuilder;
@@ -25,51 +27,52 @@ class ImportSegmentsCommandHandlerTest extends ContainerTestCase
     {
         $output = new SpyOutput();
 
-        $this->getContainer()->get(ActivityRepository::class)->save(
+        $this->getContainer()->get(ActivityWithRawDataRepository::class)->save(ActivityWithRawData::fromState(
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::fromUnprefixed(1))
-                ->withData([
-                    'name' => 'Test activity 1',
-                    'device_name' => 'Zwift',
-                    'segment_efforts' => [
-                        [
+                ->withName('Test activity 1')
+                ->withDeviceName('Zwift')
+                ->withStartDateTime(SerializableDateTime::fromString('2025-01-01'))
+                ->build(),
+            [
+                'segment_efforts' => [
+                    [
+                        'id' => '1',
+                        'start_date_local' => '2023-07-29T09:34:03Z',
+                        'segment' => [
                             'id' => '1',
-                            'start_date_local' => '2023-07-29T09:34:03Z',
-                            'segment' => [
-                                'id' => '1',
-                                'name' => 'Segment One',
-                            ],
+                            'name' => 'Segment One',
                         ],
                     ],
-                ])
-                ->build()
-        );
-        $this->getContainer()->get(ActivityRepository::class)->add(
+                ],
+            ],
+        ));
+        $this->getContainer()->get(ActivityWithRawDataRepository::class)->save(ActivityWithRawData::fromState(
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::fromUnprefixed(2))
-                ->withData([
-                    'name' => 'Test activity 2',
-                    'segment_efforts' => [
-                        [
-                            'id' => '2',
-                            'start_date_local' => '2023-07-29T09:34:03Z',
-                            'segment' => [
-                                'id' => '1',
-                                'name' => 'Segment One',
-                            ],
+                ->withName('Test activity 2')
+                ->withStartDateTime(SerializableDateTime::fromString('2024-01-01'))
+                ->build(),
+            [
+                'segment_efforts' => [
+                    [
+                        'id' => '2',
+                        'start_date_local' => '2023-07-29T09:34:03Z',
+                        'segment' => [
+                            'id' => '1',
+                            'name' => 'Segment One',
                         ],
                     ],
-                ])
-                ->build()
-        );
-        $this->getContainer()->get(ActivityRepository::class)->add(
+                ],
+            ],
+        ));
+        $this->getContainer()->get(ActivityWithRawDataRepository::class)->save(ActivityWithRawData::fromState(
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::fromUnprefixed(3))
-                ->withData([
-                    'name' => 'Test activity 3',
-                ])
-                ->build()
-        );
+                ->withName('Test activity 3')
+                ->build(),
+            []
+        ));
         $this->getContainer()->get(SegmentEffortRepository::class)->add(
             SegmentEffortBuilder::fromDefaults()
                 ->withSegmentEffortId(SegmentEffortId::fromUnprefixed(2))

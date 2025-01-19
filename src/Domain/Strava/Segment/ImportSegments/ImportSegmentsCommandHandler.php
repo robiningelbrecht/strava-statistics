@@ -63,12 +63,14 @@ final readonly class ImportSegmentsCommandHandler implements CommandHandler
                         ],
                     ],
                 );
+
                 // Do not import segments that have been imported in the current run.
                 if (!isset($segmentsAddedInCurrentRun[(string) $segmentId])) {
                     // Check if the segment is imported in a previous run.
                     try {
                         $segment = $this->segmentRepository->find($segment->getId());
                     } catch (EntityNotFound) {
+                        // var_dump($segment);
                         $this->segmentRepository->add($segment);
                         $segmentsAddedInCurrentRun[(string) $segmentId] = $segmentId;
                         ++$countSegmentsAdded;
@@ -87,7 +89,7 @@ final readonly class ImportSegmentsCommandHandler implements CommandHandler
                             Activity::DATE_TIME_FORMAT,
                             $activitySegmentEffort['start_date_local']
                         ),
-                        data: $activitySegmentEffort
+                        data: $segment->getData()
                     ));
                     ++$countSegmentEffortsAdded;
                 }

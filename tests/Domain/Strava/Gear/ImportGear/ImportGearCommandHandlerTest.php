@@ -2,15 +2,12 @@
 
 namespace App\Tests\Domain\Strava\Gear\ImportGear;
 
-use App\Domain\Strava\Activity\ActivityId;
-use App\Domain\Strava\Activity\ActivityRepository;
 use App\Domain\Strava\Gear\GearId;
 use App\Domain\Strava\Gear\GearRepository;
 use App\Domain\Strava\Gear\ImportGear\ImportGear;
 use App\Domain\Strava\Strava;
 use App\Infrastructure\CQRS\Bus\CommandBus;
 use App\Tests\ContainerTestCase;
-use App\Tests\Domain\Strava\Activity\ActivityBuilder;
 use App\Tests\Domain\Strava\Gear\GearBuilder;
 use App\Tests\Domain\Strava\SpyStrava;
 use App\Tests\SpyOutput;
@@ -27,29 +24,11 @@ class ImportGearCommandHandlerTest extends ContainerTestCase
     public function testHandleWithTooManyRequests(): void
     {
         $output = new SpyOutput();
-        $this->strava->setMaxNumberOfCallsBeforeTriggering429(3);
+        $this->strava->setMaxNumberOfCallsBeforeTriggering429(4);
 
         $this->getContainer()->get(GearRepository::class)->add(
             GearBuilder::fromDefaults()
                 ->withGearId(GearId::fromUnprefixed('b12659861'))
-                ->build()
-        );
-        $this->getContainer()->get(ActivityRepository::class)->add(
-            ActivityBuilder::fromDefaults()
-                ->withActivityId(ActivityId::fromUnprefixed(1))
-                ->withGearId(GearId::fromUnprefixed('b12659861'))
-                ->build()
-        );
-        $this->getContainer()->get(ActivityRepository::class)->add(
-            ActivityBuilder::fromDefaults()
-                ->withActivityId(ActivityId::fromUnprefixed(2))
-                ->withGearId(GearId::fromUnprefixed('b12659743'))
-                ->build()
-        );
-        $this->getContainer()->get(ActivityRepository::class)->add(
-            ActivityBuilder::fromDefaults()
-                ->withActivityId(ActivityId::fromUnprefixed(3))
-                ->withGearId(GearId::fromUnprefixed('b12659792'))
                 ->build()
         );
 
@@ -74,24 +53,6 @@ class ImportGearCommandHandlerTest extends ContainerTestCase
         $this->getContainer()->get(GearRepository::class)->add(
             GearBuilder::fromDefaults()
                 ->withGearId(GearId::fromUnprefixed('b12659861'))
-                ->build()
-        );
-        $this->getContainer()->get(ActivityRepository::class)->add(
-            ActivityBuilder::fromDefaults()
-                ->withActivityId(ActivityId::fromUnprefixed(1))
-                ->withGearId(GearId::fromUnprefixed('b12659861'))
-                ->build()
-        );
-        $this->getContainer()->get(ActivityRepository::class)->add(
-            ActivityBuilder::fromDefaults()
-                ->withActivityId(ActivityId::fromUnprefixed(2))
-                ->withGearId(GearId::fromUnprefixed('b12659743'))
-                ->build()
-        );
-        $this->getContainer()->get(ActivityRepository::class)->add(
-            ActivityBuilder::fromDefaults()
-                ->withActivityId(ActivityId::fromUnprefixed(3))
-                ->withGearId(GearId::fromUnprefixed('b12659792'))
                 ->build()
         );
 

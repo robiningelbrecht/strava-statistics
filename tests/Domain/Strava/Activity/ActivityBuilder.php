@@ -36,7 +36,7 @@ final class ActivityBuilder
     private int $movingTimeInSeconds;
     private int $kudoCount;
     private readonly int $totalImageCount;
-    private readonly ?string $deviceName;
+    private ?string $deviceName;
     /** @var array<string> */
     private readonly array $localImagePaths;
     private readonly ?string $polyline;
@@ -178,6 +178,13 @@ final class ActivityBuilder
     public function withStartingCoordinate(Coordinate $coordinate): self
     {
         $this->startingCoordinate = $coordinate;
+
+        return $this;
+    }
+
+    public function withDeviceName(string $deviceName): self
+    {
+        $this->deviceName = $deviceName;
 
         return $this;
     }
