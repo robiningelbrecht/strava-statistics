@@ -2,6 +2,8 @@
 
 namespace App\Domain\Weather\OpenMeteo;
 
+use App\Infrastructure\ValueObject\Time\SerializableDateTime;
+
 final readonly class Weather implements \JsonSerializable
 {
     /**
@@ -23,9 +25,28 @@ final readonly class Weather implements \JsonSerializable
     /**
      * @param array<mixed> $data
      */
-    public static function fromMap(array $data): self
+    public static function fromState(array $data): self
     {
         return new self($data);
+    }
+
+    /**
+     * @param array<mixed> $data
+     */
+    public static function fromRawData(array $data, SerializableDateTime $on): ?self
+    {
+        $hour = $on->getHourWithoutLeadingZero();
+        if (empty($data['hourly']['time'][$hour])) {
+            return null;
+        }
+
+        // Use weather known for the given hour.
+        $weather = [];
+        foreach ($data['hourly'] as $metric => $values) {
+            $weather[$metric] = $values[$hour];
+        }
+
+        return new self($weather);
     }
 
     public function getTemperatureInCelsius(): float

@@ -16,11 +16,11 @@ use App\Domain\Strava\Gear\GearRepository;
 use App\Domain\Strava\Strava;
 use App\Domain\Strava\StravaDataImportStatus;
 use App\Domain\Weather\OpenMeteo\OpenMeteo;
+use App\Domain\Weather\OpenMeteo\Weather;
 use App\Infrastructure\CQRS\Bus\Command;
 use App\Infrastructure\CQRS\Bus\CommandHandler;
 use App\Infrastructure\Exception\EntityNotFound;
 use App\Infrastructure\Geocoding\Nominatim\Nominatim;
-use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\ValueObject\Identifier\UuidFactory;
 use App\Infrastructure\ValueObject\Measurement\Length\Meter;
 use GuzzleHttp\Exception\ClientException;
@@ -150,11 +150,14 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                     }
 
                     if ($sportType->supportsWeather() && $activity->getStartingCoordinate()) {
-                        $weather = $this->openMeteo->getWeatherStats(
-                            coordinate: $activity->getStartingCoordinate(),
-                            date: $activity->getStartDate()
+                        $weather = Weather::fromRawData(
+                            $this->openMeteo->getWeatherStats(
+                                coordinate: $activity->getStartingCoordinate(),
+                                date: $activity->getStartDate()
+                            ),
+                            on: $activity->getStartDate()
                         );
-                        $activity->updateWeather(Json::encode($weather));
+                        $activity->updateWeather($weather);
                     }
 
                     if ($sportType->supportsReverseGeocoding() && $activity->getStartingCoordinate()) {

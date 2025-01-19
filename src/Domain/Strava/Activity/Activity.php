@@ -281,25 +281,15 @@ final class Activity
             return null;
         }
         if ($decodedWeather = Json::decode($this->weather)) {
-            return Weather::fromMap($decodedWeather);
+            return Weather::fromState($decodedWeather);
         }
 
         return null;
     }
 
-    public function updateWeather(string $weather): void
+    public function updateWeather(?Weather $weather): void
     {
-        $decodedWeather = Json::decode($weather);
-        $hour = $this->getStartDate()->getHourWithoutLeadingZero();
-        if (!empty($decodedWeather['hourly']['time'][$hour])) {
-            // Use weather known for the given hour.
-            $weather = [];
-            foreach ($decodedWeather['hourly'] as $metric => $values) {
-                $weather[$metric] = $values[$hour];
-            }
-
-            $this->weather = Json::encode($weather);
-        }
+        $this->weather = Json::encode($weather);
     }
 
     /**
