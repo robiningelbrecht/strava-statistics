@@ -121,22 +121,22 @@ final class Activity
             elevation: Meter::from($rawData['total_elevation_gain']),
             startingCoordinate: Coordinate::createFromOptionalLatAndLng(
                 Latitude::fromOptionalString($rawData['start_latlng'][0] ?? null),
-                Longitude::fromOptionalString($rawData['start_latlng'][0] ?? null),
+                Longitude::fromOptionalString($rawData['start_latlng'][1] ?? null),
             ),
             calories: (int) ($rawData['calories'] ?? 0),
             averagePower: isset($rawData['average_watts']) ? (int) $rawData['average_watts'] : null,
             maxPower: isset($rawData['max_watts']) ? (int) $rawData['max_watts'] : null,
             averageSpeed: KmPerHour::from($rawData['average_speed'] * 3.6),
             maxSpeed: KmPerHour::from($rawData['max_speed'] * 3.6),
-            averageHeartRate: isset($rawData['averageHeartRate']) ? (int) round($rawData['averageHeartRate']) : null,
-            maxHeartRate: isset($rawData['maxHeartRate']) ? (int) round($rawData['maxHeartRate']) : null,
-            averageCadence: isset($rawData['averageCadence']) ? (int) round($rawData['averageCadence']) : null,
-            movingTimeInSeconds: $rawData['movingTimeInSeconds'] ?? 0,
+            averageHeartRate: isset($rawData['average_heartrate']) ? (int) round($rawData['average_heartrate']) : null,
+            maxHeartRate: isset($rawData['max_heartrate']) ? (int) round($rawData['max_heartrate']) : null,
+            averageCadence: isset($rawData['average_cadence']) ? (int) round($rawData['average_cadence']) : null,
+            movingTimeInSeconds: $rawData['moving_time'] ?? 0,
             kudoCount: $rawData['kudos_count'] ?? 0,
             deviceName: $rawData['device_name'],
             totalImageCount: $rawData['total_photo_count'] ?? 0,
             localImagePaths: [],
-            polyline: $rawData['polyline'] ?? null,
+            polyline: $rawData['summary_polyline'] ?? null,
             location: null,
             weather: null,
             gearId: $gearId,
@@ -289,7 +289,17 @@ final class Activity
 
     public function updateWeather(string $weather): void
     {
-        $this->weather = $weather;
+        $decodedWeather = Json::decode($weather);
+        $hour = $this->getStartDate()->getHourWithoutLeadingZero();
+        if (!empty($decodedWeather['hourly']['time'][$hour])) {
+            // Use weather known for the given hour.
+            $weather = [];
+            foreach ($decodedWeather['hourly'] as $metric => $values) {
+                $weather[$metric] = $values[$hour];
+            }
+
+            $this->weather = Json::encode($weather);
+        }
     }
 
     /**

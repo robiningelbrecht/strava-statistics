@@ -2,7 +2,7 @@
 
 namespace App\Domain\Weather\OpenMeteo;
 
-final readonly class Weather
+final readonly class Weather implements \JsonSerializable
 {
     /**
      * @param array<mixed> $data
@@ -10,6 +10,14 @@ final readonly class Weather
     private function __construct(
         private array $data,
     ) {
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    public function jsonSerialize(): array
+    {
+        return $this->data;
     }
 
     /**
