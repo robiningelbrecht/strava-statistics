@@ -38,7 +38,7 @@ final readonly class DistanceBreakdown
         $numberOfBreakdowns = 11;
         $statistics = [];
         $longestDistanceForActivity = Kilometer::from($this->activities->max(
-            fn (\App\Domain\Strava\Activity\Activity $activity) => $activity->getDistance()->toFloat()
+            fn (Activity $activity) => $activity->getDistance()->toFloat()
         ))->toUnitSystem($this->unitSystem);
 
         if ($longestDistanceForActivity->isZeroOrLower()) {
@@ -61,7 +61,7 @@ final readonly class DistanceBreakdown
         }
 
         foreach ($this->activities as $activity) {
-            /** @var \App\Domain\Strava\Activity\Activity $activity */
+            /** @var Activity $activity */
             $distance = $activity->getDistance()->toUnitSystem($this->unitSystem);
             if ($distance->isZeroOrLower()) {
                 continue;
