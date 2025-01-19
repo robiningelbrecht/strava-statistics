@@ -133,7 +133,7 @@ final class Activity
             averageCadence: isset($rawData['average_cadence']) ? (int) round($rawData['average_cadence']) : null,
             movingTimeInSeconds: $rawData['moving_time'] ?? 0,
             kudoCount: $rawData['kudos_count'] ?? 0,
-            deviceName: $rawData['device_name'],
+            deviceName: $rawData['device_name'] ?? null,
             totalImageCount: $rawData['total_photo_count'] ?? 0,
             localImagePaths: [],
             polyline: $rawData['summary_polyline'] ?? null,
