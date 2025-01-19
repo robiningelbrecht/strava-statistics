@@ -3,7 +3,8 @@
 namespace App\Tests\Domain\Strava\Activity\SportType;
 
 use App\Domain\Strava\Activity\ActivityId;
-use App\Domain\Strava\Activity\ActivityRepository;
+use App\Domain\Strava\Activity\ActivityWithRawData;
+use App\Domain\Strava\Activity\ActivityWithRawDataRepository;
 use App\Domain\Strava\Activity\SportType\DbalSportTypeRepository;
 use App\Domain\Strava\Activity\SportType\SportType;
 use App\Domain\Strava\Activity\SportType\SportTypes;
@@ -15,24 +16,27 @@ class DbalSportTypeRepositoryTest extends ContainerTestCase
 {
     public function testFindAll(): void
     {
-        $this->getContainer()->get(ActivityRepository::class)->add(
+        $this->getContainer()->get(ActivityWithRawDataRepository::class)->save(ActivityWithRawData::fromState(
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::random())
                 ->withSportType(SportType::RUN)
-                ->build()
-        );
-        $this->getContainer()->get(ActivityRepository::class)->add(
+                ->build(),
+            []
+        ));
+        $this->getContainer()->get(ActivityWithRawDataRepository::class)->save(ActivityWithRawData::fromState(
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::random())
                 ->withSportType(SportType::RUN)
-                ->build()
-        );
-        $this->getContainer()->get(ActivityRepository::class)->add(
+                ->build(),
+            []
+        ));
+        $this->getContainer()->get(ActivityWithRawDataRepository::class)->save(ActivityWithRawData::fromState(
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::random())
                 ->withSportType(SportType::WALK)
-                ->build()
-        );
+                ->build(),
+            []
+        ));
 
         $sportTypeRepository = new DbalSportTypeRepository(
             $this->getConnection(),

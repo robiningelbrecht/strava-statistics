@@ -6,6 +6,7 @@ namespace App\Tests;
 
 use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\ActivityRepository;
+use App\Domain\Strava\Activity\ActivityWithRawDataRepository;
 use App\Domain\Strava\Activity\SportType\SportType;
 use App\Domain\Strava\Activity\Stream\ActivityStreamRepository;
 use App\Domain\Strava\Activity\Stream\StreamType;
@@ -375,10 +376,10 @@ trait ProvideTestData
 
     public function provideRunningOnlyTestSet(): void
     {
-        /** @var ActivityRepository $activityRepository */
-        $activityRepository = $this->getContainer()->get(ActivityRepository::class);
+        /** @var ActivityWithRawDataRepository $activityWithRawDataRepository */
+        $activityWithRawDataRepository = $this->getContainer()->get(ActivityWithRawDataRepository::class);
 
-        $activityRepository->add(
+        $activityWithRawDataRepository->save(
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::fromUnprefixed('95427823814'))
                 ->withStartDateTime(SerializableDateTime::fromString('2023-01-29 09:34:03'))
@@ -388,7 +389,7 @@ trait ProvideTestData
                 ->withGearId(GearId::fromUnprefixed('b12659861'))
                 ->build()
         );
-        $activityRepository->add(
+        $activityWithRawDataRepository->add(
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::fromUnprefixed('9542782814'))
                 ->withStartDateTime(SerializableDateTime::fromString('2023-07-29 09:34:03'))
@@ -398,7 +399,7 @@ trait ProvideTestData
                 ->withGearId(GearId::fromUnprefixed('b12659861'))
                 ->build()
         );
-        $activityRepository->add(
+        $activityWithRawDataRepository->add(
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::fromUnprefixed('9542782314'))
                 ->withStartDateTime(SerializableDateTime::fromString('2023-07-28 09:34:03'))
@@ -408,7 +409,7 @@ trait ProvideTestData
                 ->withGearId(GearId::fromUnprefixed('b12659862'))
                 ->build()
         );
-        $activityRepository->add(
+        $activityWithRawDataRepository->add(
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::fromUnprefixed('9756441741'))
                 ->withStartDateTime(SerializableDateTime::fromString('2023-08-31 16:35:35'))

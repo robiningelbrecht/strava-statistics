@@ -19,7 +19,7 @@ final class ActivityBuilder
 {
     private ActivityId $activityId;
     private SerializableDateTime $startDateTime;
-    private readonly SportType $sportType;
+    private SportType $sportType;
     private string $name;
     private readonly string $description;
     private readonly Kilometer $distance;
@@ -185,6 +185,13 @@ final class ActivityBuilder
     public function withDeviceName(string $deviceName): self
     {
         $this->deviceName = $deviceName;
+
+        return $this;
+    }
+
+    public function withSportType(SportType $sportType): self
+    {
+        $this->sportType = $sportType;
 
         return $this;
     }

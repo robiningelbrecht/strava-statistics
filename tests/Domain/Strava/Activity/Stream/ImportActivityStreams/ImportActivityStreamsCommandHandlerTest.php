@@ -3,11 +3,13 @@
 namespace App\Tests\Domain\Strava\Activity\Stream\ImportActivityStreams;
 
 use App\Domain\Strava\Activity\ActivityId;
-use App\Domain\Strava\Activity\ActivityRepository;
+use App\Domain\Strava\Activity\ActivityWithRawData;
+use App\Domain\Strava\Activity\ActivityWithRawDataRepository;
 use App\Domain\Strava\Activity\Stream\ActivityStreamRepository;
 use App\Domain\Strava\Activity\Stream\ImportActivityStreams\ImportActivityStreams;
 use App\Domain\Strava\Strava;
 use App\Infrastructure\CQRS\Bus\CommandBus;
+use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use App\Tests\ContainerTestCase;
 use App\Tests\Domain\Strava\Activity\ActivityBuilder;
 use App\Tests\Domain\Strava\Activity\Stream\ActivityStreamBuilder;
@@ -28,26 +30,34 @@ class ImportActivityStreamsCommandHandlerTest extends ContainerTestCase
         $output = new SpyOutput();
         $this->strava->setMaxNumberOfCallsBeforeTriggering429(3);
 
-        $this->getContainer()->get(ActivityRepository::class)->add(
+        $this->getContainer()->get(ActivityWithRawDataRepository::class)->save(ActivityWithRawData::fromState(
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::fromUnprefixed(4))
-                ->build()
-        );
-        $this->getContainer()->get(ActivityRepository::class)->add(
+                ->withStartDateTime(SerializableDateTime::fromString('2025-01-01'))
+                ->build(),
+            []
+        ));
+        $this->getContainer()->get(ActivityWithRawDataRepository::class)->save(ActivityWithRawData::fromState(
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::fromUnprefixed(5))
-                ->build()
-        );
-        $this->getContainer()->get(ActivityRepository::class)->add(
+                ->withStartDateTime(SerializableDateTime::fromString('2025-01-10'))
+                ->build(),
+            []
+        ));
+        $this->getContainer()->get(ActivityWithRawDataRepository::class)->save(ActivityWithRawData::fromState(
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::fromUnprefixed(6))
-                ->build()
-        );
-        $this->getContainer()->get(ActivityRepository::class)->add(
+                ->withStartDateTime(SerializableDateTime::fromString('2025-01-09'))
+                ->build(),
+            []
+        ));
+        $this->getContainer()->get(ActivityWithRawDataRepository::class)->save(ActivityWithRawData::fromState(
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::fromUnprefixed(7))
-                ->build()
-        );
+                ->withStartDateTime(SerializableDateTime::fromString('2025-01-03'))
+                ->build(),
+            []
+        ));
         $this->getContainer()->get(ActivityStreamRepository::class)->add(
             ActivityStreamBuilder::fromDefaults()
                 ->withActivityId(ActivityId::fromUnprefixed(4))
