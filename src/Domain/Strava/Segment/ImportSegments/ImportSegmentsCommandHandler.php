@@ -89,7 +89,7 @@ final readonly class ImportSegmentsCommandHandler implements CommandHandler
                             Activity::DATE_TIME_FORMAT,
                             $activitySegmentEffort['start_date_local']
                         ),
-                        data: $segment->getData()
+                        data: $activitySegmentEffort
                     ));
                     ++$countSegmentEffortsAdded;
                 }

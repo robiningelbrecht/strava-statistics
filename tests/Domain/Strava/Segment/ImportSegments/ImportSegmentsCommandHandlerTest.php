@@ -92,6 +92,9 @@ class ImportSegmentsCommandHandlerTest extends ContainerTestCase
         $this->assertMatchesJsonSnapshot(
             $this->getConnection()->executeQuery('SELECT * FROM Segment')->fetchAllAssociative()
         );
+        $this->assertMatchesJsonSnapshot(
+            $this->getConnection()->executeQuery('SELECT * FROM SegmentEffort')->fetchAllAssociative()
+        );
     }
 
     #[\Override]
