@@ -4,14 +4,24 @@ declare(strict_types=1);
 
 namespace DoctrineMigrations;
 
+use App\Infrastructure\CQRS\Bus\CommandBus;
+use App\Infrastructure\Doctrine\Migrations\Factory\CommandBusAwareMigration;
+use App\Infrastructure\Doctrine\Migrations\MigrateToVersion20250118164026\MigrateToVersion20250118164026;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250118164026 extends AbstractMigration
+final class Version20250118164026 extends AbstractMigration implements CommandBusAwareMigration
 {
+    private ?CommandBus $commandBus = null;
+
+    public function setCommandBus(CommandBus $commandBus): void
+    {
+        $this->commandBus = $commandBus;
+    }
+
     public function getDescription(): string
     {
         return '';
@@ -32,9 +42,7 @@ final class Version20250118164026 extends AbstractMigration
                         averagePower, maxPower, averageSpeed, maxSpeed, averageHeartRate, maxHeartRate,
                         averageCadence,movingTimeInSeconds, kudoCount, deviceName, totalImageCount, localImagePaths,
                         polyline, gearName) 
-                        SELECT activityId, startDateTime, data, gearId, weather, location, sportType, "", "", 0, 0, NULL, NULL, 0,
-                               0, 0, 0, 0, 0, 0, 
-                                0, 0, 0, "", 0, "", "", "" FROM __temp__Activity');
+                        SELECT activityId, startDateTime, data, gearId, weather, location, sportType, "", "", 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "", 0, "", "", "" FROM __temp__Activity');
         $this->addSql('DROP TABLE __temp__Activity');
         $this->addSql('CREATE INDEX Activity_startDateTimeIndex ON Activity (startDateTime)');
     }
@@ -42,5 +50,10 @@ final class Version20250118164026 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
+    }
+
+    public function postUp(Schema $schema): void
+    {
+        $this->commandBus->dispatch(new MigrateToVersion20250118164026());
     }
 }

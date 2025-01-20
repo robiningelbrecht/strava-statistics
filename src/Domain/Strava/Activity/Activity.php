@@ -136,7 +136,7 @@ final class Activity
             deviceName: $rawData['device_name'] ?? null,
             totalImageCount: $rawData['total_photo_count'] ?? 0,
             localImagePaths: [],
-            polyline: $rawData['summary_polyline'] ?? null,
+            polyline: $rawData['map']['summary_polyline'] ?? null,
             location: null,
             weather: null,
             gearId: $gearId,

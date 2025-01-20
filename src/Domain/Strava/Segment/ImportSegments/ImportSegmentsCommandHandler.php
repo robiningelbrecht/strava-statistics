@@ -38,7 +38,8 @@ final readonly class ImportSegmentsCommandHandler implements CommandHandler
 
         $countSegmentsAdded = 0;
         $countSegmentEffortsAdded = 0;
-        /* @var Activity $activity */
+
+        // @TODO: Only check activities that have no segment efforts imported yet?
         foreach ($this->activityRepository->findActivityIds() as $activityId) {
             $activityWithRawData = $this->activityWithRawDataRepository->find($activityId);
             if (!$segmentEfforts = $activityWithRawData->getSegmentEfforts()) {
@@ -70,7 +71,6 @@ final readonly class ImportSegmentsCommandHandler implements CommandHandler
                     try {
                         $segment = $this->segmentRepository->find($segment->getId());
                     } catch (EntityNotFound) {
-                        // var_dump($segment);
                         $this->segmentRepository->add($segment);
                         $segmentsAddedInCurrentRun[(string) $segmentId] = $segmentId;
                         ++$countSegmentsAdded;
