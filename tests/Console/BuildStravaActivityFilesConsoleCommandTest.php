@@ -6,7 +6,7 @@ use App\Console\BuildStravaActivityFilesConsoleCommand;
 use App\Domain\Strava\StravaDataImportStatus;
 use App\Infrastructure\CQRS\Bus\CommandBus;
 use App\Infrastructure\CQRS\Bus\DomainCommand;
-use App\Infrastructure\Doctrine\MigrationRunner;
+use App\Infrastructure\Doctrine\Migrations\MigrationRunner;
 use App\Infrastructure\KeyValue\Key;
 use App\Infrastructure\KeyValue\KeyValue;
 use App\Infrastructure\KeyValue\KeyValueStore;

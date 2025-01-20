@@ -42,6 +42,11 @@ services:
     Linkin\Component\DoctrineNamingStrategy\ORM\Mapping\CamelCaseNamingStrategy:
         class: Linkin\Component\DoctrineNamingStrategy\ORM\Mapping\CamelCaseNamingStrategy
 
+    Doctrine\Migrations\Version\DbalMigrationFactory: ~
+    App\Infrastructure\Doctrine\Migrations\Factory\CommandBusAwareMigrationFactory:
+        decorates: Doctrine\Migrations\Version\DbalMigrationFactory
+        arguments: [ '@App\Infrastructure\Doctrine\Migrations\Factory\CommandBusAwareMigrationFactory.inner' ]
+
     App\Infrastructure\CQRS\Bus\CommandBus:
         class: App\Infrastructure\CQRS\Bus\InMemoryCommandBus
         arguments: [!tagged_iterator app.command_handler]
@@ -52,7 +57,7 @@ services:
 
     App\Infrastructure\ValueObject\String\PlatformEnvironment:
         factory: [ App\Infrastructure\ValueObject\String\PlatformEnvironment, 'from' ]
-        arguments: ['%env(resolve:APP_ENV)%']
+        arguments: ['%env(string:APP_ENV)%']
 
     App\Infrastructure\Notification\Ntfy\NtfyUrl:
         factory: [ App\Infrastructure\Notification\Ntfy\NtfyUrl, 'fromOptionalString' ]

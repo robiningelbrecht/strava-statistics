@@ -7,26 +7,23 @@ namespace App\Infrastructure\Doctrine\Migrations\Factory;
 use App\Infrastructure\CQRS\Bus\CommandBus;
 use Doctrine\Migrations\AbstractMigration;
 use Doctrine\Migrations\Version\MigrationFactory;
-use Symfony\Component\DependencyInjection\Attribute\AsDecorator;
-use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @codeCoverageIgnore
  */
-readonly class ContainerAwareMigrationFactory implements MigrationFactory
+readonly class CommandBusAwareMigrationFactory implements MigrationFactory
 {
     public function __construct(
         private MigrationFactory $migrationFactory,
-        private ContainerInterface $container
+        private CommandBus $commandBus,
     ) {
     }
 
     public function createVersion(string $migrationClassName): AbstractMigration
     {
         $migration = $this->migrationFactory->createVersion($migrationClassName);
-        if ($migration instanceof ContainerAwareMigration) {
-            $migration->setContainer($this->container);
+        if ($migration instanceof CommandBusAwareMigration) {
+            $migration->setCommandBus($this->commandBus);
         }
 
         return $migration;

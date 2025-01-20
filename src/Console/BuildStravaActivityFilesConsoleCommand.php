@@ -6,7 +6,7 @@ use App\Domain\Notification\SendNotification\SendNotification;
 use App\Domain\Strava\BuildHtmlVersion\BuildHtmlVersion;
 use App\Domain\Strava\StravaDataImportStatus;
 use App\Infrastructure\CQRS\Bus\CommandBus;
-use App\Infrastructure\Doctrine\MigrationRunner;
+use App\Infrastructure\Doctrine\Migrations\MigrationRunner;
 use App\Infrastructure\Time\ResourceUsage\ResourceUsage;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;

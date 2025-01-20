@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Doctrine\Migrations\Factory;
 
+use App\Infrastructure\CQRS\Bus\CommandBus;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
-interface ContainerAwareMigration
+interface CommandBusAwareMigration
 {
-    public function setContainer(ContainerInterface $container): void;
+    public function setCommandBus(CommandBus $commandBus): void;
 }

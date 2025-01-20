@@ -46,7 +46,7 @@ final class Activity
         private readonly ActivityId $activityId,
         #[ORM\Column(type: 'datetime_immutable')]
         private readonly SerializableDateTime $startDateTime,
-        #[ORM\Column(type: 'string', nullable: true)]
+        #[ORM\Column(type: 'string')]
         private readonly SportType $sportType,
         #[ORM\Column(type: 'string')]
         private string $name,

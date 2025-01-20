@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Infrastructure\Doctrine;
+namespace App\Tests\Infrastructure\Doctrine\Migrations;
 
-use App\Infrastructure\Doctrine\MigrationRunner;
+use App\Infrastructure\Doctrine\Migrations\MigrationRunner;
 
 final readonly class VoidMigrationRunner implements MigrationRunner
 {
