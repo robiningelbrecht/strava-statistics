@@ -4,9 +4,7 @@ namespace App\Domain\Strava\Gear;
 
 interface GearRepository
 {
-    public function add(Gear $gear): void;
-
-    public function update(Gear $gear): void;
+    public function save(Gear $gear): void;
 
     public function findAll(): Gears;
 

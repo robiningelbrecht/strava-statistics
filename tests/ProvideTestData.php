@@ -28,6 +28,7 @@ use App\Domain\Weather\OpenMeteo\Weather;
 use App\Infrastructure\Geocoding\Nominatim\Location;
 use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
+use App\Infrastructure\ValueObject\Measurement\Length\Meter;
 use App\Infrastructure\ValueObject\Measurement\Mass\Gram;
 use App\Infrastructure\ValueObject\String\Name;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
@@ -218,20 +219,22 @@ trait ProvideTestData
 
         /** @var GearRepository $gearRepository */
         $gearRepository = $this->getContainer()->get(GearRepository::class);
-        $gearRepository->add(
+        $gearRepository->save(
             GearBuilder::fromDefaults()
                 ->withGearId(GearId::fromUnprefixed('b12659861'))
                 ->withCreatedOn(SerializableDateTime::fromString('2023-06-20 09:04:58'))
-                ->withDistanceInMeter(1450147)
-                ->withData(Json::decode('{"id":"b12659861","primary":false,"name":"Retro Race Bike","nickname":"Retro Race Bike","resource_state":3,"retired":false,"distance":1450147,"converted_distance":1450.1,"brand_name":null,"model_name":null,"frame_type":3,"description":"","weight":15,"createdOn":1687251898,"_id":1}'))
+                ->withDistanceInMeter(Meter::from(1450147))
+                ->withName('Retro Race Bike')
+                ->withIsRetired(false)
                 ->build()
         );
-        $gearRepository->add(
+        $gearRepository->save(
             GearBuilder::fromDefaults()
                 ->withGearId(GearId::fromUnprefixed('b12659862'))
                 ->withCreatedOn(SerializableDateTime::fromString('2023-06-20 09:04:58'))
-                ->withDistanceInMeter(145014)
-                ->withData(Json::decode('{"id":"b12659862","primary":false,"name":"Zwift hub","nickname":"Zwift hub","resource_state":3,"retired":false,"distance":1450147,"converted_distance":1450.1,"brand_name":null,"model_name":null,"frame_type":3,"description":"","weight":15,"createdOn":1687251898,"_id":1}'))
+                ->withDistanceInMeter(Meter::from(145014))
+                ->withName('Zwift hub')
+                ->withIsRetired(false)
                 ->build()
         );
 
@@ -484,20 +487,22 @@ trait ProvideTestData
 
         /** @var GearRepository $gearRepository */
         $gearRepository = $this->getContainer()->get(GearRepository::class);
-        $gearRepository->add(
+        $gearRepository->save(
             GearBuilder::fromDefaults()
                 ->withGearId(GearId::fromUnprefixed('b12659861'))
                 ->withCreatedOn(SerializableDateTime::fromString('2023-06-20 09:04:58'))
-                ->withDistanceInMeter(1450147)
-                ->withData(Json::decode('{"id":"b12659861","primary":false,"name":"Retro Race Bike","nickname":"Retro Race Bike","resource_state":3,"retired":false,"distance":1450147,"converted_distance":1450.1,"brand_name":null,"model_name":null,"frame_type":3,"description":"","weight":15,"createdOn":1687251898,"_id":1}'))
+                ->withDistanceInMeter(Meter::from(1450147))
+                ->withName('Retro Race Bike')
+                ->withIsRetired(false)
                 ->build()
         );
-        $gearRepository->add(
+        $gearRepository->save(
             GearBuilder::fromDefaults()
                 ->withGearId(GearId::fromUnprefixed('b12659862'))
                 ->withCreatedOn(SerializableDateTime::fromString('2023-06-20 09:04:58'))
-                ->withDistanceInMeter(145014)
-                ->withData(Json::decode('{"id":"b12659862","primary":false,"name":"Zwift hub","nickname":"Zwift hub","resource_state":3,"retired":false,"distance":1450147,"converted_distance":1450.1,"brand_name":null,"model_name":null,"frame_type":3,"description":"","weight":15,"createdOn":1687251898,"_id":1}'))
+                ->withDistanceInMeter(Meter::from(145014))
+                ->withName('Zwift hub')
+                ->withIsRetired(false)
                 ->build()
         );
 

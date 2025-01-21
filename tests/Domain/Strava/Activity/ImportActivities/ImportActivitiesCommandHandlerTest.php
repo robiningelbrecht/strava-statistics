@@ -88,7 +88,7 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
             Value::fromString('20205-01_18'),
         ));
 
-        $this->getContainer()->get(GearRepository::class)->add(GearBuilder::fromDefaults()
+        $this->getContainer()->get(GearRepository::class)->save(GearBuilder::fromDefaults()
             ->withGearId(GearId::fromString('gear-b12659861'))
             ->build()
         );

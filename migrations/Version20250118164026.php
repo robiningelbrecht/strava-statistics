@@ -62,6 +62,11 @@ final class Version20250118164026 extends AbstractMigration implements CommandBu
         $this->addSql('DROP TABLE __temp__SegmentEffort');
         $this->addSql('CREATE INDEX SegmentEffort_segmentIndex ON SegmentEffort (segmentId)');
         $this->addSql('CREATE INDEX SegmentEffort_activityIndex ON SegmentEffort (activityId)');
+
+        // Migrate Gear table.
+        $this->addSql('DROP TABLE Gear');
+        $this->addSql('CREATE TABLE Gear (gearId VARCHAR(255) NOT NULL, createdOn DATETIME NOT NULL --(DC2Type:datetime_immutable)
+        , distanceInMeter INTEGER NOT NULL, name VARCHAR(255) NOT NULL, isRetired BOOLEAN NOT NULL, PRIMARY KEY(gearId))');
     }
 
     public function down(Schema $schema): void

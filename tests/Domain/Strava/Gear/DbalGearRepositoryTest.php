@@ -7,6 +7,7 @@ use App\Domain\Strava\Gear\GearId;
 use App\Domain\Strava\Gear\GearRepository;
 use App\Domain\Strava\Gear\Gears;
 use App\Infrastructure\Exception\EntityNotFound;
+use App\Infrastructure\ValueObject\Measurement\Length\Meter;
 use App\Tests\ContainerTestCase;
 
 class DbalGearRepositoryTest extends ContainerTestCase
@@ -17,9 +18,9 @@ class DbalGearRepositoryTest extends ContainerTestCase
     {
         $gear = GearBuilder::fromDefaults()
             ->withGearId(GearId::fromUnprefixed(1))
-            ->withDistanceInMeter(1230)
+            ->withDistanceInMeter(Meter::from(1230))
             ->build();
-        $this->gearRepository->add($gear);
+        $this->gearRepository->save($gear);
 
         $this->assertEquals(
             $gear,
@@ -37,19 +38,19 @@ class DbalGearRepositoryTest extends ContainerTestCase
     {
         $gearOne = GearBuilder::fromDefaults()
             ->withGearId(GearId::fromUnprefixed(1))
-            ->withDistanceInMeter(1230)
+            ->withDistanceInMeter(Meter::from(1230))
             ->build();
-        $this->gearRepository->add($gearOne);
+        $this->gearRepository->save($gearOne);
         $gearTwo = GearBuilder::fromDefaults()
             ->withGearId(GearId::fromUnprefixed(2))
-            ->withDistanceInMeter(10230)
+            ->withDistanceInMeter(Meter::from(10230))
             ->build();
-        $this->gearRepository->add($gearTwo);
+        $this->gearRepository->save($gearTwo);
         $gearThree = GearBuilder::fromDefaults()
             ->withGearId(GearId::fromUnprefixed(3))
-            ->withDistanceInMeter(230)
+            ->withDistanceInMeter(Meter::from(230))
             ->build();
-        $this->gearRepository->add($gearThree);
+        $this->gearRepository->save($gearThree);
 
         $this->assertEquals(
             Gears::fromArray([$gearTwo, $gearOne, $gearThree]),
@@ -61,17 +62,17 @@ class DbalGearRepositoryTest extends ContainerTestCase
     {
         $gear = GearBuilder::fromDefaults()
             ->withGearId(GearId::fromUnprefixed(1))
-            ->withDistanceInMeter(1000)
+            ->withDistanceInMeter(Meter::from(1000))
             ->build();
-        $this->gearRepository->add($gear);
+        $this->gearRepository->save($gear);
 
         $this->assertEquals(
             1000,
             $gear->getDistance()->toMeter()->toFloat()
         );
 
-        $gear->updateDistance(30000, 30.00);
-        $this->gearRepository->update($gear);
+        $gear->updateDistance(Meter::from(30000));
+        $this->gearRepository->save($gear);
 
         $this->assertEquals(
             30000,

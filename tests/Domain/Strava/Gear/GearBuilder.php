@@ -6,24 +6,24 @@ namespace App\Tests\Domain\Strava\Gear;
 
 use App\Domain\Strava\Gear\Gear;
 use App\Domain\Strava\Gear\GearId;
+use App\Infrastructure\ValueObject\Measurement\Length\Meter;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
 final class GearBuilder
 {
     private GearId $gearId;
     private SerializableDateTime $createdOn;
-    private int $distanceInMeter;
-    private array $data;
+    private Meter $distanceInMeter;
+    private string $name;
+    private bool $isRetired;
 
     private function __construct()
     {
         $this->gearId = GearId::fromUnprefixed('1');
         $this->createdOn = SerializableDateTime::fromString('2023-10-10');
-        $this->distanceInMeter = 10023;
-        $this->data = [
-            'converted_distance' => 100.23,
-            'name' => 'Existing gear',
-        ];
+        $this->distanceInMeter = Meter::from(10023);
+        $this->name = 'Existing gear';
+        $this->isRetired = false;
     }
 
     public static function fromDefaults(): self
@@ -35,9 +35,10 @@ final class GearBuilder
     {
         return Gear::fromState(
             gearId: $this->gearId,
-            data: $this->data,
             distanceInMeter: $this->distanceInMeter,
             createdOn: $this->createdOn,
+            name: $this->name,
+            isRetired: $this->isRetired
         );
     }
 
@@ -48,7 +49,7 @@ final class GearBuilder
         return $this;
     }
 
-    public function withDistanceInMeter(int $distanceInMeter): self
+    public function withDistanceInMeter(Meter $distanceInMeter): self
     {
         $this->distanceInMeter = $distanceInMeter;
 
@@ -62,9 +63,16 @@ final class GearBuilder
         return $this;
     }
 
-    public function withData(array $data): self
+    public function withName(string $name): self
     {
-        $this->data = $data;
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function withIsRetired(bool $isRetired): self
+    {
+        $this->isRetired = $isRetired;
 
         return $this;
     }

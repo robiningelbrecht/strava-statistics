@@ -26,7 +26,7 @@ class ImportGearCommandHandlerTest extends ContainerTestCase
         $output = new SpyOutput();
         $this->strava->setMaxNumberOfCallsBeforeTriggering429(4);
 
-        $this->getContainer()->get(GearRepository::class)->add(
+        $this->getContainer()->get(GearRepository::class)->save(
             GearBuilder::fromDefaults()
                 ->withGearId(GearId::fromUnprefixed('b12659861'))
                 ->build()
@@ -50,7 +50,7 @@ class ImportGearCommandHandlerTest extends ContainerTestCase
         $output = new SpyOutput();
         $this->strava->setMaxNumberOfCallsBeforeTriggering429(10000);
 
-        $this->getContainer()->get(GearRepository::class)->add(
+        $this->getContainer()->get(GearRepository::class)->save(
             GearBuilder::fromDefaults()
                 ->withGearId(GearId::fromUnprefixed('b12659861'))
                 ->build()

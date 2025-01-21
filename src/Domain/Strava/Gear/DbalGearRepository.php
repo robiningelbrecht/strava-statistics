@@ -4,35 +4,22 @@ namespace App\Domain\Strava\Gear;
 
 use App\Infrastructure\Exception\EntityNotFound;
 use App\Infrastructure\Repository\DbalRepository;
-use App\Infrastructure\Serialization\Json;
+use App\Infrastructure\ValueObject\Measurement\Length\Meter;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
 final readonly class DbalGearRepository extends DbalRepository implements GearRepository
 {
-    public function add(Gear $gear): void
+    public function save(Gear $gear): void
     {
-        $sql = 'INSERT INTO Gear (gearId, createdOn, data, distanceInMeter)
-        VALUES (:gearId, :createdOn, :data, :distanceInMeter)';
+        $sql = 'REPLACE INTO Gear (gearId, createdOn, distanceInMeter, name, isRetired)
+        VALUES (:gearId, :createdOn, :distanceInMeter, :name, :isRetired)';
 
         $this->connection->executeStatement($sql, [
             'gearId' => $gear->getId(),
             'createdOn' => $gear->getCreatedOn(),
-            'data' => Json::encode($gear->getData()),
-            'distanceInMeter' => $gear->getDistance()->toMeter(),
-        ]);
-    }
-
-    public function update(Gear $gear): void
-    {
-        $sql = 'UPDATE Gear 
-        SET distanceInMeter = :distanceInMeter,
-        data = :data
-        WHERE gearId = :gearId';
-
-        $this->connection->executeStatement($sql, [
-            'gearId' => $gear->getId(),
-            'distanceInMeter' => $gear->getDistance()->toMeter(),
-            'data' => Json::encode($gear->getData()),
+            'distanceInMeter' => $gear->getDistance()->toMeter()->toInt(),
+            'name' => $gear->getName(),
+            'isRetired' => (int) $gear->isRetired(),
         ]);
     }
 
@@ -71,9 +58,10 @@ final readonly class DbalGearRepository extends DbalRepository implements GearRe
     {
         return Gear::fromState(
             gearId: GearId::fromString($result['gearId']),
-            data: Json::decode($result['data']),
-            distanceInMeter: $result['distanceInMeter'],
+            distanceInMeter: Meter::from($result['distanceInMeter']),
             createdOn: SerializableDateTime::fromString($result['createdOn']),
+            name: $result['name'],
+            isRetired: (bool) $result['isRetired']
         );
     }
 }

@@ -3,58 +3,56 @@
 namespace App\Domain\Strava\Gear;
 
 use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
+use App\Infrastructure\ValueObject\Measurement\Length\Meter;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 class Gear
 {
-    /**
-     * @param array<mixed> $data
-     */
     private function __construct(
         #[ORM\Id, ORM\Column(type: 'string', unique: true)]
         private readonly GearId $gearId,
         #[ORM\Column(type: 'datetime_immutable')]
         private readonly SerializableDateTime $createdOn,
         #[ORM\Column(type: 'integer')]
-        private int $distanceInMeter,
-        #[ORM\Column(type: 'json')]
-        private array $data,
+        private Meter $distanceInMeter,
+        #[ORM\Column(type: 'string')]
+        private readonly string $name,
+        #[ORM\Column(type: 'boolean')]
+        private bool $isRetired,
     ) {
     }
 
-    /**
-     * @param array<mixed> $data
-     */
     public static function create(
         GearId $gearId,
-        array $data,
-        int $distanceInMeter,
+        Meter $distanceInMeter,
         SerializableDateTime $createdOn,
+        string $name,
+        bool $isRetired,
     ): self {
         return new self(
             gearId: $gearId,
             createdOn: $createdOn,
             distanceInMeter: $distanceInMeter,
-            data: $data
+            name: $name,
+            isRetired: $isRetired,
         );
     }
 
-    /**
-     * @param array<mixed> $data
-     */
     public static function fromState(
         GearId $gearId,
-        array $data,
-        int $distanceInMeter,
+        Meter $distanceInMeter,
         SerializableDateTime $createdOn,
+        string $name,
+        bool $isRetired,
     ): self {
         return new self(
             gearId: $gearId,
             createdOn: $createdOn,
             distanceInMeter: $distanceInMeter,
-            data: $data
+            name: $name,
+            isRetired: $isRetired,
         );
     }
 
@@ -65,30 +63,29 @@ class Gear
 
     public function getName(): string
     {
-        return sprintf('%s%s', $this->data['name'], $this->isRetired() ? ' ☠️' : '');
+        return sprintf('%s%s', $this->name, $this->isRetired() ? ' ☠️' : '');
     }
 
     public function getDistance(): Kilometer
     {
-        return Kilometer::from($this->distanceInMeter / 1000);
+        return Kilometer::from($this->distanceInMeter->toInt() / 1000);
     }
 
     public function isRetired(): bool
     {
-        return $this->data['retired'] ?? false;
+        return $this->isRetired;
     }
 
     public function updateIsRetired(bool $isRetired): self
     {
-        $this->data['retired'] = $isRetired;
+        $this->isRetired = $isRetired;
 
         return $this;
     }
 
-    public function updateDistance(float $distance, float $convertedDistance): self
+    public function updateDistance(Meter $distance): self
     {
-        $this->distanceInMeter = (int) $distance;
-        $this->data['converted_distance'] = $convertedDistance;
+        $this->distanceInMeter = $distance;
 
         return $this;
     }
@@ -96,13 +93,5 @@ class Gear
     public function getCreatedOn(): SerializableDateTime
     {
         return $this->createdOn;
-    }
-
-    /**
-     * @return array<mixed>
-     */
-    public function getData(): array
-    {
-        return $this->data;
     }
 }
