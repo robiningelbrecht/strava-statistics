@@ -8,6 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'ActivityStream')]
+#[ORM\Index(name: 'ActivityStream_activityIndex', columns: ['activityId'])]
+#[ORM\Index(name: 'ActivityStream_streamTypeIndex', columns: ['streamType'])]
 final class ActivityStream
 {
     /**
