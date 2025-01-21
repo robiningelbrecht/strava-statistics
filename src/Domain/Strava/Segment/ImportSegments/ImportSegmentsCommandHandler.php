@@ -16,6 +16,7 @@ use App\Domain\Strava\Segment\SegmentRepository;
 use App\Infrastructure\CQRS\Bus\Command;
 use App\Infrastructure\CQRS\Bus\CommandHandler;
 use App\Infrastructure\Exception\EntityNotFound;
+use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\String\Name;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
@@ -55,14 +56,11 @@ final readonly class ImportSegmentsCommandHandler implements CommandHandler
                 $segment = Segment::create(
                     segmentId: $segmentId,
                     name: Name::fromString($activitySegment['name']),
-                    data: [
-                        ...$activitySegment,
-                        // @TODO: move these to separate DB fields.
-                        ...[
-                            'device_name' => $activity->getDeviceName(),
-                            'sport_type' => $activity->getSportType()->value,
-                        ],
-                    ],
+                    sportType: $activity->getSportType(),
+                    distance: Kilometer::from($activitySegment['distance'] / 1000),
+                    maxGradient: $activitySegment['maximum_grade'],
+                    isFavourite: isset($activitySegment['starred']) && $activitySegment['starred'],
+                    deviceName: $activity->getDeviceName(),
                 );
 
                 // Do not import segments that have been imported in the current run.

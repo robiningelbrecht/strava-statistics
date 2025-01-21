@@ -2,6 +2,10 @@
     {
         "segmentId": "segment-1",
         "name": "Segment One",
-        "data": "{\"id\":\"1\",\"name\":\"Segment One\",\"device_name\":\"Zwift\",\"sport_type\":\"Ride\"}"
+        "sportType": "Ride",
+        "distance": 1000,
+        "maxGradient": 5.3,
+        "isFavourite": 0,
+        "deviceName": "Zwift"
     }
 ]

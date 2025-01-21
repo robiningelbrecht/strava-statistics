@@ -16,46 +16,61 @@ final class Segment
     private ?SegmentEffort $bestEffort = null;
     private int $numberOfTimesRidden = 0;
 
-    /**
-     * @param array<mixed> $data
-     */
     private function __construct(
         #[ORM\Id, ORM\Column(type: 'string', unique: true)]
         private readonly SegmentId $segmentId,
         #[ORM\Column(type: 'string', nullable: true)]
         private readonly Name $name,
-        #[ORM\Column(type: 'json')]
-        private array $data,
+        #[ORM\Column(type: 'string')]
+        private readonly SportType $sportType,
+        #[ORM\Column(type: 'integer')]
+        private readonly Kilometer $distance,
+        #[ORM\Column(type: 'float')]
+        private readonly float $maxGradient,
+        #[ORM\Column(type: 'boolean')]
+        private readonly bool $isFavourite,
+        #[ORM\Column(type: 'string', nullable: true)]
+        private readonly ?string $deviceName,
     ) {
     }
 
-    /**
-     * @param array<mixed> $data
-     */
     public static function create(
         SegmentId $segmentId,
         Name $name,
-        array $data,
+        SportType $sportType,
+        Kilometer $distance,
+        float $maxGradient,
+        bool $isFavourite,
+        ?string $deviceName,
     ): self {
         return new self(
             segmentId: $segmentId,
             name: $name,
-            data: $data,
+            sportType: $sportType,
+            distance: $distance,
+            maxGradient: $maxGradient,
+            isFavourite: $isFavourite,
+            deviceName: $deviceName
         );
     }
 
-    /**
-     * @param array<mixed> $data
-     */
     public static function fromState(
         SegmentId $segmentId,
         Name $name,
-        array $data,
+        SportType $sportType,
+        Kilometer $distance,
+        float $maxGradient,
+        bool $isFavourite,
+        ?string $deviceName,
     ): self {
         return new self(
             segmentId: $segmentId,
             name: $name,
-            data: $data,
+            sportType: $sportType,
+            distance: $distance,
+            maxGradient: $maxGradient,
+            isFavourite: $isFavourite,
+            deviceName: $deviceName
         );
     }
 
@@ -67,7 +82,7 @@ final class Segment
     public function getName(): Name
     {
         $parts = [];
-        if ($this->isStarred()) {
+        if ($this->isFavourite()) {
             $parts[] = '⭐️';
         }
         if ($this->isKOM()) {
@@ -80,22 +95,22 @@ final class Segment
 
     public function getDeviceName(): ?string
     {
-        return $this->data['device_name'] ?? null;
+        return $this->deviceName;
     }
 
     public function getDistance(): Kilometer
     {
-        return Kilometer::from($this->data['distance'] / 1000);
+        return $this->distance;
     }
 
     public function getMaxGradient(): float
     {
-        return $this->data['maximum_grade'];
+        return $this->maxGradient;
     }
 
     public function getSportType(): SportType
     {
-        return SportType::from($this->data['sport_type']);
+        return $this->sportType;
     }
 
     public function isZwiftSegment(): bool
@@ -106,14 +121,6 @@ final class Segment
     public function isRouvySegment(): bool
     {
         return 'rouvy' === strtolower($this->getDeviceName() ?? '');
-    }
-
-    /**
-     * @return array<mixed>
-     */
-    public function getData(): array
-    {
-        return $this->data;
     }
 
     public function getBestEffort(): ?SegmentEffort
@@ -136,13 +143,9 @@ final class Segment
         $this->numberOfTimesRidden = $numberOfTimesRidden;
     }
 
-    public function isStarred(): bool
+    public function isFavourite(): bool
     {
-        if (!isset($this->data['starred'])) {
-            return false;
-        }
-
-        return (bool) $this->data['starred'];
+        return $this->isFavourite;
     }
 
     /**
@@ -162,7 +165,7 @@ final class Segment
     {
         return [
             'isKom' => $this->isKOM() ? 'isKom' : '',
-            'isFavourite' => $this->isStarred() ? 'isFavourite' : '',
+            'isFavourite' => $this->isFavourite() ? 'isFavourite' : '',
             'sportType' => $this->getSportType()->value,
         ];
     }

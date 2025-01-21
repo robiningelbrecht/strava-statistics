@@ -4,23 +4,28 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Segment;
 
+use App\Domain\Strava\Activity\SportType\SportType;
 use App\Infrastructure\Exception\EntityNotFound;
 use App\Infrastructure\Repository\DbalRepository;
 use App\Infrastructure\Repository\Pagination;
-use App\Infrastructure\Serialization\Json;
+use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\String\Name;
 
 final readonly class DbalSegmentRepository extends DbalRepository implements SegmentRepository
 {
     public function add(Segment $segment): void
     {
-        $sql = 'INSERT INTO Segment (segmentId, name, data)
-        VALUES (:segmentId, :name, :data)';
+        $sql = 'INSERT INTO Segment (segmentId, name, sportType, distance, maxGradient, isFavourite, deviceName) 
+                VALUES (:segmentId, :name, :sportType, :distance, :maxGradient, :isFavourite, :deviceName)';
 
         $this->connection->executeStatement($sql, [
             'segmentId' => $segment->getId(),
             'name' => $segment->getName(),
-            'data' => Json::encode($segment->getData()),
+            'sportType' => $segment->getSportType()->value,
+            'distance' => $segment->getDistance()->toMeter()->toInt(),
+            'maxGradient' => $segment->getMaxGradient(),
+            'isFavourite' => (int) $segment->isFavourite(),
+            'deviceName' => $segment->getDeviceName(),
         ]);
     }
 
@@ -62,7 +67,11 @@ final readonly class DbalSegmentRepository extends DbalRepository implements Seg
         return Segment::fromState(
             segmentId: SegmentId::fromString($result['segmentId']),
             name: Name::fromString($result['name']),
-            data: Json::decode($result['data']),
+            sportType: SportType::from($result['sportType']),
+            distance: Kilometer::from($result['distance'] / 1000),
+            maxGradient: $result['maxGradient'],
+            isFavourite: (bool) $result['isFavourite'],
+            deviceName: $result['deviceName']
         );
     }
 

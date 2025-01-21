@@ -8,6 +8,7 @@ use App\Domain\Strava\Activity\Activity;
 use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\ActivityWithRawData;
 use App\Domain\Strava\Activity\ActivityWithRawDataRepository;
+use App\Domain\Strava\Activity\SportType\SportType;
 use App\Domain\Strava\Activity\Stream\ActivityStreamRepository;
 use App\Domain\Strava\Activity\Stream\StreamType;
 use App\Domain\Strava\Athlete\Athlete;
@@ -26,6 +27,7 @@ use App\Domain\Strava\Segment\SegmentRepository;
 use App\Domain\Weather\OpenMeteo\Weather;
 use App\Infrastructure\Geocoding\Nominatim\Location;
 use App\Infrastructure\Serialization\Json;
+use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Measurement\Mass\Gram;
 use App\Infrastructure\ValueObject\String\Name;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
@@ -277,38 +279,33 @@ trait ProvideTestData
             SegmentBuilder::fromDefaults()
                 ->withSegmentId(SegmentId::fromUnprefixed('1'))
                 ->withName(Name::fromString('Segment One'))
-                ->withData([
-                    'distance' => 100,
-                    'maximum_grade' => 5.3,
-                    'starred' => true,
-                    'device_name' => 'Polar',
-                    'sport_type' => 'Ride',
-                ])
+                ->withDistance(Kilometer::from(0.1))
+                ->withMaxGradient(5.3)
+                ->withIsFavourite(true)
+                ->withDeviceName('Polar')
+                ->withSportType(SportType::RIDE)
                 ->build()
         );
         $segmentRepository->add(
             SegmentBuilder::fromDefaults()
                 ->withSegmentId(SegmentId::fromUnprefixed('2'))
                 ->withName(Name::fromString('Segment Two'))
-                ->withData([
-                    'distance' => 110,
-                    'maximum_grade' => 1,
-                    'sport_type' => 'Ride',
-                    'device_name' => 'Polar',
-                ])
+                ->withDistance(Kilometer::from(0.11))
+                ->withMaxGradient(1)
+                ->withIsFavourite(false)
+                ->withDeviceName('Polar')
+                ->withSportType(SportType::RIDE)
                 ->build()
         );
         $segmentRepository->add(
             SegmentBuilder::fromDefaults()
                 ->withSegmentId(SegmentId::fromUnprefixed('17267489'))
                 ->withName(Name::fromString('Alpe du Zwift'))
-                ->withData([
-                    'distance' => 100,
-                    'maximum_grade' => 5.3,
-                    'sport_type' => 'Ride',
-                    'device_name' => 'Polar',
-                    'starred' => true,
-                ])
+                ->withDistance(Kilometer::from(0.1))
+                ->withMaxGradient(5.3)
+                ->withIsFavourite(true)
+                ->withDeviceName('Polar')
+                ->withSportType(SportType::RIDE)
                 ->build()
         );
 

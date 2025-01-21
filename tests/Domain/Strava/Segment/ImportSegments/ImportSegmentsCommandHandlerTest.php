@@ -42,6 +42,8 @@ class ImportSegmentsCommandHandlerTest extends ContainerTestCase
                         'segment' => [
                             'id' => '1',
                             'name' => 'Segment One',
+                            'maximum_grade' => 5.3,
+                            'distance' => 1000,
                         ],
                     ],
                 ],
@@ -61,6 +63,8 @@ class ImportSegmentsCommandHandlerTest extends ContainerTestCase
                         'segment' => [
                             'id' => '1',
                             'name' => 'Segment One',
+                            'maximum_grade' => 5.3,
+                            'distance' => 1000,
                         ],
                     ],
                 ],

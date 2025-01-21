@@ -29,7 +29,7 @@ final class Version20250118164026 extends AbstractMigration implements CommandBu
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
+        // Migrate Activity table.
         $this->addSql('CREATE TEMPORARY TABLE __temp__Activity AS SELECT activityId, startDateTime, data, gearId, weather, location, sportType FROM Activity');
         $this->addSql('DROP TABLE Activity');
         $this->addSql('CREATE TABLE Activity (activityId VARCHAR(255) NOT NULL, startDateTime DATETIME NOT NULL --(DC2Type:datetime_immutable)
@@ -45,6 +45,13 @@ final class Version20250118164026 extends AbstractMigration implements CommandBu
                         SELECT activityId, startDateTime, data, gearId, weather, location, sportType, "", "", 0, 0, NULL, NULL, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "", 0, "", "", "" FROM __temp__Activity');
         $this->addSql('DROP TABLE __temp__Activity');
         $this->addSql('CREATE INDEX Activity_startDateTimeIndex ON Activity (startDateTime)');
+
+        // Migrate Segment table.
+        $this->addSql('CREATE TEMPORARY TABLE __temp__Segment AS SELECT segmentId, name, data FROM Segment');
+        $this->addSql('DROP TABLE Segment');
+        $this->addSql('CREATE TABLE Segment (segmentId VARCHAR(255) NOT NULL, name VARCHAR(255) DEFAULT NULL, sportType VARCHAR(255) NOT NULL, distance INTEGER NOT NULL, maxGradient DOUBLE PRECISION NOT NULL, isFavourite BOOLEAN NOT NULL, deviceName VARCHAR(255) DEFAULT NULL, PRIMARY KEY(segmentId))');
+        $this->addSql('INSERT INTO Segment (segmentId, name, sportType, distance, maxGradient, isFavourite, deviceName) SELECT segmentId, name, JSON_EXTRACT(data, "$.sport_type"), CAST(JSON_EXTRACT(data, "$.distance") AS INTEGER), JSON_EXTRACT(data, "$.maximum_grade"), JSON_EXTRACT(data, "$.starred"), JSON_EXTRACT(data, "$.device_name") FROM __temp__Segment');
+        $this->addSql('DROP TABLE __temp__Segment');
     }
 
     public function down(Schema $schema): void

@@ -4,21 +4,31 @@ declare(strict_types=1);
 
 namespace App\Tests\Domain\Strava\Segment;
 
+use App\Domain\Strava\Activity\SportType\SportType;
 use App\Domain\Strava\Segment\Segment;
 use App\Domain\Strava\Segment\SegmentId;
+use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\String\Name;
 
 final class SegmentBuilder
 {
     private SegmentId $segmentId;
     private Name $name;
-    private array $data;
+    private SportType $sportType;
+    private Kilometer $distance;
+    private float $maxGradient;
+    private bool $isFavourite;
+    private ?string $deviceName;
 
     private function __construct()
     {
         $this->segmentId = SegmentId::fromUnprefixed('1');
         $this->name = Name::fromString('Segment');
-        $this->data = [];
+        $this->sportType = SportType::RIDE;
+        $this->distance = Kilometer::from(1);
+        $this->maxGradient = 5.3;
+        $this->isFavourite = false;
+        $this->deviceName = 'Polar';
     }
 
     public static function fromDefaults(): self
@@ -31,7 +41,11 @@ final class SegmentBuilder
         return Segment::fromState(
             segmentId: $this->segmentId,
             name: $this->name,
-            data: $this->data,
+            sportType: $this->sportType,
+            distance: $this->distance,
+            maxGradient: $this->maxGradient,
+            isFavourite: $this->isFavourite,
+            deviceName: $this->deviceName
         );
     }
 
@@ -49,9 +63,37 @@ final class SegmentBuilder
         return $this;
     }
 
-    public function withData(array $data): self
+    public function withSportType(SportType $sportType): self
     {
-        $this->data = $data;
+        $this->sportType = $sportType;
+
+        return $this;
+    }
+
+    public function withDistance(Kilometer $distance): self
+    {
+        $this->distance = $distance;
+
+        return $this;
+    }
+
+    public function withMaxGradient(float $maxGradient): self
+    {
+        $this->maxGradient = $maxGradient;
+
+        return $this;
+    }
+
+    public function withIsFavourite(bool $isFavourite): self
+    {
+        $this->isFavourite = $isFavourite;
+
+        return $this;
+    }
+
+    public function withDeviceName(string $deviceName): self
+    {
+        $this->deviceName = $deviceName;
 
         return $this;
     }
