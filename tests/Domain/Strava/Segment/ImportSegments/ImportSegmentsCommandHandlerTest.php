@@ -10,6 +10,7 @@ use App\Domain\Strava\Segment\SegmentEffort\SegmentEffortId;
 use App\Domain\Strava\Segment\SegmentEffort\SegmentEffortRepository;
 use App\Domain\Strava\Segment\SegmentId;
 use App\Infrastructure\CQRS\Bus\CommandBus;
+use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use App\Tests\ContainerTestCase;
 use App\Tests\Domain\Strava\Activity\ActivityBuilder;
@@ -39,6 +40,8 @@ class ImportSegmentsCommandHandlerTest extends ContainerTestCase
                     [
                         'id' => '1',
                         'start_date_local' => '2023-07-29T09:34:03Z',
+                        'name' => 'Segment Effort One',
+                        'elapsed_time' => 300,
                         'segment' => [
                             'id' => '1',
                             'name' => 'Segment One',
@@ -60,6 +63,7 @@ class ImportSegmentsCommandHandlerTest extends ContainerTestCase
                     [
                         'id' => '2',
                         'start_date_local' => '2023-07-29T09:34:03Z',
+                        'name' => 'Segment Effort Two',
                         'segment' => [
                             'id' => '1',
                             'name' => 'Segment One',
@@ -82,11 +86,9 @@ class ImportSegmentsCommandHandlerTest extends ContainerTestCase
                 ->withSegmentEffortId(SegmentEffortId::fromUnprefixed(2))
                 ->withSegmentId(SegmentId::fromUnprefixed('1'))
                 ->withActivityId(ActivityId::fromUnprefixed(9542782314))
-                ->withData([
-                    'elapsed_time' => 9.3,
-                    'average_watts' => 200,
-                    'distance' => 100,
-                ])
+                ->withElapsedTimeInSeconds(9.3)
+                ->withAverageWatts(200)
+                ->withDistance(Kilometer::from(0.1))
                 ->build()
         );
 

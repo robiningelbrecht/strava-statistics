@@ -87,7 +87,10 @@ final readonly class ImportSegmentsCommandHandler implements CommandHandler
                             Activity::DATE_TIME_FORMAT,
                             $activitySegmentEffort['start_date_local']
                         ),
-                        data: $activitySegmentEffort
+                        name: $activitySegmentEffort['name'],
+                        elapsedTimeInSeconds: (float) $activitySegmentEffort['elapsed_time'],
+                        distance: Kilometer::from($activitySegment['distance'] / 1000),
+                        averageWatts: isset($activitySegmentEffort['average_watts']) ? (float) $activitySegmentEffort['average_watts'] : null,
                     ));
                     ++$countSegmentEffortsAdded;
                 }

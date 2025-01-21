@@ -317,12 +317,10 @@ trait ProvideTestData
                 ->withSegmentEffortId(SegmentEffortId::fromUnprefixed('1'))
                 ->withSegmentId(SegmentId::fromUnprefixed('1'))
                 ->withActivityId(ActivityId::fromUnprefixed('9542782314'))
-                ->withData([
-                    'elapsed_time' => 10.3,
-                    'average_watts' => 200,
-                    'distance' => 100,
-                    'name' => 'An effort',
-                ])
+                ->withElapsedTimeInSeconds(10.3)
+                ->withAverageWatts(200)
+                ->withDistance(Kilometer::from(0.1))
+                ->withName('An effort')
                 ->build()
         );
         $segmentEffortRepository->add(
@@ -330,12 +328,10 @@ trait ProvideTestData
                 ->withSegmentEffortId(SegmentEffortId::fromUnprefixed('alpe-du-zwift'))
                 ->withSegmentId(SegmentId::fromUnprefixed('17267489'))
                 ->withActivityId(ActivityId::fromUnprefixed('9542782314'))
-                ->withData([
-                    'elapsed_time' => 10.3,
-                    'average_watts' => 200,
-                    'distance' => 100,
-                    'name' => 'An effort',
-                ])
+                ->withElapsedTimeInSeconds(10.3)
+                ->withAverageWatts(200)
+                ->withDistance(Kilometer::from(0.1))
+                ->withName('An effort')
                 ->build()
         );
         $segmentEffortRepository->add(
@@ -343,12 +339,10 @@ trait ProvideTestData
                 ->withSegmentEffortId(SegmentEffortId::fromUnprefixed('2'))
                 ->withSegmentId(SegmentId::fromUnprefixed('1'))
                 ->withActivityId(ActivityId::fromUnprefixed('9542782314'))
-                ->withData([
-                    'elapsed_time' => 9.3,
-                    'average_watts' => 200,
-                    'distance' => 100,
-                    'name' => 'An effort',
-                ])
+                ->withElapsedTimeInSeconds(9.3)
+                ->withAverageWatts(200)
+                ->withDistance(Kilometer::from(0.1))
+                ->withName('An effort')
                 ->build()
         );
         $segmentEffortRepository->add(
@@ -356,11 +350,9 @@ trait ProvideTestData
                 ->withSegmentEffortId(SegmentEffortId::fromUnprefixed('3'))
                 ->withSegmentId(SegmentId::fromUnprefixed('2'))
                 ->withActivityId(ActivityId::fromUnprefixed('9542782314'))
-                ->withData([
-                    'elapsed_time' => 10.3,
-                    'distance' => 100,
-                    'name' => 'An effort',
-                ])
+                ->withElapsedTimeInSeconds(10.3)
+                ->withDistance(Kilometer::from(0.1))
+                ->withName('An effort')
                 ->build()
         );
 

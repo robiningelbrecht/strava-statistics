@@ -52,6 +52,16 @@ final class Version20250118164026 extends AbstractMigration implements CommandBu
         $this->addSql('CREATE TABLE Segment (segmentId VARCHAR(255) NOT NULL, name VARCHAR(255) DEFAULT NULL, sportType VARCHAR(255) NOT NULL, distance INTEGER NOT NULL, maxGradient DOUBLE PRECISION NOT NULL, isFavourite BOOLEAN NOT NULL, deviceName VARCHAR(255) DEFAULT NULL, PRIMARY KEY(segmentId))');
         $this->addSql('INSERT INTO Segment (segmentId, name, sportType, distance, maxGradient, isFavourite, deviceName) SELECT segmentId, name, JSON_EXTRACT(data, "$.sport_type"), CAST(JSON_EXTRACT(data, "$.distance") AS INTEGER), JSON_EXTRACT(data, "$.maximum_grade"), JSON_EXTRACT(data, "$.starred"), JSON_EXTRACT(data, "$.device_name") FROM __temp__Segment');
         $this->addSql('DROP TABLE __temp__Segment');
+
+        // Migrate SegmentEffort table.
+        $this->addSql('CREATE TEMPORARY TABLE __temp__SegmentEffort AS SELECT segmentEffortId, segmentId, activityId, startDateTime, data FROM SegmentEffort');
+        $this->addSql('DROP TABLE SegmentEffort');
+        $this->addSql('CREATE TABLE SegmentEffort (segmentEffortId VARCHAR(255) NOT NULL, segmentId VARCHAR(255) NOT NULL, activityId VARCHAR(255) NOT NULL, startDateTime DATETIME NOT NULL --(DC2Type:datetime_immutable)
+        , name VARCHAR(255) NOT NULL, elapsedTimeInSeconds DOUBLE PRECISION NOT NULL, distance INTEGER NOT NULL, averageWatts DOUBLE PRECISION DEFAULT NULL, PRIMARY KEY(segmentEffortId))');
+        $this->addSql('INSERT INTO SegmentEffort (segmentEffortId, segmentId, activityId, startDateTime, name, elapsedTimeInSeconds, distance, averageWatts) SELECT segmentEffortId, segmentId, activityId, startDateTime, JSON_EXTRACT(data, "$.name"), JSON_EXTRACT(data, "$.elapsed_time"), CAST(JSON_EXTRACT(data, "$.distance") AS INTEGER), JSON_EXTRACT(data, "$.average_watts") FROM __temp__SegmentEffort');
+        $this->addSql('DROP TABLE __temp__SegmentEffort');
+        $this->addSql('CREATE INDEX SegmentEffort_segmentIndex ON SegmentEffort (segmentId)');
+        $this->addSql('CREATE INDEX SegmentEffort_activityIndex ON SegmentEffort (activityId)');
     }
 
     public function down(Schema $schema): void

@@ -22,9 +22,6 @@ final class SegmentEffort
 
     private ?Activity $activity = null;
 
-    /**
-     * @param array<mixed> $data
-     */
     private function __construct(
         #[ORM\Id, ORM\Column(type: 'string', unique: true)]
         private readonly SegmentEffortId $segmentEffortId,
@@ -34,46 +31,58 @@ final class SegmentEffort
         private readonly ActivityId $activityId,
         #[ORM\Column(type: 'datetime_immutable')]
         private readonly SerializableDateTime $startDateTime,
-        #[ORM\Column(type: 'json')]
-        private readonly array $data,
+        #[ORM\Column(type: 'string')]
+        private readonly string $name,
+        #[ORM\Column(type: 'float')]
+        private readonly float $elapsedTimeInSeconds,
+        #[ORM\Column(type: 'integer')]
+        private readonly Kilometer $distance,
+        #[ORM\Column(type: 'float', nullable: true)]
+        private readonly ?float $averageWatts,
     ) {
     }
 
-    /**
-     * @param array<mixed> $data
-     */
     public static function create(
         SegmentEffortId $segmentEffortId,
         SegmentId $segmentId,
         ActivityId $activityId,
         SerializableDateTime $startDateTime,
-        array $data,
+        string $name,
+        float $elapsedTimeInSeconds,
+        Kilometer $distance,
+        ?float $averageWatts,
     ): self {
         return new self(
             segmentEffortId: $segmentEffortId,
             segmentId: $segmentId,
             activityId: $activityId,
             startDateTime: $startDateTime,
-            data: $data,
+            name: $name,
+            elapsedTimeInSeconds: $elapsedTimeInSeconds,
+            distance: $distance,
+            averageWatts: $averageWatts,
         );
     }
 
-    /**
-     * @param array<mixed> $data
-     */
     public static function fromState(
         SegmentEffortId $segmentEffortId,
         SegmentId $segmentId,
         ActivityId $activityId,
         SerializableDateTime $startDateTime,
-        array $data,
+        string $name,
+        float $elapsedTimeInSeconds,
+        Kilometer $distance,
+        ?float $averageWatts,
     ): self {
         return new self(
             segmentEffortId: $segmentEffortId,
             segmentId: $segmentId,
             activityId: $activityId,
             startDateTime: $startDateTime,
-            data: $data,
+            name: $name,
+            elapsedTimeInSeconds: $elapsedTimeInSeconds,
+            distance: $distance,
+            averageWatts: $averageWatts,
         );
     }
 
@@ -94,7 +103,7 @@ final class SegmentEffort
 
     public function getName(): string
     {
-        return $this->data['name'];
+        return $this->name;
     }
 
     public function getStartDateTime(): SerializableDateTime
@@ -104,7 +113,7 @@ final class SegmentEffort
 
     public function getElapsedTimeInSeconds(): float
     {
-        return (float) $this->data['elapsed_time'];
+        return $this->elapsedTimeInSeconds;
     }
 
     public function getElapsedTimeFormatted(): string
@@ -114,31 +123,19 @@ final class SegmentEffort
 
     public function getAverageWatts(): ?float
     {
-        if (isset($this->data['average_watts'])) {
-            return (float) $this->data['average_watts'];
-        }
-
-        return null;
+        return $this->averageWatts;
     }
 
     public function getAverageSpeed(): KmPerHour
     {
-        $averageSpeed = $this->data['distance'] / $this->getElapsedTimeInSeconds();
+        $averageSpeed = $this->getDistance()->toMeter()->toFloat() / $this->getElapsedTimeInSeconds();
 
         return KmPerHour::from($averageSpeed * 3.6);
     }
 
     public function getDistance(): Kilometer
     {
-        return Kilometer::from($this->data['distance'] / 1000);
-    }
-
-    /**
-     * @return array<mixed>
-     */
-    public function getData(): array
-    {
-        return $this->data;
+        return $this->distance;
     }
 
     public function getActivity(): ?Activity

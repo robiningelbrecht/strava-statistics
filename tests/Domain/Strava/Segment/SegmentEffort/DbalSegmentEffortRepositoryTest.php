@@ -34,22 +34,6 @@ class DbalSegmentEffortRepositoryTest extends ContainerTestCase
         );
     }
 
-    public function testUpdate(): void
-    {
-        $segmentEffort = SegmentEffortBuilder::fromDefaults()
-            ->build();
-        $this->segmentEffortRepository->add($segmentEffort);
-        $segmentEffort = SegmentEffortBuilder::fromDefaults()
-            ->withData(['segment' => 'lol'])
-            ->build();
-        $this->segmentEffortRepository->update($segmentEffort);
-
-        $this->assertEquals(
-            SegmentEffortBuilder::fromDefaults()->build(),
-            $this->segmentEffortRepository->find($segmentEffort->getId())
-        );
-    }
-
     public function testItShouldThrowWhenNotFound(): void
     {
         $this->expectException(EntityNotFound::class);

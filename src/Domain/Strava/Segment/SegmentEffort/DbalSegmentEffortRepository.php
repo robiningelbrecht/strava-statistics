@@ -10,7 +10,7 @@ use App\Domain\Strava\Segment\SegmentId;
 use App\Infrastructure\Eventing\EventBus;
 use App\Infrastructure\Exception\EntityNotFound;
 use App\Infrastructure\Repository\DbalRepository;
-use App\Infrastructure\Serialization\Json;
+use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use Doctrine\DBAL\Connection;
 
@@ -25,37 +25,18 @@ final readonly class DbalSegmentEffortRepository extends DbalRepository implemen
 
     public function add(SegmentEffort $segmentEffort): void
     {
-        $sql = 'INSERT INTO SegmentEffort (segmentEffortId, segmentId, activityId, startDateTime, data)
-        VALUES (:segmentEffortId, :segmentId, :activityId, :startDateTime, :data)';
-
-        $data = $segmentEffort->getData();
-        if (isset($data['segment'])) {
-            unset($data['segment']);
-        }
+        $sql = 'INSERT INTO SegmentEffort (segmentEffortId, segmentId, activityId, startDateTime, name, elapsedTimeInSeconds, distance, averageWatts)
+                VALUES (:segmentEffortId, :segmentId, :activityId, :startDateTime, :name, :elapsedTimeInSeconds, :distance, :averageWatts)';
 
         $this->connection->executeStatement($sql, [
             'segmentEffortId' => $segmentEffort->getId(),
             'segmentId' => $segmentEffort->getSegmentId(),
             'activityId' => $segmentEffort->getActivityId(),
             'startDateTime' => $segmentEffort->getStartDateTime(),
-            'data' => Json::encode($data),
-        ]);
-    }
-
-    public function update(SegmentEffort $segmentEffort): void
-    {
-        $sql = 'UPDATE SegmentEffort 
-        SET data = :data
-        WHERE segmentEffortId = :segmentEffortId';
-
-        $data = $segmentEffort->getData();
-        if (isset($data['segment'])) {
-            unset($data['segment']);
-        }
-
-        $this->connection->executeStatement($sql, [
-            'segmentEffortId' => $segmentEffort->getId(),
-            'data' => Json::encode($data),
+            'name' => $segmentEffort->getName(),
+            'elapsedTimeInSeconds' => $segmentEffort->getElapsedTimeInSeconds(),
+            'distance' => $segmentEffort->getDistance()->toMeter()->toInt(),
+            'averageWatts' => $segmentEffort->getAverageWatts(),
         ]);
     }
 
@@ -95,7 +76,7 @@ final readonly class DbalSegmentEffortRepository extends DbalRepository implemen
             ->from('SegmentEffort')
             ->andWhere('segmentId = :segmentId')
             ->setParameter('segmentId', $segmentId)
-            ->orderBy("JSON_EXTRACT(data, '$.elapsed_time')", 'ASC');
+            ->orderBy('elapsedTimeInSeconds', 'ASC');
 
         if ($limit) {
             $queryBuilder->setMaxResults($limit);
@@ -142,7 +123,10 @@ final readonly class DbalSegmentEffortRepository extends DbalRepository implemen
             segmentId: SegmentId::fromString($result['segmentId']),
             activityId: ActivityId::fromString($result['activityId']),
             startDateTime: SerializableDateTime::fromString($result['startDateTime']),
-            data: Json::decode($result['data']),
+            name: $result['name'],
+            elapsedTimeInSeconds: $result['elapsedTimeInSeconds'],
+            distance: Kilometer::from($result['distance'] / 1000),
+            averageWatts: $result['averageWatts'],
         );
     }
 }

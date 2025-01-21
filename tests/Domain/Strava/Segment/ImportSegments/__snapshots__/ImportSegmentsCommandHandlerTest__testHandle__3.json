@@ -4,13 +4,19 @@
         "segmentId": "segment-1",
         "activityId": "activity-9542782314",
         "startDateTime": "2023-10-10 00:00:00",
-        "data": "{\"elapsed_time\":9.3,\"average_watts\":200,\"distance\":100}"
+        "name": "Segment One",
+        "elapsedTimeInSeconds": 9.3,
+        "distance": 100,
+        "averageWatts": 200
     },
     {
         "segmentEffortId": "segmentEffort-1",
         "segmentId": "segment-1",
         "activityId": "activity-1",
         "startDateTime": "2023-07-29 09:34:03",
-        "data": "{\"id\":\"1\",\"start_date_local\":\"2023-07-29T09:34:03Z\"}"
+        "name": "Segment Effort One",
+        "elapsedTimeInSeconds": 300,
+        "distance": 1000,
+        "averageWatts": null
     }
 ]

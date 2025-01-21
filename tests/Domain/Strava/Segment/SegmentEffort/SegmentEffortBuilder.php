@@ -8,6 +8,7 @@ use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Segment\SegmentEffort\SegmentEffort;
 use App\Domain\Strava\Segment\SegmentEffort\SegmentEffortId;
 use App\Domain\Strava\Segment\SegmentId;
+use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
 final class SegmentEffortBuilder
@@ -15,8 +16,11 @@ final class SegmentEffortBuilder
     private SegmentEffortId $segmentEffortId;
     private SegmentId $segmentId;
     private ActivityId $activityId;
-    private readonly SerializableDateTime $startDateTime;
-    private array $data;
+    private SerializableDateTime $startDateTime;
+    private string $name;
+    private float $elapsedTimeInSeconds;
+    private Kilometer $distance;
+    private ?float $averageWatts;
 
     private function __construct()
     {
@@ -24,7 +28,10 @@ final class SegmentEffortBuilder
         $this->segmentId = SegmentId::fromUnprefixed('1');
         $this->activityId = ActivityId::fromUnprefixed('1');
         $this->startDateTime = SerializableDateTime::fromString('2023-10-10');
-        $this->data = [];
+        $this->name = 'Segment One';
+        $this->elapsedTimeInSeconds = 9.3;
+        $this->distance = Kilometer::from(0.1);
+        $this->averageWatts = 200;
     }
 
     public static function fromDefaults(): self
@@ -39,7 +46,10 @@ final class SegmentEffortBuilder
             segmentId: $this->segmentId,
             activityId: $this->activityId,
             startDateTime: $this->startDateTime,
-            data: $this->data,
+            name: $this->name,
+            elapsedTimeInSeconds: $this->elapsedTimeInSeconds,
+            distance: $this->distance,
+            averageWatts: $this->averageWatts,
         );
     }
 
@@ -64,9 +74,30 @@ final class SegmentEffortBuilder
         return $this;
     }
 
-    public function withData(array $data): self
+    public function withElapsedTimeInSeconds(float $seconds): self
     {
-        $this->data = $data;
+        $this->elapsedTimeInSeconds = $seconds;
+
+        return $this;
+    }
+
+    public function withAverageWatts(float $watts): self
+    {
+        $this->averageWatts = $watts;
+
+        return $this;
+    }
+
+    public function withDistance(Kilometer $distance): self
+    {
+        $this->distance = $distance;
+
+        return $this;
+    }
+
+    public function withName(string $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }
