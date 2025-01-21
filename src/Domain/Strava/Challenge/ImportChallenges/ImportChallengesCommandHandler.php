@@ -78,7 +78,9 @@ final readonly class ImportChallengesCommandHandler implements CommandHandler
                 $challenge = Challenge::create(
                     challengeId: $challengeId,
                     createdOn: $createdOn,
-                    data: $stravaChallenge,
+                    name: $stravaChallenge['name'],
+                    logoUrl: $stravaChallenge['logo_url'] ?? null,
+                    slug: $stravaChallenge['url'],
                 );
                 if ($url = $challenge->getLogoUrl()) {
                     $imagePath = sprintf('files/challenges/%s.png', $this->uuidFactory->random());

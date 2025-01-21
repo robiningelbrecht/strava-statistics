@@ -4,20 +4,22 @@ namespace App\Domain\Strava\Challenge;
 
 use App\Infrastructure\Exception\EntityNotFound;
 use App\Infrastructure\Repository\DbalRepository;
-use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
 final readonly class DbalChallengeRepository extends DbalRepository implements ChallengeRepository
 {
     public function add(Challenge $challenge): void
     {
-        $sql = 'INSERT INTO Challenge (challengeId, createdOn, data)
-        VALUES (:challengeId, :createdOn, :data)';
+        $sql = 'INSERT INTO Challenge (challengeId, createdOn, name, logoUrl, localLogoUrl, slug)
+        VALUES (:challengeId, :createdOn, :name, :logoUrl, :localLogoUrl, :slug)';
 
         $this->connection->executeStatement($sql, [
             'challengeId' => (string) $challenge->getId(),
             'createdOn' => $challenge->getCreatedOn(),
-            'data' => Json::encode($challenge->getData()),
+            'name' => $challenge->getName(),
+            'logoUrl' => $challenge->getLogoUrl(),
+            'localLogoUrl' => $challenge->getLocalLogoUrl(),
+            'slug' => $challenge->getSlug(),
         ]);
     }
 
@@ -57,7 +59,10 @@ final readonly class DbalChallengeRepository extends DbalRepository implements C
         return Challenge::fromState(
             challengeId: ChallengeId::fromString($result['challengeId']),
             createdOn: SerializableDateTime::fromString($result['createdOn']),
-            data: Json::decode($result['data']),
+            name: $result['name'],
+            logoUrl: $result['logoUrl'],
+            localLogoUrl: $result['localLogoUrl'],
+            slug: $result['slug'],
         );
     }
 }

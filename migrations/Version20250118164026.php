@@ -71,6 +71,15 @@ final class Version20250118164026 extends AbstractMigration implements CommandBu
         $this->addSql('INSERT INTO Gear (gearId, createdOn, distanceInMeter, name, isRetired) SELECT gearId, createdOn, distanceInMeter, JSON_EXTRACT(data, "$.name"), JSON_EXTRACT(data, "$.retired") FROM __temp__Gear');
         $this->addSql('DROP TABLE __temp__Gear');
 
+        // Migrate Challenge table.
+        $this->addSql('CREATE TEMPORARY TABLE __temp__Challenge AS SELECT challengeId, createdOn, data FROM Challenge');
+        $this->addSql('DROP TABLE Challenge');
+        $this->addSql('CREATE TABLE Challenge (challengeId VARCHAR(255) NOT NULL, createdOn DATETIME NOT NULL --(DC2Type:datetime_immutable)
+        , name VARCHAR(255) NOT NULL, logoUrl VARCHAR(255) DEFAULT NULL, localLogoUrl VARCHAR(255) DEFAULT NULL, slug VARCHAR(255) NOT NULL, PRIMARY KEY(challengeId))');
+        $this->addSql('INSERT INTO Challenge (challengeId, createdOn, name, logoUrl, localLogoUrl, slug) SELECT challengeId, createdOn, JSON_EXTRACT(data, "$.name"), JSON_EXTRACT(data, "$.logo_url"), JSON_EXTRACT(data, "$.localLogo"), JSON_EXTRACT(data, "$.url") FROM __temp__Challenge');
+        $this->addSql('DROP TABLE __temp__Challenge');
+        $this->addSql('CREATE INDEX Challenge_createdOnIndex ON Challenge (createdOn)');
+
         // Migrate ActivityStream table.
         $this->addSql('CREATE TEMPORARY TABLE __temp__ActivityStream AS SELECT activityId, streamType, createdOn, data, bestAverages FROM ActivityStream');
         $this->addSql('DROP TABLE ActivityStream');

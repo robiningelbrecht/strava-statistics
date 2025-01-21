@@ -12,13 +12,19 @@ final class ChallengeBuilder
 {
     private ChallengeId $challengeId;
     private SerializableDateTime $createdOn;
-    private array $data;
+    private string $name;
+    private ?string $logoUrl;
+    private ?string $localLogoUrl;
+    private string $slug;
 
     private function __construct()
     {
         $this->challengeId = ChallengeId::fromUnprefixed('test');
         $this->createdOn = SerializableDateTime::fromString('2023-10-10');
-        $this->data = [];
+        $this->name = 'Challenge';
+        $this->logoUrl = null;
+        $this->localLogoUrl = null;
+        $this->slug = 'challenge';
     }
 
     public static function fromDefaults(): self
@@ -31,7 +37,10 @@ final class ChallengeBuilder
         return Challenge::fromState(
             challengeId: $this->challengeId,
             createdOn: $this->createdOn,
-            data: $this->data,
+            name: $this->name,
+            logoUrl: $this->logoUrl,
+            localLogoUrl: $this->localLogoUrl,
+            slug: $this->slug,
         );
     }
 
@@ -49,9 +58,30 @@ final class ChallengeBuilder
         return $this;
     }
 
-    public function withData(array $data): self
+    public function withName(string $name): self
     {
-        $this->data = $data;
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function withLogoUrl(string $logoUrl): self
+    {
+        $this->logoUrl = $logoUrl;
+
+        return $this;
+    }
+
+    public function withSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function withLocalLogoUrl(string $localLogoUrl): self
+    {
+        $this->localLogoUrl = $localLogoUrl;
 
         return $this;
     }

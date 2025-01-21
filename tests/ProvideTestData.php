@@ -365,14 +365,20 @@ trait ProvideTestData
             ChallengeBuilder::fromDefaults()
                 ->withChallengeId(ChallengeId::fromUnprefixed('4022'))
                 ->withCreatedOn(SerializableDateTime::fromString('2023-10-13 18:38:34'))
-                ->withData(Json::decode('{"name":"Castelli Keep It Up","teaser":"Ride 250 minutes to earn 30% off plus a chance to win a winter kit\" class=\"Trophy_trophy__xNe_r\"><img src=\"https:\/\/dgalywyr863hv.cloudfront.net\/challenges\/4022\/4022-logo-100.png\" alt=\"Castelli Keep It Up","logo_url":"https:\/\/dgalywyr863hv.cloudfront.net\/challenges\/4022\/4022-logo-100.png","url":"castelli-keep-it-up-2023","challenge_id":"4022","createdOn":1697222314,"localLogo":"files\/challenges\/b7537b1e-69f7-11ee-a81e-0242a0cd5a47.png","_id":103}'))
+                ->withName('Castelli Keep It Up')
+                ->withSlug('castelli-keep-it-up-2023')
+                ->withLogoUrl('https://dgalywyr863hv.cloudfront.net/challenges/4022/4022-logo-100.png')
+                ->withLocalLogoUrl('files/challenges/b7537b1e-69f7-11ee-a81e-0242a0cd5a47.png')
                 ->build()
         );
         $challengeRepository->add(
             ChallengeBuilder::fromDefaults()
                 ->withChallengeId(ChallengeId::fromUnprefixed('3809'))
                 ->withCreatedOn(SerializableDateTime::fromString('2023-06-03 17:32:21'))
-                ->withData(Json::decode('{"name":"June Sweat With Pride Challenge","date":"Jun 2023","teaser":"Let\u2019s walk a mile in solidarity with the LGBTQ+ community this Pride Month.","logo_url":"https:\/\/dgalywyr863hv.cloudfront.net\/challenges\/3809\/3809-logo-100.png","url":"June-Sweat-With-Pride-Challenge-2023","challenge_id":3809,"athlete_id":62214940,"effort":null,"createdOn":1685813541,"localLogo":"files\/challenges\/98b92ae4-0234-11ee-ad06-000d3a360b3f.png","_id":20}'))
+                ->withName('June Sweat With Pride Challenge')
+                ->withSlug('June-Sweat-With-Pride-Challenge-2023')
+                ->withLogoUrl('https://dgalywyr863hv.cloudfront.net/challenges/3809/3809-logo-100.png')
+                ->withLocalLogoUrl('files/challenges/98b92ae4-0234-11ee-ad06-000d3a360b3f.png')
                 ->build()
         );
 
