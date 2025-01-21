@@ -125,7 +125,7 @@ class DbalActivityStreamRepositoryTest extends ContainerTestCase
         );
 
         $this->assertEquals(
-            ActivityStreams::fromArray([$streamTwo, $streamOne]),
+            ActivityStreams::fromArray([$streamOne, $streamTwo]),
             $this->activityStreamRepository->findByActivityId(
                 activityId: ActivityId::fromUnprefixed(1),
             )
