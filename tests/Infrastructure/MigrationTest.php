@@ -2,11 +2,7 @@
 
 namespace App\Tests\Infrastructure;
 
-use App\Infrastructure\ValueObject\String\KernelProjectDir;
 use App\Tests\ContainerTestCase;
-use Doctrine\Migrations\Configuration\EntityManager\ExistingEntityManager;
-use Doctrine\Migrations\Configuration\Migration\ConfigurationArray;
-use Doctrine\Migrations\DependencyFactory;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -43,17 +39,7 @@ class MigrationTest extends ContainerTestCase
 
     private function runMigrations(EntityManagerInterface $entityManager): void
     {
-        $kernelProjectDir = $this->getContainer()->get(KernelProjectDir::class);
-        $config = new ConfigurationArray([
-            'migrations_paths' => ['DoctrineMigrations' => $kernelProjectDir.'/migrations'],
-            'table_storage' => [
-                'table_name' => 'migration_versions',
-            ],
-            'transactional' => false,
-        ]);
-
-        $loader = new ExistingEntityManager($entityManager);
-        $dependencyFactory = DependencyFactory::fromEntityManager($config, $loader);
+        $dependencyFactory = $this->getContainer()->get('doctrine.migrations.dependency_factory');
 
         $version = $dependencyFactory->getVersionAliasResolver()->resolveVersionAlias('latest');
         $planCalculator = $dependencyFactory->getMigrationPlanCalculator();
