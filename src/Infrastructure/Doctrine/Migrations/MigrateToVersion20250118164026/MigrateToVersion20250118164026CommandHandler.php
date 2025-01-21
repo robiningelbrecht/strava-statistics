@@ -41,8 +41,10 @@ final readonly class MigrateToVersion20250118164026CommandHandler implements Com
 
             $rawData = Json::decode($result['data']);
             $location = Json::decode($result['location'] ?? '[]');
-            $gearId = GearId::fromString($result['gearId']);
-            $gear = $allGear->getByGearId(GearId::fromString($result['gearId']));
+            $gear = null;
+            if ($gearId = GearId::fromOptionalString($result['gearId'])) {
+                $gear = $allGear->getByGearId($gearId);
+            }
 
             $activity = Activity::createFromRawData(
                 rawData: $rawData,
