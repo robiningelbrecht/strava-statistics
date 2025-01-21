@@ -10,6 +10,8 @@ use App\Infrastructure\ValueObject\Measurement\Length\Mile;
 use App\Infrastructure\ValueObject\Measurement\Mass\Gram;
 use App\Infrastructure\ValueObject\Measurement\Mass\Kilogram;
 use App\Infrastructure\ValueObject\Measurement\Mass\Pound;
+use App\Infrastructure\ValueObject\Measurement\Temperature\Celsius;
+use App\Infrastructure\ValueObject\Measurement\Temperature\Fahrenheit;
 use App\Infrastructure\ValueObject\Measurement\Unit;
 use App\Infrastructure\ValueObject\Measurement\Velocity\KmPerHour;
 use App\Infrastructure\ValueObject\Measurement\Velocity\MilesPerHour;
@@ -45,6 +47,8 @@ class UnitTest extends TestCase
             [Gram::from(4535.9237), Pound::from(10)->toGram()],
             [MilesPerHour::from(6.21371), KmPerHour::from(10)->toMph()],
             [KmPerHour::from(16.0934), MilesPerHour::from(10)->toKmH()],
+            [Celsius::from(-12.22), Fahrenheit::from(10)->toMetric()],
+            [Fahrenheit::from(10), Celsius::from(-12.22)->toImperial()],
         ];
     }
 
@@ -79,6 +83,8 @@ class UnitTest extends TestCase
             [Pound::from(2000)],
             [KmPerHour::from(30)],
             [MilesPerHour::from(300)],
+            [Celsius::from(300)],
+            [Fahrenheit::from(300)],
         ];
     }
 }

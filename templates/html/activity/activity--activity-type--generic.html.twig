@@ -42,9 +42,9 @@
         {% set weather = activity.getWeather() %}
         {% if weather %}
             <div class="mb-4 text-xs font-normal text-gray-500">
-                {{ weather.getWeatherCodeDescription() }}, {{ weather.getTemperatureInCelsius() }} °C,
+                {{ weather.getWeatherCodeDescription() }}, {{ renderComponent('measurement', {'measurement': weather.getTemperatureInCelsius(), 'precision': 1}) }},
                 Humidity {{ weather.getRelativeHumidity() }}%,
-                Wind {{ weather.getWindSpeed() }}km/h from {{ weather.getWindDirection() }}.
+                Wind {{ renderComponent('measurement', {'measurement': weather.getWindSpeed(), 'precision': 1}) }} from {{ weather.getWindDirection() }}.
             </div>
         {% endif %}
         {% if activity.getLocalImagePaths() %}

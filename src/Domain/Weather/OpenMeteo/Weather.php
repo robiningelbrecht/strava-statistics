@@ -2,6 +2,8 @@
 
 namespace App\Domain\Weather\OpenMeteo;
 
+use App\Infrastructure\ValueObject\Measurement\Temperature\Celsius;
+use App\Infrastructure\ValueObject\Measurement\Velocity\KmPerHour;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
 final readonly class Weather implements \JsonSerializable
@@ -49,9 +51,9 @@ final readonly class Weather implements \JsonSerializable
         return new self($weather);
     }
 
-    public function getTemperatureInCelsius(): float
+    public function getTemperatureInCelsius(): Celsius
     {
-        return $this->data['temperature_2m'];
+        return Celsius::from($this->data['temperature_2m']);
     }
 
     public function getRelativeHumidity(): float
@@ -59,9 +61,9 @@ final readonly class Weather implements \JsonSerializable
         return $this->data['relativehumidity_2m'];
     }
 
-    public function getWindSpeed(): float
+    public function getWindSpeed(): KmPerHour
     {
-        return $this->data['windspeed_10m'];
+        return KmPerHour::from($this->data['windspeed_10m']);
     }
 
     public function getWindDirection(): string
