@@ -15,7 +15,7 @@ class MigrationTest extends ContainerTestCase
         $entityManager = self::getContainer()->get(EntityManagerInterface::class);
 
         $this->prepareDatabaseSchema($entityManager);
-        $this->runMigrations($entityManager);
+        $this->runMigrations();
 
         $schemaTool = new SchemaTool($entityManager);
         $statements = $schemaTool->getUpdateSchemaSql($entityManager->getMetadataFactory()->getAllMetadata());
@@ -37,7 +37,7 @@ class MigrationTest extends ContainerTestCase
         $this->getConnection()->executeQuery('DROP table IF EXISTS migration_versions');
     }
 
-    private function runMigrations(EntityManagerInterface $entityManager): void
+    private function runMigrations(): void
     {
         $dependencyFactory = $this->getContainer()->get('doctrine.migrations.dependency_factory');
 
