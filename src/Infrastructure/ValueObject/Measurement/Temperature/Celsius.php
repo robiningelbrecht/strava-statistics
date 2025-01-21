@@ -17,7 +17,8 @@ final readonly class Celsius implements Unit, Metric
         return '°C';
     }
 
-    public function toImperial(): Unit{
-        return Fahrenheit::from(round(($this->value * (9/5)) + 32, 2));
+    public function toImperial(): Unit
+    {
+        return Fahrenheit::from(round(($this->value * (9 / 5)) + 32, 2));
     }
 }
