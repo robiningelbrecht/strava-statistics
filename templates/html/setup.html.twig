@@ -4,18 +4,18 @@
 </head>
 <body class="bg-gray-50 h-screen flex justify-center items-center">
 <div>
-    <p class="text-2xl font-semibold pb-5">Looks like you still need to import your Strava data</p>
+    <p class="text-2xl font-semibold pb-5">{{ "Looks like you still need to import your Strava data"|trans }}</p>
 
     <dl class="text-gray-900 divide-y divide-gray-200">
         <div class="flex flex-col pb-3">
-            <dt class="mb-1 text-gray-500 md:text-lg">Import Strava data</dt>
+            <dt class="mb-1 text-gray-500 md:text-lg">{{ "Import Strava data"|trans }}</dt>
             <dd class="font-semibold"><code>docker compose exec app bin/console app:strava:import-data</code></dd>
         </div>
         <div class="flex flex-col py-3">
-            <dt class="mb-1 text-gray-500 md:text-lg">Build static HTML files</dt>
+            <dt class="mb-1 text-gray-500 md:text-lg">{{ "Build static HTML files"|trans }}</dt>
             <dd class="font-semibold"><code>docker compose exec app bin/console app:strava:build-files</code></dd>
             <dd class="mt-4 p-4 border border-yellow-800 text-sm text-yellow-800 rounded-lg bg-yellow-50">
-                <span class="font-medium">⚠️</span> You can only build these files if all your Strava data has been imported
+                <span class="font-medium">⚠️</span> {{ "You can only build these files if all your Strava data has been imported"|trans }}
             </dd>
         </div>
     </dl>
