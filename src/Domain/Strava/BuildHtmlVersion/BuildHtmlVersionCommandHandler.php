@@ -350,6 +350,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
         $this->filesystem->write(
             'build/html/eddington.html',
             $this->twig->load('html/eddington.html.twig')->render([
+                'activityTypes' => $importedActivityTypes,
                 'eddingtons' => $eddingtonPerActivityType,
                 'eddingtonCharts' => $eddingtonChartsPerActivityType,
                 'eddingtonHistoryCharts' => $eddingtonHistoryChartsPerActivityType,

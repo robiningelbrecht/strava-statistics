@@ -21,10 +21,10 @@
                 {% if eddingtons|length > 1 %}
                     <div class="mb-4 border-b border-gray-200">
                         <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="activityTypeTab" data-tabs-toggle="#activityTypeTabContent" role="tablist">
-                            {% for sportType,eddington in eddingtons %}
+                            {% for activityType in activityTypes %}
                                 <li class="mr-2" role="presentation">
-                                    <a href="#eddington" data-tabs-target="#{{ sportType }}" role="tab" aria-controls="{{ sportType }}" class="inline-flex items-center justify-center p-2 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 aria-selected:text-strava-orange aria-selected:border-strava-orange group">
-                                        {{ sportType }}s ({{ eddington.getNumber() }})
+                                    <a href="#eddington" data-tabs-target="#{{ activityType.value }}" role="tab" aria-controls="{{ activityType.value }}" class="inline-flex items-center justify-center p-2 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 aria-selected:text-strava-orange aria-selected:border-strava-orange group">
+                                        {{ activityType.getPluralLabel() }} ({{ eddingtons[activityType.value].getNumber() }})
                                     </a>
                                 </li>
                             {% endfor %}
@@ -32,13 +32,13 @@
                     </div>
                 {% endif %}
                 <div id="activityTypeTabContent">
-                    {% for sportType,eddington in eddingtons %}
-                        <div id="{{ sportType }}" role="tabpanel" aria-labelledby="{{ sportType }}-tab">
+                    {% for activityType,eddington in eddingtons %}
+                        <div id="{{ activityType }}" role="tabpanel" aria-labelledby="{{ activityType }}-tab">
                             <!-- EDDINGTON CHART -->
-                            <div class="h-64" data-echarts-options='{{ eddingtonCharts[sportType] }}'></div>
+                            <div class="h-64" data-echarts-options='{{ eddingtonCharts[activityType] }}'></div>
                             <!-- HISTORY -->
                             <h3 class="font-bold mt-6 mb-2">{{ "History"|trans }}</h3>
-                            <div class="h-64" data-echarts-options='{{ eddingtonHistoryCharts[sportType] }}'></div>
+                            <div class="h-64" data-echarts-options='{{ eddingtonHistoryCharts[activityType] }}'></div>
                             <!-- DAYS NEEDED -->
                             <h3 class="font-bold mt-6 mb-2">{{ "Days needed"|trans }}</h3>
                             <div class="relative overflow-x-auto">
