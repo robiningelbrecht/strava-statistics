@@ -41,12 +41,12 @@ final readonly class Month
 
     public function getLabel(): string
     {
-        return $this->firstDay->format('F Y');
+        return $this->firstDay->translatedFormat('F Y');
     }
 
     public function getShortLabel(): string
     {
-        return $this->firstDay->format('M Y');
+        return $this->firstDay->translatedFormat('M Y');
     }
 
     public function getId(): string
@@ -56,13 +56,13 @@ final readonly class Month
 
     public function getNumberOfDays(): int
     {
-        return (int) $this->firstDay->format('t');
+        return (int) $this->firstDay->translatedFormat('t');
     }
 
     public function getWeekDayOfFirstDay(): int
     {
         // Numeric representation of week day, 1 (for Monday) through 7 (for Sunday)
-        return (int) $this->firstDay->format('N');
+        return (int) $this->firstDay->translatedFormat('N');
     }
 
     public function getFirstMonday(): SerializableDateTime

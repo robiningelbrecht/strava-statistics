@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\ValueObject\Time;
 
+use Carbon\Carbon;
+
 class SerializableDateTime extends \DateTimeImmutable implements \JsonSerializable, \Stringable
 {
     public static function fromDateTimeImmutable(\DateTimeImmutable $date): self
@@ -54,6 +56,11 @@ class SerializableDateTime extends \DateTimeImmutable implements \JsonSerializab
     public function iso(): string
     {
         return $this->format('Y-m-d H:i:s');
+    }
+
+    public function translatedFormat(string $format): string
+    {
+        return new Carbon($this)->translatedFormat($format);
     }
 
     public function toUtc(): self

@@ -49,7 +49,7 @@ final readonly class ActivityHeatmapChartBuilder
             ],
             'title' => [
                 'left' => 'center',
-                'text' => sprintf('%s - %s', $this->fromDate->format('M Y'), $this->toDate->format('M Y')),
+                'text' => sprintf('%s - %s', $this->fromDate->translatedFormat('M Y'), $this->toDate->translatedFormat('M Y')),
             ],
             'tooltip' => [
                 'trigger' => 'item',

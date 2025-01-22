@@ -34,7 +34,7 @@ final readonly class Week
 
     public function getLabel(): string
     {
-        return $this->firstDay->format('M Y');
+        return $this->firstDay->translatedFormat('M Y');
     }
 
     public function getNextWeek(): Week

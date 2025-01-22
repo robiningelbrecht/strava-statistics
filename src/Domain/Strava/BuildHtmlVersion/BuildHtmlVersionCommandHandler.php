@@ -59,6 +59,7 @@ use App\Infrastructure\ValueObject\DataTableRow;
 use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use App\Infrastructure\ValueObject\Time\Years;
+use Carbon\Carbon;
 use League\Flysystem\FilesystemOperator;
 use Symfony\Component\Translation\LocaleSwitcher;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -99,6 +100,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
         assert($command instanceof BuildHtmlVersion);
 
         $this->localeSwitcher->setLocale($this->locale->value);
+        Carbon::setLocale($this->locale->value);
         $now = $this->clock->getCurrentDateTimeImmutable();
 
         $athlete = $this->athleteRepository->find();
@@ -333,7 +335,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
         $command->getOutput()->writeln('  => Building challenges.html');
         $challengesGroupedByMonth = [];
         foreach ($allChallenges as $challenge) {
-            $challengesGroupedByMonth[$challenge->getCreatedOn()->format('F Y')][] = $challenge;
+            $challengesGroupedByMonth[$challenge->getCreatedOn()->translatedFormat('F Y')][] = $challenge;
         }
         $this->filesystem->write(
             'build/html/challenges.html',
