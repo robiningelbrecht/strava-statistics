@@ -98,33 +98,53 @@
             </div>
             <!-- INTRO -->
             <div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-6">
+                {% set kbdTagOpen = '<kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg">' %}
+                {% set kdbTagClose = '</kbd>' %}
                 <p class="mb-3">
-                    Since I began working out
-                    <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg">{{ intro.getTotalDaysSinceFirstActivity() }}</kbd>
-                    ago on <span class="text-sm">{{ intro.getStartDate()|formatDate('normal') }}</span>, I had <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg">{{ intro.getTotalDaysOfWorkingOut() }} active days</kbd> of working out.
+                    {% set numberOfDaysAgo = kbdTagOpen ~ intro.getTotalDaysSinceFirstActivity() ~ kdbTagClose %}
+                    {% set startDate = '<span class="text-sm">' ~ intro.getStartDate()|formatDate('normal') ~ '</span>' %}
+                    {% set totalDaysOfWorkingOut = kbdTagOpen ~ intro.getTotalDaysOfWorkingOut() ~ kdbTagClose %}
+                    {% trans with {'{numberOfDaysAgo}': numberOfDaysAgo, '{startDate}': startDate, '{totalDaysOfWorkingOut}': totalDaysOfWorkingOut} %}
+                        Since I began working out {numberOfDaysAgo} on {startDate}, I had {totalDaysOfWorkingOut} active days of working out.
+                    {% endtrans %}
                 </p>
                 <p class="mb-3">
                     {% set convertedIntroDistance = intro.getDistance()|convertMeasurement %}
                     {% set convertedIntroElevation = intro.getElevation()|convertMeasurement %}
-                    I recorded a total distance of <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg">{{ convertedIntroDistance.toFloat()|formatNumber(0) }} {{ convertedIntroDistance.getSymbol() }}</kbd>
-                    (<kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg">{{ (intro.getDistance().toFloat() / 40075)|formatNumber(2) }}</kbd>
-                    trips around the world 🌍 and
-                    <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg">{{ (intro.getDistance().toFloat() / 384400)|formatNumber(3) }}</kbd>
-                    trips to the moon 🌕), an elevation of <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg">{{ convertedIntroElevation.toFloat()|formatNumber(0) }} {{ convertedIntroElevation.getSymbol() }}</kbd>
-                    (<kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg">{{ (intro.getElevation().toFloat() / 8849)|formatNumber(1) }}</kbd>
-                    times Mount Everest 🏔) and a total time of <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg">{{ intro.getMovingTimeFormatted() }}</kbd> 🎉.
+                    {% set totalDistance = kbdTagOpen ~ convertedIntroDistance.toFloat()|formatNumber(0) ~ ' ' ~ convertedIntroDistance.getSymbol() ~ kdbTagClose %}
+                    {% set numberOfTripsAroundTheWorld = kbdTagOpen ~ (intro.getDistance().toFloat() / 40075)|formatNumber(2) ~ kdbTagClose %}
+                    {% set numberOfTripsToTheMoon = kbdTagOpen ~ (intro.getDistance().toFloat() / 384400)|formatNumber(3) ~ kdbTagClose %}
+                    {% set totalElevation = kbdTagOpen ~ convertedIntroElevation.toFloat()|formatNumber(0) ~ ' ' ~ convertedIntroElevation.getSymbol() ~ kdbTagClose %}
+                    {% set timesMountEverest = kbdTagOpen ~ (intro.getElevation().toFloat() / 8849)|formatNumber(1) ~ kdbTagClose %}
+                    {% set totalTimeRecorded = kbdTagOpen ~ intro.getMovingTimeFormatted() ~ kdbTagClose  %}
+                    {% trans with {
+                        '{totalDistance}': totalDistance,
+                        '{numberOfTripsAroundTheWorld}': numberOfTripsAroundTheWorld,
+                        '{numberOfTripsToTheMoon}': numberOfTripsToTheMoon,
+                        '{totalElevation}': totalElevation,
+                        '{timesMountEverest}': timesMountEverest,
+                        '{totalTimeRecorded}': totalTimeRecorded
+                    } %}
+                        I recorded a total distance of {totalDistance} ({numberOfTripsAroundTheWorld} trips around the world 🌍 and {numberOfTripsToTheMoon} trips to the moon 🌕), an elevation of {totalElevation} ({timesMountEverest} times Mount Everest 🏔) and a total time of {totalTimeRecorded} 🎉.
+                    {% endtrans %}
                 </p>
                 <p>
                     {% set convertedDailyAverage = intro.getDailyAverage()|convertMeasurement %}
                     {% set convertedWeeklyAverage = intro.getWeeklyAverage()|convertMeasurement %}
                     {% set convertedMonthlyAverage = intro.getMonthlyAverage()|convertMeasurement %}
-                    That's a daily average of <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg">{{ convertedDailyAverage.toFloat()|formatNumber(0) }} {{ convertedDailyAverage.getSymbol() }}</kbd>,
-                    a weekly average of <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg">{{ convertedWeeklyAverage.toFloat()|formatNumber(0) }} {{ convertedWeeklyAverage.getSymbol() }}</kbd>
-                    and a monthly average of <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg">{{ convertedMonthlyAverage.toFloat()|formatNumber(0) }} {{ convertedMonthlyAverage.getSymbol() }}</kbd> 🐣.
+                    {% set dailyAverage = kbdTagOpen ~ convertedDailyAverage.toFloat()|formatNumber(0) ~ ' ' ~ convertedDailyAverage.getSymbol() ~ kdbTagClose %}
+                    {% set weeklyAverage = kbdTagOpen ~ convertedWeeklyAverage.toFloat()|formatNumber(0) ~ ' ' ~ convertedWeeklyAverage.getSymbol() ~ kdbTagClose %}
+                    {% set monthlyAverage = kbdTagOpen ~ convertedMonthlyAverage.toFloat()|formatNumber(0) ~ ' ' ~ convertedMonthlyAverage.getSymbol() ~ kdbTagClose %}
+                    {% trans with {'{dailyAverage}': dailyAverage, '{weeklyAverage}': weeklyAverage, '{monthlyAverage}': monthlyAverage} %}
+                        That's a daily average of {dailyAverage}, a weekly average of {weeklyAverage} and a monthly average of {monthlyAverage} 🐣.
+                    {% endtrans %}
                 </p>
                 <p>
-                    I burned <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg">{{ intro.getCalories()|formatNumber(0) }} calories</kbd>
-                    doing so, that's about <kbd class="px-1 text-xs font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg">{{ (intro.getCalories() / 270)|formatNumber(0) }}</kbd> pizza slices 🍕.
+                    {% set caloriesBurned = kbdTagOpen ~ intro.getCalories()|formatNumber(0) ~ kdbTagClose %}
+                    {% set numberOfPizzaSlices = kbdTagOpen ~ (intro.getCalories() / 270)|formatNumber(0) ~ kdbTagClose %}
+                    {% trans with {'{caloriesBurned}': caloriesBurned, '{numberOfPizzaSlices}': numberOfPizzaSlices} %}
+                        I burned {caloriesBurned} calories doing so, that's about {numberOfPizzaSlices} pizza slices 🍕.
+                    {% endtrans %}
                 </p>
             </div>
         </div>
