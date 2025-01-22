@@ -274,25 +274,22 @@
                 <div data-popover id="popover-description" role="tooltip" class="hidden lg:block lg:w-[450px] xl:w-[650px] absolute z-[100] invisible text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0">
                     <div class="p-3 space-y-2">
                         <p>
-                            This map shows the daily training intensity for the last year.
-                            The training intensity for an activity is calculated based on several metrics.
-                        </p>
+                            This map shows the daily training intensity for the last year. The training intensity for an activity is calculated based on several metrics.                        </p>
                         <h3 class="font-semibold text-gray-900">Simplified</h3>
                         <p>
                             This formula means that riding for an hour at your max heart rate results in a score of 100, which we consider "high intensity":
                         </p>
                         <blockquote class="p-4 my-4 text-xs border-l-4 border-gray-300 bg-gray-50 italic leading-relaxed text-gray-600">
                             <span class="font-bold">maxHeartRate </span>= (220 - age) x 0.92<br>
-                            <span class="font-bold">intensityFactory </span>= averageHeartRate / maxHeartRate<br>
+                            <span class="font-bold">intensityFactor </span>= averageHeartRate / maxHeartRate<br>
                             <span class="font-bold">intensity</span> = (durationInSeconds x averageHeartRate x intensityFactor) / (maxHeartRate x 3600) x 100
                         </blockquote>
                         <h3 class="font-semibold text-gray-900">Advanced</h3>
                         <p>
-                            When power metrics and FTP are available, these metrics are used instead.
-                            This formula means that riding for an hour at your FTP results in a score of 100, which we consider "high intensity":
+                            When power metrics and FTP are available, these metrics are used instead. This formula means that riding for an hour at your FTP results in a score of 100, which we consider "high intensity":
                         </p>
                         <blockquote class="p-4 my-4 text-xs border-l-4 border-gray-300 bg-gray-50 italic leading-relaxed text-gray-600">
-                            <span class="font-bold">intensityFactory </span>= (averagePower / FTP)<br>
+                            <span class="font-bold">intensityFactor </span>= (averagePower / FTP)<br>
                             <span class="font-bold">intensity</span> = (durationInSeconds x averagePower x intensityFactor) / (FTP x 3600) x 100
                         </blockquote>
                     </div>

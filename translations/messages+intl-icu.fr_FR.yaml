@@ -1,43 +1,77 @@
 Activities: Activities
+'Activity intensity': 'Activity intensity'
+Advanced: Advanced
 'All activities': 'All activities'
 Avg: Avg
 Best: Best
 Cadence: Cadence
 Calories: Calories
+'Challenge consistency': 'Challenge consistency'
 Challenges: Challenges
 'Close modal': 'Close modal'
 Dashboard: Dashboard
+'Daytime stats': 'Daytime stats'
 Device: Device
 Distance: Distance
+'Distance breakdown': 'Distance breakdown'
+'Earliest start time': 'Earliest start time'
 Eddington: Eddington
 Elevation: Elevation
+'FTP history': 'FTP history'
+'Fastest ride': 'Fastest ride'
 Favourite: Favourite
+'First workout': 'First workout'
 Gear: Gear
 'Gear stats': 'Gear stats'
 'Heart rate': 'Heart rate'
 'Heart rate distribution': 'Heart rate distribution'
+'Heart rate zones': 'Heart rate zones'
 Heatmap: Heatmap
+'Highest elevation': 'Highest elevation'
 KOM: KOM
+'Latest start time': 'Latest start time'
 'Loading data...': 'Loading data...'
 Loading...: Loading...
+'Longest ride': 'Longest ride'
 Max: Max
 'Monthly stats': 'Monthly stats'
+'Most consecutive days': 'Most consecutive days'
+'Most kudos': 'Most kudos'
+'Most recent activities': 'Most recent activities'
 'Moving time': 'Moving time'
 'Open user menu': 'Open user menu'
+'Peak power outputs': 'Peak power outputs'
 Photos: Photos
 Power: Power
 'Power distribution': 'Power distribution'
 'Powered by Strava': 'Powered by Strava'
+'Prev year': 'Prev year'
 'Reset filters and search': 'Reset filters and search'
 Search: Search
 'Search activity...': 'Search activity...'
 'Search segment...': 'Search segment...'
 Segments: Segments
+'Show information': 'Show information'
 Speed: Speed
+'Stats per weekday': 'Stats per weekday'
 'Strava Statistics': 'Strava Statistics'
+'This formula means that riding for an hour at your max heart rate results in a score of 100, which we consider "high intensity"': 'This formula means that riding for an hour at your max heart rate results in a score of 100, which we consider "high intensity"'
+'This map shows the daily training intensity for the last year. The training intensity for an activity is calculated based on several metrics.': 'This map shows the daily training intensity for the last year. The training intensity for an activity is calculated based on several metrics.'
 'Toggle sidebar': 'Toggle sidebar'
 'Top 10': 'Top 10'
+'Total kudos': 'Total kudos'
+Trivia: Trivia
 'Updated on': 'Updated on'
+'View all': 'View all'
+'Weekly distances': 'Weekly distances'
+'When power metrics and FTP are available, these metrics are used instead. This formula means that riding for an hour at your FTP results in a score of 100, which we consider "high intensity"': 'When power metrics and FTP are available, these metrics are used instead. This formula means that riding for an hour at your FTP results in a score of 100, which we consider "high intensity"'
+Year: Year
+'Yearly distances': 'Yearly distances'
+age: age
 bpm: bpm
+intensity: intensity
+intensityFactor: intensityFactor
 'max gradient': 'max gradient'
+maxHeartRate: maxHeartRate
 n/a: n/a
+workouts: workouts
