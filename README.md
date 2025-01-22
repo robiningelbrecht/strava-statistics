@@ -24,6 +24,7 @@
   <a href="#-prerequisites">Prerequisites</a> •
   <a href="#%EF%B8%8F-installation">Installation</a> •
   <a href="#%EF%B8%8Fimport-and-build-statistics">Import and build statistics</a> •
+  <a href="#%EF%B8%8F-locales-and-translations">Locales and translations</a> •
   <a href="#-periodic-imports">Periodic imports</a>
 </p>
 
@@ -181,7 +182,7 @@ docker compose exec app bin/console app:strava:build-files
 
 The wiki explains [how to schedule imports](https://github.com/robiningelbrecht/strava-statistics/wiki/Scheduling-automatic-imports)
 
-## 🗺️ New locales and translations
+## 🗺️ Locales and translations
 
 If you want to see a new locale added, please  [open a new issue](https://github.com/robiningelbrecht/strava-statistics/issues/new/choose). 
 Only do this if you are willing to help on the actual translation 🙃.
