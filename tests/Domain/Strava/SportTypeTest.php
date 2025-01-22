@@ -31,22 +31,4 @@ class SportTypeTest extends ContainerTestCase
         }
         $this->assertMatchesJsonSnapshot($snapshot);
     }
-
-    public function testGetSingularLabel(): void
-    {
-        $snapshot = [];
-        foreach (SportType::cases() as $sportType) {
-            $snapshot[] = $sportType->getSingularLabel();
-        }
-        $this->assertMatchesJsonSnapshot($snapshot);
-    }
-
-    public function testGetPluralLabel(): void
-    {
-        $snapshot = [];
-        foreach (SportType::cases() as $sportType) {
-            $snapshot[] = $sportType->getPluralLabel();
-        }
-        $this->assertMatchesJsonSnapshot($snapshot);
-    }
 }

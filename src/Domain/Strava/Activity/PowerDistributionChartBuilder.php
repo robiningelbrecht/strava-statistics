@@ -16,7 +16,7 @@ final readonly class PowerDistributionChartBuilder
     /**
      * @param array<int, int> $powerData
      */
-    public static function fromPowerData(
+    public static function create(
         array $powerData,
         int $averagePower,
     ): self {

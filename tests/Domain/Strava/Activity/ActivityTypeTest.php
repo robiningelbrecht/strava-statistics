@@ -18,22 +18,4 @@ class ActivityTypeTest extends TestCase
         }
         $this->assertMatchesJsonSnapshot($snapshot);
     }
-
-    public function testGetSingularLabel(): void
-    {
-        $snapshot = [];
-        foreach (ActivityType::cases() as $activityType) {
-            $snapshot[] = $activityType->getSingularLabel();
-        }
-        $this->assertMatchesJsonSnapshot($snapshot);
-    }
-
-    public function testGetPluralLabel(): void
-    {
-        $snapshot = [];
-        foreach (ActivityType::cases() as $activityType) {
-            $snapshot[] = $activityType->getPluralLabel();
-        }
-        $this->assertMatchesJsonSnapshot($snapshot);
-    }
 }

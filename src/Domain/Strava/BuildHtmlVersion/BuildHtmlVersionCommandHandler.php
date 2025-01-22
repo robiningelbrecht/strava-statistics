@@ -115,6 +115,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
 
         $command->getOutput()->writeln('  => Calculating Eddington');
         $eddingtonPerActivityType = [];
+        /** @var \App\Domain\Strava\Activity\ActivityType $activityType */
         foreach ($importedActivityTypes as $activityType) {
             if (!$activityType->supportsEddington()) {
                 continue;
@@ -519,7 +520,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                         )->build(),
                     ) : null,
                     'powerDistributionChart' => $powerData && $activity->getAveragePower() ? Json::encode(
-                        PowerDistributionChartBuilder::fromPowerData(
+                        PowerDistributionChartBuilder::create(
                             powerData: $powerData,
                             averagePower: $activity->getAveragePower(),
                         )->build(),

@@ -5,7 +5,7 @@
     {% endif %}
     <a href="#" data-model-content-url="activity/{{ activity.getId() }}.html" class="{{ classes|join(' ') }}" rel="nofollow">
         {% if not hideIcon %}
-            {% if activity.getSportType().isVirtualVirtualRide() %}
+            {% if activity.getSportType().isVirtualRide() %}
                 {% if activity.isZwiftRide() %}
                     {{ renderSvg('zwift-logo') }}
                 {% elseif activity.isRouvyRide() %}

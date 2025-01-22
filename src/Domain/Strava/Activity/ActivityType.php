@@ -2,7 +2,10 @@
 
 namespace App\Domain\Strava\Activity;
 
-enum ActivityType: string
+use Symfony\Contracts\Translation\TranslatableInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
+
+enum ActivityType: string implements TranslatableInterface
 {
     case RIDE = 'Ride';
     case RUN = 'Run';
@@ -13,21 +16,19 @@ enum ActivityType: string
 
     public function getTemplateName(): string
     {
-        return str_replace(' ', '-', strtolower($this->getSingularLabel()));
+        return str_replace(['_'], '-', strtolower($this->name));
     }
 
-    public function getSingularLabel(): string
+    public function trans(TranslatorInterface $translator, ?string $locale = null): string
     {
-        return ucwords(str_replace('_', ' ', strtolower($this->name)));
-    }
-
-    public function getPluralLabel(): string
-    {
-        if (in_array($this, [ActivityType::WATER_SPORTS, ActivityType::WINTER_SPORTS, ActivityType::OTHER])) {
-            return $this->getSingularLabel();
-        }
-
-        return $this->getSingularLabel().'s';
+        return match ($this) {
+            self::RIDE => $translator->trans('Rides', locale: $locale),
+            self::RUN => $translator->trans('Runs', locale: $locale),
+            self::WALK => $translator->trans('Walks', locale: $locale),
+            self::WATER_SPORTS => $translator->trans('Water Sports', locale: $locale),
+            self::WINTER_SPORTS => $translator->trans('Winter Sports', locale: $locale),
+            self::OTHER => $translator->trans('Other', locale: $locale),
+        };
     }
 
     public function supportsEddington(): bool
