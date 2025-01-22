@@ -15,6 +15,8 @@ Dashboard: Dashboard
 Device: Device
 Distance: Distance
 'Distance breakdown': 'Distance breakdown'
+'Distance over time per gear': 'Distance over time per gear'
+'Distance per month per gear': 'Distance per month per gear'
 'Earliest start time': 'Earliest start time'
 Eddington: Eddington
 Elevation: Elevation
@@ -25,6 +27,8 @@ Favourite: Favourite
 'For example, an Eddington number of 70 would imply that a cyclist has cycled at least 70 km or miles in a day on at least 70 occasions. Achieving a high Eddington number is difficult, since moving from, say, 70 to 75 will (probably) require more than five new long-distance workouts, since any workout shorter than 75 km or miles will no longer be included in the reckoning.': 'For example, an Eddington number of 70 would imply that a cyclist has cycled at least 70 km or miles in a day on at least 70 occasions. Achieving a high Eddington number is difficult, since moving from, say, 70 to 75 will (probably) require more than five new long-distance workouts, since any workout shorter than 75 km or miles will no longer be included in the reckoning.'
 Gear: Gear
 'Gear stats': 'Gear stats'
+'Gear that is retired is disabled by default.': 'Gear that is retired is disabled by default.'
+"Gear that that hasn't been used in the last three months, is disabled by default.": "Gear that that hasn't been used in the last three months, is disabled by default."
 'Heart rate': 'Heart rate'
 'Heart rate distribution': 'Heart rate distribution'
 'Heart rate zones': 'Heart rate zones'
@@ -59,6 +63,7 @@ Segments: Segments
 'Show information': 'Show information'
 'Since I began working out {numberOfDaysAgo} on {startDate}, I had {totalDaysOfWorkingOut} active days of working out.': 'Since I began working out {numberOfDaysAgo} on {startDate}, I had {totalDaysOfWorkingOut} active days of working out.'
 Speed: Speed
+'Stats per gear': 'Stats per gear'
 'Stats per weekday': 'Stats per weekday'
 'Strava Statistics': 'Strava Statistics'
 "That's a daily average of {dailyAverage}, a weekly average of {weeklyAverage} and a monthly average of {monthlyAverage} 🐣.": "That's a daily average of {dailyAverage}, a weekly average of {weeklyAverage} and a monthly average of {monthlyAverage} 🐣."
