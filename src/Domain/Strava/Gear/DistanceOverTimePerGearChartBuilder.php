@@ -9,6 +9,7 @@ use App\Domain\Strava\Activity\Activity;
 use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class DistanceOverTimePerGearChartBuilder
 {
@@ -16,20 +17,23 @@ final readonly class DistanceOverTimePerGearChartBuilder
         private Gears $gears,
         private Activities $activities,
         private UnitSystem $unitSystem,
+        private TranslatorInterface $translator,
         private SerializableDateTime $now,
     ) {
     }
 
-    public static function fromGearAndActivities(
+    public static function create(
         Gears $gearCollection,
         Activities $activityCollection,
         UnitSystem $unitSystem,
+        TranslatorInterface $translator,
         SerializableDateTime $now,
     ): self {
         return new self(
             gears: $gearCollection,
             activities: $activityCollection,
             unitSystem: $unitSystem,
+            translator: $translator,
             now: $now
         );
     }
@@ -115,7 +119,7 @@ final readonly class DistanceOverTimePerGearChartBuilder
             'yAxis' => [
                 [
                     'type' => 'value',
-                    'name' => 'Distance in '.Kilometer::zero()->toUnitSystem($this->unitSystem)->getSymbol(),
+                    'name' => $this->translator->trans('Distance in {unit}', ['{unit}' => Kilometer::zero()->toUnitSystem($this->unitSystem)->getSymbol()]),
                     'nameRotate' => 90,
                     'nameLocation' => 'middle',
                     'nameGap' => 50,

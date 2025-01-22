@@ -9,24 +9,28 @@ use App\Domain\Strava\Activity\Activity;
 use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class YearlyDistanceChartBuilder
 {
     private function __construct(
         private Activities $activities,
         private UnitSystem $unitSystem,
+        private TranslatorInterface $translator,
         private SerializableDateTime $now,
     ) {
     }
 
-    public static function fromActivities(
+    public static function create(
         Activities $activities,
         UnitSystem $unitSystem,
+        TranslatorInterface $translator,
         SerializableDateTime $now,
     ): self {
         return new self(
             activities: $activities,
             unitSystem: $unitSystem,
+            translator: $translator,
             now: $now
         );
     }
@@ -37,18 +41,18 @@ final readonly class YearlyDistanceChartBuilder
     public function build(): array
     {
         $months = [
-            '01' => 'Jan',
-            '02' => 'Feb',
-            '03' => 'Mar',
-            '04' => 'Apr',
-            '05' => 'May',
-            '06' => 'Jun',
-            '07' => 'Jul',
-            '08' => 'Aug',
-            '09' => 'Sep',
-            '10' => 'Oct',
-            '11' => 'Nov',
-            '12' => 'Dec',
+            '01' => $this->translator->trans('Jan'),
+            '02' => $this->translator->trans('Feb'),
+            '03' => $this->translator->trans('Mar'),
+            '04' => $this->translator->trans('Apr'),
+            '05' => $this->translator->trans('May'),
+            '06' => $this->translator->trans('Jun'),
+            '07' => $this->translator->trans('Jul'),
+            '08' => $this->translator->trans('Aug'),
+            '09' => $this->translator->trans('Sep'),
+            '10' => $this->translator->trans('Oct'),
+            '11' => $this->translator->trans('Nov'),
+            '12' => $this->translator->trans('Dec'),
         ];
 
         $xAxisLabels = [];
@@ -123,7 +127,7 @@ final readonly class YearlyDistanceChartBuilder
             'yAxis' => [
                 [
                     'type' => 'value',
-                    'name' => 'Distance in '.$unitSymbol,
+                    'name' => $this->translator->trans('Distance in {unit}', ['{unit}' => $unitSymbol]),
                     'nameRotate' => 90,
                     'nameLocation' => 'middle',
                     'nameGap' => 50,

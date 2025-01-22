@@ -7,12 +7,14 @@ use App\Domain\Strava\Calendar\Weeks;
 use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class WeeklyDistanceChartBuilder
 {
     private function __construct(
         private Activities $activities,
         private UnitSystem $unitSystem,
+        private TranslatorInterface $translator,
         private SerializableDateTime $now,
     ) {
     }
@@ -20,11 +22,13 @@ final readonly class WeeklyDistanceChartBuilder
     public static function create(
         Activities $activities,
         UnitSystem $unitSystem,
+        TranslatorInterface $translator,
         SerializableDateTime $now,
     ): self {
         return new self(
             activities: $activities,
             unitSystem: $unitSystem,
+            translator: $translator,
             now: $now
         );
     }
@@ -81,7 +85,7 @@ final readonly class WeeklyDistanceChartBuilder
         $series[] = array_merge_recursive(
             $serie,
             [
-                'name' => 'Distance / week',
+                'name' => $this->translator->trans('Distance / week'),
                 'data' => $data[0],
                 'yAxisIndex' => 0,
                 'label' => [
@@ -93,7 +97,7 @@ final readonly class WeeklyDistanceChartBuilder
         $series[] = array_merge_recursive(
             $serie,
             [
-                'name' => 'Time / week',
+                'name' => $this->translator->trans('Time / week'),
                 'data' => $data[1],
                 'yAxisIndex' => 1,
                 'label' => [

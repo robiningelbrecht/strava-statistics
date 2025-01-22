@@ -9,19 +9,23 @@ use App\Domain\Strava\Activity\Activity;
 use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Measurement\Length\Meter;
 use Carbon\CarbonInterval;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class WeekdayStats
 {
     private function __construct(
         private Activities $activities,
+        private TranslatorInterface $translator,
     ) {
     }
 
-    public static function fromActivities(
+    public static function create(
         Activities $activities,
+        TranslatorInterface $translator,
     ): self {
         return new self(
-            $activities,
+            activities: $activities,
+            translator: $translator
         );
     }
 
@@ -31,11 +35,19 @@ final readonly class WeekdayStats
     public function getData(): array
     {
         $statistics = [];
-        $daysOfTheWeekMap = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        $daysOfTheWeekMap = [
+            $this->translator->trans('Sunday'),
+            $this->translator->trans('Monday'),
+            $this->translator->trans('Tuesday'),
+            $this->translator->trans('Wednesday'),
+            $this->translator->trans('Thursday'),
+            $this->translator->trans('Friday'),
+            $this->translator->trans('Saturday'),
+        ];
         $totalMovingTime = $this->activities->sum(fn (Activity $activity) => $activity->getMovingTimeInSeconds());
 
         foreach ([1, 2, 3, 4, 5, 6, 0] as $weekDay) {
-            $statistics[$daysOfTheWeekMap[$weekDay]] = [
+            $statistics[(string) $daysOfTheWeekMap[$weekDay]] = [
                 'numberOfWorkouts' => 0,
                 'totalDistance' => 0,
                 'totalElevation' => 0,
@@ -47,7 +59,7 @@ final readonly class WeekdayStats
 
         /** @var Activity $activity */
         foreach ($this->activities as $activity) {
-            $weekDay = $daysOfTheWeekMap[$activity->getStartDate()->format('w')];
+            $weekDay = (string) $daysOfTheWeekMap[$activity->getStartDate()->format('w')];
 
             ++$statistics[$weekDay]['numberOfWorkouts'];
 

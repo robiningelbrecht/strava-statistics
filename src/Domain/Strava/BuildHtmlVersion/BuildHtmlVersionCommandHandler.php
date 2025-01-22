@@ -61,6 +61,7 @@ use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use App\Infrastructure\ValueObject\Time\Years;
 use League\Flysystem\FilesystemOperator;
 use Symfony\Component\Translation\LocaleSwitcher;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
 final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
@@ -86,6 +87,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
         private UnitSystem $unitSystem,
         private Environment $twig,
         private FilesystemOperator $filesystem,
+        private TranslatorInterface $translator,
         private LocaleSwitcher $localeSwitcher,
         private Locale $locale,
         private Clock $clock,
@@ -134,7 +136,10 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
         }
 
         $command->getOutput()->writeln('  => Calculating weekday stats');
-        $weekdayStats = WeekdayStats::fromActivities($allActivities);
+        $weekdayStats = WeekdayStats::create(
+            activities: $allActivities,
+            translator: $this->translator
+        );
 
         $command->getOutput()->writeln('  => Calculating daytime stats');
         $dayTimeStats = DaytimeStats::fromActivities($allActivities);
@@ -213,6 +218,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
             if ($activityType->supportsWeeklyDistanceStats() && $chartData = WeeklyDistanceChartBuilder::create(
                 activities: $activitiesPerActivityType[$activityType->value],
                 unitSystem: $this->unitSystem,
+                translator: $this->translator,
                 now: $now,
             )->build()) {
                 $weeklyDistanceCharts[$activityType->value] = Json::encode($chartData);
@@ -231,9 +237,10 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
 
             if ($activityType->supportsYearlyStats()) {
                 $yearlyDistanceCharts[$activityType->value] = Json::encode(
-                    YearlyDistanceChartBuilder::fromActivities(
+                    YearlyDistanceChartBuilder::create(
                         activities: $activitiesPerActivityType[$activityType->value],
                         unitSystem: $this->unitSystem,
+                        translator: $this->translator,
                         now: $now
                     )->build()
                 );
@@ -259,6 +266,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                     ActivityHeatmapChartBuilder::create(
                         activities: $allActivities,
                         activityIntensity: $this->activityIntensity,
+                        translator: $this->translator,
                         now: $now,
                     )->build()
                 ),
@@ -267,7 +275,10 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                 ),
                 'weekdayStats' => $weekdayStats,
                 'daytimeStatsChart' => Json::encode(
-                    DaytimeStatsChartsBuilder::fromDaytimeStats($dayTimeStats)->build(),
+                    DaytimeStatsChartsBuilder::create(
+                        daytimeStats: $dayTimeStats,
+                        translator: $this->translator,
+                    )->build(),
                 ),
                 'daytimeStats' => $dayTimeStats,
                 'distanceBreakdowns' => $distanceBreakdowns,
@@ -285,6 +296,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                         timeInSecondsInHeartRateZoneThree: $this->activityHeartRateRepository->findTotalTimeInSecondsInHeartRateZone(HeartRateZone::THREE),
                         timeInSecondsInHeartRateZoneFour: $this->activityHeartRateRepository->findTotalTimeInSecondsInHeartRateZone(HeartRateZone::FOUR),
                         timeInSecondsInHeartRateZoneFive: $this->activityHeartRateRepository->findTotalTimeInSecondsInHeartRateZone(HeartRateZone::FIVE),
+                        translator: $this->translator,
                     )->build(),
                 ),
                 'challengeConsistency' => ChallengeConsistency::create(
@@ -339,6 +351,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                 EddingtonChartBuilder::create(
                     eddington: $eddington,
                     unitSystem: $this->unitSystem,
+                    translator: $this->translator,
                 )->build()
             );
             $eddingtonHistoryChartsPerActivityType[$activityType] = Json::encode(
@@ -444,7 +457,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                     bikes: $allGear
                 ),
                 'distancePerMonthPerGearChart' => Json::encode(
-                    DistancePerMonthPerGearChartBuilder::fromGearAndActivities(
+                    DistancePerMonthPerGearChartBuilder::create(
                         gearCollection: $allGear,
                         activityCollection: $allActivities,
                         unitSystem: $this->unitSystem,
@@ -452,10 +465,11 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                     )->build()
                 ),
                 'distanceOverTimePerGear' => Json::encode(
-                    DistanceOverTimePerGearChartBuilder::fromGearAndActivities(
+                    DistanceOverTimePerGearChartBuilder::create(
                         gearCollection: $allGear,
                         activityCollection: $allActivities,
                         unitSystem: $this->unitSystem,
+                        translator: $this->translator,
                         now: $now,
                     )->build()
                 ),

@@ -20,7 +20,7 @@ final readonly class DistancePerMonthPerGearChartBuilder
     ) {
     }
 
-    public static function fromGearAndActivities(
+    public static function create(
         Gears $gearCollection,
         Activities $activityCollection,
         UnitSystem $unitSystem,

@@ -89,7 +89,6 @@ final readonly class HeartRateDistributionChartBuilder
                 'axisLabel' => [
                     'interval' => 2,
                     'showMinLabel' => true,
-                    // 'showMaxLabel' => true,
                 ],
             ],
             'yAxis' => [

@@ -4,22 +4,26 @@ namespace App\Domain\Strava\Activity\Eddington;
 
 use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Measurement\UnitSystem;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class EddingtonChartBuilder
 {
     private function __construct(
         private Eddington $eddington,
         private UnitSystem $unitSystem,
+        private TranslatorInterface $translator,
     ) {
     }
 
     public static function create(
         Eddington $eddington,
         UnitSystem $unitSystem,
+        TranslatorInterface $translator,
     ): self {
         return new self(
             eddington: $eddington,
-            unitSystem: $unitSystem
+            unitSystem: $unitSystem,
+            translator: $translator
         );
     }
 
@@ -89,7 +93,7 @@ final readonly class EddingtonChartBuilder
             ],
             'series' => [
                 [
-                    'name' => 'Times completed',
+                    'name' => $this->translator->trans('Times completed'),
                     'yAxisIndex' => 0,
                     'type' => 'bar',
                     'label' => [
@@ -121,7 +125,7 @@ final readonly class EddingtonChartBuilder
                     'data' => array_values($timesCompletedDataForChart),
                 ],
                 [
-                    'name' => 'Eddington',
+                    'name' => $this->translator->trans('Eddington'),
                     'yAxisIndex' => 1,
                     'zlevel' => 1,
                     'type' => 'line',

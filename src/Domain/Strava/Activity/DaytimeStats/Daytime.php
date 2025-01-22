@@ -5,13 +5,25 @@ declare(strict_types=1);
 namespace App\Domain\Strava\Activity\DaytimeStats;
 
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
+use Symfony\Contracts\Translation\TranslatableInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-enum Daytime: string
+enum Daytime: string implements TranslatableInterface
 {
     case MORNING = 'Morning';
     case AFTERNOON = 'Afternoon';
     case EVENING = 'Evening';
     case NIGHT = 'Night';
+
+    public function trans(TranslatorInterface $translator, ?string $locale = null): string
+    {
+        return match ($this) {
+            self::MORNING => $translator->trans('Morning', locale: $locale),
+            self::AFTERNOON => $translator->trans('Afternoon', locale: $locale),
+            self::EVENING => $translator->trans('Evening', locale: $locale),
+            self::NIGHT => $translator->trans('Night', locale: $locale),
+        };
+    }
 
     public static function fromSerializableDateTime(SerializableDateTime $dateTime): self
     {

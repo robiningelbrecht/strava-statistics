@@ -3,6 +3,7 @@
 namespace App\Domain\Strava\Activity;
 
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class ActivityHeatmapChartBuilder
 {
@@ -12,6 +13,7 @@ final readonly class ActivityHeatmapChartBuilder
     private function __construct(
         private Activities $activities,
         private ActivityIntensity $activityIntensity,
+        private TranslatorInterface $translator,
         private SerializableDateTime $now,
     ) {
         $fromDate = SerializableDateTime::fromString($this->now->modify('-11 months')->format('Y-m-01'));
@@ -23,11 +25,13 @@ final readonly class ActivityHeatmapChartBuilder
     public static function create(
         Activities $activities,
         ActivityIntensity $activityIntensity,
+        TranslatorInterface $translator,
         SerializableDateTime $now,
     ): self {
         return new self(
             activities: $activities,
             activityIntensity: $activityIntensity,
+            translator: $translator,
             now: $now,
         );
     }
@@ -61,30 +65,30 @@ final readonly class ActivityHeatmapChartBuilder
                         'min' => 0,
                         'max' => 0,
                         'color' => '#cdd9e5',
-                        'label' => 'No activities',
+                        'label' => $this->translator->trans('No activities'),
                     ],
                     [
                         'min' => 0.01,
                         'max' => 33,
                         'color' => '#68B34B',
-                        'label' => 'Low (0 - 33)',
+                        'label' => $this->translator->trans('Low').' (0 - 33)',
                     ],
                     [
                         'min' => 33.01,
                         'max' => 66,
                         'color' => '#FAB735',
-                        'label' => 'Medium (34 - 66)',
+                        'label' => $this->translator->trans('Medium').' (34 - 66)',
                     ],
                     [
                         'min' => 66.01,
                         'max' => 100,
                         'color' => '#FF8E14',
-                        'label' => 'High (67 - 100)',
+                        'label' => $this->translator->trans('High').' (67 - 100)',
                     ],
                     [
                         'min' => 100.01,
                         'color' => '#FF0C0C',
-                        'label' => 'Very high (> 100)',
+                        'label' => $this->translator->trans('Very high').' (> 100)',
                     ],
                 ],
             ],
@@ -110,13 +114,13 @@ final readonly class ActivityHeatmapChartBuilder
                     'align' => 'right',
                     'fontSize' => 10,
                     'nameMap' => [
-                        'Sun',
-                        'Mon',
-                        'Tue',
-                        'Wed',
-                        'Thu',
-                        'Fri',
-                        'Sat',
+                        $this->translator->trans('Sun'),
+                        $this->translator->trans('Mon'),
+                        $this->translator->trans('Tue'),
+                        $this->translator->trans('Wed'),
+                        $this->translator->trans('Thu'),
+                        $this->translator->trans('Fri'),
+                        $this->translator->trans('Sat'),
                     ],
                 ],
             ],

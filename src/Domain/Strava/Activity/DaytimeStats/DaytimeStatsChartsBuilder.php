@@ -2,17 +2,24 @@
 
 namespace App\Domain\Strava\Activity\DaytimeStats;
 
-final class DaytimeStatsChartsBuilder
+use Symfony\Contracts\Translation\TranslatorInterface;
+
+final readonly class DaytimeStatsChartsBuilder
 {
     private function __construct(
-        private readonly DaytimeStats $daytimeStats,
+        private DaytimeStats $daytimeStats,
+        private TranslatorInterface $translator,
     ) {
     }
 
-    public static function fromDaytimeStats(
+    public static function create(
         DaytimeStats $daytimeStats,
+        TranslatorInterface $translator,
     ): self {
-        return new self($daytimeStats);
+        return new self(
+            $daytimeStats,
+            $translator
+        );
     }
 
     /**
@@ -70,7 +77,7 @@ final class DaytimeStatsChartsBuilder
         foreach ($this->daytimeStats->getData() as $statistic) {
             $data[] = [
                 'value' => $statistic['percentage'],
-                'name' => $statistic['daytime']->getEmoji().' '.$statistic['daytime']->value,
+                'name' => $statistic['daytime']->getEmoji().' '.$this->translator->trans($statistic['daytime']->value),
             ];
         }
 

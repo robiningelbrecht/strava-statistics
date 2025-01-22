@@ -1,8 +1,11 @@
 Activities: Activities
 'Activity intensity': 'Activity intensity'
 Advanced: Advanced
+Afternoon: Afternoon
 'All activities': 'All activities'
 'Alpine Ski': 'Alpine Ski'
+Apr: Apr
+Aug: Aug
 Avg: Avg
 'Back Country Ski': 'Back Country Ski'
 Badminton: Badminton
@@ -19,9 +22,12 @@ Crossfit: Crossfit
 Dashboard: Dashboard
 'Days needed': 'Days needed'
 'Daytime stats': 'Daytime stats'
+Dec: Dec
 Device: Device
 Distance: Distance
+'Distance / week': 'Distance / week'
 'Distance breakdown': 'Distance breakdown'
+'Distance in {unit}': 'Distance in {unit}'
 'Distance over time per gear': 'Distance over time per gear'
 'Distance per month per gear': 'Distance per month per gear'
 'E-Bike Rides': 'E-Bike Rides'
@@ -30,12 +36,15 @@ Distance: Distance
 Eddington: Eddington
 Elevation: Elevation
 Elliptical: Elliptical
+Evening: Evening
 'FTP history': 'FTP history'
 'Fastest ride': 'Fastest ride'
 Favourite: Favourite
+Feb: Feb
 'First workout': 'First workout'
 'For example, an Eddington number of 70 would imply that a cyclist has cycled at least 70 km or miles in a day on at least 70 occasions. Achieving a high Eddington number is difficult, since moving from, say, 70 to 75 will (probably) require more than five new long-distance workouts, since any workout shorter than 75 km or miles will no longer be included in the reckoning.': 'For example, an Eddington number of 70 would imply that a cyclist has cycled at least 70 km or miles in a day on at least 70 occasions. Achieving a high Eddington number is difficult, since moving from, say, 70 to 75 will (probably) require more than five new long-distance workouts, since any workout shorter than 75 km or miles will no longer be included in the reckoning.'
 Fri: Fri
+Friday: Friday
 Gear: Gear
 'Gear stats': 'Gear stats'
 'Gear that is retired is disabled by default.': 'Gear that is retired is disabled by default.'
@@ -48,6 +57,7 @@ HIIT: HIIT
 'Heart rate distribution': 'Heart rate distribution'
 'Heart rate zones': 'Heart rate zones'
 Heatmap: Heatmap
+High: High
 'Highest elevation': 'Highest elevation'
 Hikes: Hikes
 History: History
@@ -56,6 +66,9 @@ History: History
 'Ice Skate': 'Ice Skate'
 'Import Strava data': 'Import Strava data'
 'Inline Skate': 'Inline Skate'
+Jan: Jan
+Jul: Jul
+Jun: Jun
 KOM: KOM
 Kayaking: Kayaking
 'Kite Surf': 'Kite Surf'
@@ -64,15 +77,25 @@ Kayaking: Kayaking
 Loading...: Loading...
 'Longest ride': 'Longest ride'
 'Looks like you still need to import your Strava data': 'Looks like you still need to import your Strava data'
+Low: Low
+Mar: Mar
 Max: Max
+May: May
+Medium: Medium
 Mon: Mon
+Monday: Monday
 'Monthly stats': 'Monthly stats'
+Morning: Morning
 'Most consecutive days': 'Most consecutive days'
 'Most kudos': 'Most kudos'
 'Most recent activities': 'Most recent activities'
 'Mountain Bike Rides': 'Mountain Bike Rides'
 'Moving time': 'Moving time'
+Night: Night
+'No activities': 'No activities'
 'Nordic Ski': 'Nordic Ski'
+Nov: Nov
+Oct: Oct
 'Open user menu': 'Open user menu'
 Other: Other
 'Peak power outputs': 'Peak power outputs'
@@ -92,10 +115,12 @@ Rowing: Rowing
 Runs: Runs
 Sail: Sail
 Sat: Sat
+Saturday: Saturday
 Search: Search
 'Search activity...': 'Search activity...'
 'Search segment...': 'Search segment...'
 Segments: Segments
+Sep: Sep
 'Show information': 'Show information'
 'Since I began working out {numberOfDaysAgo} on {startDate}, I had {totalDaysOfWorkingOut} active days of working out.': 'Since I began working out {numberOfDaysAgo} on {startDate}, I had {totalDaysOfWorkingOut} active days of working out.'
 Skateboard: Skateboard
@@ -110,6 +135,7 @@ Squash: Squash
 'Stats per weekday': 'Stats per weekday'
 'Strava Statistics': 'Strava Statistics'
 Sun: Sun
+Sunday: Sunday
 Surfing: Surfing
 Swim: Swim
 TOTAL: TOTAL
@@ -120,13 +146,19 @@ Tennis: Tennis
 'This formula means that riding for an hour at your max heart rate results in a score of 100, which we consider "high intensity"': 'This formula means that riding for an hour at your max heart rate results in a score of 100, which we consider "high intensity"'
 'This map shows the daily training intensity for the last year. The training intensity for an activity is calculated based on several metrics.': 'This map shows the daily training intensity for the last year. The training intensity for an activity is calculated based on several metrics.'
 Thu: Thu
+Thursday: Thursday
+'Time / week': 'Time / week'
+'Times completed': 'Times completed'
 'Toggle sidebar': 'Toggle sidebar'
 'Top 10': 'Top 10'
 'Total kudos': 'Total kudos'
 'Trail Runs': 'Trail Runs'
 Trivia: Trivia
+Tue: Tue
+Tuesday: Tuesday
 'Updated on': 'Updated on'
 'Velo Mobiles': 'Velo Mobiles'
+'Very high': 'Very high'
 'View all': 'View all'
 'Virtual Rides': 'Virtual Rides'
 'Virtual Row': 'Virtual Row'
@@ -134,6 +166,7 @@ Trivia: Trivia
 Walks: Walks
 'Water Sports': 'Water Sports'
 Wed: Wed
+Wednesday: Wednesday
 'Weekly distances': 'Weekly distances'
 'Weight Training': 'Weight Training'
 Wheelchair: Wheelchair
@@ -145,6 +178,11 @@ Year: Year
 'Yearly distances': 'Yearly distances'
 Yoga: Yoga
 'You can only build these files if all your Strava data has been imported': 'You can only build these files if all your Strava data has been imported'
+'Zone 1 (recovery)': 'Zone 1 (recovery)'
+'Zone 2 (aerobic)': 'Zone 2 (aerobic)'
+'Zone 3 (aerobic/anaerobic)': 'Zone 3 (aerobic/anaerobic)'
+'Zone 4 (anaerobic)': 'Zone 4 (anaerobic)'
+'Zone 5 (maximal)': 'Zone 5 (maximal)'
 age: age
 bpm: bpm
 intensity: intensity
