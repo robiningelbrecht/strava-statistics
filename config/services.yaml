@@ -11,6 +11,7 @@ parameters:
     env(NTFY_URL): ''
     env(TIME_FORMAT): 24
     env(DATE_FORMAT): 'DAY-MONTH-YEAR'
+    env(LOCALE): 'en_US'
 
 services:
     # default configuration for services in *this* file
@@ -73,6 +74,10 @@ services:
     App\Infrastructure\ValueObject\Measurement\UnitSystem:
         factory: [ 'App\Infrastructure\ValueObject\Measurement\UnitSystem', from ]
         arguments: [ '%env(string:UNIT_SYSTEM)%' ]
+
+    App\Infrastructure\Localisation\Locale:
+        factory: [ App\Infrastructure\Localisation\Locale, 'from' ]
+        arguments: ['%env(string:LOCALE)%']
 
     League\Flysystem\FilesystemOperator: '@default.storage'
 

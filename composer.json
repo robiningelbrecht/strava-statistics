@@ -44,6 +44,7 @@
         "symfony/process": "7.2.*",
         "symfony/rate-limiter": "7.2.*",
         "symfony/runtime": "7.2.*",
+        "symfony/translation": "7.2.*",
         "symfony/twig-bundle": "7.2.*",
         "symfony/yaml": "7.2.*",
         "twig/twig": "*"

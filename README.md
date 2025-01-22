@@ -118,6 +118,8 @@ STRAVA_REFRESH_TOKEN=YOUR_REFRESH_TOKEN
 # take up to 3 API calls, 250 should be a safe number.
 NUMBER_OF_NEW_ACTIVITIES_TO_PROCESS_PER_IMPORT=250
 
+# Allowed options: en_US or fr_FR
+LOCALE=en_US
 # Allowed options: metric or imperial
 UNIT_SYSTEM=metric
 # Time format to use when rendering the app
@@ -148,7 +150,7 @@ FTP_VALUES='{
 # Leave empty to disable notifications.
 NTFY_URL=''
 # An array of activity ids to skip during import. 
-# This allows you to not import specific activities.
+# This allows you to skip specific activities during import.
 # ACTIVITIES_TO_SKIP_DURING_IMPORT='["123456", "654321"]'
 ```
 
@@ -179,6 +181,12 @@ docker compose exec app bin/console app:strava:build-files
 
 The wiki explains [how to schedule imports](https://github.com/robiningelbrecht/strava-statistics/wiki/Scheduling-automatic-imports)
 
+## 🗺️ New locales and translations
+
+If you want to see a new locale added, please  [open a new issue](https://github.com/robiningelbrecht/strava-statistics/issues/new/choose). 
+Only do this if you are willing to help on the actual translation 🙃.
+
 ## 💡 Feature request?
 
-For any feedback, help or feature requests, please [open a new issue](https://github.com/robiningelbrecht/strava-statistics/issues/new/choose). Before you do, please read [the wiki](https://github.com/robiningelbrecht/strava-statistics/wiki). The question you have might be answered over there.
+For any feedback, help or feature requests, please [open a new issue](https://github.com/robiningelbrecht/strava-statistics/issues/new/choose). 
+Before you do, please read [the wiki](https://github.com/robiningelbrecht/strava-statistics/wiki). The question you have might be answered over there.
