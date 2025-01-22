@@ -718,7 +718,7 @@
                         {% for challenge, achievements in challengeConsistency.getConsistencies() %}
                             <tr class="bg-white border-b">
                                 <th scope="row" class="px-2 py-2 sticky left-0 text-left bg-white border font-medium text-gray-900 whitespace-nowrap">
-                                    {{ challenge }}
+                                    {{ enum('App\\Domain\\Strava\\Challenge\\Consistency\\ConsistencyChallenge').from(challenge)|trans }}
                                 </th>
                                 {% for achieved in achievements %}
                                     <td class="px-3 py-2 border">

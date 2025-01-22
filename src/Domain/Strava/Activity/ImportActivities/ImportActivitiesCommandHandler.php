@@ -106,8 +106,8 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                 }
 
                 $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
-                    $activity,
-                    [
+                    activity: $activity,
+                    rawData: [
                         ...$activityWithRawData->getRawData(),
                         ...$stravaActivity,
                     ]
