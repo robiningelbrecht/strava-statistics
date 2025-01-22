@@ -11,11 +11,13 @@ Device: Device
 Distance: Distance
 Eddington: Eddington
 Elevation: Elevation
+Favourite: Favourite
 Gear: Gear
 'Gear stats': 'Gear stats'
 'Heart rate': 'Heart rate'
 'Heart rate distribution': 'Heart rate distribution'
 Heatmap: Heatmap
+KOM: KOM
 'Loading data...': 'Loading data...'
 Loading...: Loading...
 Max: Max
@@ -27,10 +29,15 @@ Power: Power
 'Power distribution': 'Power distribution'
 'Powered by Strava': 'Powered by Strava'
 'Reset filters and search': 'Reset filters and search'
+Search: Search
+'Search activity...': 'Search activity...'
+'Search segment...': 'Search segment...'
 Segments: Segments
 Speed: Speed
 'Strava Statistics': 'Strava Statistics'
 'Toggle sidebar': 'Toggle sidebar'
+'Top 10': 'Top 10'
 'Updated on': 'Updated on'
 bpm: bpm
+'max gradient': 'max gradient'
 n/a: n/a
