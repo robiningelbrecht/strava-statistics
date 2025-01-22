@@ -29,14 +29,14 @@ class TranslationsTest extends ContainerTestCase
         foreach (Locale::cases() as $locale) {
             $translationFilePath = sprintf('%s/translations/messages%s.%s.yaml', $this->kernelProjectDir, MessageCatalogue::INTL_DOMAIN_SUFFIX, $locale->value);
             if (!file_exists($translationFilePath)) {
-                $this->fail(sprintf('Not all translations for locale %s have been exported. Please run make console arg="translation:extract --force --prefix="" %s --format=yaml --sort=ASC"', $locale->value, $locale->value));
+                $this->fail(sprintf('Not all translations for locale %s have been exported. Please run "extract-translations"', $locale->value));
             }
 
             $parsedTranslations = Yaml::parse(file_get_contents($translationFilePath));
             $this->assertEqualsCanonicalizing(
                 $translatableKeys,
                 array_keys($parsedTranslations),
-                sprintf('Not all translations for locale %s have been exported. Please run make console arg="translation:extract --force --prefix="" %s --format=yaml --sort=ASC"', $locale->value, $locale->value)
+                sprintf('Not all translations for locale %s have been exported. Please run "extract-translations"', $locale->value)
             );
         }
 

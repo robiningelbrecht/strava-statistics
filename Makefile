@@ -12,9 +12,6 @@ stop:
 up:
 	@make dc cmd="up -d"
 
-build-flowbite:
-	npm run flowbite:build
-
 build-containers:
 	@make dc cmd="up -d --build"
 
@@ -30,6 +27,10 @@ migrate-diff:
 migrate-run:
 	@make console arg="doctrine:migrations:migrate"
 
+extract-translations:
+	@make console arg="translation:extract --force --prefix="" en_US --format=yaml --sort=ASC"
+	@make console arg="translation:extract --force --prefix="" fr_FR --format=yaml --sort=ASC"
+
 composer:
 	@make dcr cmd="composer $(arg)"
 
@@ -42,6 +43,9 @@ phpstan:
 
 csfix:
 	@make dcr cmd="vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php"
+
+delete-snapshots:
+	find . -name __snapshots__ -type d -prune -exec rm -rf {} \;
 
 # Helpers to manage app imports.
 app-import-data:

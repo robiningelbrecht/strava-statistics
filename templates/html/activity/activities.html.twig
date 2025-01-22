@@ -10,7 +10,7 @@
                       clip-rule="evenodd"></path>
             </svg>
             <a href="#" data-router-navigate="activities"
-               class="ml-1 text-gray-700 hover:text-primary-600 md:ml-2">Activities</a>
+               class="ml-1 text-gray-700 hover:text-primary-600 md:ml-2">{{ "Activities"|trans }}</a>
         </div>
     </li>
 {% endblock %}
@@ -53,11 +53,11 @@
                                 </li>
                             {% endfor %}
                             <li class="w-5 h-5" data-dataTable-reset>
-                                <button type="button" title="Reset filters and search">
+                                <button type="button" title="{{ "Reset filters and search"|trans }}">
                                     <svg class="w-5 h-5 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.651 7.65a7.131 7.131 0 0 0-12.68 3.15M18.001 4v4h-4m-7.652 8.35a7.13 7.13 0 0 0 12.68-3.15M6 20v-4h4"/>
                                     </svg>
-                                    <span class="sr-only">Reset filters and search</span>
+                                    <span class="sr-only">{{ "Reset filters and search"|trans }}</span>
                                 </button>
                             </li>
                         </ul>
@@ -118,34 +118,34 @@
                                     </div>
                                 </th>
                                 <th scope="col" colspan="2" class="px-6 py-3">
-                                    Best 5s
+                                    {{ "Best"|trans }} 5s
                                 </th>
                                 <th scope="col" colspan="2" class="px-6 py-3">
-                                    Best 10s
+                                    {{ "Best"|trans }} 10s
                                 </th>
                                 <th scope="col" colspan="2" class="px-6 py-3">
-                                    Best 30s
+                                    {{ "Best"|trans }} 30s
                                 </th>
                                 <th scope="col" colspan="2" class="px-6 py-3">
-                                    Best 1m
+                                    {{ "Best"|trans }} 1m
                                 </th>
                                 <th scope="col" colspan="2" class="px-6 py-3">
-                                    Best 5m
+                                    {{ "Best"|trans }} 5m
                                 </th>
                                 <th scope="col" colspan="2" class="px-6 py-3">
-                                    Best 8m
+                                    {{ "Best"|trans }} 8m
                                 </th>
                                 <th scope="col" colspan="2" class="px-6 py-3">
-                                    Best 20m
+                                    {{ "Best"|trans }} 20m
                                 </th>
                                 <th scope="col" colspan="2" class="px-6 py-3">
-                                    Best 1h
+                                    {{ "Best"|trans }} 1h
                                 </th>
                             </tr>
                             </thead>
                             <tbody class="clusterize-content">
                             <tr class="clusterize-loading">
-                                <td class="px-6 py-2 truncate">Loading data...</td>
+                                <td class="px-6 py-2 truncate">{{ "Loading data..."|trans }}</td>
                             </tr>
                             </tbody>
                         </table>
