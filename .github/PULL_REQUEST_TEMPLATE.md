@@ -3,7 +3,8 @@
 - [ ] Refactor
 - [ ] Feature
 - [ ] Bug Fix
-- [ ] Optimization
+- [ ] Improvement
+- [ ] Translations
 - [ ] Documentation Update
 
 ## Description
