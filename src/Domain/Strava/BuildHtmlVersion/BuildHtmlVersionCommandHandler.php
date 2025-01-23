@@ -51,7 +51,7 @@ use App\Domain\Strava\Trivia;
 use App\Infrastructure\CQRS\Bus\Command;
 use App\Infrastructure\CQRS\Bus\CommandHandler;
 use App\Infrastructure\Exception\EntityNotFound;
-use App\Infrastructure\Localisation\Locale;
+use App\Infrastructure\Localisation\LocaleSwitcher;
 use App\Infrastructure\Repository\Pagination;
 use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\Time\Clock\Clock;
@@ -59,9 +59,7 @@ use App\Infrastructure\ValueObject\DataTableRow;
 use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use App\Infrastructure\ValueObject\Time\Years;
-use Carbon\Carbon;
 use League\Flysystem\FilesystemOperator;
-use Symfony\Component\Translation\LocaleSwitcher;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
@@ -90,7 +88,6 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
         private FilesystemOperator $filesystem,
         private TranslatorInterface $translator,
         private LocaleSwitcher $localeSwitcher,
-        private Locale $locale,
         private Clock $clock,
     ) {
     }
@@ -99,8 +96,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
     {
         assert($command instanceof BuildHtmlVersion);
 
-        $this->localeSwitcher->setLocale($this->locale->value);
-        Carbon::setLocale($this->locale->value);
+        $this->localeSwitcher->setLocale();
         $now = $this->clock->getCurrentDateTimeImmutable();
 
         $athlete = $this->athleteRepository->find();

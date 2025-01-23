@@ -29,6 +29,7 @@ migrate-run:
 
 translation-extract:
 	@make console arg="translation:extract --force --prefix="" en_US --format=yaml --sort=ASC"
+	@make console arg="translation:extract --force --prefix="" nl_BE --format=yaml --sort=ASC"
 	@make console arg="translation:extract --force --prefix="" fr_FR --format=yaml --sort=ASC"
 
 translation-debug:
