@@ -376,7 +376,7 @@
                         {% for statistic in daytimeStats.getData() %}
                             <tr class="bg-white border-b">
                                 <th scope="row" class="px-2 py-2 sticky left-0 bg-white font-medium text-gray-900 whitespace-nowrap">
-                                    <div>{{ statistic.daytime.value }}</div>
+                                    <div>{{ statistic.daytime|trans}}</div>
                                     <div class="font-normal text-xs">{{ statistic.daytime.getHours()[0] }}h - {{ statistic.daytime.getHours()[1] }}h</div>
                                 </th>
                                 <td class="px-6 py-2">
