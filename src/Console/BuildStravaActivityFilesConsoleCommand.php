@@ -30,12 +30,12 @@ final class BuildStravaActivityFilesConsoleCommand extends Command
         if (!$this->migrationRunner->isAtLatestVersion()) {
             $output->writeln('<error>Your database is not up to date with the migration schema. Run the import command before building the HTML files</error>');
 
-            return Command::SUCCESS;
+            return Command::FAILURE;
         }
         if (!$this->stravaDataImportStatus->isCompleted()) {
             $output->writeln('<error>Wait until all Strava data has been imported before building the app</error>');
 
-            return Command::SUCCESS;
+            return Command::FAILURE;
         }
         $this->resourceUsage->startTimer();
 

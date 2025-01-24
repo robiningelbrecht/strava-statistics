@@ -43,7 +43,7 @@ final class ImportStravaDataConsoleCommand extends Command
         } catch (UnableToWriteFile|UnableToCreateDirectory) {
             $output->writeln('<error>Make sure the container has write permissions to "storage/database" and "storage/files" on the host system</error>');
 
-            return Command::SUCCESS;
+            return Command::FAILURE;
         }
 
         $this->resourceUsage->startTimer();

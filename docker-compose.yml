@@ -7,6 +7,7 @@ services:
         working_dir: /var/www
         environment:
             - PHP_CS_FIXER_IGNORE_ENV=true
+            - IMPORT_AND_BUILD_SCHEDULE=* * * * *
         profiles:
             - on-demand
         networks:
