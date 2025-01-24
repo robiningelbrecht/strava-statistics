@@ -24,6 +24,7 @@
         "ext-iconv": "*",
         "ext-libxml": "*",
         "adrenalinkin/doctrine-naming-strategy": "^3.0",
+        "crunzphp/crunz": "^3.8",
         "doctrine/dbal": "^3",
         "doctrine/doctrine-bundle": "^2.13",
         "doctrine/doctrine-migrations-bundle": "^3.3",

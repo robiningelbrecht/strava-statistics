@@ -24,8 +24,7 @@
   <a href="#-prerequisites">Prerequisites</a> •
   <a href="#%EF%B8%8F-installation">Installation</a> •
   <a href="#%EF%B8%8Fimport-and-build-statistics">Import and build statistics</a> •
-  <a href="#%EF%B8%8F-locales-and-translations">Locales and translations</a> •
-  <a href="#-periodic-imports">Periodic imports</a>
+  <a href="#%EF%B8%8F-locales-and-translations">Locales and translations</a>
 </p>
 
 
@@ -118,6 +117,10 @@ STRAVA_REFRESH_TOKEN=YOUR_REFRESH_TOKEN
 # per import. Considering there's a 1000 request per day limit and importing one new activity can
 # take up to 3 API calls, 250 should be a safe number.
 NUMBER_OF_NEW_ACTIVITIES_TO_PROCESS_PER_IMPORT=250
+# The schedule to periodically run the import and HTML builds. Leave empty to disable periodic imports.
+# The default schedule runs once a day at 04:05. If you do not know what cron expressions are, please leave this unchanged
+# Make sure you don't run the imports too much to avoid hitting the Strava API rate limit. Once a day should be enough.
+IMPORT_AND_BUILD_SCHEDULE="5 4 * * *"
 
 # Allowed options: en_US, fr_FR or nl_BE
 LOCALE=en_US
@@ -177,10 +180,6 @@ There's a little workaround if you'd still like to import these:
 docker compose exec app bin/console app:strava:import-data
 docker compose exec app bin/console app:strava:build-files
 ```
-
-## ⏰ Periodic imports
-
-The wiki explains [how to schedule imports](https://github.com/robiningelbrecht/strava-statistics/wiki/Scheduling-automatic-imports)
 
 ## 🗺️ Locales and translations
 
