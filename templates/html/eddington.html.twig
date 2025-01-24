@@ -22,11 +22,13 @@
                     <div class="mb-4 border-b border-gray-200">
                         <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="activityTypeTab" data-tabs-toggle="#activityTypeTabContent" role="tablist">
                             {% for activityType in activityTypes %}
-                                <li class="mr-2" role="presentation">
-                                    <a href="#eddington" data-tabs-target="#{{ activityType.value }}" role="tab" aria-controls="{{ activityType.value }}" class="inline-flex items-center justify-center p-2 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 aria-selected:text-strava-orange aria-selected:border-strava-orange group">
-                                        {{ activityType|trans }} ({{ eddingtons[activityType.value].getNumber() }})
-                                    </a>
-                                </li>
+                                {% if eddingtons[activityType.value] is defined %}
+                                    <li class="mr-2" role="presentation">
+                                        <a href="#eddington" data-tabs-target="#{{ activityType.value }}" role="tab" aria-controls="{{ activityType.value }}" class="inline-flex items-center justify-center p-2 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 aria-selected:text-strava-orange aria-selected:border-strava-orange group">
+                                            {{ activityType|trans }} ({{ eddingtons[activityType.value].getNumber() }})
+                                        </a>
+                                    </li>
+                                {% endif %}
                             {% endfor %}
                         </ul>
                     </div>
