@@ -38,6 +38,13 @@ translation-debug:
 composer:
 	@make dcr cmd="composer $(arg)"
 
+# Cron helpers
+cron:
+	@make dcr cmd="vendor/bin/crunz schedule:run"
+
+cron-list:
+	@make dcr cmd="vendor/bin/crunz schedule:list"
+
 # Code quality tools.
 phpunit:
 	@make dcr cmd="vendor/bin/phpunit -d --enable-pretty-print -d --compact $(arg)"
