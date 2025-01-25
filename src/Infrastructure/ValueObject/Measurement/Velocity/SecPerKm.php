@@ -13,6 +13,6 @@ final readonly class SecPerKm implements Unit
 
     public function getSymbol(): string
     {
-        return 'min/km';
+        return 'sec/km';
     }
 }
