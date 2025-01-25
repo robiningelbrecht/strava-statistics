@@ -52,7 +52,7 @@ final readonly class DbalChallengeRepository extends DbalRepository implements C
     }
 
     /**
-     * @param array<mixed> $result
+     * @param array<string, mixed> $result
      */
     private function hydrate(array $result): Challenge
     {

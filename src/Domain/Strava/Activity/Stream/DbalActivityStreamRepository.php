@@ -157,7 +157,7 @@ final readonly class DbalActivityStreamRepository extends DbalRepository impleme
     }
 
     /**
-     * @param array<mixed> $result
+     * @param array<string, mixed> $result
      */
     private function hydrate(array $result): ActivityStream
     {

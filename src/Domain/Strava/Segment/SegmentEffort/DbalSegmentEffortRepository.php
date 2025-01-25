@@ -114,7 +114,7 @@ final readonly class DbalSegmentEffortRepository extends DbalRepository implemen
     }
 
     /**
-     * @param array<mixed> $result
+     * @param array<string, mixed> $result
      */
     private function hydrate(array $result): SegmentEffort
     {

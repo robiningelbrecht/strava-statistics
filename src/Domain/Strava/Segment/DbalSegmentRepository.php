@@ -60,7 +60,7 @@ final readonly class DbalSegmentRepository extends DbalRepository implements Seg
     }
 
     /**
-     * @param array<mixed> $result
+     * @param array<string, mixed> $result
      */
     private function hydrate(array $result): Segment
     {

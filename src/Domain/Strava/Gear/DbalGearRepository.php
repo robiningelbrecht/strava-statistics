@@ -52,7 +52,7 @@ final readonly class DbalGearRepository extends DbalRepository implements GearRe
     }
 
     /**
-     * @param array<mixed> $result
+     * @param array<string, mixed> $result
      */
     private function hydrate(array $result): Gear
     {

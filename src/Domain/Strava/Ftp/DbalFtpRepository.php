@@ -56,7 +56,7 @@ final readonly class DbalFtpRepository extends DbalRepository implements FtpRepo
     }
 
     /**
-     * @param array<mixed> $result
+     * @param array<string, mixed> $result
      */
     private function hydrate(array $result): Ftp
     {
