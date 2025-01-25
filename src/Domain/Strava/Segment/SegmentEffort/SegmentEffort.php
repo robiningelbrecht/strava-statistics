@@ -10,6 +10,7 @@ use App\Domain\Strava\Segment\SegmentId;
 use App\Infrastructure\Time\Format\ProvideTimeFormats;
 use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Measurement\Velocity\KmPerHour;
+use App\Infrastructure\ValueObject\Measurement\Velocity\MetersPerSecond;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -130,7 +131,7 @@ final class SegmentEffort
     {
         $averageSpeed = $this->getDistance()->toMeter()->toFloat() / $this->getElapsedTimeInSeconds();
 
-        return KmPerHour::from($averageSpeed * 3.6);
+        return MetersPerSecond::from($averageSpeed)->toKmPerHour();
     }
 
     public function getDistance(): Kilometer

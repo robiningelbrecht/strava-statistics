@@ -14,7 +14,9 @@ use App\Infrastructure\ValueObject\Measurement\Temperature\Celsius;
 use App\Infrastructure\ValueObject\Measurement\Temperature\Fahrenheit;
 use App\Infrastructure\ValueObject\Measurement\Unit;
 use App\Infrastructure\ValueObject\Measurement\Velocity\KmPerHour;
+use App\Infrastructure\ValueObject\Measurement\Velocity\MetersPerSecond;
 use App\Infrastructure\ValueObject\Measurement\Velocity\MilesPerHour;
+use App\Infrastructure\ValueObject\Measurement\Velocity\SecPerKm;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
@@ -49,6 +51,8 @@ class UnitTest extends TestCase
             [KmPerHour::from(16.0934), MilesPerHour::from(10)->toKmH()],
             [Celsius::from(-12.22), Fahrenheit::from(10)->toMetric()],
             [Fahrenheit::from(10), Celsius::from(-12.22)->toImperial()],
+            [KmPerHour::from(57.6), MetersPerSecond::from(16)->toKmPerHour()],
+            [SecPerKm::from(62.5), MetersPerSecond::from(16)->toSecPerKm()],
         ];
     }
 
@@ -85,6 +89,8 @@ class UnitTest extends TestCase
             [MilesPerHour::from(300)],
             [Celsius::from(300)],
             [Fahrenheit::from(300)],
+            [MetersPerSecond::from(300)],
+            [SecPerKm::from(300)],
         ];
     }
 }

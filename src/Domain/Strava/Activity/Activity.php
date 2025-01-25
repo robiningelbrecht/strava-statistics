@@ -17,6 +17,7 @@ use App\Infrastructure\ValueObject\Geography\Longitude;
 use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Measurement\Length\Meter;
 use App\Infrastructure\ValueObject\Measurement\Velocity\KmPerHour;
+use App\Infrastructure\ValueObject\Measurement\Velocity\MetersPerSecond;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use App\Infrastructure\ValueObject\Time\SerializableTimezone;
 use Doctrine\ORM\Mapping as ORM;
@@ -126,8 +127,8 @@ final class Activity
             calories: (int) ($rawData['calories'] ?? 0),
             averagePower: isset($rawData['average_watts']) ? (int) $rawData['average_watts'] : null,
             maxPower: isset($rawData['max_watts']) ? (int) $rawData['max_watts'] : null,
-            averageSpeed: KmPerHour::from(round($rawData['average_speed'] * 3.6, 3)),
-            maxSpeed: KmPerHour::from(round($rawData['max_speed'] * 3.6, 3)),
+            averageSpeed: MetersPerSecond::from($rawData['average_speed'])->toKmPerHour(),
+            maxSpeed: MetersPerSecond::from($rawData['max_speed'])->toKmPerHour(),
             averageHeartRate: isset($rawData['average_heartrate']) ? (int) round($rawData['average_heartrate']) : null,
             maxHeartRate: isset($rawData['max_heartrate']) ? (int) round($rawData['max_heartrate']) : null,
             averageCadence: isset($rawData['average_cadence']) ? (int) round($rawData['average_cadence']) : null,
