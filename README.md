@@ -155,7 +155,7 @@ FTP_VALUES='{
 NTFY_URL=''
 # An array of activity ids to skip during import. 
 # This allows you to skip specific activities during import.
-# ACTIVITIES_TO_SKIP_DURING_IMPORT='["123456", "654321"]'
+ACTIVITIES_TO_SKIP_DURING_IMPORT='[]'
 ```
 
 ### Importing challenges and trophies
