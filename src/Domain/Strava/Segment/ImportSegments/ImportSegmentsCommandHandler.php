@@ -44,7 +44,6 @@ final readonly class ImportSegmentsCommandHandler implements CommandHandler
         foreach ($this->activityRepository->findActivityIds() as $activityId) {
             $activityWithRawData = $this->activityWithRawDataRepository->find($activityId);
             if (!$segmentEfforts = $activityWithRawData->getSegmentEfforts()) {
-                // No segments or we already imported them activity.
                 continue;
             }
 

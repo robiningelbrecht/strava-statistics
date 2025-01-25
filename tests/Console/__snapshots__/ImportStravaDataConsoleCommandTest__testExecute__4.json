@@ -1,5 +1,5 @@
 {
-    "commandName": "App\\Domain\\Strava\\Activity\\Stream\\ImportActivityStreams\\ImportActivityStreams",
+    "commandName": "App\\Domain\\Strava\\Activity\\Split\\ImportActivitySplits\\ImportActivitySplits",
     "payload": {
         "output": {}
     }

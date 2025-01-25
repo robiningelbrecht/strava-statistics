@@ -57,6 +57,19 @@ class DbalActivitySplitRepositoryTest extends ContainerTestCase
         );
     }
 
+    public function testIsImportedForActivity(): void
+    {
+        $this->activitySplitRepository->add(ActivitySplitBuilder::fromDefaults()
+            ->withActivityId(ActivityId::fromUnprefixed('test'))
+            ->withUnitSystem(UnitSystem::IMPERIAL)
+            ->withSplitNumber(3)
+            ->build()
+        );
+
+        $this->assertTrue($this->activitySplitRepository->isImportedForActivity(ActivityId::fromUnprefixed('test')));
+        $this->assertFalse($this->activitySplitRepository->isImportedForActivity(ActivityId::fromUnprefixed('test2')));
+    }
+
     protected function setUp(): void
     {
         parent::setUp();

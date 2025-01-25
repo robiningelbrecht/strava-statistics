@@ -12,4 +12,6 @@ interface ActivitySplitRepository
     public function findBy(ActivityId $activityId, UnitSystem $unitSystem): ActivitySplits;
 
     public function add(ActivitySplit $activitySplit): void;
+
+    public function isImportedForActivity(ActivityId $activityId): bool;
 }

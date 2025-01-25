@@ -26,6 +26,15 @@ final readonly class DbalActivitySplitRepository extends DbalRepository implemen
         ));
     }
 
+    public function isImportedForActivity(ActivityId $activityId): bool
+    {
+        return $this->connection
+                ->executeQuery('SELECT COUNT(*) FROM ActivitySplit WHERE activityId = :activityId', [
+                    'activityId' => $activityId,
+                ])
+                ->fetchOne() > 0;
+    }
+
     public function add(ActivitySplit $activitySplit): void
     {
         $sql = 'INSERT INTO ActivitySplit (

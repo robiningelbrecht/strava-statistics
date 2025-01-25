@@ -37,6 +37,30 @@ final readonly class ActivitySplit
     ) {
     }
 
+    public static function create(
+        ActivityId $activityId,
+        UnitSystem $unitSystem,
+        int $splitNumber,
+        Meter $distance,
+        int $elapsedTimeInSeconds,
+        int $movingTimeInSeconds,
+        Meter $elevationDifference,
+        MetersPerSecond $averageSpeed,
+        int $paceZone,
+    ): self {
+        return new self(
+            activityId: $activityId,
+            unitSystem: $unitSystem,
+            splitNumber: $splitNumber,
+            distance: $distance,
+            elapsedTimeInSeconds: $elapsedTimeInSeconds,
+            movingTimeInSeconds: $movingTimeInSeconds,
+            elevationDifference: $elevationDifference,
+            averageSpeed: $averageSpeed,
+            paceZone: $paceZone,
+        );
+    }
+
     public static function fromState(
         ActivityId $activityId,
         UnitSystem $unitSystem,
