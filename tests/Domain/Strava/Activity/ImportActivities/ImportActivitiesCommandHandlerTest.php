@@ -10,6 +10,7 @@ use App\Domain\Strava\Activity\ActivityWithRawDataRepository;
 use App\Domain\Strava\Activity\ImportActivities\ImportActivities;
 use App\Domain\Strava\Activity\ImportActivities\ImportActivitiesCommandHandler;
 use App\Domain\Strava\Activity\NumberOfNewActivitiesToProcessPerImport;
+use App\Domain\Strava\Activity\Split\ActivitySplitRepository;
 use App\Domain\Strava\Activity\SportType\SportTypesToImport;
 use App\Domain\Strava\Activity\Stream\ActivityStreamRepository;
 use App\Domain\Strava\Gear\GearId;
@@ -32,8 +33,10 @@ use App\Infrastructure\ValueObject\Geography\Coordinate;
 use App\Infrastructure\ValueObject\Geography\Latitude;
 use App\Infrastructure\ValueObject\Geography\Longitude;
 use App\Infrastructure\ValueObject\Identifier\UuidFactory;
+use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use App\Tests\ContainerTestCase;
 use App\Tests\Domain\Strava\Activity\ActivityBuilder;
+use App\Tests\Domain\Strava\Activity\Split\ActivitySplitBuilder;
 use App\Tests\Domain\Strava\Activity\Stream\ActivityStreamBuilder;
 use App\Tests\Domain\Strava\Gear\GearBuilder;
 use App\Tests\Domain\Strava\Segment\SegmentBuilder;
@@ -157,6 +160,7 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
             ->withActivityId(ActivityId::fromUnprefixed(1000))
             ->build();
         $this->getContainer()->get(SegmentEffortRepository::class)->add($segmentEffortOne);
+
         $stream = ActivityStreamBuilder::fromDefaults()
             ->withActivityId(ActivityId::fromUnprefixed(1000))
             ->build();
@@ -187,6 +191,11 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
                 ->withActivityId(ActivityId::fromUnprefixed(1001))
                 ->build()
         );
+        $this->getContainer()->get(ActivitySplitRepository::class)->add(ActivitySplitBuilder::fromDefaults()
+            ->withActivityId(ActivityId::fromUnprefixed(1001))
+            ->withUnitSystem(UnitSystem::IMPERIAL)
+            ->withSplitNumber(3)
+            ->build());
 
         $this->importActivitiesCommandHandler->handle(new ImportActivities($output));
 
@@ -211,6 +220,13 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
         $this->assertCount(
             0,
             $this->getContainer()->get(ActivityStreamRepository::class)->findByActivityId(ActivityId::fromUnprefixed(1001))
+        );
+        $this->assertCount(
+            0,
+            $this->getContainer()->get(ActivitySplitRepository::class)->findBy(
+                ActivityId::fromUnprefixed(1001),
+                UnitSystem::IMPERIAL
+            )
         );
     }
 

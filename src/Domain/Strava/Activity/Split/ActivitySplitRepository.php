@@ -14,4 +14,6 @@ interface ActivitySplitRepository
     public function add(ActivitySplit $activitySplit): void;
 
     public function isImportedForActivity(ActivityId $activityId): bool;
+
+    public function deleteForActivity(ActivityId $activityId): void;
 }

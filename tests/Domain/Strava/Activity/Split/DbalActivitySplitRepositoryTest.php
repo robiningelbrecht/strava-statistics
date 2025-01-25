@@ -70,6 +70,46 @@ class DbalActivitySplitRepositoryTest extends ContainerTestCase
         $this->assertFalse($this->activitySplitRepository->isImportedForActivity(ActivityId::fromUnprefixed('test2')));
     }
 
+    public function testDeleteForActivity(): void
+    {
+        $this->activitySplitRepository->add(ActivitySplitBuilder::fromDefaults()
+            ->withActivityId(ActivityId::fromUnprefixed('test'))
+            ->withUnitSystem(UnitSystem::METRIC)
+            ->withSplitNumber(1)
+            ->build());
+
+        $this->activitySplitRepository->add(ActivitySplitBuilder::fromDefaults()
+            ->withActivityId(ActivityId::fromUnprefixed('test'))
+            ->withUnitSystem(UnitSystem::METRIC)
+            ->withSplitNumber(2)
+            ->build());
+
+        $this->activitySplitRepository->add(ActivitySplitBuilder::fromDefaults()
+            ->withActivityId(ActivityId::fromUnprefixed('test'))
+            ->withUnitSystem(UnitSystem::METRIC)
+            ->withSplitNumber(3)
+            ->build());
+
+        $this->activitySplitRepository->add(ActivitySplitBuilder::fromDefaults()
+            ->withActivityId(ActivityId::fromUnprefixed('test2'))
+            ->withUnitSystem(UnitSystem::METRIC)
+            ->withSplitNumber(3)
+            ->build());
+
+        $this->activitySplitRepository->add(ActivitySplitBuilder::fromDefaults()
+            ->withActivityId(ActivityId::fromUnprefixed('test'))
+            ->withUnitSystem(UnitSystem::IMPERIAL)
+            ->withSplitNumber(3)
+            ->build());
+
+        $this->activitySplitRepository->deleteForActivity(ActivityId::fromUnprefixed('test'));
+
+        $this->assertEquals(
+            1,
+            $this->getConnection()->executeQuery('SELECT COUNT(*) FROM ActivitySplit')->fetchOne()
+        );
+    }
+
     protected function setUp(): void
     {
         parent::setUp();

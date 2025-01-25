@@ -58,6 +58,15 @@ final readonly class DbalActivitySplitRepository extends DbalRepository implemen
         ]);
     }
 
+    public function deleteForActivity(ActivityId $activityId): void
+    {
+        $sql = 'DELETE FROM ActivitySplit WHERE activityId = :activityId';
+
+        $this->connection->executeStatement($sql, [
+            'activityId' => $activityId,
+        ]);
+    }
+
     /**
      * @param array<string, mixed> $result
      */
