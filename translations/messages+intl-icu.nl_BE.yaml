@@ -12,7 +12,6 @@ Avg: Gem
 Badminton: Badminton
 Best: Beste
 'Best power outputs over time': 'Beste wattages over een bepaalde periode'
-'Build static HTML files': 'Bouw statische HTML-bestanden'
 Cadence: Cadans
 Calories: Calorieën
 Canoeing: Kanoën
@@ -72,7 +71,6 @@ History: Historiek
 "I burned {caloriesBurned} calories doing so, that's about {numberOfPizzaSlices} pizza slices 🍕.": 'Ik heb {caloriesBurned} calorieën verbrand door dit te doen, dat is ongeveer {numberOfPizzaSlices} pizza slices 🍕.'
 'I recorded a total distance of {totalDistance} ({numberOfTripsAroundTheWorld} trips around the world 🌍 and {numberOfTripsToTheMoon} trips to the moon 🌕), an elevation of {totalElevation} ({timesMountEverest} times Mount Everest 🏔) and a total time of {totalTimeRecorded} 🎉.': 'Ik registreerde een totale afstand van {totalDistance} ({numberOfTripsAroundTheWorld} reizen rond de wereld 🌍 en {numberOfTripsToTheMoon} reizen naar de maan 🌕), een hoogteverschil van {totalElevation} ({timesMountEverest} keer Mount Everest 🏔) en een totale tijd van {totalTimeRecorded} 🎉.'
 'Ice Skate': 'Ice Skate'
-'Import Strava data': 'Import Strava data'
 'Inline Skate': 'Inline Skate'
 Jan: Jan
 Jul: Jul
@@ -84,7 +82,6 @@ Kayaking: Kajakken
 'Loading data...': 'Aan het laden...'
 Loading...: 'Aan het laden...'
 'Longest ride': 'Langste ride'
-'Looks like you still need to import your Strava data': 'Het lijkt erop dat je nog steeds je Strava-gegevens moet importeren'
 Low: Laag
 Mar: Mar
 Max: Max
@@ -191,7 +188,6 @@ Workout: Workout
 Year: Jaar
 'Yearly distances': 'Jaarlijkse afstanden'
 Yoga: Yoga
-'You can only build these files if all your Strava data has been imported': 'U kunt deze bestanden alleen genereren als al uw Strava-gegevens zijn geïmporteerd'
 'Zone 1 (recovery)': 'Zone 1 (recovery)'
 'Zone 2 (aerobic)': 'Zone 2 (aerobic)'
 'Zone 3 (aerobic/anaerobic)': 'Zone 3 (aerobic/anaerobic)'

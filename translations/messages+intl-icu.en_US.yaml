@@ -12,7 +12,6 @@ Avg: Avg
 Badminton: Badminton
 Best: Best
 'Best power outputs over time': 'Best power outputs over time'
-'Build static HTML files': 'Build static HTML files'
 Cadence: Cadence
 Calories: Calories
 Canoeing: Canoeing
@@ -72,7 +71,6 @@ History: History
 "I burned {caloriesBurned} calories doing so, that's about {numberOfPizzaSlices} pizza slices 🍕.": "I burned {caloriesBurned} calories doing so, that's about {numberOfPizzaSlices} pizza slices 🍕."
 'I recorded a total distance of {totalDistance} ({numberOfTripsAroundTheWorld} trips around the world 🌍 and {numberOfTripsToTheMoon} trips to the moon 🌕), an elevation of {totalElevation} ({timesMountEverest} times Mount Everest 🏔) and a total time of {totalTimeRecorded} 🎉.': 'I recorded a total distance of {totalDistance} ({numberOfTripsAroundTheWorld} trips around the world 🌍 and {numberOfTripsToTheMoon} trips to the moon 🌕), an elevation of {totalElevation} ({timesMountEverest} times Mount Everest 🏔) and a total time of {totalTimeRecorded} 🎉.'
 'Ice Skate': 'Ice Skate'
-'Import Strava data': 'Import Strava data'
 'Inline Skate': 'Inline Skate'
 Jan: Jan
 Jul: Jul
@@ -84,7 +82,6 @@ Kayaking: Kayaking
 'Loading data...': 'Loading data...'
 Loading...: Loading...
 'Longest ride': 'Longest ride'
-'Looks like you still need to import your Strava data': 'Looks like you still need to import your Strava data'
 Low: Low
 Mar: Mar
 Max: Max
@@ -191,7 +188,6 @@ Workout: Workout
 Year: Year
 'Yearly distances': 'Yearly distances'
 Yoga: Yoga
-'You can only build these files if all your Strava data has been imported': 'You can only build these files if all your Strava data has been imported'
 'Zone 1 (recovery)': 'Zone 1 (recovery)'
 'Zone 2 (aerobic)': 'Zone 2 (aerobic)'
 'Zone 3 (aerobic/anaerobic)': 'Zone 3 (aerobic/anaerobic)'
