@@ -5,16 +5,18 @@ declare(strict_types=1);
 namespace App\Domain\Strava\Activity\Split;
 
 use App\Domain\Strava\Activity\ActivityId;
+use App\Infrastructure\Time\Format\ProvideTimeFormats;
 use App\Infrastructure\ValueObject\Measurement\Length\Meter;
 use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use App\Infrastructure\ValueObject\Measurement\Velocity\MetersPerSecond;
-use App\Infrastructure\ValueObject\Measurement\Velocity\SecPerKm;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 #[ORM\Index(name: 'ActivitySplit_activityIdUnitSystemIndex', columns: ['activityId', 'unitSystem'])]
 final readonly class ActivitySplit
 {
+    use ProvideTimeFormats;
+
     private function __construct(
         #[ORM\Id, ORM\Column(type: 'string')]
         private ActivityId $activityId,
@@ -32,6 +34,10 @@ final readonly class ActivitySplit
         private Meter $elevationDifference,
         #[ORM\Column(type: 'float')]
         private MetersPerSecond $averageSpeed,
+        #[ORM\Column(type: 'float')]
+        private MetersPerSecond $minAverageSpeed,
+        #[ORM\Column(type: 'integer')]
+        private MetersPerSecond $maxAverageSpeed,
         #[ORM\Column(type: 'integer')]
         private int $paceZone,
     ) {
@@ -46,6 +52,8 @@ final readonly class ActivitySplit
         int $movingTimeInSeconds,
         Meter $elevationDifference,
         MetersPerSecond $averageSpeed,
+        MetersPerSecond $minAverageSpeed,
+        MetersPerSecond $maxAverageSpeed,
         int $paceZone,
     ): self {
         return new self(
@@ -57,6 +65,8 @@ final readonly class ActivitySplit
             movingTimeInSeconds: $movingTimeInSeconds,
             elevationDifference: $elevationDifference,
             averageSpeed: $averageSpeed,
+            minAverageSpeed: $minAverageSpeed,
+            maxAverageSpeed: $maxAverageSpeed,
             paceZone: $paceZone,
         );
     }
@@ -70,6 +80,8 @@ final readonly class ActivitySplit
         int $movingTimeInSeconds,
         Meter $elevationDifference,
         MetersPerSecond $averageSpeed,
+        MetersPerSecond $minAverageSpeed,
+        MetersPerSecond $maxAverageSpeed,
         int $paceZone,
     ): self {
         return new self(
@@ -81,6 +93,8 @@ final readonly class ActivitySplit
             movingTimeInSeconds: $movingTimeInSeconds,
             elevationDifference: $elevationDifference,
             averageSpeed: $averageSpeed,
+            minAverageSpeed: $minAverageSpeed,
+            maxAverageSpeed: $maxAverageSpeed,
             paceZone: $paceZone,
         );
     }
@@ -125,9 +139,30 @@ final readonly class ActivitySplit
         return $this->averageSpeed;
     }
 
-    public function getPace(): SecPerKm
+    public function getRelativePacePercentage(): float
     {
-        return $this->getAverageSpeed()->toSecPerKm();
+        if ($this->getMaxAverageSpeed()->toInt() < 1) {
+            return 0;
+        }
+
+        return round($this->getAverageSpeed()->toInt() / $this->getMaxAverageSpeed()->toInt() * 100, 2);
+    }
+
+    public function getMinAverageSpeed(): MetersPerSecond
+    {
+        return $this->minAverageSpeed;
+    }
+
+    public function getMaxAverageSpeed(): MetersPerSecond
+    {
+        return $this->maxAverageSpeed;
+    }
+
+    public function getPaceFormatted(): string
+    {
+        $pace = $this->getAverageSpeed()->toSecPerKm();
+
+        return $this->formatDurationForHumans($pace->toInt());
     }
 
     public function getPaceZone(): int

@@ -16,6 +16,7 @@ use App\Domain\Strava\Activity\Eddington\EddingtonHistoryChartBuilder;
 use App\Domain\Strava\Activity\HeartRateDistributionChartBuilder;
 use App\Domain\Strava\Activity\Image\ImageRepository;
 use App\Domain\Strava\Activity\PowerDistributionChartBuilder;
+use App\Domain\Strava\Activity\Split\ActivitySplitRepository;
 use App\Domain\Strava\Activity\SportType\SportTypeRepository;
 use App\Domain\Strava\Activity\Stream\ActivityHeartRateRepository;
 use App\Domain\Strava\Activity\Stream\ActivityPowerRepository;
@@ -65,7 +66,7 @@ use Twig\Environment;
 
 final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
 {
-    private const string APP_VERSION = 'v0.4.2';
+    private const string APP_VERSION = 'v0.4.4';
 
     public function __construct(
         private ActivityRepository $activityRepository,
@@ -74,6 +75,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
         private ImageRepository $imageRepository,
         private ActivityPowerRepository $activityPowerRepository,
         private ActivityStreamRepository $activityStreamRepository,
+        private ActivitySplitRepository $activitySplitRepository,
         private ActivityHeartRateRepository $activityHeartRateRepository,
         private AthleteRepository $athleteRepository,
         private AthleteWeightRepository $athleteWeightRepository,
@@ -538,6 +540,10 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                         )->build(),
                     ) : null,
                     'segmentEfforts' => $this->segmentEffortRepository->findByActivityId($activity->getId()),
+                    'splits' => $this->activitySplitRepository->findBy(
+                        activityId: $activity->getId(),
+                        unitSystem: $this->unitSystem
+                    ),
                 ]),
             );
 

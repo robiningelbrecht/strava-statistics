@@ -33,7 +33,7 @@ final readonly class ImportActivitySplitsCommandHandler implements CommandHandle
         $countActivitiesProcessed = 0;
         foreach ($this->activityRepository->findActivityIds() as $activityId) {
             $activityWithRawData = $this->activityWithRawDataRepository->find($activityId);
-            if (!$splits = $activityWithRawData->getSplits()) {
+            if (!$activityWithRawData->hasSplits()) {
                 continue;
             }
             if ($this->activitySplitRepository->isImportedForActivity($activityId)) {
@@ -41,7 +41,8 @@ final readonly class ImportActivitySplitsCommandHandler implements CommandHandle
             }
 
             ++$countActivitiesProcessed;
-            foreach ($splits as $split) {
+
+            foreach ($activityWithRawData->getSplits() as $split) {
                 $this->activitySplitRepository->add(ActivitySplit::create(
                     activityId: $activityId,
                     unitSystem: UnitSystem::from($split['unit_system']),
@@ -49,8 +50,10 @@ final readonly class ImportActivitySplitsCommandHandler implements CommandHandle
                     distance: Meter::from($split['distance']),
                     elapsedTimeInSeconds: $split['elapsed_time'],
                     movingTimeInSeconds: $split['moving_time'],
-                    elevationDifference: Meter::from($split['elevation_difference']),
+                    elevationDifference: Meter::from($split['elevation_difference'] ?? 0),
                     averageSpeed: MetersPerSecond::from($split['average_speed']),
+                    minAverageSpeed: MetersPerSecond::from($split['min_average_speed']),
+                    maxAverageSpeed: MetersPerSecond::from($split['max_average_speed']),
                     paceZone: $split['pace_zone'],
                 ));
                 ++$countSplitsAdded;

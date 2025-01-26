@@ -23,6 +23,10 @@ final readonly class MetersPerSecond implements Unit
 
     public function toSecPerKm(): SecPerKm
     {
+        if (0.0 === $this->value) {
+            return SecPerKm::from(0);
+        }
+
         return SecPerKm::from(round(1000 / $this->value, 3));
     }
 }

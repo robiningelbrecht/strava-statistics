@@ -51,18 +51,36 @@ final readonly class ActivityWithRawData
         return $this->rawData['segment_efforts'] ?? [];
     }
 
+    public function hasSplits(): bool
+    {
+        return !empty($this->rawData['splits_metric']) && !empty($this->rawData['splits_standard']);
+    }
+
     /**
      * @return array<mixed>
      */
     public function getSplits(): array
     {
+        /** @var non-empty-array<float> $metricAverageSpeeds */
+        $metricAverageSpeeds = array_column($this->rawData['splits_metric'], 'average_speed');
+        /** @var non-empty-array<float> $imperialAverageSpeeds */
+        $imperialAverageSpeeds = array_column($this->rawData['splits_standard'], 'average_speed');
+
         return array_merge(
             array_map(
-                fn (array $split) => array_merge($split, ['unit_system' => UnitSystem::METRIC->value]),
+                fn (array $split) => array_merge($split, [
+                    'unit_system' => UnitSystem::METRIC->value,
+                    'min_average_speed' => min($metricAverageSpeeds),
+                    'max_average_speed' => max($metricAverageSpeeds),
+                ]),
                 $this->rawData['splits_metric'] ?? [],
             ),
             array_map(
-                fn (array $split) => array_merge($split, ['unit_system' => UnitSystem::IMPERIAL->value]),
+                fn (array $split) => array_merge($split, [
+                    'unit_system' => UnitSystem::IMPERIAL->value,
+                    'min_average_speed' => min($imperialAverageSpeeds),
+                    'max_average_speed' => max($imperialAverageSpeeds),
+                ]),
                 $this->rawData['splits_standard'] ?? [],
             )
         );

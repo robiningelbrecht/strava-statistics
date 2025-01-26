@@ -15,19 +15,19 @@ class DbalActivitySplitRepositoryTest extends ContainerTestCase
 
     public function testAddAndFindBy(): void
     {
-        $activitySplitOne = ActivitySplitBuilder::fromDefaults()
-            ->withActivityId(ActivityId::fromUnprefixed('test'))
-            ->withUnitSystem(UnitSystem::METRIC)
-            ->withSplitNumber(1)
-            ->build();
-        $this->activitySplitRepository->add($activitySplitOne);
-
         $activitySplitTwo = ActivitySplitBuilder::fromDefaults()
             ->withActivityId(ActivityId::fromUnprefixed('test'))
             ->withUnitSystem(UnitSystem::METRIC)
             ->withSplitNumber(2)
             ->build();
         $this->activitySplitRepository->add($activitySplitTwo);
+
+        $activitySplitOne = ActivitySplitBuilder::fromDefaults()
+            ->withActivityId(ActivityId::fromUnprefixed('test'))
+            ->withUnitSystem(UnitSystem::METRIC)
+            ->withSplitNumber(1)
+            ->build();
+        $this->activitySplitRepository->add($activitySplitOne);
 
         $activitySplitThree = ActivitySplitBuilder::fromDefaults()
             ->withActivityId(ActivityId::fromUnprefixed('test'))

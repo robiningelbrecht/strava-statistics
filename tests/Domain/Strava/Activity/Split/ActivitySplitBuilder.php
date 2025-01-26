@@ -19,7 +19,9 @@ final class ActivitySplitBuilder
     private readonly int $elapsedTimeInSeconds;
     private readonly int $movingTimeInSeconds;
     private readonly Meter $elevationDifference;
-    private readonly MetersPerSecond $averageSpeed;
+    private MetersPerSecond $averageSpeed;
+    private MetersPerSecond $minAverageSpeed;
+    private MetersPerSecond $maxAverageSpeed;
     private readonly int $paceZone;
 
     private function __construct()
@@ -32,6 +34,8 @@ final class ActivitySplitBuilder
         $this->movingTimeInSeconds = 110;
         $this->elevationDifference = Meter::from(2);
         $this->averageSpeed = MetersPerSecond::from(3);
+        $this->minAverageSpeed = MetersPerSecond::from(1);
+        $this->maxAverageSpeed = MetersPerSecond::from(8);
         $this->paceZone = 0;
     }
 
@@ -51,6 +55,8 @@ final class ActivitySplitBuilder
             movingTimeInSeconds: $this->movingTimeInSeconds,
             elevationDifference: $this->elevationDifference,
             averageSpeed: $this->averageSpeed,
+            minAverageSpeed: $this->minAverageSpeed,
+            maxAverageSpeed: $this->maxAverageSpeed,
             paceZone: $this->paceZone
         );
     }
@@ -72,6 +78,20 @@ final class ActivitySplitBuilder
     public function withSplitNumber(int $splitNumber): self
     {
         $this->splitNumber = $splitNumber;
+
+        return $this;
+    }
+
+    public function withAverageSpeed(MetersPerSecond $averageSpeed): self
+    {
+        $this->averageSpeed = $averageSpeed;
+
+        return $this;
+    }
+
+    public function withMaxAverageSpeed(MetersPerSecond $maxAverageSpeed): self
+    {
+        $this->maxAverageSpeed = $maxAverageSpeed;
 
         return $this;
     }

@@ -1,6 +1,6 @@
 '2 days of activity for 4 weeks': '2 actieve dagen gedurende 4 weken'
 Activities: Activiteiten
-'Activity intensity': 'Activiteitsintensiteit'
+'Activity intensity': Activiteitsintensiteit
 Advanced: Gevorderd
 Afternoon: Namiddag
 'All activities': 'Alle activiteiten'
@@ -20,7 +20,7 @@ Canoeing: Kanoën
 Challenges: Challenges
 'Climb a total of 2000m': 'Klim in totaal 2000m'
 'Climb a total of 7500m': 'Klim in totaal 7500m'
-'Close modal': 'Sluiten'
+'Close modal': Sluiten
 'Complete a 10 km run.': 'Voltooi een 10 km loop workout.'
 'Complete a 100km ride': 'Voltooi een 100km rit'
 'Complete a 5 km run.': 'Voltooi een 5 km loop workout.'
@@ -41,6 +41,7 @@ Distance: Afstand
 'E-Mountain Bike Rides': 'E-Mountain Bike Ritten'
 'Earliest start time': 'Vroegste starttijd'
 Eddington: Eddington
+Elev: Elev
 Elevation: Hoogte
 Elliptical: Elliptical
 Evening: Avond
@@ -53,22 +54,22 @@ Feb: Feb
 Fri: Vr
 Friday: Vrijdag
 Gear: Uitrusting
-'Gear stats': 'Uitrustingsstatistieken'
+'Gear stats': Uitrustingsstatistieken
 'Gear that is retired is disabled by default.': 'Uitrusting die niet meer actief is, wordt standaard uitgeschakeld.'
-"Gear that that hasn't been used in the last three months, is disabled by default.": "Uitrusting die de afgelopen drie maanden niet is gebruikt, wordt standaard uitgeschakeld."
+"Gear that that hasn't been used in the last three months, is disabled by default.": 'Uitrusting die de afgelopen drie maanden niet is gebruikt, wordt standaard uitgeschakeld.'
 Golf: Golf
 'Gravel Rides': 'Gravel Ritten'
 HIIT: HIIT
 'Hand Cycle': 'Hand Cycle'
-'Heart rate': 'Hartslag'
-'Heart rate distribution': 'Hartslagverdeling'
-'Heart rate zones': 'Hartslagzones'
+'Heart rate': Hartslag
+'Heart rate distribution': Hartslagverdeling
+'Heart rate zones': Hartslagzones
 Heatmap: Heatmap
 High: Hoog
 'Highest elevation': 'Meeste hoogtemeters'
 Hikes: Hikes
 History: Historiek
-"I burned {caloriesBurned} calories doing so, that's about {numberOfPizzaSlices} pizza slices 🍕.": "Ik heb {caloriesBurned} calorieën verbrand door dit te doen, dat is ongeveer {numberOfPizzaSlices} pizza slices 🍕."
+"I burned {caloriesBurned} calories doing so, that's about {numberOfPizzaSlices} pizza slices 🍕.": 'Ik heb {caloriesBurned} calorieën verbrand door dit te doen, dat is ongeveer {numberOfPizzaSlices} pizza slices 🍕.'
 'I recorded a total distance of {totalDistance} ({numberOfTripsAroundTheWorld} trips around the world 🌍 and {numberOfTripsToTheMoon} trips to the moon 🌕), an elevation of {totalElevation} ({timesMountEverest} times Mount Everest 🏔) and a total time of {totalTimeRecorded} 🎉.': 'Ik registreerde een totale afstand van {totalDistance} ({numberOfTripsAroundTheWorld} reizen rond de wereld 🌍 en {numberOfTripsToTheMoon} reizen naar de maan 🌕), een hoogteverschil van {totalElevation} ({timesMountEverest} keer Mount Everest 🏔) en een totale tijd van {totalTimeRecorded} 🎉.'
 'Ice Skate': 'Ice Skate'
 'Import Strava data': 'Import Strava data'
@@ -97,7 +98,7 @@ Morning: Ochtend
 'Most kudos': 'Meeste kudos'
 'Most recent activities': 'Meest recent activiteiten'
 'Mountain Bike Rides': 'Mountain Bike Ritten'
-'Moving time': 'Beweegtijd'
+'Moving time': Beweegtijd
 Night: Nacht
 'No activities': 'Geen activiteiten'
 'Nordic Ski': 'Nordic Ski'
@@ -105,12 +106,14 @@ Nov: Nov
 Oct: Okt
 'Open user menu': 'User menu openen'
 Other: Other
+Pace: Pace
+'Pace Analysis': 'Pace Analysis'
 'Peak power outputs': 'Peak power outputs'
 Photos: Photos
 'Pickle Ball': 'Pickle Ball'
 Pilates: Pilates
 Power: Kracht
-'Power distribution': 'Krachtverdeling'
+'Power distribution': Krachtverdeling
 'Powered by Strava': 'Powered by Strava'
 'Prev year': 'Vorig jaar'
 'Racquet Ball': 'Racquet Ball'
@@ -119,7 +122,7 @@ Power: Kracht
 'Ride a total of 200km': 'Rijd in totaal 200km'
 'Ride a total of 600km': 'Rijd in totaal 600km'
 Rides: Ritten
-'Rock Climbing': 'Bergbeklimmen'
+'Rock Climbing': Bergbeklimmen
 'Roller Ski': 'Roller Ski'
 Rowing: Roeien
 'Run a total of 100km.': 'Loop in totaal 100km.'
@@ -150,9 +153,9 @@ Sunday: Zondag
 Surfing: Surfen
 Swim: Zwemmen
 TOTAL: TOTAAL
-'Table Tennis': 'Tafeltennis'
+'Table Tennis': Tafeltennis
 Tennis: Tennis
-"That's a daily average of {dailyAverage}, a weekly average of {weeklyAverage} and a monthly average of {monthlyAverage} 🐣.": "Dat is een dagelijks gemiddelde van {dailyAverage}, een wekelijks gemiddelde van {weeklyAverage} en een maandelijks gemiddelde van {monthlyAverage} 🐣."
+"That's a daily average of {dailyAverage}, a weekly average of {weeklyAverage} and a monthly average of {monthlyAverage} 🐣.": 'Dat is een dagelijks gemiddelde van {dailyAverage}, een wekelijks gemiddelde van {weeklyAverage} en een maandelijks gemiddelde van {monthlyAverage} 🐣.'
 'The Eddington number in the context of cycling or running is defined as the maximum number E such that the athlete has covered at least E km on at least E days.': 'Het Eddington-getal in de context van fietsen of hardlopen is gedefinieerd als het maximale aantal E zodanig dat de atleet ten minste E km heeft afgelegd op ten minste E dagen.'
 'This formula means that riding for an hour at your max heart rate results in a score of 100, which we consider "high intensity"': 'Deze formule betekent dat een uur fietsen op je maximale hartslag resulteert in een score van 100, wat we beschouwen als “hoge intensiteit”'
 'This map shows the daily training intensity for the last year. The training intensity for an activity is calculated based on several metrics.': 'Deze kaart toont de dagelijkse trainingsintensiteit van het afgelopen jaar. De trainingsintensiteit voor een activiteit wordt berekend op basis van verschillende meetgegevens.'
@@ -175,15 +178,15 @@ Tuesday: Dinsdag
 'Virtual Row': 'Virtueel Roeien'
 'Virtual Runs': 'Virtual Runs'
 Walks: Wandelingen
-'Water Sports': 'Watersport'
+'Water Sports': Watersport
 Wed: Woe
 Wednesday: Woensdag
 'Weekly distances': 'Wekelijkse afstanden'
-'Weight Training': 'Gewichttraining'
+'Weight Training': Gewichttraining
 Wheelchair: Rolstoel
 'When power metrics and FTP are available, these metrics are used instead. This formula means that riding for an hour at your FTP results in a score of 100, which we consider "high intensity"': 'Wanneer wattages en FTP beschikbaar zijn, worden in plaats daarvan deze meetgegevens gebruikt. Deze formule betekent dat een uur lang rijden op je FTP resulteert in een score van 100, wat we beschouwen als "hoge intensiteit"'
-'Wind Surf': 'Windsurfen'
-'Winter Sports': 'Wintersport'
+'Wind Surf': Windsurfen
+'Winter Sports': Wintersport
 Workout: Workout
 Year: Jaar
 'Yearly distances': 'Jaarlijkse afstanden'

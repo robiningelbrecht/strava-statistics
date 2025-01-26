@@ -1323,6 +1323,10 @@ input:checked + .toggle-bg {
   height: 0.5rem;
 }
 
+.h-2\.5 {
+  height: 0.625rem;
+}
+
 .h-3 {
   height: 0.75rem;
 }
@@ -1393,6 +1397,10 @@ input:checked + .toggle-bg {
 
 .h-screen {
   height: 100vh;
+}
+
+.max-h-\[350px\] {
+  max-height: 350px;
 }
 
 .max-h-\[calc\(100vh-200px\)\] {
@@ -1471,6 +1479,10 @@ input:checked + .toggle-bg {
   width: 23rem;
 }
 
+.w-\[2rem\] {
+  width: 2rem;
+}
+
 .w-\[35rem\] {
   width: 35rem;
 }
@@ -1483,12 +1495,20 @@ input:checked + .toggle-bg {
   width: 4rem;
 }
 
+.w-\[5rem\] {
+  width: 5rem;
+}
+
 .w-\[rem\] {
   width: rem;
 }
 
 .w-full {
   width: 100%;
+}
+
+.min-w-\[10rem\] {
+  min-width: 10rem;
 }
 
 .min-w-\[800px\] {
@@ -1521,6 +1541,10 @@ input:checked + .toggle-bg {
 
 .shrink-0 {
   flex-shrink: 0;
+}
+
+.flex-grow {
+  flex-grow: 1;
 }
 
 .-translate-x-full {
@@ -1926,6 +1950,11 @@ input:checked + .toggle-bg {
   background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1)) !important;
 }
 
+.bg-blue-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(28 100 242 / var(--tw-bg-opacity, 1));
+}
+
 .bg-blue-600\/\[\.1\] {
   background-color: rgb(28 100 242 / .1);
 }
@@ -2107,6 +2136,10 @@ input:checked + .toggle-bg {
 .py-5 {
   padding-top: 1.25rem;
   padding-bottom: 1.25rem;
+}
+
+.pb-2 {
+  padding-bottom: 0.5rem;
 }
 
 .pb-3 {
@@ -2394,6 +2427,10 @@ input:checked + .toggle-bg {
 
 .first\:border-l-0:first-child {
   border-left-width: 0px;
+}
+
+.last\:border-b-0:last-child {
+  border-bottom-width: 0px;
 }
 
 .last\:border-r-0:last-child {

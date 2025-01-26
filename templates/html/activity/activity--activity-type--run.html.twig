@@ -1,0 +1,211 @@
+{% autoescape false %}
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+    <div>
+        <div class="mb-4 grid grid-cols-6 gap-2">
+            <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow">
+                <div class="text-center">
+                    <dd class="text-xs text-gray-500">{{ "Distance"|trans }}</dd>
+                    <dt class="font-extrabold">{{ renderComponent('measurement', {'measurement': activity.getDistance(), 'precision': 0}) }}</dt>
+                </div>
+            </div>
+            <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow">
+                <div class="text-center">
+                    <dd class="text-xs text-gray-500">{{ "Moving time"|trans }}</dd>
+                    <dt class="font-extrabold">{{ activity.getMovingTimeFormatted() }}</dt>
+                </div>
+            </div>
+            <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow">
+                <div class="text-center">
+                    <dd class="text-xs text-gray-500">{{ "Elevation"|trans }}</dd>
+                    <dt class="font-extrabold">{{ renderComponent('measurement', {'measurement': activity.getElevation(), 'precision': 0}) }}</dt>
+                </div>
+            </div>
+            <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow">
+                <div class="text-center">
+                    <dd class="text-xs text-gray-500">{{ "Calories"|trans }}</dd>
+                    <dt class="font-extrabold">{{ activity.getCalories() }}</dt>
+                </div>
+            </div>
+            <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-4 border border-gray-200 rounded-lg shadow">
+                <div class="text-center">
+                    <dd class="text-xs text-gray-500">{{ "Gear"|trans }}</dd>
+                    <dt class="text-xs font-extrabold">{{ activity.getGearName() ?: 'Other' }}</dt>
+                </div>
+            </div>
+            <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-4 border border-gray-200 rounded-lg shadow">
+                <div class="text-center">
+                    <dd class="text-xs text-gray-500">{{ "Device"|trans }}</dd>
+                    <dt class="text-xs font-extrabold">{{ activity.getDeviceName() ?: 'None' }}</dt>
+                </div>
+            </div>
+        </div>
+        {% set weather = activity.getWeather() %}
+        {% if weather %}
+            <div class="mb-4 text-xs font-normal text-gray-500">
+                {{ weather.getWeatherCodeDescription() }}, {{ renderComponent('measurement', {'measurement': weather.getTemperatureInCelsius(), 'precision': 1}) }},
+                Humidity {{ weather.getRelativeHumidity() }}%,
+                Wind {{ renderComponent('measurement', {'measurement': weather.getWindSpeed(), 'precision': 1}) }} from {{ weather.getWindDirection() }}.
+            </div>
+        {% endif %}
+        {% if activity.getLocalImagePaths() %}
+            <div class="mb-4 grid grid-cols-4 gap-2">
+                {% for imagePath in activity.getLocalImagePaths() %}
+                    <div>
+                        <a href="#" data-popover-target="popover-image-{{ loop.index }}"
+                           data-popover-placement="bottom" data-popover-trigger="click">
+                            <img class="h-auto max-w-full rounded-lg lazy"
+                                 src="{{ renderComponent('placeholder-image') }}" data-src="{{ imagePath }}"
+                                 alt="Activity image"/>
+                        </a>
+                    </div>
+                    <div data-popover id="popover-image-{{ loop.index }}" role="tooltip"
+                         class="z-[1000] w-[35rem] absolute invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0">
+                        <img class="h-auto max-w-full rounded-lg lazy"
+                             src="{{ renderComponent('placeholder-image') }}" data-src="{{ imagePath }}"
+                             alt="Activity image"/>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    {% if leaflet %}
+        {% set leafletOptions = {
+            'routes': leaflet.routes,
+            'tileLayer': leaflet.map.getTileLayer(),
+            'minZoom': leaflet.map.getMinZoom(),
+            'maxZoom': leaflet.map.getMaxZoom(),
+            'imageOverlay': leaflet.map.getOverlayImageUrl(),
+            'bounds': leaflet.map.getBounds(),
+        } %}
+        <div class="h-[350px]" style="background-color:{{ leaflet.map.getBackgroundColor() }}"
+             data-leaflet='{{ leafletOptions|json_encode }}'></div>
+    {% else %}
+        <div>
+            <img class="h-auto max-w-full rounded-lg lazy" src="{{ renderComponent('placeholder-image') }}"
+                 data-src="assets/images/maps/not-found.jpg"
+                 alt="No map"/>
+        </div>
+    {% endif %}
+</div>
+{% if segmentEfforts|length > 0 %}
+    <div class="grid grid-cols-1 gap-4">
+        <div id="accordion-segments" data-accordion="collapse"
+             data-active-classes="text-gray-900"
+             data-inactive-classes="text-gray-900">
+            <a id="accordion-segments-heading" data-accordion-target="#accordion-segments-body" aria-expanded="false"
+               aria-controls="accordion-segments-body"
+               class="hover:underline cursor-pointer flex items-center gap-3 justify-between w-full px-2 py-3 font-medium rtl:text-right text-gray-900">
+                <span>Segments ({{ segmentEfforts|length }})</span>
+                <svg data-accordion-icon class="w-3 h-3 shrink-0" aria-hidden="true"
+                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M9 5 5 1 1 5"/>
+                </svg>
+            </a>
+            <div id="accordion-segments-body" class="hidden relative overflow-x-auto"
+                 aria-labelledby="accordion-segments-heading">
+                <table class="w-full text-sm text-center text-gray-500">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-2 py-3 text-left">
+
+                        </th>
+                        <th scope="col" class="px-2 py-3">
+                            <div class="flex items-center justify-center">
+                                {{ renderSvg('time') }}
+                            </div>
+                        </th>
+                        <th scope="col" class="px-2 py-3">
+                            <div class="flex items-center justify-center">
+                                {{ renderSvg('speed') }}
+                            </div>
+                        </th>
+                        <th scope="col" class="px-2 py-3">
+                            <div class="flex items-center justify-center">
+                                {{ renderSvg('distance') }}
+                            </div>
+                        </th>
+                        <th scope="col" class="px-2 py-3">
+                            <div class="flex items-center justify-center">
+                                {{ renderSvg('power') }}
+                            </div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for segmentEffort in segmentEfforts %}
+                        <tr class="{{ cycle(['bg-white border-b', 'border-b bg-gray-50'], loop.index0) }}">
+                            <td class="px-2 py-2 text-left">
+                                <a href="#" data-model-content-url="segment/{{ segmentEffort.getSegmentId() }}.html"
+                                   class="flex items-center gap-x-1 font-medium text-blue-600 hover:underline"
+                                   rel="nofollow">
+                                    <span class="truncate">{{ segmentEffort.getName()|ellipses(50) }}</span>
+                                </a>
+                            </td>
+                            <td class="px-2 py-2">
+                                {{ segmentEffort.getElapsedTimeFormatted() }}
+                            </td>
+                            <td class="px-2 py-2">
+                                {{ renderComponent('measurement', {'measurement': segmentEffort.getAverageSpeed(), 'precision': 1}) }}
+                            </td>
+                            <td class="px-2 py-2">
+                                {{ renderComponent('measurement', {'measurement': segmentEffort.getDistance(), 'precision': 2}) }}
+                            </td>
+                            <td class="px-2 py-2">
+                                {% if segmentEffort.getAverageWatts() %}
+                                    {{ segmentEffort.getAverageWatts()|formatNumber(0) }}<span class="text-xs">w</span>
+                                {% else %}
+                                    n/a
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% if not splits.isEmpty() or heartRateDistributionChart %}
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        {% if not splits.isEmpty() %}
+            {% set unitSymbol = splits|first.getUnitSystem().distance(1).getSymbol()  %}
+            <div>
+                <h3 class="font-bold mb-1 text-center">{{ "Pace Analysis"|trans }}</h3>
+                <div class="text-center text-gray-500 text-sm max-h-[350px] mb-4 relative overflow-x-auto px-2 pb-2 border border-gray-200 rounded-lg shadow">
+                    <div class="bg-white sticky top-0 pt-2 flex items-center text-xs text-gray-700 uppercase font-bold">
+                        <div class="w-[2rem] px-2 py-2">{{ unitSymbol }}</div>
+                        <div class="w-[5rem] px-2 py-2">{{ "Pace"|trans }}</div>
+                        <div class="flex-grow min-w-[10rem] px-2 py-2"></div>
+                        <div class="w-[5rem] px-2 py-2">{{ "Elev"|trans }}</div>
+                    </div>
+                    {% for split in splits %}
+                        <div class="flex items-center border-b last:border-b-0">
+                            <div class="w-[2rem] px-2 py-2 font-bold">
+                                {{ split.getSplitNumber() }}
+                            </div>
+                            <div class="w-[5rem] px-2 py-2">
+                                {{ split.getPaceFormatted() }}
+                            </div>
+                            <div class="flex-grow min-w-[10rem] px-2 py-2">
+                                <div class=" bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-blue-600 h-2.5 rounded-full" style="width: {{ split.getRelativePacePercentage() }}%"></div>
+                                </div>
+                            </div>
+                            <div class="w-[5rem] px-2 py-2">
+                                {{ renderComponent('measurement', {'measurement': split.getElevationDifference(), 'precision': 0}) }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        {% if heartRateDistributionChart %}
+            <div>
+                <h3 class="font-bold mb-1 text-center">{{ "Heart rate distribution"|trans }}</h3>
+                <div class="h-[350px]" data-echarts-options='{{ heartRateDistributionChart }}'></div>
+            </div>
+        {% endif %}
+    </div>
+{% endif %}
+{% endautoescape %}

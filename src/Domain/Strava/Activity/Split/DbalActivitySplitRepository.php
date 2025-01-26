@@ -14,7 +14,10 @@ final readonly class DbalActivitySplitRepository extends DbalRepository implemen
 {
     public function findBy(ActivityId $activityId, UnitSystem $unitSystem): ActivitySplits
     {
-        $sql = 'SELECT * FROM ActivitySplit WHERE activityId = :activityId AND unitSystem = :unitSystem';
+        $sql = 'SELECT * FROM ActivitySplit 
+         WHERE activityId = :activityId AND unitSystem = :unitSystem
+         ORDER BY splitNumber ASC';
+
         $results = $this->connection->executeQuery($sql, [
             'activityId' => $activityId,
             'unitSystem' => $unitSystem->value,
@@ -39,10 +42,10 @@ final readonly class DbalActivitySplitRepository extends DbalRepository implemen
     {
         $sql = 'INSERT INTO ActivitySplit (
             activityId, unitSystem, splitNumber, distance, elapsedTimeInSeconds, movingTimeInSeconds,
-            elevationDifference, averageSpeed, paceZone
+            elevationDifference, averageSpeed, minAverageSpeed, maxAverageSpeed, paceZone
         ) VALUES(
             :activityId, :unitSystem, :splitNumber, :distance, :elapsedTimeInSeconds, :movingTimeInSeconds,
-            :elevationDifference, :averageSpeed, :paceZone
+            :elevationDifference, :averageSpeed, :minAverageSpeed, :maxAverageSpeed, :paceZone
         )';
 
         $this->connection->executeStatement($sql, [
@@ -54,6 +57,8 @@ final readonly class DbalActivitySplitRepository extends DbalRepository implemen
             'movingTimeInSeconds' => $activitySplit->getMovingTimeInSeconds(),
             'elevationDifference' => $activitySplit->getElevationDifference()->toFloat(),
             'averageSpeed' => $activitySplit->getAverageSpeed()->toFloat(),
+            'minAverageSpeed' => $activitySplit->getMinAverageSpeed()->toFloat(),
+            'maxAverageSpeed' => $activitySplit->getMaxAverageSpeed()->toFloat(),
             'paceZone' => $activitySplit->getPaceZone(),
         ]);
     }
@@ -81,6 +86,8 @@ final readonly class DbalActivitySplitRepository extends DbalRepository implemen
             movingTimeInSeconds: $result['movingTimeInSeconds'],
             elevationDifference: Meter::from($result['elevationDifference']),
             averageSpeed: MetersPerSecond::from($result['averageSpeed']),
+            minAverageSpeed: MetersPerSecond::from($result['minAverageSpeed']),
+            maxAverageSpeed: MetersPerSecond::from($result['maxAverageSpeed']),
             paceZone: $result['paceZone']
         );
     }

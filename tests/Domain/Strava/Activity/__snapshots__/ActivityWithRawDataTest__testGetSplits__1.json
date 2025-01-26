@@ -8,7 +8,9 @@
         "average_speed": 1.12,
         "average_grade_adjusted_speed": null,
         "pace_zone": 0,
-        "unit_system": "metric"
+        "unit_system": "metric",
+        "min_average_speed": 0,
+        "max_average_speed": 1.37
     },
     {
         "distance": 1001.1,
@@ -19,7 +21,9 @@
         "average_speed": 1.1,
         "average_grade_adjusted_speed": null,
         "pace_zone": 0,
-        "unit_system": "metric"
+        "unit_system": "metric",
+        "min_average_speed": 0,
+        "max_average_speed": 1.37
     },
     {
         "distance": 1001.4,
@@ -30,7 +34,9 @@
         "average_speed": 1.02,
         "average_grade_adjusted_speed": null,
         "pace_zone": 0,
-        "unit_system": "metric"
+        "unit_system": "metric",
+        "min_average_speed": 0,
+        "max_average_speed": 1.37
     },
     {
         "distance": 996.9,
@@ -41,7 +47,9 @@
         "average_speed": 1.07,
         "average_grade_adjusted_speed": null,
         "pace_zone": 0,
-        "unit_system": "metric"
+        "unit_system": "metric",
+        "min_average_speed": 0,
+        "max_average_speed": 1.37
     },
     {
         "distance": 1003.1,
@@ -52,7 +60,9 @@
         "average_speed": 1.09,
         "average_grade_adjusted_speed": null,
         "pace_zone": 0,
-        "unit_system": "metric"
+        "unit_system": "metric",
+        "min_average_speed": 0,
+        "max_average_speed": 1.37
     },
     {
         "distance": 999.2,
@@ -63,7 +73,9 @@
         "average_speed": 1.19,
         "average_grade_adjusted_speed": null,
         "pace_zone": 0,
-        "unit_system": "metric"
+        "unit_system": "metric",
+        "min_average_speed": 0,
+        "max_average_speed": 1.37
     },
     {
         "distance": 998.4,
@@ -74,7 +86,9 @@
         "average_speed": 1.06,
         "average_grade_adjusted_speed": null,
         "pace_zone": 0,
-        "unit_system": "metric"
+        "unit_system": "metric",
+        "min_average_speed": 0,
+        "max_average_speed": 1.37
     },
     {
         "distance": 1001.3,
@@ -85,7 +99,9 @@
         "average_speed": 1.13,
         "average_grade_adjusted_speed": null,
         "pace_zone": 0,
-        "unit_system": "metric"
+        "unit_system": "metric",
+        "min_average_speed": 0,
+        "max_average_speed": 1.37
     },
     {
         "distance": 1000.6,
@@ -96,7 +112,9 @@
         "average_speed": 0.94,
         "average_grade_adjusted_speed": null,
         "pace_zone": 0,
-        "unit_system": "metric"
+        "unit_system": "metric",
+        "min_average_speed": 0,
+        "max_average_speed": 1.37
     },
     {
         "distance": 998.8,
@@ -107,7 +125,9 @@
         "average_speed": 0.89,
         "average_grade_adjusted_speed": null,
         "pace_zone": 0,
-        "unit_system": "metric"
+        "unit_system": "metric",
+        "min_average_speed": 0,
+        "max_average_speed": 1.37
     },
     {
         "distance": 1001.3,
@@ -118,7 +138,9 @@
         "average_speed": 0.89,
         "average_grade_adjusted_speed": null,
         "pace_zone": 0,
-        "unit_system": "metric"
+        "unit_system": "metric",
+        "min_average_speed": 0,
+        "max_average_speed": 1.37
     },
     {
         "distance": 1000.1,
@@ -129,7 +151,9 @@
         "average_speed": 1.04,
         "average_grade_adjusted_speed": null,
         "pace_zone": 0,
-        "unit_system": "metric"
+        "unit_system": "metric",
+        "min_average_speed": 0,
+        "max_average_speed": 1.37
     },
     {
         "distance": 997.4,
@@ -140,7 +164,9 @@
         "average_speed": 1.26,
         "average_grade_adjusted_speed": null,
         "pace_zone": 0,
-        "unit_system": "metric"
+        "unit_system": "metric",
+        "min_average_speed": 0,
+        "max_average_speed": 1.37
     },
     {
         "distance": 999.9,
@@ -151,7 +177,9 @@
         "average_speed": 1.03,
         "average_grade_adjusted_speed": null,
         "pace_zone": 0,
-        "unit_system": "metric"
+        "unit_system": "metric",
+        "min_average_speed": 0,
+        "max_average_speed": 1.37
     },
     {
         "distance": 1000.1,
@@ -162,7 +190,9 @@
         "average_speed": 1.37,
         "average_grade_adjusted_speed": null,
         "pace_zone": 0,
-        "unit_system": "metric"
+        "unit_system": "metric",
+        "min_average_speed": 0,
+        "max_average_speed": 1.37
     },
     {
         "distance": 1000,
@@ -173,7 +203,9 @@
         "average_speed": 1.06,
         "average_grade_adjusted_speed": null,
         "pace_zone": 0,
-        "unit_system": "metric"
+        "unit_system": "metric",
+        "min_average_speed": 0,
+        "max_average_speed": 1.37
     },
     {
         "distance": 0,
@@ -184,7 +216,9 @@
         "average_speed": 0,
         "average_grade_adjusted_speed": null,
         "pace_zone": 0,
-        "unit_system": "metric"
+        "unit_system": "metric",
+        "min_average_speed": 0,
+        "max_average_speed": 1.37
     },
     {
         "distance": 1611.6,
@@ -195,7 +229,9 @@
         "average_speed": 1.13,
         "average_grade_adjusted_speed": null,
         "pace_zone": 0,
-        "unit_system": "imperial"
+        "unit_system": "imperial",
+        "min_average_speed": 0.88,
+        "max_average_speed": 1.17
     },
     {
         "distance": 1608.2,
@@ -206,7 +242,9 @@
         "average_speed": 1.03,
         "average_grade_adjusted_speed": null,
         "pace_zone": 0,
-        "unit_system": "imperial"
+        "unit_system": "imperial",
+        "min_average_speed": 0.88,
+        "max_average_speed": 1.17
     },
     {
         "distance": 1608.8,
@@ -217,7 +255,9 @@
         "average_speed": 1.06,
         "average_grade_adjusted_speed": null,
         "pace_zone": 0,
-        "unit_system": "imperial"
+        "unit_system": "imperial",
+        "min_average_speed": 0.88,
+        "max_average_speed": 1.17
     },
     {
         "distance": 1608.9,
@@ -228,7 +268,9 @@
         "average_speed": 1.17,
         "average_grade_adjusted_speed": null,
         "pace_zone": 0,
-        "unit_system": "imperial"
+        "unit_system": "imperial",
+        "min_average_speed": 0.88,
+        "max_average_speed": 1.17
     },
     {
         "distance": 1610.8,
@@ -239,7 +281,9 @@
         "average_speed": 1.1,
         "average_grade_adjusted_speed": null,
         "pace_zone": 0,
-        "unit_system": "imperial"
+        "unit_system": "imperial",
+        "min_average_speed": 0.88,
+        "max_average_speed": 1.17
     },
     {
         "distance": 1608.3,
@@ -250,7 +294,9 @@
         "average_speed": 0.94,
         "average_grade_adjusted_speed": null,
         "pace_zone": 0,
-        "unit_system": "imperial"
+        "unit_system": "imperial",
+        "min_average_speed": 0.88,
+        "max_average_speed": 1.17
     },
     {
         "distance": 1609,
@@ -261,7 +307,9 @@
         "average_speed": 0.88,
         "average_grade_adjusted_speed": null,
         "pace_zone": 0,
-        "unit_system": "imperial"
+        "unit_system": "imperial",
+        "min_average_speed": 0.88,
+        "max_average_speed": 1.17
     },
     {
         "distance": 1609.5,
@@ -272,7 +320,9 @@
         "average_speed": 1.16,
         "average_grade_adjusted_speed": null,
         "pace_zone": 0,
-        "unit_system": "imperial"
+        "unit_system": "imperial",
+        "min_average_speed": 0.88,
+        "max_average_speed": 1.17
     },
     {
         "distance": 1611.6,
@@ -283,7 +333,9 @@
         "average_speed": 1.13,
         "average_grade_adjusted_speed": null,
         "pace_zone": 0,
-        "unit_system": "imperial"
+        "unit_system": "imperial",
+        "min_average_speed": 0.88,
+        "max_average_speed": 1.17
     },
     {
         "distance": 1513.6,
@@ -294,6 +346,8 @@
         "average_speed": 1.15,
         "average_grade_adjusted_speed": null,
         "pace_zone": 0,
-        "unit_system": "imperial"
+        "unit_system": "imperial",
+        "min_average_speed": 0.88,
+        "max_average_speed": 1.17
     }
 ]
