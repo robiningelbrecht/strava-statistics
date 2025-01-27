@@ -23,7 +23,6 @@ use App\Domain\Strava\Activity\Stream\ActivityPowerRepository;
 use App\Domain\Strava\Activity\Stream\ActivityStreamRepository;
 use App\Domain\Strava\Activity\Stream\PowerOutputChartBuilder;
 use App\Domain\Strava\Activity\Stream\StreamType;
-use App\Domain\Strava\Activity\Stream\StreamTypes;
 use App\Domain\Strava\Activity\WeekdayStats\WeekdayStats;
 use App\Domain\Strava\Activity\WeekdayStats\WeekdayStatsChartsBuilder;
 use App\Domain\Strava\Activity\WeeklyDistanceChartBuilder;
@@ -169,13 +168,16 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                 $this->activityPowerRepository->findBestForActivity($activity->getId())
             );
 
-            $streams = $this->activityStreamRepository->findByActivityAndStreamTypes(
-                activityId: $activity->getId(),
-                streamTypes: StreamTypes::fromArray([StreamType::CADENCE])
-            );
+            try {
+                $cadenceStream = $this->activityStreamRepository->findOneByActivityAndStreamType(
+                    activityId: $activity->getId(),
+                    streamType: StreamType::CADENCE
+                );
 
-            if (($cadenceStream = $streams->getByStreamType(StreamType::CADENCE)) && !empty($cadenceStream->getData())) {
-                $activity->enrichWithMaxCadence(max($cadenceStream->getData()));
+                if (!empty($cadenceStream->getData())) {
+                    $activity->enrichWithMaxCadence(max($cadenceStream->getData()));
+                }
+            } catch (EntityNotFound) {
             }
         }
 
@@ -514,8 +516,8 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
 
         $dataDatableRows = [];
         foreach ($allActivities as $activity) {
-            $heartRateData = $this->activityHeartRateRepository->findTimeInSecondsPerHeartRateForActivity($activity->getId());
-            $powerData = $this->activityPowerRepository->findTimeInSecondsPerWattageForActivity($activity->getId());
+            $timeInSecondsPerHeartRate = $this->activityHeartRateRepository->findTimeInSecondsPerHeartRateForActivity($activity->getId());
+            $timeInSecondsPerWattage = $this->activityPowerRepository->findTimeInSecondsPerWattageForActivity($activity->getId());
             $leafletMap = $activity->getLeafletMap();
 
             $this->filesystem->write(
@@ -526,16 +528,16 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                         'routes' => [$activity->getPolyline()],
                         'map' => $leafletMap,
                     ] : null,
-                    'heartRateDistributionChart' => $heartRateData && $activity->getAverageHeartRate() ? Json::encode(
+                    'heartRateDistributionChart' => $timeInSecondsPerHeartRate && $activity->getAverageHeartRate() ? Json::encode(
                         HeartRateDistributionChartBuilder::fromHeartRateData(
-                            heartRateData: $heartRateData,
+                            heartRateData: $timeInSecondsPerHeartRate,
                             averageHeartRate: $activity->getAverageHeartRate(),
                             athleteMaxHeartRate: $athlete->getMaxHeartRate($activity->getStartDate())
                         )->build(),
                     ) : null,
-                    'powerDistributionChart' => $powerData && $activity->getAveragePower() ? Json::encode(
+                    'powerDistributionChart' => $timeInSecondsPerWattage && $activity->getAveragePower() ? Json::encode(
                         PowerDistributionChartBuilder::create(
-                            powerData: $powerData,
+                            powerData: $timeInSecondsPerWattage,
                             averagePower: $activity->getAveragePower(),
                         )->build(),
                     ) : null,

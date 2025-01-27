@@ -83,12 +83,10 @@ final class StreamBasedActivityPowerRepository implements ActivityPowerRepositor
             return [];
         }
 
-        $streams = $this->activityStreamRepository->findByActivityAndStreamTypes(
+        $stream = $this->activityStreamRepository->findOneByActivityAndStreamType(
             activityId: $activityId,
-            streamTypes: StreamTypes::fromArray([StreamType::WATTS])
+            streamType: StreamType::WATTS
         );
-        /** @var ActivityStream $stream */
-        $stream = $streams->getByStreamType(StreamType::WATTS);
         $powerStreamForActivity = array_count_values(array_filter($stream->getData(), fn (mixed $item) => !is_null($item)));
         ksort($powerStreamForActivity);
 

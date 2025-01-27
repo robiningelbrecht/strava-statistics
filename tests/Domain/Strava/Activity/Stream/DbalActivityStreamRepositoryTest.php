@@ -7,7 +7,6 @@ use App\Domain\Strava\Activity\Stream\ActivityStreamRepository;
 use App\Domain\Strava\Activity\Stream\ActivityStreams;
 use App\Domain\Strava\Activity\Stream\DbalActivityStreamRepository;
 use App\Domain\Strava\Activity\Stream\StreamType;
-use App\Domain\Strava\Activity\Stream\StreamTypes;
 use App\Infrastructure\Exception\EntityNotFound;
 use App\Tests\ContainerTestCase;
 
@@ -71,7 +70,7 @@ class DbalActivityStreamRepositoryTest extends ContainerTestCase
         );
     }
 
-    public function testFindByActivityAndStreamTypes(): void
+    public function testFindOneByActivityAndStreamType(): void
     {
         $streamOne = ActivityStreamBuilder::fromDefaults()
             ->withActivityId(ActivityId::fromUnprefixed(1))
@@ -97,11 +96,21 @@ class DbalActivityStreamRepositoryTest extends ContainerTestCase
         );
 
         $this->assertEquals(
-            ActivityStreams::fromArray([$streamTwo, $streamOne]),
-            $this->activityStreamRepository->findByActivityAndStreamTypes(
+            $streamTwo,
+            $this->activityStreamRepository->findOneByActivityAndStreamType(
                 activityId: ActivityId::fromUnprefixed(1),
-                streamTypes: StreamTypes::fromArray([StreamType::WATTS, StreamType::CADENCE])
+                streamType: StreamType::CADENCE
             )
+        );
+    }
+
+    public function testFindOneByActivityAndStreamTypeItShouldThrow(): void
+    {
+        $this->expectExceptionObject(new EntityNotFound('ActivityStream activity-1-cadence not found'));
+
+        $this->activityStreamRepository->findOneByActivityAndStreamType(
+            activityId: ActivityId::fromUnprefixed(1),
+            streamType: StreamType::CADENCE
         );
     }
 
