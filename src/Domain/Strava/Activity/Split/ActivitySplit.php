@@ -9,7 +9,6 @@ use App\Infrastructure\Time\Format\ProvideTimeFormats;
 use App\Infrastructure\ValueObject\Measurement\Length\Meter;
 use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use App\Infrastructure\ValueObject\Measurement\Velocity\MetersPerSecond;
-use App\Infrastructure\ValueObject\Measurement\Velocity\SecPerKm;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
@@ -139,43 +138,6 @@ final readonly class ActivitySplit
     {
         return $this->averageSpeed;
     }
-
-    /*public function getRelativePacePercentage(): float
-    {
-        if (0.0 === $this->getMaxAverageSpeed()->toFloat()) {
-            return 0;
-        }
-        if (0.0 === $this->getMaxAverageSpeed()->toFloat() - $this->getMinAverageSpeed()->toFloat()) {
-            return 0;
-        }
-
-        $adjustMinMaxSpeedsWithSecond = 10;
-
-        $slowestKilometer = $this->getMinAverageSpeed()->toSecPerKm();
-        $recalculatedSlowestKilometer = SecPerKm::from(ceil($this->getMinAverageSpeed()->toSecPerKm()->toFloat() / $adjustMinMaxSpeedsWithSecond) * $adjustMinMaxSpeedsWithSecond);
-        if ($slowestKilometer->equals($recalculatedSlowestKilometer)) {
-            $recalculatedSlowestKilometer = SecPerKm::from($recalculatedSlowestKilometer->toFloat() + $adjustMinMaxSpeedsWithSecond);
-        }
-
-        $fastestKilometer = $this->getMaxAverageSpeed()->toSecPerKm();
-        $recalculatedFastestKilometer = SecPerKm::from(floor($this->getMaxAverageSpeed()->toSecPerKm()->toFloat() / $adjustMinMaxSpeedsWithSecond) * $adjustMinMaxSpeedsWithSecond);
-        if ($fastestKilometer->equals($recalculatedFastestKilometer)) {
-            $recalculatedFastestKilometer = SecPerKm::from(max(0, $fastestKilometer->toFloat() - $adjustMinMaxSpeedsWithSecond));
-        }
-
-        if ($recalculatedSlowestKilometer->equals($recalculatedFastestKilometer)) {
-            $recalculatedFastestKilometer = SecPerKm::from($recalculatedFastestKilometer->toFloat() - $adjustMinMaxSpeedsWithSecond);
-        }
-
-        $maxAverageSpeed = $recalculatedFastestKilometer->toMetersPerSecond();
-        $minAverageSpeed = $recalculatedSlowestKilometer->toMetersPerSecond();
-
-        $step = round(100 / ($maxAverageSpeed->toFloat() - $minAverageSpeed->toFloat()), 2);
-        // Relative = step *  (value - min).
-        $relativePercentage = $step * ($this->getAverageSpeed()->toFloat() - $minAverageSpeed->toFloat());
-
-        return round($relativePercentage, 2);
-    }*/
 
     public function getRelativePacePercentage(): float
     {
