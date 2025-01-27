@@ -45,4 +45,9 @@ trait MeasurementFromFloat
     {
         return $this->toFloat();
     }
+
+    public function equals(Unit $other): bool
+    {
+        return $this->toFloat() === $other->toFloat();
+    }
 }

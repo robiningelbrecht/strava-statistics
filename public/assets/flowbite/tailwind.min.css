@@ -1950,11 +1950,6 @@ input:checked + .toggle-bg {
   background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1)) !important;
 }
 
-.bg-blue-600 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(28 100 242 / var(--tw-bg-opacity, 1));
-}
-
 .bg-blue-600\/\[\.1\] {
   background-color: rgb(28 100 242 / .1);
 }
@@ -2012,6 +2007,11 @@ input:checked + .toggle-bg {
 
 .bg-slate-600\/\[\.1\] {
   background-color: rgb(71 85 105 / .1);
+}
+
+.bg-strava-orange {
+  --tw-bg-opacity: 1;
+  background-color: rgb(242 103 34 / var(--tw-bg-opacity, 1));
 }
 
 .bg-transparent {

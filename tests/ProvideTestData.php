@@ -8,6 +8,7 @@ use App\Domain\Strava\Activity\Activity;
 use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\ActivityWithRawData;
 use App\Domain\Strava\Activity\ActivityWithRawDataRepository;
+use App\Domain\Strava\Activity\Split\ActivitySplitRepository;
 use App\Domain\Strava\Activity\SportType\SportType;
 use App\Domain\Strava\Activity\Stream\ActivityStreamRepository;
 use App\Domain\Strava\Activity\Stream\StreamType;
@@ -30,8 +31,10 @@ use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Measurement\Length\Meter;
 use App\Infrastructure\ValueObject\Measurement\Mass\Gram;
+use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use App\Infrastructure\ValueObject\String\Name;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
+use App\Tests\Domain\Strava\Activity\Split\ActivitySplitBuilder;
 use App\Tests\Domain\Strava\Activity\Stream\ActivityStreamBuilder;
 use App\Tests\Domain\Strava\Athlete\Weight\AthleteWeightBuilder;
 use App\Tests\Domain\Strava\Challenge\ChallengeBuilder;
@@ -490,6 +493,23 @@ trait ProvideTestData
             $activity,
             $rawData
         ));
+
+        /** @var ActivitySplitRepository $activitySplitRepository */
+        $activitySplitRepository = $this->getContainer()->get(ActivitySplitRepository::class);
+        $activitySplitRepository->add(
+            ActivitySplitBuilder::fromDefaults()
+                ->withActivityId($activity->getId())
+                ->withSplitNumber(1)
+                ->withUnitSystem(UnitSystem::METRIC)
+                ->build()
+        );
+        $activitySplitRepository->add(
+            ActivitySplitBuilder::fromDefaults()
+                ->withActivityId($activity->getId())
+                ->withSplitNumber(2)
+                ->withUnitSystem(UnitSystem::METRIC)
+                ->build()
+        );
 
         /** @var GearRepository $gearRepository */
         $gearRepository = $this->getContainer()->get(GearRepository::class);

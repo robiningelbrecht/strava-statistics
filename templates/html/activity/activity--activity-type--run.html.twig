@@ -125,11 +125,6 @@
                                 {{ renderSvg('distance') }}
                             </div>
                         </th>
-                        <th scope="col" class="px-2 py-3">
-                            <div class="flex items-center justify-center">
-                                {{ renderSvg('power') }}
-                            </div>
-                        </th>
                     </tr>
                     </thead>
                     <tbody>
@@ -150,13 +145,6 @@
                             </td>
                             <td class="px-2 py-2">
                                 {{ renderComponent('measurement', {'measurement': segmentEffort.getDistance(), 'precision': 2}) }}
-                            </td>
-                            <td class="px-2 py-2">
-                                {% if segmentEffort.getAverageWatts() %}
-                                    {{ segmentEffort.getAverageWatts()|formatNumber(0) }}<span class="text-xs">w</span>
-                                {% else %}
-                                    n/a
-                                {% endif %}
                             </td>
                         </tr>
                     {% endfor %}
@@ -189,7 +177,7 @@
                             </div>
                             <div class="flex-grow min-w-[10rem] px-2 py-2">
                                 <div class=" bg-gray-200 rounded-full h-2.5">
-                                    <div class="bg-blue-600 h-2.5 rounded-full" style="width: {{ split.getRelativePacePercentage() }}%"></div>
+                                    <div class="bg-strava-orange h-2.5 rounded-full" style="width: {{ split.getRelativePacePercentage() }}%"></div>
                                 </div>
                             </div>
                             <div class="w-[5rem] px-2 py-2">

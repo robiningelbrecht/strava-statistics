@@ -89,6 +89,13 @@ final class ActivitySplitBuilder
         return $this;
     }
 
+    public function withMinAverageSpeed(MetersPerSecond $minAverageSpeed): self
+    {
+        $this->minAverageSpeed = $minAverageSpeed;
+
+        return $this;
+    }
+
     public function withMaxAverageSpeed(MetersPerSecond $maxAverageSpeed): self
     {
         $this->maxAverageSpeed = $maxAverageSpeed;
