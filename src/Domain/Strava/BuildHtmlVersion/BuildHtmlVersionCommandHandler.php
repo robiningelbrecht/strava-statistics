@@ -500,7 +500,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
             'build/html/heatmap.html',
             $this->twig->load('html/heatmap.html.twig')->render([
                 'routesPerCountry' => Json::encode($routesPerCountry),
-                'routesInMostRiddenState' => Json::encode($routesInMostActiveState),
+                'routesInMostActiveState' => Json::encode($routesInMostActiveState),
             ]),
         );
 
