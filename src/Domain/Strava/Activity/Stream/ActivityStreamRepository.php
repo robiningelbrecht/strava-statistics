@@ -18,7 +18,7 @@ interface ActivityStreamRepository
 
     public function findByStreamType(StreamType $streamType): ActivityStreams;
 
-    public function findByActivityAndStreamTypes(ActivityId $activityId, StreamTypes $streamTypes): ActivityStreams;
+    public function findOneByActivityAndStreamType(ActivityId $activityId, StreamType $streamType): ActivityStream;
 
     public function findByActivityId(ActivityId $activityId): ActivityStreams;
 

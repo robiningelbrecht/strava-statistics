@@ -12,6 +12,8 @@ interface Unit extends \Stringable, \JsonSerializable
 
     public function isZeroOrLower(): bool;
 
+    public function equals(Unit $other): bool;
+
     public function getSymbol(): string;
 
     public function toFloat(): float;

@@ -141,11 +141,24 @@ final readonly class ActivitySplit
 
     public function getRelativePacePercentage(): float
     {
-        if ($this->getMaxAverageSpeed()->toInt() < 1) {
+        if (0.0 === $this->getMaxAverageSpeed()->toFloat()) {
+            return 0;
+        }
+        if (0.0 === $this->getMaxAverageSpeed()->toFloat() - $this->getMinAverageSpeed()->toFloat()) {
             return 0;
         }
 
-        return round($this->getAverageSpeed()->toInt() / $this->getMaxAverageSpeed()->toInt() * 100, 2);
+        $adjustMinSpeedPercentage = 0.8;
+        $adjustMaxSpeedPercentage = 1.1;
+
+        $maxAverageSpeed = MetersPerSecond::from($this->getMinAverageSpeed()->toFloat() * $adjustMaxSpeedPercentage);
+        $minAverageSpeed = MetersPerSecond::from($this->getMaxAverageSpeed()->toFloat() * $adjustMinSpeedPercentage);
+
+        $step = round(100 / ($maxAverageSpeed->toFloat() - $minAverageSpeed->toFloat()), 2);
+        // Relative = step *  (value - min).
+        $relativePercentage = $step * ($this->getAverageSpeed()->toFloat() - $minAverageSpeed->toFloat());
+
+        return round($relativePercentage, 2);
     }
 
     public function getMinAverageSpeed(): MetersPerSecond

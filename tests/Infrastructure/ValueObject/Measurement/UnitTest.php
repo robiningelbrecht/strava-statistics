@@ -53,6 +53,7 @@ class UnitTest extends TestCase
             [Fahrenheit::from(10), Celsius::from(-12.22)->toImperial()],
             [KmPerHour::from(57.6), MetersPerSecond::from(16)->toKmPerHour()],
             [SecPerKm::from(62.5), MetersPerSecond::from(16)->toSecPerKm()],
+            [MetersPerSecond::from(125), SecPerKm::from(8)->toMetersPerSecond()],
         ];
     }
 

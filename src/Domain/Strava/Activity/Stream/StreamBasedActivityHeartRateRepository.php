@@ -40,12 +40,10 @@ final class StreamBasedActivityHeartRateRepository implements ActivityHeartRateR
             return [];
         }
 
-        $streams = $this->activityStreamRepository->findByActivityAndStreamTypes(
+        $stream = $this->activityStreamRepository->findOneByActivityAndStreamType(
             activityId: $activityId,
-            streamTypes: StreamTypes::fromArray([StreamType::HEART_RATE])
+            streamType: StreamType::HEART_RATE
         );
-        /** @var ActivityStream $stream */
-        $stream = $streams->getByStreamType(StreamType::HEART_RATE);
         $heartRateStreamForActivity = array_count_values($stream->getData());
         ksort($heartRateStreamForActivity);
 

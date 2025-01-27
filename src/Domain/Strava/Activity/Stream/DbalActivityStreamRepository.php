@@ -7,7 +7,6 @@ use App\Infrastructure\Exception\EntityNotFound;
 use App\Infrastructure\Repository\DbalRepository;
 use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
-use Doctrine\DBAL\ArrayParameterType;
 
 final readonly class DbalActivityStreamRepository extends DbalRepository implements ActivityStreamRepository
 {
@@ -89,23 +88,21 @@ final readonly class DbalActivityStreamRepository extends DbalRepository impleme
         ));
     }
 
-    public function findByActivityAndStreamTypes(ActivityId $activityId, StreamTypes $streamTypes): ActivityStreams
+    public function findOneByActivityAndStreamType(ActivityId $activityId, StreamType $streamType): ActivityStream
     {
         $queryBuilder = $this->connection->createQueryBuilder();
         $queryBuilder->select('*')
             ->from('ActivityStream')
             ->andWhere('activityId = :activityId')
             ->setParameter('activityId', $activityId)
-            ->andWhere('streamType IN (:streamTypes)')
-            ->setParameter('streamTypes', array_map(
-                fn (StreamType $streamType) => $streamType->value,
-                $streamTypes->toArray()
-            ), ArrayParameterType::STRING);
+            ->andWhere('streamType = :streamType')
+            ->setParameter('streamType', $streamType->value);
 
-        return ActivityStreams::fromArray(array_map(
-            fn (array $result) => $this->hydrate($result),
-            $queryBuilder->executeQuery()->fetchAllAssociative()
-        ));
+        if (!$result = $queryBuilder->executeQuery()->fetchAssociative()) {
+            throw new EntityNotFound(sprintf('ActivityStream %s-%s not found', $activityId, $streamType->value));
+        }
+
+        return $this->hydrate($result);
     }
 
     public function findByActivityId(ActivityId $activityId): ActivityStreams

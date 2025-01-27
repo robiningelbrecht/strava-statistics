@@ -101,117 +101,55 @@
                         <img class="h-auto max-w-full rounded-lg lazy" src="assets/placeholder.webp" data-src="files/activities/aeb9c32a-53a7-11ee-824c-9a34a3268d74.jpg" alt="Activity image">
                     </div>
                             </div>
-                <div class="mb-4 relative overflow-x-auto px-2 py-2 border border-gray-200 rounded-lg shadow">
-            <table class="w-full text-sm text-center text-gray-500">
-                <thead class="text-xs text-gray-700 uppercase">
-                <tr>
-                    <th scope="col" class="px-2 py-2">
-
-                    </th>
-                    <th scope="col" class="px-2 py-2">
-                        Speed
-                    </th>
-                    <th scope="col" class="px-2 py-2">
-                        Heart rate
-                    </th>
-                    <th scope="col" class="px-2 py-2">
-                        Cadence
-                    </th>
-                    <th scope="col" class="px-2 py-2">
-                        Power
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr class="border-b">
-                    <th class="px-2 py-2">
-                        Avg
-                    </th>
-                    <td class="px-2 py-2 text-sm">
-                                                                            31.9<span class="text-xs">km/h</span>
-
-                                            </td>
-                    <td class="px-2 py-2 text-sm">
-                                                                            154<span class="text-xs">bpm</span>
-                                            </td>
-                    <td class="px-2 py-2 text-sm">
-                                                84
-                    </td>
-                    <td class="px-2 py-2 text-sm">
-                                                                            192<span class="text-xs">w</span>
-                                            </td>
-                </tr>
-                <tr>
-                    <th class="px-2 py-2">
-                        Max
-                    </th>
-                    <td class="px-2 py-2 text-sm">
-                                                                            76.8<span class="text-xs">km/h</span>
-
-                                            </td>
-                    <td class="px-2 py-2 text-sm">
-                                                                            174<span class="text-xs">bpm</span>
-                                            </td>
-                    <td class="px-2 py-2 text-sm">
-                                                n/a
-                    </td>
-                    <td class="px-2 py-2 text-sm">
-                                                                            479<span class="text-xs">w</span>
-                                            </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-                    <div class="relative overflow-x-auto px-2 py-2 border border-gray-200 rounded-lg shadow">
-                <table class="w-full text-sm text-center text-gray-500">
-                    <thead class="text-xs text-gray-700 uppercase">
-                                                            <tr>
-                                                                                                                <th scope="col" colspan="2" class="px-2 py-2">
-                                    Best 5s
-                                </th>
-                                                                                                                                            <th scope="col" colspan="2" class="px-2 py-2">
-                                    Best 1m
-                                </th>
-                                                                                                                                            <th scope="col" colspan="2" class="px-2 py-2">
-                                    Best 5m
-                                </th>
-                                                                                                                                            <th scope="col" colspan="2" class="px-2 py-2">
-                                    Best 20m
-                                </th>
-                                                                        </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                                                                                                                <td class="px-2 py-2 first:border-l-0 border-l">
-                                    493<span class="text-xs">w</span>
-                                </td>
-                                <td class="px-2 py-2 last:border-r-0 border-r">
-                                    7.25<span class="text-xs">w/kg</span>
-                                </td>
-                                                                                                                                            <td class="px-2 py-2 first:border-l-0 border-l">
-                                    352<span class="text-xs">w</span>
-                                </td>
-                                <td class="px-2 py-2 last:border-r-0 border-r">
-                                    5.18<span class="text-xs">w/kg</span>
-                                </td>
-                                                                                                                                            <td class="px-2 py-2 first:border-l-0 border-l">
-                                    273<span class="text-xs">w</span>
-                                </td>
-                                <td class="px-2 py-2 last:border-r-0 border-r">
-                                    4.01<span class="text-xs">w/kg</span>
-                                </td>
-                                                                                                                                            <td class="px-2 py-2 first:border-l-0 border-l">
-                                    239<span class="text-xs">w</span>
-                                </td>
-                                <td class="px-2 py-2 last:border-r-0 border-r">
-                                    3.51<span class="text-xs">w/kg</span>
-                                </td>
-                                                                        </tr>
-                    </tbody>
-                </table>
-            </div>
             </div>
                     <div class="h-[350px]" style="background-color:#bbbbb7" data-leaflet='{"routes":[null],"tileLayer":"https:\/\/tile.openstreetmap.org\/{z}\/{x}\/{y}.png","minZoom":1,"maxZoom":14,"imageOverlay":null,"bounds":[]}'></div>
     </div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                                <div>
+                <h3 class="font-bold mb-1 text-center">Pace Analysis</h3>
+                <div class="text-center text-gray-500 text-sm max-h-[350px] mb-4 relative overflow-x-auto px-2 pb-2 border border-gray-200 rounded-lg shadow">
+                    <div class="bg-white sticky top-0 pt-2 flex items-center text-xs text-gray-700 uppercase font-bold">
+                        <div class="w-[2rem] px-2 py-2">km</div>
+                        <div class="w-[5rem] px-2 py-2">Pace</div>
+                        <div class="flex-grow min-w-[10rem] px-2 py-2"></div>
+                        <div class="w-[5rem] px-2 py-2">Elev</div>
+                    </div>
+                                            <div class="flex items-center border-b last:border-b-0">
+                            <div class="w-[2rem] px-2 py-2 font-bold">
+                                1
+                            </div>
+                            <div class="w-[5rem] px-2 py-2">
+                                5:33
+                            </div>
+                            <div class="flex-grow min-w-[10rem] px-2 py-2">
+                                <div class=" bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-strava-orange h-2.5 rounded-full" style="width: 64.16%"></div>
+                                </div>
+                            </div>
+                            <div class="w-[5rem] px-2 py-2">
+                                2<span class="text-xs">m</span>
+
+                            </div>
+                        </div>
+                                            <div class="flex items-center border-b last:border-b-0">
+                            <div class="w-[2rem] px-2 py-2 font-bold">
+                                2
+                            </div>
+                            <div class="w-[5rem] px-2 py-2">
+                                5:33
+                            </div>
+                            <div class="flex-grow min-w-[10rem] px-2 py-2">
+                                <div class=" bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-strava-orange h-2.5 rounded-full" style="width: 64.16%"></div>
+                                </div>
+                            </div>
+                            <div class="w-[5rem] px-2 py-2">
+                                2<span class="text-xs">m</span>
+
+                            </div>
+                        </div>
+                                    </div>
+            </div>
+                    </div>
     </div>
 </body></html>
