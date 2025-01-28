@@ -1,10 +1,6 @@
 {
-    "commandName": "App\\Domain\\Notification\\SendNotification\\SendNotification",
+    "commandName": "App\\Domain\\Strava\\BuildHtmlVersion\\BuildHtmlVersion",
     "payload": {
-        "title": "Build successful",
-        "message": "New build of your Strava stats was successful",
-        "tags": [
-            "+1"
-        ]
+        "output": {}
     }
 }

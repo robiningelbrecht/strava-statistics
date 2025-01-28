@@ -1,6 +1,4 @@
 {
-    "commandName": "App\\Domain\\Strava\\BuildHtmlVersion\\BuildHtmlVersion",
-    "payload": {
-        "output": {}
-    }
+    "commandName": "App\\Domain\\Manifest\\BuildManifest\\BuildManifest",
+    "payload": []
 }

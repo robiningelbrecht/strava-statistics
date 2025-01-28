@@ -106,6 +106,9 @@ services:
 ### .env
 
 ```bash
+# The URL on which the app will be hosted. This URL will be used in the manifest file. 
+# This will allow you to install the web app as a native app on your device.
+MANIFEST_APP_URL=http://localhost:8081/
 # The client id of your Strava app.
 STRAVA_CLIENT_ID=YOUR_CLIENT_ID
 # The client secret of your Strava app.

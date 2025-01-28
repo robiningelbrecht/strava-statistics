@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Domain\Manifest\BuildManifest\BuildManifest;
 use App\Domain\Notification\SendNotification\SendNotification;
 use App\Domain\Strava\BuildHtmlVersion\BuildHtmlVersion;
 use App\Domain\Strava\StravaDataImportStatus;
@@ -38,6 +39,9 @@ final class BuildStravaActivityFilesConsoleCommand extends Command
             return Command::FAILURE;
         }
         $this->resourceUsage->startTimer();
+
+        $output->writeln('Building Manifest...');
+        $this->commandBus->dispatch(new BuildManifest());
 
         $output->writeln('Building HTML...');
         $this->commandBus->dispatch(new BuildHtmlVersion($output));

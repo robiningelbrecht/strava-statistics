@@ -12,6 +12,7 @@ parameters:
     env(TIME_FORMAT): 24
     env(DATE_FORMAT): 'DAY-MONTH-YEAR'
     env(LOCALE): 'en_US'
+    env(MANIFEST_APP_URL): 'http://localhost:8081/'
 
 services:
     # default configuration for services in *this* file
@@ -83,6 +84,10 @@ services:
 
     GuzzleHttp\Client:
         class: GuzzleHttp\Client
+
+    App\Domain\Manifest\ManifestAppUrl:
+        factory: [ App\Domain\Manifest\ManifestAppUrl, 'fromString' ]
+        arguments: ['%env(string:MANIFEST_APP_URL)%']
 
     App\Domain\Strava\StravaClientId:
         factory: [ App\Domain\Strava\StravaClientId, 'fromString' ]
