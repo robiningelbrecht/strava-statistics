@@ -1,6 +1,5 @@
 {% autoescape false %}
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-    <div>
+<div>
         <div class="mb-4 grid grid-cols-6 gap-2">
             <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow">
                 <div class="text-center">
@@ -48,7 +47,7 @@
             </div>
         {% endif %}
         {% if activity.getLocalImagePaths() %}
-            <div class="mb-4 grid grid-cols-4 gap-2">
+            <div class="mb-4 grid grid-cols-6 gap-2">
                 {% for imagePath in activity.getLocalImagePaths() %}
                     <div>
                         <a href="#" data-popover-target="popover-image-{{ loop.index }}"
@@ -68,6 +67,38 @@
             </div>
         {% endif %}
     </div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+    {% if not splits.isEmpty() %}
+        {% set unitSymbol = splits|first.getUnitSystem().distance(1).getSymbol()  %}
+        <div>
+            <div class="text-center text-gray-500 text-sm h-[350px] mb-4 relative overflow-x-auto px-2 pb-2 border border-gray-200 rounded-lg shadow">
+                <div class="bg-white sticky top-0 pt-2 flex items-center text-xs text-gray-700 uppercase font-bold">
+                    <div class="w-[2rem] px-2 py-2">{{ unitSymbol }}</div>
+                    <div class="w-[5rem] px-2 py-2">{{ "Pace"|trans }}</div>
+                    <div class="flex-grow min-w-[10rem] px-2 py-2"></div>
+                    <div class="w-[5rem] px-2 py-2">{{ "Elev"|trans }}</div>
+                </div>
+                {% for split in splits %}
+                    <div class="flex items-center border-b last:border-b-0">
+                        <div class="w-[2rem] px-2 py-2 font-bold">
+                            {{ split.getSplitNumber() }}
+                        </div>
+                        <div class="w-[5rem] px-2 py-2">
+                            {{ split.getPaceFormatted() }}
+                        </div>
+                        <div class="flex-grow min-w-[10rem] px-2 py-2">
+                            <div class=" bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-strava-orange h-2.5 rounded-full" style="width: {{ split.getRelativePacePercentage() }}%"></div>
+                            </div>
+                        </div>
+                        <div class="w-[5rem] px-2 py-2">
+                            {{ renderComponent('measurement', {'measurement': split.getElevationDifference(), 'precision': 0}) }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
     {% if leaflet %}
         {% set leafletOptions = {
             'routes': leaflet.routes,
@@ -154,38 +185,12 @@
         </div>
     </div>
 {% endif %}
-{% if not splits.isEmpty() or heartRateDistributionChart %}
+{% if heartRateDistributionChart or heartRateChart %}
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        {% if not splits.isEmpty() %}
-            {% set unitSymbol = splits|first.getUnitSystem().distance(1).getSymbol()  %}
+        {% if heartRateChart %}
             <div>
-                <h3 class="font-bold mb-1 text-center">{{ "Pace Analysis"|trans }}</h3>
-                <div class="text-center text-gray-500 text-sm max-h-[350px] mb-4 relative overflow-x-auto px-2 pb-2 border border-gray-200 rounded-lg shadow">
-                    <div class="bg-white sticky top-0 pt-2 flex items-center text-xs text-gray-700 uppercase font-bold">
-                        <div class="w-[2rem] px-2 py-2">{{ unitSymbol }}</div>
-                        <div class="w-[5rem] px-2 py-2">{{ "Pace"|trans }}</div>
-                        <div class="flex-grow min-w-[10rem] px-2 py-2"></div>
-                        <div class="w-[5rem] px-2 py-2">{{ "Elev"|trans }}</div>
-                    </div>
-                    {% for split in splits %}
-                        <div class="flex items-center border-b last:border-b-0">
-                            <div class="w-[2rem] px-2 py-2 font-bold">
-                                {{ split.getSplitNumber() }}
-                            </div>
-                            <div class="w-[5rem] px-2 py-2">
-                                {{ split.getPaceFormatted() }}
-                            </div>
-                            <div class="flex-grow min-w-[10rem] px-2 py-2">
-                                <div class=" bg-gray-200 rounded-full h-2.5">
-                                    <div class="bg-strava-orange h-2.5 rounded-full" style="width: {{ split.getRelativePacePercentage() }}%"></div>
-                                </div>
-                            </div>
-                            <div class="w-[5rem] px-2 py-2">
-                                {{ renderComponent('measurement', {'measurement': split.getElevationDifference(), 'precision': 0}) }}
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
+                <h3 class="font-bold mb-1 text-center">{{ "Heart rate"|trans }}</h3>
+                <div class="h-[350px]" data-echarts-options='{{ heartRateChart }}'></div>
             </div>
         {% endif %}
         {% if heartRateDistributionChart %}

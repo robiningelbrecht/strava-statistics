@@ -47,6 +47,14 @@ enum ActivityType: string implements TranslatableInterface
         };
     }
 
+    public function supportsHeartRateOverTimeChart(): bool
+    {
+        return match ($this) {
+            self::RUN, self::WALK => true,
+            default => false,
+        };
+    }
+
     public function supportsDistanceBreakdownStats(): bool
     {
         return match ($this) {

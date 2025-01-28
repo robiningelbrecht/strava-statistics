@@ -13,6 +13,7 @@ use App\Domain\Strava\Activity\DistanceBreakdown;
 use App\Domain\Strava\Activity\Eddington\Eddington;
 use App\Domain\Strava\Activity\Eddington\EddingtonChartBuilder;
 use App\Domain\Strava\Activity\Eddington\EddingtonHistoryChartBuilder;
+use App\Domain\Strava\Activity\HeartRateChartBuilder;
 use App\Domain\Strava\Activity\HeartRateDistributionChartBuilder;
 use App\Domain\Strava\Activity\Image\ImageRepository;
 use App\Domain\Strava\Activity\PowerDistributionChartBuilder;
@@ -518,6 +519,14 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
         foreach ($allActivities as $activity) {
             $timeInSecondsPerHeartRate = $this->activityHeartRateRepository->findTimeInSecondsPerHeartRateForActivity($activity->getId());
             $timeInSecondsPerWattage = $this->activityPowerRepository->findTimeInSecondsPerWattageForActivity($activity->getId());
+            $heartRateStream = null;
+            if ($activity->getSportType()->getActivityType()->supportsHeartRateOverTimeChart()) {
+                try {
+                    $heartRateStream = $this->activityStreamRepository->findOneByActivityAndStreamType($activity->getId(), StreamType::HEART_RATE);
+                } catch (EntityNotFound) {
+                }
+            }
+
             $leafletMap = $activity->getLeafletMap();
 
             $this->filesystem->write(
@@ -546,6 +555,9 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                         activityId: $activity->getId(),
                         unitSystem: $this->unitSystem
                     ),
+                    'heartRateChart' => $heartRateStream?->getData() ? Json::encode(
+                        HeartRateChartBuilder::create($heartRateStream)->build(),
+                    ) : null,
                 ]),
             );
 
