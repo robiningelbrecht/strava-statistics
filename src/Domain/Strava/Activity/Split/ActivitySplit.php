@@ -148,11 +148,11 @@ final readonly class ActivitySplit
             return 0;
         }
 
-        $adjustMinSpeedPercentage = 0.8;
-        $adjustMaxSpeedPercentage = 1.1;
+        $adjustMinSpeedPercentage = 0.85;
+        $adjustMaxSpeedPercentage = 1.05;
 
-        $maxAverageSpeed = MetersPerSecond::from($this->getMinAverageSpeed()->toFloat() * $adjustMaxSpeedPercentage);
-        $minAverageSpeed = MetersPerSecond::from($this->getMaxAverageSpeed()->toFloat() * $adjustMinSpeedPercentage);
+        $maxAverageSpeed = MetersPerSecond::from($this->getMaxAverageSpeed()->toFloat() * $adjustMaxSpeedPercentage);
+        $minAverageSpeed = MetersPerSecond::from($this->getMinAverageSpeed()->toFloat() * $adjustMinSpeedPercentage);
 
         $step = round(100 / ($maxAverageSpeed->toFloat() - $minAverageSpeed->toFloat()), 2);
         // Relative = step *  (value - min).
