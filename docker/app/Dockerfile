@@ -61,6 +61,8 @@ RUN rm -Rf docker
 # Expose the port nginx is reachable on
 EXPOSE 8080
 
+ENV TZ=Etc/GMT
+
 # Let supervisord start services
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
 
