@@ -79,10 +79,15 @@ final class Segment
         return $this->segmentId;
     }
 
+    public function getOriginalName(): Name
+    {
+        return $this->name;
+    }
+
     public function getName(): Name
     {
         $parts = [];
-        if ($this->isFavourite()) {
+        if ($this->isFavourite() && !str_contains((string) $this->name, '⭐️')) {
             $parts[] = '⭐️';
         }
         if ($this->isKOM()) {

@@ -45,6 +45,11 @@ const initDataTables = async (callbackFn) => {
                     element.querySelector('.sorting-icon').setAttribute('aria-sort', sortAsc ? 'ascending' : 'descending');
                     // Do the actual sort.
                     dataRows.sort((a, b) => {
+                        if (b.sort[sortOn] === undefined)
+                            return -1;
+                        if (a.sort[sortOn] === undefined)
+                            return 1;
+
                         if (a.sort[sortOn] < b.sort[sortOn]) return sortAsc ? -1 : 1;
                         if (a.sort[sortOn] > b.sort[sortOn]) return sortAsc ? 1 : -1;
                         return 0;
@@ -76,7 +81,7 @@ const initDataTables = async (callbackFn) => {
 
 const applySearchAndFiltersToDataRows = function (dataRows, $dataTableNode) {
     const $searchInput = $dataTableNode.querySelector('input[type="search"]');
-    const searchValue = $searchInput.value;
+    const searchValue = $searchInput.value.toLowerCase();
 
     const $activeFilters = $dataTableNode.querySelectorAll('[data-dataTable-filter][data-dataTable-filter-value]:checked');
 

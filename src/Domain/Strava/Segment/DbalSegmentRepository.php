@@ -20,7 +20,7 @@ final readonly class DbalSegmentRepository extends DbalRepository implements Seg
 
         $this->connection->executeStatement($sql, [
             'segmentId' => $segment->getId(),
-            'name' => $segment->getName(),
+            'name' => $segment->getOriginalName(),
             'sportType' => $segment->getSportType()->value,
             'distance' => $segment->getDistance()->toMeter()->toInt(),
             'maxGradient' => $segment->getMaxGradient(),

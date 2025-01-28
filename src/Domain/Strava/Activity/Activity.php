@@ -470,7 +470,7 @@ final class Activity
      */
     public function getSearchables(): array
     {
-        return [$this->getName()];
+        return array_map('strtolower', [$this->getName()]);
     }
 
     /**
@@ -490,7 +490,7 @@ final class Activity
     {
         return array_filter([
             'start-date' => $this->getStartDate()->getTimestamp(),
-            'distance' => $this->getDistance()->toFloat(),
+            'distance' => round($this->getDistance()->toFloat(), 2),
             'elevation' => $this->getElevation()->toFloat(),
             'moving-time' => $this->getMovingTimeInSeconds(),
             'power' => $this->getAveragePower(),
