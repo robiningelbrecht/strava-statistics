@@ -28,6 +28,7 @@ final readonly class HeartRateChartBuilder
     public function build(): array
     {
         $xAxisData = [];
+        /** @var non-empty-array<mixed> $heartRateData */
         $heartRateData = $this->heartRateStream->getData();
 
         foreach (array_keys($heartRateData) as $timeInSeconds) {
