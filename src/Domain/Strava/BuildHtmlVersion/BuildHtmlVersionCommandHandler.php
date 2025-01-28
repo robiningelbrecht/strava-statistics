@@ -576,5 +576,15 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
             'build/html/fetch-json/activity-data-table.json',
             Json::encode($dataDatableRows),
         );
+
+        $command->getOutput()->writeln('  => Building error pages');
+        $this->filesystem->write(
+            'build/html/error/404.html',
+            $this->twig->load('html/error/404.html.twig')->render(),
+        );
+        $this->filesystem->write(
+            'build/html/error/50x.html',
+            $this->twig->load('html/error/50x.html.twig')->render(),
+        );
     }
 }
