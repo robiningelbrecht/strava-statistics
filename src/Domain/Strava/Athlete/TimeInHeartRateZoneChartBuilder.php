@@ -18,7 +18,7 @@ final readonly class TimeInHeartRateZoneChartBuilder
     ) {
     }
 
-    public static function fromTimeInZones(
+    public static function create(
         int $timeInSecondsInHeartRateZoneOne,
         int $timeInSecondsInHeartRateZoneTwo,
         int $timeInSecondsInHeartRateZoneThree,

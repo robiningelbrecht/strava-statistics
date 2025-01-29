@@ -9,7 +9,7 @@ final readonly class WeekdayStatsChartsBuilder
     ) {
     }
 
-    public static function fromWeekdayStats(
+    public static function create(
         WeekdayStats $weekdayStats,
     ): self {
         return new self($weekdayStats);

@@ -23,7 +23,7 @@ class ActivityTotalsTest extends TestCase
     {
         return [
             [
-                ActivityTotals::fromActivities(
+                ActivityTotals::create(
                     activities: Activities::fromArray([
                         ActivityBuilder::fromDefaults()
                             ->withStartDateTime(SerializableDateTime::fromString('2023-11-24'))
@@ -33,7 +33,7 @@ class ActivityTotalsTest extends TestCase
                 ),
             ],
             [
-                ActivityTotals::fromActivities(
+                ActivityTotals::create(
                     activities: Activities::fromArray([
                         ActivityBuilder::fromDefaults()
                             ->withStartDateTime(SerializableDateTime::fromString('2023-11-01'))
@@ -43,7 +43,7 @@ class ActivityTotalsTest extends TestCase
                 ),
             ],
             [
-                ActivityTotals::fromActivities(
+                ActivityTotals::create(
                     activities: Activities::fromArray([
                         ActivityBuilder::fromDefaults()
                             ->withStartDateTime(SerializableDateTime::fromString('2023-04-24'))
@@ -52,7 +52,7 @@ class ActivityTotalsTest extends TestCase
                     now: SerializableDateTime::fromString('2023-11-25'),
                 ),
             ],  [
-                ActivityTotals::fromActivities(
+                ActivityTotals::create(
                     activities: Activities::fromArray([
                         ActivityBuilder::fromDefaults()
                             ->withStartDateTime(SerializableDateTime::fromString('2022-11-24'))
@@ -62,7 +62,7 @@ class ActivityTotalsTest extends TestCase
                 ),
             ],
             [
-                ActivityTotals::fromActivities(
+                ActivityTotals::create(
                     activities: Activities::fromArray([
                         ActivityBuilder::fromDefaults()
                             ->withStartDateTime(SerializableDateTime::fromString('2017-11-24'))

@@ -17,7 +17,7 @@ final readonly class DaytimeStats
     ) {
     }
 
-    public static function fromActivities(
+    public static function create(
         Activities $activities,
     ): self {
         return new self($activities);

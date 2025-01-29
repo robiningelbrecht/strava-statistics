@@ -15,7 +15,7 @@ final readonly class ActivityTotals
     ) {
     }
 
-    public static function fromActivities(Activities $activities, SerializableDateTime $now): self
+    public static function create(Activities $activities, SerializableDateTime $now): self
     {
         return new self($activities, $now);
     }
