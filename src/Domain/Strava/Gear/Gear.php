@@ -61,6 +61,11 @@ class Gear
         return $this->gearId;
     }
 
+    public function getOriginalName(): string
+    {
+        return $this->name;
+    }
+
     public function getName(): string
     {
         return sprintf('%s%s', $this->name, $this->isRetired() ? ' ☠️' : '');
