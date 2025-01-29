@@ -27,4 +27,5 @@ phpstan.neon
 ###> app-build ###
 /build
 /storage
+/cron
 ###> app-build ###

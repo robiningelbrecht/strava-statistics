@@ -2,6 +2,7 @@
 .github
 .idea
 build
+cron
 tests
 var
 storage
