@@ -31,8 +31,6 @@ if($scheduleEnv === false) {
     file_put_contents($CRON_ABC_PATH, $modified);
     echo 'Auto Cron: Disabled because IMPORT_AND_BUILD_SCHEDULE was not set' . PHP_EOL;
 } else {
-    // assuming user input has well-formed cron schedule...
-    // TODO might want to make this more relaxed in regex
     $active = trim($scheduleEnv) . ' ' . $matches[2];
     $modified = preg_replace($AUTO_LINE, $active, $content);
     file_put_contents($CRON_ABC_PATH, $modified);
