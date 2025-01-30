@@ -517,13 +517,17 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
         $dataDatableRows = [];
         foreach ($allActivities as $activity) {
             $timeInSecondsPerHeartRate = $this->activityHeartRateRepository->findTimeInSecondsPerHeartRateForActivity($activity->getId());
-            $timeInSecondsPerWattage = $this->activityPowerRepository->findTimeInSecondsPerWattageForActivity($activity->getId());
             $heartRateStream = null;
             if ($activity->getSportType()->getActivityType()->supportsHeartRateOverTimeChart()) {
                 try {
                     $heartRateStream = $this->activityStreamRepository->findOneByActivityAndStreamType($activity->getId(), StreamType::HEART_RATE);
                 } catch (EntityNotFound) {
                 }
+            }
+
+            $timeInSecondsPerWattage = null;
+            if ($activity->getSportType()->getActivityType()->supportsPowerDistributionChart()) {
+                $timeInSecondsPerWattage = $this->activityPowerRepository->findTimeInSecondsPerWattageForActivity($activity->getId());
             }
 
             $leafletMap = $activity->getLeafletMap();

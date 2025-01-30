@@ -23,6 +23,11 @@ final readonly class KmPerHour implements Unit, Metric
         return MilesPerHour::from($this->value * Kilometer::FACTOR_TO_MILES);
     }
 
+    public function toMetersPerSecond(): MetersPerSecond
+    {
+        return MetersPerSecond::from(round($this->value * 0.2777777778, 3));
+    }
+
     public function toImperial(): Unit
     {
         return $this->toMph();

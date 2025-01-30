@@ -15,6 +15,12 @@
             </div>
             <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow">
                 <div class="text-center">
+                    <dd class="text-xs text-gray-500">{{ "Pace"|trans }}</dd>
+                    <dt class="font-extrabold">{{ activity.getPaceFormatted() }}</dt>
+                </div>
+            </div>
+            <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow">
+                <div class="text-center">
                     <dd class="text-xs text-gray-500">{{ "Elevation"|trans }}</dd>
                     <dt class="font-extrabold">{{ renderComponent('measurement', {'measurement': activity.getElevation(), 'precision': 0}) }}</dt>
                 </div>
@@ -23,12 +29,6 @@
                 <div class="text-center">
                     <dd class="text-xs text-gray-500">{{ "Calories"|trans }}</dd>
                     <dt class="font-extrabold">{{ activity.getCalories() }}</dt>
-                </div>
-            </div>
-            <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-4 border border-gray-200 rounded-lg shadow">
-                <div class="text-center">
-                    <dd class="text-xs text-gray-500">{{ "Gear"|trans }}</dd>
-                    <dt class="text-xs font-extrabold">{{ activity.getGearName() ?: 'Other' }}</dt>
                 </div>
             </div>
             <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-4 border border-gray-200 rounded-lg shadow">

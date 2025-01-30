@@ -55,6 +55,14 @@ enum ActivityType: string implements TranslatableInterface
         };
     }
 
+    public function supportsPowerDistributionChart(): bool
+    {
+        return match ($this) {
+            self::RIDE => true,
+            default => false,
+        };
+    }
+
     public function supportsDistanceBreakdownStats(): bool
     {
         return match ($this) {
