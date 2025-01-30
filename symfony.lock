@@ -130,18 +130,6 @@
             "config/packages/lock.yaml"
         ]
     },
-    "symfony/mailer": {
-        "version": "7.2",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "4.3",
-            "ref": "09051cfde49476e3c12cd3a0e44289ace1c75a4f"
-        },
-        "files": [
-            "config/packages/mailer.yaml"
-        ]
-    },
     "symfony/messenger": {
         "version": "7.1",
         "recipe": {
