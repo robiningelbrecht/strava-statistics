@@ -18,14 +18,13 @@ if (1 !== $match) {
     echo 'Auto Cron: Did not find well-formed cron schedule with AUTO CRON flag, skipping generation...'.PHP_EOL;
     exit(0);
 }
-// $pos = strpos($content, $matches[0]);
 
 if (false === $scheduleEnv) {
     if ('#' === $matches[0][0]) {
         echo 'Auto Cron: Already disabled, nothing to do'.PHP_EOL;
         exit(0);
     }
-    // comment out existing
+    // Comment out existing.
     $commented = '#'.trim($matches[1]).' '.$matches[2];
     $modified = preg_replace($AUTO_LINE, $commented, $content);
     file_put_contents($CRON_ABC_PATH, $modified);
