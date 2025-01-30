@@ -15,7 +15,7 @@ final class PowerOutputChartBuilder
     /**
      * @param PowerOutput[] $bestPowerOutputs
      */
-    public static function fromBestPowerOutputs(
+    public static function create(
         array $bestPowerOutputs,
     ): self {
         return new self($bestPowerOutputs);

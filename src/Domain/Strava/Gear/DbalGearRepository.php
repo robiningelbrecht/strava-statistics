@@ -18,7 +18,7 @@ final readonly class DbalGearRepository extends DbalRepository implements GearRe
             'gearId' => $gear->getId(),
             'createdOn' => $gear->getCreatedOn(),
             'distanceInMeter' => $gear->getDistance()->toMeter()->toInt(),
-            'name' => $gear->getName(),
+            'name' => $gear->getOriginalName(),
             'isRetired' => (int) $gear->isRetired(),
         ]);
     }

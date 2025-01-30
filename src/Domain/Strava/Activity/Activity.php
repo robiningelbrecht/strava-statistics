@@ -375,6 +375,13 @@ final class Activity
         return $this->averageSpeed;
     }
 
+    public function getPaceFormatted(): string
+    {
+        $pace = $this->getAverageSpeed()->toMetersPerSecond()->toSecPerKm();
+
+        return $this->formatDurationForHumans($pace->toInt());
+    }
+
     public function getMaxSpeed(): KmPerHour
     {
         return $this->maxSpeed;

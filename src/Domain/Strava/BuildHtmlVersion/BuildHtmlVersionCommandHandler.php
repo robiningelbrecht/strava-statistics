@@ -66,7 +66,7 @@ use Twig\Environment;
 
 final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
 {
-    private const string APP_VERSION = 'v0.4.5';
+    private const string APP_VERSION = 'v0.4.6';
 
     public function __construct(
         private ActivityRepository $activityRepository,
@@ -142,7 +142,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
         );
 
         $command->getOutput()->writeln('  => Calculating daytime stats');
-        $dayTimeStats = DaytimeStats::fromActivities($allActivities);
+        $dayTimeStats = DaytimeStats::create($allActivities);
 
         $allMonths = Months::create(
             startDate: $allActivities->getFirstActivityStartDate(),
@@ -259,7 +259,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
             'build/html/dashboard.html',
             $this->twig->load('html/dashboard.html.twig')->render([
                 'mostRecentActivities' => $allActivities->slice(0, 5),
-                'intro' => ActivityTotals::fromActivities(
+                'intro' => ActivityTotals::create(
                     activities: $allActivities,
                     now: $now,
                 ),
@@ -274,7 +274,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                     )->build()
                 ),
                 'weekdayStatsChart' => Json::encode(
-                    WeekdayStatsChartsBuilder::fromWeekdayStats($weekdayStats)->build(),
+                    WeekdayStatsChartsBuilder::create($weekdayStats)->build(),
                 ),
                 'weekdayStats' => $weekdayStats,
                 'daytimeStatsChart' => Json::encode(
@@ -293,7 +293,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                     )->build()
                 ) : null,
                 'timeInHeartRateZoneChart' => Json::encode(
-                    TimeInHeartRateZoneChartBuilder::fromTimeInZones(
+                    TimeInHeartRateZoneChartBuilder::create(
                         timeInSecondsInHeartRateZoneOne: $this->activityHeartRateRepository->findTotalTimeInSecondsInHeartRateZone(HeartRateZone::ONE),
                         timeInSecondsInHeartRateZoneTwo: $this->activityHeartRateRepository->findTotalTimeInSecondsInHeartRateZone(HeartRateZone::TWO),
                         timeInSecondsInHeartRateZoneThree: $this->activityHeartRateRepository->findTotalTimeInSecondsInHeartRateZone(HeartRateZone::THREE),
@@ -317,8 +317,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                 'build/html/power-output.html',
                 $this->twig->load('html/power-output.html.twig')->render([
                     'powerOutputChart' => Json::encode(
-                        PowerOutputChartBuilder::fromBestPowerOutputs($bestPowerOutputs)
-                            ->build()
+                        PowerOutputChartBuilder::create($bestPowerOutputs)->build()
                     ),
                 ]),
             );
@@ -518,13 +517,17 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
         $dataDatableRows = [];
         foreach ($allActivities as $activity) {
             $timeInSecondsPerHeartRate = $this->activityHeartRateRepository->findTimeInSecondsPerHeartRateForActivity($activity->getId());
-            $timeInSecondsPerWattage = $this->activityPowerRepository->findTimeInSecondsPerWattageForActivity($activity->getId());
             $heartRateStream = null;
             if ($activity->getSportType()->getActivityType()->supportsHeartRateOverTimeChart()) {
                 try {
                     $heartRateStream = $this->activityStreamRepository->findOneByActivityAndStreamType($activity->getId(), StreamType::HEART_RATE);
                 } catch (EntityNotFound) {
                 }
+            }
+
+            $timeInSecondsPerWattage = null;
+            if ($activity->getSportType()->getActivityType()->supportsPowerDistributionChart()) {
+                $timeInSecondsPerWattage = $this->activityPowerRepository->findTimeInSecondsPerWattageForActivity($activity->getId());
             }
 
             $leafletMap = $activity->getLeafletMap();
