@@ -124,6 +124,8 @@ NUMBER_OF_NEW_ACTIVITIES_TO_PROCESS_PER_IMPORT=250
 # The default schedule runs once a day at 04:05. If you do not know what cron expressions are, please leave this unchanged
 # Make sure you don't run the imports too much to avoid hitting the Strava API rate limit. Once a day should be enough.
 IMPORT_AND_BUILD_SCHEDULE="5 4 * * *"
+# Set the timezone used for the schedule
+TZ=Etc/GMT
 
 # Allowed options: en_US, fr_FR or nl_BE
 LOCALE=en_US
@@ -159,6 +161,11 @@ NTFY_URL=''
 # An array of activity ids to skip during import. 
 # This allows you to skip specific activities during import.
 ACTIVITIES_TO_SKIP_DURING_IMPORT='[]'
+
+# The UID and GID to create/own files managed by strava-statistics
+# May only be necessary on Linux hosts, see File Permissions in Wiki
+#PUID=
+#PGID=
 ```
 
 ### Importing challenges and trophies
