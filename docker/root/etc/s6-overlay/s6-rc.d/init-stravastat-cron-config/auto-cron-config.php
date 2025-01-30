@@ -10,30 +10,28 @@ $AUTO_LINE = '/#?([^\n\r>]+)\s(printf "AUTO CRON"[^\n\r]+)/';
 
 $CRON_ABC_PATH = '/config/crontabs/abc';
 
-$content = file_get_contents($CRON_ABC_PATH);
+$crontabContent = file_get_contents($CRON_ABC_PATH);
 $scheduleEnv = getenv('IMPORT_AND_BUILD_SCHEDULE');
 
-$match = preg_match($AUTO_LINE, $content, $matches);
-if (1 !== $match) {
+if (!$match = preg_match($AUTO_LINE, $crontabContent, $matches)) {
     echo 'Auto Cron: Did not find well-formed cron schedule with AUTO CRON flag, skipping generation...'.PHP_EOL;
     exit(0);
 }
 
-if (false === $scheduleEnv) {
-    if ('#' === $matches[0][0]) {
-        echo 'Auto Cron: Already disabled, nothing to do'.PHP_EOL;
-        exit(0);
-    }
-    // Comment out existing.
-    $commented = '#'.trim($matches[1]).' '.$matches[2];
-    $modified = preg_replace($AUTO_LINE, $commented, $content);
-    file_put_contents($CRON_ABC_PATH, $modified);
-    echo 'Auto Cron: Disabled because IMPORT_AND_BUILD_SCHEDULE was not set'.PHP_EOL;
-} else {
-    $active = trim($scheduleEnv).' '.$matches[2];
-    $modified = preg_replace($AUTO_LINE, $active, $content);
-    file_put_contents($CRON_ABC_PATH, $modified);
-    echo 'Auto Cron: Set schedule to '.$scheduleEnv.PHP_EOL;
+if (empty($scheduleEnv) && '#' === $matches[0][0]) {
+    echo 'Auto Cron: Already disabled, nothing to do'.PHP_EOL;
+    exit(0);
 }
 
-exit(0);
+if (empty($scheduleEnv)) {
+    $commented = '#'.trim($matches[1]).' '.$matches[2];
+    $modified = preg_replace($AUTO_LINE, $commented, $crontabContent);
+    file_put_contents($CRON_ABC_PATH, $modified);
+    echo 'Auto Cron: Disabled because IMPORT_AND_BUILD_SCHEDULE was not set'.PHP_EOL;
+    exit(0);
+}
+
+$active = trim($scheduleEnv).' '.$matches[2];
+$modified = preg_replace($AUTO_LINE, $active, $crontabContent);
+file_put_contents($CRON_ABC_PATH, $modified);
+echo 'Auto Cron: Set schedule to '.$scheduleEnv.PHP_EOL;
