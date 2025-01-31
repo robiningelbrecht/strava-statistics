@@ -25,11 +25,13 @@ const initDataTables = async () => {
                 no_data_class: 'clusterize-loading',
                 callbacks: {
                     clusterChanged: () => {
-                        if (dataTable.querySelectorAll('[data-dataTable-summable]').length > 0) {
+                        const summableNodes = dataTable.querySelectorAll('[data-dataTable-summable]');
+                        if (summableNodes.length > 0) {
                             const sums = calculateSummables(dataRows);
-                            Object.keys(sums).forEach(summable => {
-                                const summableNode = dataTable.querySelector('[data-dataTable-summable="' + summable + '"]');
-                                summableNode.innerHTML = numberFormat(sums[summable], 0, ',', ' ');
+
+                            summableNodes.forEach((summableNode) => {
+                                const summable = summableNode.getAttribute('data-dataTable-summable');
+                                summableNode.innerHTML = sums[summable] !== undefined ? numberFormat(sums[summable], 0, ',', ' ') : 0;
                             });
                         }
 
@@ -71,9 +73,8 @@ const initDataTables = async () => {
                 });
             });
 
-            searchInput.addEventListener('keyup', e => {
-                clusterize.update(filterOnActiveRows(applySearchAndFiltersToDataRows(dataRows, dataTableWrapperNode)));
-            });
+            const clusterizeUpdate = debounce(() => clusterize.update(filterOnActiveRows(applySearchAndFiltersToDataRows(dataRows, dataTableWrapperNode))));
+            searchInput.addEventListener("keyup", clusterizeUpdate);
 
             const filters = dataTableWrapperNode.querySelectorAll('[data-dataTable-filter][data-dataTable-filter-value]');
             filters.forEach(element => {
@@ -132,38 +133,4 @@ const calculateSummables = function (dataRows) {
 
 const filterOnActiveRows = function (rows) {
     return rows.filter((row) => row.active).map((row) => row.markup);
-}
-
-const numberFormat = function (number, decimals, decPoint, thousandsSep) {
-    number = (number + '').replace(/[^0-9+\-Ee.]/g, '')
-    const n = !isFinite(+number) ? 0 : +number
-    const prec = !isFinite(+decimals) ? 0 : Math.abs(decimals)
-    const sep = typeof thousandsSep === 'undefined' ? ',' : thousandsSep
-    const dec = typeof decPoint === 'undefined' ? '.' : decPoint
-    let s = ''
-
-    const toFixedFix = function (n, prec) {
-        if (('' + n).indexOf('e') === -1) {
-            return +(Math.round(n + 'e+' + prec) + 'e-' + prec)
-        } else {
-            const arr = ('' + n).split('e')
-            let sig = ''
-            if (+arr[1] + prec > 0) {
-                sig = '+'
-            }
-            return (+(Math.round(+arr[0] + 'e' + sig + (+arr[1] + prec)) + 'e-' + prec)).toFixed(prec)
-        }
-    }
-
-    // @todo: for IE parseFloat(0.55).toFixed(0) = 0;
-    s = (prec ? toFixedFix(n, prec).toString() : '' + Math.round(n)).split('.')
-    if (s[0].length > 3) {
-        s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep)
-    }
-    if ((s[1] || '').length < prec) {
-        s[1] = s[1] || ''
-        s[1] += new Array(prec - s[1].length + 1).join('0')
-    }
-
-    return s.join(dec)
 }
