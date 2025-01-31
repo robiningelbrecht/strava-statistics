@@ -11,7 +11,7 @@ $AUTO_LINE = '/#?([^\n\r>]+)\s(printf "AUTO CRON"[^\n\r]+)/';
 $CRON_ABC_PATH = '/config/crontabs/abc';
 
 $crontabContent = file_get_contents($CRON_ABC_PATH);
-$scheduleEnv = getenv('IMPORT_AND_BUILD_SCHEDULE');
+$scheduleEnv = trim(getenv('IMPORT_AND_BUILD_SCHEDULE'));
 
 if (!$match = preg_match($AUTO_LINE, $crontabContent, $matches)) {
     echo 'Auto Cron: Did not find well-formed cron schedule with AUTO CRON flag, skipping generation...'.PHP_EOL;
