@@ -516,7 +516,7 @@ final class Activity
         return [
             'distance' => round($this->getDistance()->toUnitSystem($unitSystem)->toFloat(), 2),
             'elevation' => $this->getElevation()->toUnitSystem($unitSystem)->toFloat(),
-            'moving-time' => $this->getMovingTimeInSeconds(),
+            'moving-time' => $this->getMovingTimeInSeconds() / 3600,
             'calories' => $this->getCalories() ?? 0,
         ];
     }
