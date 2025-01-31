@@ -1,4 +1,4 @@
-const initDataTables = async (callbackFn) => {
+const initDataTables = async () => {
     const dataTables = document.querySelectorAll('div[data-dataTable-settings]');
 
     dataTables.forEach(function (dataTableWrapperNode) {
@@ -25,7 +25,10 @@ const initDataTables = async (callbackFn) => {
                 no_data_class: 'clusterize-loading',
                 callbacks: {
                     clusterChanged: () => {
-                        callbackFn();
+                        document.dispatchEvent(new CustomEvent('dataTableClusterWasChanged', {
+                            bubbles: true,
+                            cancelable: false,
+                        }));
                     }
                 }
             });

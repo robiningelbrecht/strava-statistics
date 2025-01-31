@@ -300,11 +300,13 @@
             // Close modal when a new page is loaded.
             modal.hide();
         }
-        // Only support data table on page load, not in modals.
-        initDataTables(() => {
-            initModals(document);
-        });
+
+        initDataTables();
         initElements(document);
+    });
+    document.addEventListener('dataTableClusterWasChanged', () => {
+        // Data tables are only supported on page load, not in modals.
+        initModals(document);
     });
     document.addEventListener('modalWasLoaded', (event) => {
         event.detail.node.querySelector('button.close').addEventListener('click', function (e) {
