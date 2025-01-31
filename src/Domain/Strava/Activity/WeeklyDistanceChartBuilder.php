@@ -4,7 +4,6 @@ namespace App\Domain\Strava\Activity;
 
 use App\Domain\Strava\Calendar\Week;
 use App\Domain\Strava\Calendar\Weeks;
-use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -80,7 +79,7 @@ final readonly class WeeklyDistanceChartBuilder
             ],
         ];
 
-        $unitSymbol = Kilometer::from(1)->toUnitSystem($this->unitSystem)->getSymbol();
+        $unitSymbol = $this->unitSystem->distanceSymbol();
 
         $series[] = array_merge_recursive(
             $serie,

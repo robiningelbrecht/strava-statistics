@@ -1500,6 +1500,10 @@ input:checked + .toggle-bg {
   width: 5rem;
 }
 
+.w-\[6rem\] {
+  width: 6rem;
+}
+
 .w-\[rem\] {
   width: rem;
 }
@@ -2184,6 +2188,10 @@ input:checked + .toggle-bg {
   padding-inline-start: 0.75rem;
 }
 
+.pt-0\.5 {
+  padding-top: 0.125rem;
+}
+
 .pt-14 {
   padding-top: 3.5rem;
 }
@@ -2243,6 +2251,10 @@ input:checked + .toggle-bg {
   line-height: 1rem;
 }
 
+.text-xxs {
+  font-size: 0.625rem;
+}
+
 .font-bold {
   font-weight: 700;
 }
@@ -2269,6 +2281,10 @@ input:checked + .toggle-bg {
 
 .uppercase {
   text-transform: uppercase;
+}
+
+.normal-case {
+  text-transform: none;
 }
 
 .italic {

@@ -9,10 +9,23 @@ use Carbon\CarbonInterval;
 
 final readonly class ActivityTotals
 {
+    private Kilometer $totalDistance;
+    private Meter $totalElevation;
+    private int $totalCalories;
+    private int $totalMovingTimeInSeconds;
+
     private function __construct(
         private Activities $activities,
         private SerializableDateTime $now,
     ) {
+        $this->totalDistance = Kilometer::from(
+            $this->activities->sum(fn (Activity $activity) => $activity->getDistance()->toFloat())
+        );
+        $this->totalElevation = Meter::from(
+            $this->activities->sum(fn (Activity $activity) => $activity->getElevation()->toFloat())
+        );
+        $this->totalCalories = (int) $this->activities->sum(fn (Activity $activity) => $activity->getCalories());
+        $this->totalMovingTimeInSeconds = (int) $this->activities->sum(fn (Activity $activity) => $activity->getMovingTimeInSeconds());
     }
 
     public static function create(Activities $activities, SerializableDateTime $now): self
@@ -22,28 +35,27 @@ final readonly class ActivityTotals
 
     public function getDistance(): Kilometer
     {
-        return Kilometer::from(
-            $this->activities->sum(fn (Activity $activity) => $activity->getDistance()->toFloat())
-        );
+        return $this->totalDistance;
     }
 
     public function getElevation(): Meter
     {
-        return Meter::from(
-            $this->activities->sum(fn (Activity $activity) => $activity->getElevation()->toFloat())
-        );
+        return $this->totalElevation;
     }
 
     public function getCalories(): int
     {
-        return (int) $this->activities->sum(fn (Activity $activity) => $activity->getCalories());
+        return $this->totalCalories;
     }
 
     public function getMovingTimeFormatted(): string
     {
-        $seconds = $this->activities->sum(fn (Activity $activity) => $activity->getMovingTimeInSeconds());
+        return CarbonInterval::seconds($this->totalMovingTimeInSeconds)->cascade()->forHumans(['short' => true, 'minimumUnit' => 'minute']);
+    }
 
-        return CarbonInterval::seconds($seconds)->cascade()->forHumans(['short' => true, 'minimumUnit' => 'minute']);
+    public function getMovingTimeInHours(): int
+    {
+        return (int) round(CarbonInterval::seconds($this->totalMovingTimeInSeconds)->cascade()->totalHours);
     }
 
     public function getStartDate(): SerializableDateTime

@@ -6,7 +6,6 @@ namespace App\Domain\Strava\Activity\YearlyDistance;
 
 use App\Domain\Strava\Activity\Activities;
 use App\Domain\Strava\Activity\Activity;
-use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -94,7 +93,7 @@ final readonly class YearlyDistanceChartBuilder
             }
         }
 
-        $unitSymbol = Kilometer::from(1)->toUnitSystem($this->unitSystem)->getSymbol();
+        $unitSymbol = $this->unitSystem->distanceSymbol();
 
         return [
             'animation' => true,

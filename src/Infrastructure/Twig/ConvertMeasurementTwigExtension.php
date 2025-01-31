@@ -27,4 +27,13 @@ final readonly class ConvertMeasurementTwigExtension
 
         return $measurement;
     }
+
+    public function getUnitSymbol(string $unitName): string
+    {
+        return match ($unitName) {
+            'distance' => $this->unitSystem->distanceSymbol(),
+            'elevation' => $this->unitSystem->elevationSymbol(),
+            default => throw new \RuntimeException(sprintf('Invalid unitName "%s"', $unitName)),
+        };
+    }
 }

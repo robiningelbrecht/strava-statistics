@@ -7,6 +7,7 @@
             "isFavourite": "isFavourite",
             "sportType": "Ride"
         },
+        "summables": [],
         "sort": {
             "name": "⭐️ Segment One",
             "distance": 0.1,
@@ -23,6 +24,7 @@
             "isFavourite": "",
             "sportType": "Ride"
         },
+        "summables": [],
         "sort": {
             "name": "Segment Two",
             "distance": 0.11,
@@ -39,6 +41,7 @@
             "isFavourite": "isFavourite",
             "sportType": "Ride"
         },
+        "summables": [],
         "sort": {
             "name": "⭐️ 🏔️ Alpe du Zwift",
             "distance": 0.1,

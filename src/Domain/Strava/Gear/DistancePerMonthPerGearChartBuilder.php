@@ -7,7 +7,6 @@ namespace App\Domain\Strava\Gear;
 use App\Domain\Strava\Activity\Activities;
 use App\Domain\Strava\Calendar\Month;
 use App\Domain\Strava\Calendar\Months;
-use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 
 final readonly class DistancePerMonthPerGearChartBuilder
@@ -67,7 +66,7 @@ final readonly class DistancePerMonthPerGearChartBuilder
         $series = [];
         $selectedSeries = [];
 
-        $unitSymbol = Kilometer::zero()->toUnitSystem($this->unitSystem)->getSymbol();
+        $unitSymbol = $this->unitSystem->distanceSymbol();
         foreach ($gears as $gear) {
             $distanceInLastThreeMonths = array_sum(array_slice($distancePerGearAndMonth[(string) $gear->getId()], -3, 3));
 

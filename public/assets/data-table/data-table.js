@@ -25,9 +25,13 @@ const initDataTables = async () => {
                 no_data_class: 'clusterize-loading',
                 callbacks: {
                     clusterChanged: () => {
+                        dataTable.querySelector('')
                         document.dispatchEvent(new CustomEvent('dataTableClusterWasChanged', {
                             bubbles: true,
                             cancelable: false,
+                            detail: {
+                                dataRows: dataRows,
+                            },
                         }));
                     }
                 }

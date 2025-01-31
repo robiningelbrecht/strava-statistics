@@ -14,6 +14,8 @@ final readonly class DataTableRow implements \JsonSerializable
         private array $filterables,
         /** @var array<string, string|int|float> */
         private array $sortValues,
+        /** @var array<string, string|int|float> */
+        private array $summables,
     ) {
     }
 
@@ -21,18 +23,21 @@ final readonly class DataTableRow implements \JsonSerializable
      * @param string[]                        $searchables
      * @param array<string, string|bool>      $filterables
      * @param array<string, string|int|float> $sortValues
+     * @param array<string, string|int|float> $summables
      */
     public static function create(
         string $markup,
         array $searchables,
         array $filterables,
         array $sortValues,
+        array $summables,
     ): self {
         return new self(
             markup: $markup,
             searchables: $searchables,
             filterables: $filterables,
-            sortValues: $sortValues
+            sortValues: $sortValues,
+            summables: $summables,
         );
     }
 
@@ -66,6 +71,14 @@ final readonly class DataTableRow implements \JsonSerializable
     }
 
     /**
+     * @return array<string, string|int|float>
+     */
+    public function getSummables(): array
+    {
+        return $this->summables;
+    }
+
+    /**
      * @return array<string, mixed>
      */
     public function jsonSerialize(): array
@@ -74,6 +87,7 @@ final readonly class DataTableRow implements \JsonSerializable
             'active' => true,
             'searchables' => implode(' ', $this->getSearchables()),
             'filterables' => $this->getFilterables(),
+            'summables' => $this->getSummables(),
             'sort' => $this->getSortValues(),
             'markup' => $this->getMarkup(),
         ];

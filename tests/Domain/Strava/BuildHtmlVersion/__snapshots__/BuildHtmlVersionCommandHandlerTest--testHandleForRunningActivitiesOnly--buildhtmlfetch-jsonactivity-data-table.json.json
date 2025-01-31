@@ -5,6 +5,12 @@
         "filterables": {
             "sportType": "Run"
         },
+        "summables": {
+            "distance": 33.55,
+            "elevation": 278,
+            "moving-time": 3786,
+            "calories": 695
+        },
         "sort": {
             "start-date": 1693499735,
             "distance": 33.55,
@@ -22,6 +28,12 @@
         "searchables": "morning ride",
         "filterables": {
             "sportType": "Run"
+        },
+        "summables": {
+            "distance": 12.42,
+            "elevation": 15,
+            "moving-time": 1916,
+            "calories": 293
         },
         "sort": {
             "start-date": 1690623243,
@@ -41,6 +53,12 @@
         "filterables": {
             "sportType": "Run"
         },
+        "summables": {
+            "distance": 12.42,
+            "elevation": 15,
+            "moving-time": 1916,
+            "calories": 293
+        },
         "sort": {
             "start-date": 1690536843,
             "distance": 12.42,
@@ -58,6 +76,12 @@
         "searchables": "morning ride",
         "filterables": {
             "sportType": "Run"
+        },
+        "summables": {
+            "distance": 112.42,
+            "elevation": 15,
+            "moving-time": 1916,
+            "calories": 293
         },
         "sort": {
             "start-date": 1674984843,

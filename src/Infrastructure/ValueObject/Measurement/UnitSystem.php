@@ -25,6 +25,11 @@ enum UnitSystem: string
         return Mile::from($value);
     }
 
+    public function distanceSymbol(): string
+    {
+        return $this->distance(1)->getSymbol();
+    }
+
     public function elevation(float $value): Meter|Foot
     {
         if (UnitSystem::METRIC === $this) {
@@ -32,6 +37,11 @@ enum UnitSystem: string
         }
 
         return Foot::from($value);
+    }
+
+    public function elevationSymbol(): string
+    {
+        return $this->elevation(1)->getSymbol();
     }
 
     public function speed(float $value): KmPerHour|MilesPerHour

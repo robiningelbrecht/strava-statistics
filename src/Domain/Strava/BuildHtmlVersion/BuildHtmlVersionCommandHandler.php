@@ -255,14 +255,16 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
             }
         }
 
+        $activityTotals = ActivityTotals::create(
+            activities: $allActivities,
+            now: $now,
+        );
+
         $this->filesystem->write(
             'build/html/dashboard.html',
             $this->twig->load('html/dashboard.html.twig')->render([
                 'mostRecentActivities' => $allActivities->slice(0, 5),
-                'intro' => ActivityTotals::create(
-                    activities: $allActivities,
-                    now: $now,
-                ),
+                'intro' => $activityTotals,
                 'weeklyDistanceCharts' => $weeklyDistanceCharts,
                 'powerOutputs' => $bestPowerOutputs,
                 'activityHeatmapChart' => Json::encode(
@@ -406,7 +408,8 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                     ]),
                     searchables: $segment->getSearchables(),
                     filterables: $segment->getFilterables(),
-                    sortValues: $segment->getSortables()
+                    sortValues: $segment->getSortables(),
+                    summables: []
                 );
             }
 
@@ -511,6 +514,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
             'build/html/activities.html',
             $this->twig->load('html/activity/activities.html.twig')->render([
                 'sportTypes' => $importedSportTypes,
+                'activityTotals' => $activityTotals,
             ]),
         );
 
@@ -571,7 +575,8 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                 ]),
                 searchables: $activity->getSearchables(),
                 filterables: $activity->getFilterables(),
-                sortValues: $activity->getSortables()
+                sortValues: $activity->getSortables(),
+                summables: $activity->getSummables($this->unitSystem),
             );
         }
 

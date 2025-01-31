@@ -16,6 +16,7 @@ use App\Infrastructure\ValueObject\Geography\Latitude;
 use App\Infrastructure\ValueObject\Geography\Longitude;
 use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Measurement\Length\Meter;
+use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use App\Infrastructure\ValueObject\Measurement\Velocity\KmPerHour;
 use App\Infrastructure\ValueObject\Measurement\Velocity\MetersPerSecond;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
@@ -505,6 +506,19 @@ final class Activity
             'heart-rate' => $this->getAverageHeartRate(),
             'calories' => $this->getCalories(),
         ]);
+    }
+
+    /**
+     * @return array<string, string|int|float>
+     */
+    public function getSummables(UnitSystem $unitSystem): array
+    {
+        return [
+            'distance' => round($this->getDistance()->toUnitSystem($unitSystem)->toFloat(), 2),
+            'elevation' => $this->getElevation()->toUnitSystem($unitSystem)->toFloat(),
+            'moving-time' => $this->getMovingTimeInSeconds(),
+            'calories' => $this->getCalories() ?? 0,
+        ];
     }
 
     public function delete(): void

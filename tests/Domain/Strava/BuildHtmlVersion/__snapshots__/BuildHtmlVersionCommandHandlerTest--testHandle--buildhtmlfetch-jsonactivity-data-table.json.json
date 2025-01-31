@@ -5,6 +5,12 @@
         "filterables": {
             "sportType": "Ride"
         },
+        "summables": {
+            "distance": 6.11,
+            "elevation": 9,
+            "moving-time": 1001,
+            "calories": 163
+        },
         "sort": {
             "start-date": 1694552738,
             "distance": 6.11,
@@ -22,6 +28,12 @@
         "searchables": "night ride",
         "filterables": {
             "sportType": "Ride"
+        },
+        "summables": {
+            "distance": 6.11,
+            "elevation": 9,
+            "moving-time": 1001,
+            "calories": 163
         },
         "sort": {
             "start-date": 1694466338,
@@ -41,6 +53,12 @@
         "filterables": {
             "sportType": "Ride"
         },
+        "summables": {
+            "distance": 6.11,
+            "elevation": 9,
+            "moving-time": 1001,
+            "calories": 163
+        },
         "sort": {
             "start-date": 1693947938,
             "distance": 6.11,
@@ -58,6 +76,12 @@
         "searchables": "night ride",
         "filterables": {
             "sportType": "Ride"
+        },
+        "summables": {
+            "distance": 6.11,
+            "elevation": 9,
+            "moving-time": 1001,
+            "calories": 163
         },
         "sort": {
             "start-date": 1693861538,
@@ -77,6 +101,12 @@
         "filterables": {
             "sportType": "VirtualRide"
         },
+        "summables": {
+            "distance": 33.55,
+            "elevation": 278,
+            "moving-time": 3786,
+            "calories": 695
+        },
         "sort": {
             "start-date": 1693499735,
             "distance": 33.55,
@@ -94,6 +124,12 @@
         "searchables": "virtual ride non zwift",
         "filterables": {
             "sportType": "VirtualRide"
+        },
+        "summables": {
+            "distance": 33.55,
+            "elevation": 278,
+            "moving-time": 3786,
+            "calories": 695
         },
         "sort": {
             "start-date": 1690821335,
@@ -113,6 +149,12 @@
         "filterables": {
             "sportType": "VirtualRide"
         },
+        "summables": {
+            "distance": 0,
+            "elevation": 278,
+            "moving-time": 3786,
+            "calories": 695
+        },
         "sort": {
             "start-date": 1690734935,
             "elevation": 278,
@@ -129,6 +171,12 @@
         "searchables": "morning ride",
         "filterables": {
             "sportType": "Ride"
+        },
+        "summables": {
+            "distance": 12.42,
+            "elevation": 15,
+            "moving-time": 1916,
+            "calories": 293
         },
         "sort": {
             "start-date": 1690623243,
@@ -148,6 +196,12 @@
         "filterables": {
             "sportType": "Ride"
         },
+        "summables": {
+            "distance": 112.42,
+            "elevation": 15,
+            "moving-time": 1916,
+            "calories": 293
+        },
         "sort": {
             "start-date": 1690616043,
             "distance": 112.42,
@@ -165,6 +219,12 @@
         "searchables": "morning ride",
         "filterables": {
             "sportType": "Ride"
+        },
+        "summables": {
+            "distance": 12.42,
+            "elevation": 15,
+            "moving-time": 1916,
+            "calories": 293
         },
         "sort": {
             "start-date": 1690536843,
@@ -184,6 +244,12 @@
         "filterables": {
             "sportType": "Run"
         },
+        "summables": {
+            "distance": 50,
+            "elevation": 278,
+            "moving-time": 3786,
+            "calories": 695
+        },
         "sort": {
             "start-date": 1659198935,
             "distance": 50,
@@ -201,6 +267,12 @@
         "searchables": "virtual ride non zwift",
         "filterables": {
             "sportType": "VirtualRide"
+        },
+        "summables": {
+            "distance": 0,
+            "elevation": 278,
+            "moving-time": 3786,
+            "calories": 695
         },
         "sort": {
             "start-date": 1659198935,
