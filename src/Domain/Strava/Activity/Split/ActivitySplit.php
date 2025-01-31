@@ -173,7 +173,7 @@ final readonly class ActivitySplit
 
     public function getPaceFormatted(): string
     {
-        $pace = $this->getAverageSpeed()->toSecPerKm();
+        $pace = $this->getAverageSpeed()->toSecPerKm()->toUnitSystem($this->getUnitSystem());
 
         return $this->formatDurationForHumans($pace->toInt());
     }

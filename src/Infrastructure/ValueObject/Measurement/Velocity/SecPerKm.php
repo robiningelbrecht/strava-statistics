@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\ValueObject\Measurement\Velocity;
 
+use App\Infrastructure\ValueObject\Measurement\Length\Mile;
 use App\Infrastructure\ValueObject\Measurement\MeasurementFromFloat;
 use App\Infrastructure\ValueObject\Measurement\Unit;
+use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 
 final readonly class SecPerKm implements Unit
 {
@@ -16,6 +18,11 @@ final readonly class SecPerKm implements Unit
         return 'sec/km';
     }
 
+    public function toSecPerMile(): SecPerMile
+    {
+        return SecPerMile::from($this->value * Mile::FACTOR_TO_KM);
+    }
+
     public function toMetersPerSecond(): MetersPerSecond
     {
         if (0.0 === $this->value) {
@@ -23,5 +30,14 @@ final readonly class SecPerKm implements Unit
         }
 
         return MetersPerSecond::from(round((1 / $this->value) * 1000, 3));
+    }
+
+    public function toUnitSystem(UnitSystem $unitSystem): SecPerKm|SecPerMile
+    {
+        if (UnitSystem::METRIC === $unitSystem) {
+            return $this;
+        }
+
+        return $this->toSecPerMile();
     }
 }
