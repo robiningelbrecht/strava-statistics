@@ -94,7 +94,7 @@ class UnitTest extends TestCase
             [Fahrenheit::from(300)],
             [MetersPerSecond::from(300)],
             [SecPerKm::from(300)],
-            [SecPerMile::from(150)]
+            [SecPerMile::from(150)],
         ];
     }
 }
