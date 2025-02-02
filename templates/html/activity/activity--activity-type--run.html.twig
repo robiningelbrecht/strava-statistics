@@ -76,6 +76,7 @@
                     <div class="w-[5rem] px-2 py-2">{{ "Pace"|trans }}</div>
                     <div class="flex-grow min-w-[10rem] px-2 py-2"></div>
                     <div class="w-[5rem] px-2 py-2">{{ "Elev"|trans }}</div>
+                    <div  class="w-[5rem] px-2 py-2">{{ "HR"|trans }}</div>
                 </div>
                 {% for split in splits %}
                     <div class="flex items-center border-b last:border-b-0">
@@ -93,6 +94,15 @@
                         <div class="w-[5rem] px-2 py-2">
                             {{ renderComponent('measurement', {'measurement': split.getElevationDifference(), 'precision': 0}) }}
                         </div>
+                        {% if split.getAverageHeartRate() %}
+                            <div class="w-[5rem] px-2 py-2">
+                                {{ split.getAverageHeartRate() }}
+                            </div>
+                        {% else %}
+                        <div class="w-[5rem] px-2 py-2">
+                            {{ "n/a"|trans }}
+                        </div>
+                        {% endif %}
                     </div>
                 {% endfor %}
             </div>

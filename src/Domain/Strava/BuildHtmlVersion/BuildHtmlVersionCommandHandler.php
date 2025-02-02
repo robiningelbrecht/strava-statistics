@@ -534,8 +534,33 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                 $timeInSecondsPerWattage = $this->activityPowerRepository->findTimeInSecondsPerWattageForActivity($activity->getId());
             }
 
-            $leafletMap = $activity->getLeafletMap();
+            $activitySplits = $this->activitySplitRepository->findBy(
+                activityId: $activity->getId(),
+                unitSystem: $this->unitSystem
+            );
 
+            if (!$activitySplits->isEmpty() && $heartRateStream) {
+                /** @var \App\Domain\Strava\Activity\Split\ActivitySplit $activitySplit */
+                $sumSplitMovingTimeInSeconds = 0;
+                foreach ($activitySplits as $activitySplit) {
+                    $movingTimeInSeconds = $activitySplit->getMovingTimeInSeconds();
+                    // Enrich ActivitySplit with average heart rate.
+                    $heartRatesForCurrentSplit = array_slice(
+                        array: $heartRateStream->getData(),
+                        offset: $sumSplitMovingTimeInSeconds,
+                        length: $movingTimeInSeconds
+                    );
+                    if (0 === count($heartRatesForCurrentSplit)) {
+                        continue;
+                    }
+                    $averageHeartRate = (int) round(array_sum($heartRatesForCurrentSplit) / count($heartRatesForCurrentSplit));
+
+                    $activitySplit->enrichWithAverageHeartRate($averageHeartRate);
+                    $sumSplitMovingTimeInSeconds += $movingTimeInSeconds;
+                }
+            }
+
+            $leafletMap = $activity->getLeafletMap();
             $this->filesystem->write(
                 'build/html/activity/'.$activity->getId().'.html',
                 $this->twig->load('html/activity/activity.html.twig')->render([
@@ -558,10 +583,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                         )->build(),
                     ) : null,
                     'segmentEfforts' => $this->segmentEffortRepository->findByActivityId($activity->getId()),
-                    'splits' => $this->activitySplitRepository->findBy(
-                        activityId: $activity->getId(),
-                        unitSystem: $this->unitSystem
-                    ),
+                    'splits' => $activitySplits,
                     'heartRateChart' => $heartRateStream?->getData() ? Json::encode(
                         HeartRateChartBuilder::create($heartRateStream)->build(),
                     ) : null,

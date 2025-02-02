@@ -13,33 +13,35 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 #[ORM\Index(name: 'ActivitySplit_activityIdUnitSystemIndex', columns: ['activityId', 'unitSystem'])]
-final readonly class ActivitySplit
+final class ActivitySplit
 {
     use ProvideTimeFormats;
 
+    private ?int $averageHeartRate = null;
+
     private function __construct(
         #[ORM\Id, ORM\Column(type: 'string')]
-        private ActivityId $activityId,
+        private readonly ActivityId $activityId,
         #[ORM\Id, ORM\Column(type: 'string')]
-        private UnitSystem $unitSystem,
+        private readonly UnitSystem $unitSystem,
         #[ORM\Id, ORM\Column(type: 'integer')]
-        private int $splitNumber,
+        private readonly int $splitNumber,
         #[ORM\Column(type: 'integer')]
-        private Meter $distance,
+        private readonly Meter $distance,
         #[ORM\Column(type: 'integer')]
-        private int $elapsedTimeInSeconds,
+        private readonly int $elapsedTimeInSeconds,
         #[ORM\Column(type: 'integer')]
-        private int $movingTimeInSeconds,
+        private readonly int $movingTimeInSeconds,
         #[ORM\Column(type: 'integer')]
-        private Meter $elevationDifference,
+        private readonly Meter $elevationDifference,
         #[ORM\Column(type: 'float')]
-        private MetersPerSecond $averageSpeed,
+        private readonly MetersPerSecond $averageSpeed,
         #[ORM\Column(type: 'float')]
-        private MetersPerSecond $minAverageSpeed,
+        private readonly MetersPerSecond $minAverageSpeed,
         #[ORM\Column(type: 'integer')]
-        private MetersPerSecond $maxAverageSpeed,
+        private readonly MetersPerSecond $maxAverageSpeed,
         #[ORM\Column(type: 'integer')]
-        private int $paceZone,
+        private readonly int $paceZone,
     ) {
     }
 
@@ -181,5 +183,15 @@ final readonly class ActivitySplit
     public function getPaceZone(): int
     {
         return $this->paceZone;
+    }
+
+    public function enrichWithAverageHeartRate(int $averageHeartRate): void
+    {
+        $this->averageHeartRate = $averageHeartRate;
+    }
+
+    public function getAverageHeartRate(): ?int
+    {
+        return $this->averageHeartRate;
     }
 }
