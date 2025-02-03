@@ -31,7 +31,7 @@
                                 <div>
                                     <button id="dropdownSportTypesButton"
                                             data-dropdown-toggle="dropdownSportTypes" data-dropdown-offset-distance="10" data-dropdown-offset-skidding="0"
-                                            class="w-fit text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-between" type="button">
+                                            class="w-fit text-white bg-strava-orange hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-3 py-2 inline-flex items-center justify-between" type="button">
                                         <span>{{ "Filter on sport type"|trans }}</span>
                                         <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
@@ -42,8 +42,8 @@
                                             {% for sportType in sportTypes %}
                                                 <li>
                                                     <div class="flex items-center p-2 rounded-sm hover:bg-gray-100">
-                                                        <input type="radio" id="{{ sportType.value }}" data-dataTable-filter="sportType" data-dataTable-filter-value="{{ sportType.value }}" name="sportType" value="{{ sportType.value }}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2" />
-                                                        <label for="{{ sportType.value }}" class="w-full ms-2 flex gap-x-1 items-center text-sm font-medium text-gray-500 cursor-pointer peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100">
+                                                        <input type="radio" id="{{ sportType.value }}" data-dataTable-filter="sportType" data-dataTable-filter-value="{{ sportType.value }}" name="sportType" value="{{ sportType.value }}" class="w-4 h-4 text-strava-orange bg-gray-100 border-gray-300 focus:ring-orange-500 focus:ring-2" />
+                                                        <label for="{{ sportType.value }}" class="w-full ms-2 flex gap-x-1 items-center text-sm font-medium text-gray-500 cursor-pointer peer-checked:border-strava-orange peer-checked:text-strava-orange hover:text-gray-600 hover:bg-gray-100">
                                                             {{ renderSvg(sportType.getSvgIcon(), {'customPath': 'html/svg/sport-type'}) }}
                                                             <div>{{ sportType|trans }}</div>
                                                         </label>
@@ -57,7 +57,7 @@
                             <div>
                                 <button id="dropdownOtherButton"
                                         data-dropdown-toggle="dropdownOther" data-dropdown-offset-distance="10" data-dropdown-offset-skidding="0"
-                                        class="w-fit text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-between" type="button">
+                                        class="w-fit text-strava-orange border border-strava-orange hover:border-orange-600 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-3 py-2 inline-flex items-center justify-between" type="button">
                                     <span>{{ "Other"|trans }}</span>
                                     <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
@@ -67,26 +67,32 @@
                                     <ul class="max-h-48 overflow-y-auto px-1 py-2 space-y-1 text-sm text-gray-700" aria-labelledby="dropdownOtherButton">
                                         <li>
                                             <div class="flex items-center p-2 rounded-sm hover:bg-gray-100">
-                                                <input type="checkbox" id="isFavourite" data-dataTable-filter="isFavourite" data-dataTable-filter-value="isFavourite" name="isFavourite" value="isFavourite" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2" />
-                                                <label for="isFavourite" class="w-full ms-2 flex gap-x-1 items-center text-sm font-medium text-gray-500 cursor-pointer peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100">
-                                                    {{ renderSvg('star') }}
-                                                    <div>{{ "Favourite"|trans }}</div>
+                                                <input type="checkbox" id="isFavourite" data-dataTable-filter="isFavourite" data-dataTable-filter-value="isFavourite" name="isFavourite" value="isFavourite" class="w-4 h-4 text-strava-orange bg-gray-100 border-gray-300 focus:ring-orange-500 focus:ring-2" />
+                                                <label for="isFavourite" class="w-full ms-2 text-sm font-medium text-gray-500 cursor-pointer peer-checked:border-strava-orange peer-checked:text-strava-orange hover:text-gray-600 hover:bg-gray-100">
+                                                    <span class="flex gap-x-1 items-center">
+                                                        {{ renderSvg('star') }}
+                                                        <div>{{ "Favourite"|trans }}</div>
+                                                    </span>
+                                                    <span class="text-xs font-normal text-gray-500 dark:text-gray-300">{{ "Filter on starred segments"|trans }}</span>
                                                 </label>
                                             </div>
                                         </li>
                                         <li>
                                             <div class="flex items-center p-2 rounded-sm hover:bg-gray-100">
-                                                <input type="checkbox" id="isKom" data-dataTable-filter="isKom" data-dataTable-filter-value="isKom" name="isKom" value="isKom" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2" />
-                                                <label for="isKom" class="w-full ms-2 flex gap-x-1 items-center text-sm font-medium text-gray-500 cursor-pointer peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100">
-                                                    {{ renderSvg('elevation', {'classes': 'h-4 shrink-0 text-strava-orange'}) }}
-                                                    <div>{{ "KOM"|trans }}</div>
+                                                <input type="checkbox" id="isKom" data-dataTable-filter="isKom" data-dataTable-filter-value="isKom" name="isKom" value="isKom" class="w-4 h-4 text-strava-orange bg-gray-100 border-gray-300 focus:ring-orange-500 focus:ring-2" />
+                                                <label for="isKom" class="w-full ms-2 text-sm font-medium text-gray-500 cursor-pointer peer-checked:border-strava-orange peer-checked:text-strava-orange hover:text-gray-600 hover:bg-gray-100">
+                                                    <span class="flex gap-x-1 items-center">
+                                                        {{ renderSvg('elevation', {'classes': 'h-4 shrink-0 text-strava-orange'}) }}
+                                                        <div>{{ "KOM"|trans }}</div>
+                                                    </span>
+                                                    <span class="text-xs font-normal text-gray-500 dark:text-gray-300">{{ "Filter on KOM segments"|trans }}</span>
                                                 </label>
                                             </div>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
-                            <button type="reset" data-dataTable-reset class="w-fit inline-flex items-center sm:ml-auto text-gray-900 bg-white focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5">
+                            <button type="reset" data-dataTable-reset class="w-fit inline-flex items-center sm:ml-auto text-gray-900 bg-white focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 me-2" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" clip-rule="evenodd" aria-hidden="true" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"></path>
                                 </svg>
