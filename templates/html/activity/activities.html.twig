@@ -37,30 +37,41 @@
                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5">
                             </div>
                         </div>
-                        <ul class="flex items-center gap-2 flex-wrap">
-                            <li>
-                                <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M18.796 4H5.204a1 1 0 0 0-.753 1.659l5.302 6.058a1 1 0 0 1 .247.659v4.874a.5.5 0 0 0 .2.4l3 2.25a.5.5 0 0 0 .8-.4v-7.124a1 1 0 0 1 .247-.659l5.302-6.059c.566-.646.106-1.658-.753-1.658Z"/>
-                                </svg>
-                            </li>
-                            {% for sportType in sportTypes %}
-                                <li>
-                                    <input type="radio" id="{{ sportType.value }}" data-dataTable-filter="sportType" data-dataTable-filter-value="{{ sportType.value }}" name="sportType" value="{{ sportType.value }}" class="hidden peer" />
-                                    <label for="{{ sportType.value }}" class="flex gap-x-1 items-center text-sm p-2 text-gray-500 border border-gray-200 rounded-lg cursor-pointer peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100">
-                                        {{ renderSvg(sportType.getSvgIcon(), {'customPath': 'html/svg/sport-type'}) }}
-                                        <div>{{ sportType|trans }}</div>
-                                    </label>
-                                </li>
-                            {% endfor %}
-                            <li class="w-5 h-5" data-dataTable-reset>
-                                <button type="button" title="{{ "Reset filters and search"|trans }}">
-                                    <svg class="w-5 h-5 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.651 7.65a7.131 7.131 0 0 0-12.68 3.15M18.001 4v4h-4m-7.652 8.35a7.13 7.13 0 0 0 12.68-3.15M6 20v-4h4"/>
+                        <div class="flex gap-x-2">
+                            {% if sportTypes|length > 0 %}
+                            <div>
+                                <button id="dropdownSportTypesButton"
+                                        data-dropdown-toggle="dropdownSportTypes" data-dropdown-offset-distance="10" data-dropdown-offset-skidding="0"
+                                        class="w-fit text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-between" type="button">
+                                    <span>{{ "Filter on sport type"|trans }}</span>
+                                    <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
                                     </svg>
-                                    <span class="sr-only">{{ "Reset filters and search"|trans }}</span>
                                 </button>
-                            </li>
-                        </ul>
+                                <div id="dropdownSportTypes" class="z-[20] w-fit hidden border border-gray-200 bg-white divide-y divide-gray-100 rounded-lg shadow-sm">
+                                    <ul class="max-h-48 overflow-y-auto px-1 py-2 space-y-1 text-sm text-gray-700" aria-labelledby="dropdownSportTypesButton">
+                                        {% for sportType in sportTypes %}
+                                            <li>
+                                                <div class="flex items-center p-2 rounded-sm hover:bg-gray-100">
+                                                    <input type="radio" id="{{ sportType.value }}" data-dataTable-filter="sportType" data-dataTable-filter-value="{{ sportType.value }}" name="sportType" value="{{ sportType.value }}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2" />
+                                                    <label for="{{ sportType.value }}" class="w-full ms-2 flex gap-x-1 items-center text-sm font-medium text-gray-500 cursor-pointer peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100">
+                                                        {{ renderSvg(sportType.getSvgIcon(), {'customPath': 'html/svg/sport-type'}) }}
+                                                        <div>{{ sportType|trans }}</div>
+                                                    </label>
+                                                </div>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            {% endif %}
+                            <button type="reset" data-dataTable-reset class="inline-flex items-center me-2 mb-2 text-gray-900 bg-white focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 me-2" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" aria-hidden="true" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"></path>
+                                </svg>
+                                {{ "Clear all"|trans }}
+                            </button>
+                        </div>
                     </form>
                     <div class="scroll-area overflow-auto max-h-[calc(100vh-240px)]">
                         <table class="w-full text-sm text-center text-gray-500">
