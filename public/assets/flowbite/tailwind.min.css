@@ -1761,11 +1761,6 @@ input:checked + .toggle-bg {
        column-gap: 0.25rem;
 }
 
-.gap-x-2 {
-  -moz-column-gap: 0.5rem;
-       column-gap: 0.5rem;
-}
-
 .gap-y-2 {
   row-gap: 0.5rem;
 }
@@ -2801,8 +2796,16 @@ input:checked + .toggle-bg {
 }
 
 @media (min-width: 640px) {
+  .sm\:ml-auto {
+    margin-left: auto;
+  }
+
   .sm\:max-w-\[50\%\] {
     max-width: 50%;
+  }
+
+  .sm\:flex-row {
+    flex-direction: row;
   }
 
   .sm\:p-6 {
