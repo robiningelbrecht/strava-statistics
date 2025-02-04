@@ -4,13 +4,17 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Twig;
 
+use App\Infrastructure\Time\Format\ProvideTimeFormats;
 use App\Infrastructure\ValueObject\Measurement\Imperial;
 use App\Infrastructure\ValueObject\Measurement\Metric;
 use App\Infrastructure\ValueObject\Measurement\Unit;
 use App\Infrastructure\ValueObject\Measurement\UnitSystem;
+use App\Infrastructure\ValueObject\Measurement\Velocity\SecPerKm;
 
-final readonly class ConvertMeasurementTwigExtension
+final readonly class MeasurementTwigExtension
 {
+    use ProvideTimeFormats;
+
     public function __construct(
         private UnitSystem $unitSystem,
     ) {
@@ -26,6 +30,13 @@ final readonly class ConvertMeasurementTwigExtension
         }
 
         return $measurement;
+    }
+
+    public function formatPace(SecPerKm $pace): string
+    {
+        $pace = $pace->toUnitSystem($this->unitSystem);
+
+        return $this->formatDurationForHumans($pace->toInt());
     }
 
     public function getUnitSymbol(string $unitName): string

@@ -27,7 +27,8 @@ final class TwigExtensions extends AbstractExtension
             new TwigFilter('formatNumber', FormatNumberTwigExtension::doFormat(...)),
             new TwigFilter('formatDate', [new FormatDateAndTimeTwigExtension($this->dateAndTimeFormat), 'formatDate']),
             new TwigFilter('formatTime', [new FormatDateAndTimeTwigExtension($this->dateAndTimeFormat), 'formatTime']),
-            new TwigFilter('convertMeasurement', [new ConvertMeasurementTwigExtension($this->unitSystem), 'doConversion']),
+            new TwigFilter('convertMeasurement', [new MeasurementTwigExtension($this->unitSystem), 'doConversion']),
+            new TwigFilter('formatPace', [new MeasurementTwigExtension($this->unitSystem), 'formatPace']),
         ];
     }
 
@@ -38,7 +39,7 @@ final class TwigExtensions extends AbstractExtension
             new TwigFunction('render', [new RenderTemplateTwigExtension($this->twig), 'render']),
             new TwigFunction('renderComponent', [new RenderTemplateTwigExtension($this->twig), 'renderComponent']),
             new TwigFunction('renderSvg', [new RenderTemplateTwigExtension($this->twig), 'renderSvg']),
-            new TwigFunction('renderUnitSymbol', [new ConvertMeasurementTwigExtension($this->unitSystem), 'getUnitSymbol']),
+            new TwigFunction('renderUnitSymbol', [new MeasurementTwigExtension($this->unitSystem), 'getUnitSymbol']),
         ];
     }
 }

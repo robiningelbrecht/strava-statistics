@@ -19,6 +19,7 @@ use App\Infrastructure\ValueObject\Measurement\Length\Meter;
 use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use App\Infrastructure\ValueObject\Measurement\Velocity\KmPerHour;
 use App\Infrastructure\ValueObject\Measurement\Velocity\MetersPerSecond;
+use App\Infrastructure\ValueObject\Measurement\Velocity\SecPerKm;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use App\Infrastructure\ValueObject\Time\SerializableTimezone;
 use Doctrine\ORM\Mapping as ORM;
@@ -376,11 +377,9 @@ final class Activity
         return $this->averageSpeed;
     }
 
-    public function getPaceFormatted(): string
+    public function getPaceInSecPerKm(): SecPerKm
     {
-        $pace = $this->getAverageSpeed()->toMetersPerSecond()->toSecPerKm();
-
-        return $this->formatDurationForHumans($pace->toInt());
+        return $this->getAverageSpeed()->toMetersPerSecond()->toSecPerKm();
     }
 
     public function getMaxSpeed(): KmPerHour
