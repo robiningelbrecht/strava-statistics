@@ -16,7 +16,7 @@
             <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow">
                 <div class="text-center">
                     <dd class="text-xs text-gray-500">{{ "Pace"|trans }}</dd>
-                    <dt class="font-extrabold">{{ activity.getPaceFormatted() }}</dt>
+                    <dt class="font-extrabold">{{ activity.getPaceInSecPerKm()|formatPace }}</dt>
                 </div>
             </div>
             <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow">
@@ -84,7 +84,7 @@
                             {{ split.getSplitNumber() }}
                         </div>
                         <div class="w-[5rem] px-2 py-2">
-                            {{ split.getPaceFormatted() }}
+                            {{ split.getPaceInSecPerKm()|formatPace }}
                         </div>
                         <div class="flex-grow min-w-[10rem] px-2 py-2">
                             <div class=" bg-gray-200 rounded-full h-2.5">

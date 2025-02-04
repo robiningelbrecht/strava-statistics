@@ -9,6 +9,7 @@ use App\Infrastructure\Time\Format\ProvideTimeFormats;
 use App\Infrastructure\ValueObject\Measurement\Length\Meter;
 use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use App\Infrastructure\ValueObject\Measurement\Velocity\MetersPerSecond;
+use App\Infrastructure\ValueObject\Measurement\Velocity\SecPerKm;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
@@ -173,11 +174,9 @@ final class ActivitySplit
         return $this->maxAverageSpeed;
     }
 
-    public function getPaceFormatted(): string
+    public function getPaceInSecPerKm(): SecPerKm
     {
-        $pace = $this->getAverageSpeed()->toSecPerKm()->toUnitSystem($this->getUnitSystem());
-
-        return $this->formatDurationForHumans($pace->toInt());
+        return $this->getAverageSpeed()->toSecPerKm();
     }
 
     public function getPaceZone(): int
