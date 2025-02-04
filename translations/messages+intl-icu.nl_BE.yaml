@@ -56,6 +56,7 @@ Feb: Feb
 'For example, an Eddington number of 70 would imply that a cyclist has cycled at least 70 km or miles in a day on at least 70 occasions. Achieving a high Eddington number is difficult, since moving from, say, 70 to 75 will (probably) require more than five new long-distance workouts, since any workout shorter than 75 km or miles will no longer be included in the reckoning.': 'Een Eddington-getal van 70 betekent bijvoorbeeld dat een fietser minstens 70 keer op een dag minstens 70 km of mijl heeft gefietst. Het is moeilijk om een hoog Eddington-getal te bereiken, want om van bijvoorbeeld 70 naar 75 te gaan, zijn (waarschijnlijk) meer dan vijf nieuwe langeafstandstrainingen nodig, omdat elke training korter dan 75 km niet meer wordt meegerekend.'
 Fri: Vr
 Friday: Vrijdag
+From: From
 Gear: Uitrusting
 'Gear stats': Uitrustingsstatistieken
 'Gear that is retired is disabled by default.': 'Uitrusting die niet meer actief is, wordt standaard uitgeschakeld.'
@@ -163,6 +164,7 @@ Thu: Do
 Thursday: Donderdag
 'Time / week': 'Tijd / week'
 'Times completed': 'Aantal keer voltooid'
+To: To
 'Toggle sidebar': 'Toggle sidebar'
 'Top 10': 'Top 10'
 'Total kudos': 'Totaal aantal kudos'
