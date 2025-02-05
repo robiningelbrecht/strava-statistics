@@ -76,9 +76,17 @@ const initDataTables = async () => {
             const clusterizeUpdate = debounce(() => clusterize.update(filterOnActiveRows(applySearchAndFiltersToDataRows(dataRows, dataTableWrapperNode))));
             searchInput.addEventListener("keyup", clusterizeUpdate);
 
-            const filters = dataTableWrapperNode.querySelectorAll('[data-dataTable-filter][data-dataTable-filter-value]');
-            filters.forEach(element => {
+            const clickableFilters = dataTableWrapperNode.querySelectorAll('input[type="checkbox"][data-dataTable-filter],input[type="radio"][data-dataTable-filter]');
+            clickableFilters.forEach(element => {
                 element.addEventListener('click', () => {
+                    clusterize.update(filterOnActiveRows(applySearchAndFiltersToDataRows(dataRows, dataTableWrapperNode)));
+                    $scrollElement.scrollTop = 0;
+                });
+            });
+
+            const rangeFilters = dataTableWrapperNode.querySelectorAll('[data-dataTable-filter*="[]"]');
+            rangeFilters.forEach(element => {
+                element.addEventListener('input', () => {
                     clusterize.update(filterOnActiveRows(applySearchAndFiltersToDataRows(dataRows, dataTableWrapperNode)));
                     $scrollElement.scrollTop = 0;
                 });
@@ -95,22 +103,43 @@ const applySearchAndFiltersToDataRows = function (dataRows, $dataTableNode) {
     const $searchInput = $dataTableNode.querySelector('input[type="search"]');
     const searchValue = $searchInput.value.toLowerCase();
 
-    const $activeFilters = $dataTableNode.querySelectorAll('[data-dataTable-filter][data-dataTable-filter-value]:checked');
+    const $activeCheckedFilters = $dataTableNode.querySelectorAll('[data-dataTable-filter]:checked');
+    const $rangeFilters = $dataTableNode.querySelectorAll('[data-dataTable-filter*="[]"]');
 
     const filters = [];
-    $activeFilters.forEach(element => {
+    $activeCheckedFilters.forEach(element => {
         const filterName = element.getAttribute('data-dataTable-filter');
-        filters[filterName] = element.getAttribute('data-dataTable-filter-value').toLowerCase();
+        filters[filterName] = element.value.toLowerCase();
+    });
+    $rangeFilters.forEach(element => {
+        const filterName = element.getAttribute('data-dataTable-filter').replace('[]', '');
+        const $rangeInputFrom = element.querySelector('input[name="' + filterName + '[from]"]');
+        if (!$rangeInputFrom) {
+            throw new Error('input[name="' + filterName + '[from]"] element not found');
+        }
+        const $rangeInputTo = element.querySelector('input[name="' + filterName + '[to]"]');
+        if (!$rangeInputTo) {
+            throw new Error('input[name="' + filterName + '[to]"] element not found');
+        }
+
+        if (!isNaN($rangeInputFrom.valueAsNumber) && !isNaN($rangeInputTo.valueAsNumber)) {
+            filters[filterName] = [$rangeInputFrom.valueAsNumber, $rangeInputTo.valueAsNumber];
+        }
     });
 
     for (let i = 0; i < dataRows.length; i++) {
-        const filterables = dataRows[i].filterables;
+        const rowFilterables = dataRows[i].filterables;
         const searchables = dataRows[i].searchables.toLowerCase();
         dataRows[i].active = !(searchables.indexOf(searchValue) === -1);
 
         for (const filter in filters) {
             const filterValue = filters[filter];
-            dataRows[i].active = dataRows[i].active && filter in filterables && filterables[filter].toLowerCase() === filterValue
+            if (Array.isArray(filterValue)) {
+                // This is range filter.
+                dataRows[i].active = dataRows[i].active && filter in rowFilterables && filterValue[0] <= rowFilterables[filter] && rowFilterables[filter] <= filterValue[1]
+            } else {
+                dataRows[i].active = dataRows[i].active && filter in rowFilterables && rowFilterables[filter].toLowerCase() === filterValue
+            }
         }
     }
 
