@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="public/assets/images/logo.webp" width="250" alt="Logo" >
+  <img src="public/assets/images/logo.svg" width="250" alt="Logo" >
 </p>
 
 <h1 align="center">Strava Statistics</h1>
