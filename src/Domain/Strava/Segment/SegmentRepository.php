@@ -14,5 +14,7 @@ interface SegmentRepository
 
     public function findAll(Pagination $pagination): Segments;
 
+    public function count(): int;
+
     public function deleteOrphaned(): void;
 }

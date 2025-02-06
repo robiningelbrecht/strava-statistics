@@ -21,7 +21,7 @@ final readonly class DataTableRow implements \JsonSerializable
 
     /**
      * @param string[]                        $searchables
-     * @param array<string, string|int>      $filterables
+     * @param array<string, string|int>       $filterables
      * @param array<string, string|int|float> $sortValues
      * @param array<string, string|int|float> $summables
      */

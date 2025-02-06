@@ -59,6 +59,11 @@ final readonly class DbalSegmentRepository extends DbalRepository implements Seg
         ));
     }
 
+    public function count(): int
+    {
+        return (int) $this->connection->executeQuery('SELECT COUNT(*) FROM Segment')->fetchOne();
+    }
+
     /**
      * @param array<string, mixed> $result
      */

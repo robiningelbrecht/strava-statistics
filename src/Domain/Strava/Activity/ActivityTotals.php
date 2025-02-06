@@ -13,6 +13,7 @@ final readonly class ActivityTotals
     private Meter $totalElevation;
     private int $totalCalories;
     private int $totalMovingTimeInSeconds;
+    private int $totalActivities;
 
     private function __construct(
         private Activities $activities,
@@ -26,6 +27,7 @@ final readonly class ActivityTotals
         );
         $this->totalCalories = (int) $this->activities->sum(fn (Activity $activity) => $activity->getCalories());
         $this->totalMovingTimeInSeconds = (int) $this->activities->sum(fn (Activity $activity) => $activity->getMovingTimeInSeconds());
+        $this->totalActivities = count($this->activities);
     }
 
     public static function create(Activities $activities, SerializableDateTime $now): self
@@ -46,6 +48,11 @@ final readonly class ActivityTotals
     public function getCalories(): int
     {
         return $this->totalCalories;
+    }
+
+    public function getTotalActivities(): int
+    {
+        return $this->totalActivities;
     }
 
     public function getMovingTimeFormatted(): string

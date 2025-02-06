@@ -1,38 +1,43 @@
 const initDataTables = async () => {
     const dataTables = document.querySelectorAll('div[data-dataTable-settings]');
 
-    dataTables.forEach(function (dataTableWrapperNode) {
-        const settings = JSON.parse(dataTableWrapperNode.getAttribute('data-dataTable-settings'));
+    dataTables.forEach(function ($dataTableWrapperNode) {
+        const settings = JSON.parse($dataTableWrapperNode.getAttribute('data-dataTable-settings'));
 
-        const searchInput = dataTableWrapperNode.querySelector('input[type="search"]');
-        const dataTable = dataTableWrapperNode.querySelector('table');
+        const $searchInput = $dataTableWrapperNode.querySelector('input[type="search"]');
+        const $dataTable = $dataTableWrapperNode.querySelector('table');
 
-        if (!searchInput) {
+        if (!$searchInput) {
             return;
         }
-        if (!dataTable) {
+        if (!$dataTable) {
             return;
         }
 
         fetch(settings.url).then(async function (response) {
             const dataRows = await response.json();
-            const $scrollElement = dataTableWrapperNode.querySelector('.scroll-area');
+            const $scrollElement = $dataTableWrapperNode.querySelector('.scroll-area');
 
             const clusterize = new Clusterize({
                 rows: filterOnActiveRows(dataRows),
                 scrollElem: $scrollElement,
-                contentElem: dataTable.querySelector('tbody'),
+                contentElem: $dataTable.querySelector('tbody'),
                 no_data_class: 'clusterize-loading',
                 callbacks: {
                     clusterChanged: () => {
-                        const summableNodes = dataTable.querySelectorAll('[data-dataTable-summable]');
-                        if (summableNodes.length > 0) {
+                        const $summableNodes = $dataTable.querySelectorAll('[data-dataTable-summable]');
+                        if ($summableNodes.length > 0) {
                             const sums = calculateSummables(dataRows);
 
-                            summableNodes.forEach((summableNode) => {
+                            $summableNodes.forEach((summableNode) => {
                                 const summable = summableNode.getAttribute('data-dataTable-summable');
                                 summableNode.innerHTML = sums[summable] !== undefined ? numberFormat(sums[summable], 0, ',', ' ') : 0;
                             });
+                        }
+
+                        const $resultCountNode = $dataTableWrapperNode.querySelector('[data-dataTable-result-count]');
+                        if ($resultCountNode) {
+                            $resultCountNode.innerText = dataRows.filter(row => row.active).length;
                         }
 
                         document.dispatchEvent(new CustomEvent('dataTableClusterWasChanged', {
@@ -45,7 +50,7 @@ const initDataTables = async () => {
 
             let sortOnPrevious = null;
             let sortAsc = false;
-            const sortableColumns = dataTable.querySelectorAll('thead tr th[data-dataTable-sort]');
+            const sortableColumns = $dataTable.querySelectorAll('thead tr th[data-dataTable-sort]');
             sortableColumns.forEach(element => {
                 element.addEventListener('click', () => {
                     const sortOn = element.getAttribute('data-dataTable-sort');
@@ -73,38 +78,62 @@ const initDataTables = async () => {
                 });
             });
 
-            const clusterizeUpdate = debounce(() => clusterize.update(filterOnActiveRows(applySearchAndFiltersToDataRows(dataRows, dataTableWrapperNode))));
-            searchInput.addEventListener("keyup", clusterizeUpdate);
+            // Search event listener.
+            const clusterizeUpdate = debounce(() => clusterize.update(filterOnActiveRows(applySearchAndFiltersToDataRows(dataRows, $dataTableWrapperNode))));
+            $searchInput.addEventListener("keyup", clusterizeUpdate);
 
-            const clickableFilters = dataTableWrapperNode.querySelectorAll('input[type="checkbox"][data-dataTable-filter],input[type="radio"][data-dataTable-filter]');
+            // Filter event listeners.
+            const clickableFilters = $dataTableWrapperNode.querySelectorAll('input[type="checkbox"][data-dataTable-filter],input[type="radio"][data-dataTable-filter]');
             clickableFilters.forEach(element => {
                 element.addEventListener('click', () => {
-                    clusterize.update(filterOnActiveRows(applySearchAndFiltersToDataRows(dataRows, dataTableWrapperNode)));
+                    clusterize.update(filterOnActiveRows(applySearchAndFiltersToDataRows(dataRows, $dataTableWrapperNode)));
                     $scrollElement.scrollTop = 0;
                 });
             });
 
-            const rangeFilters = dataTableWrapperNode.querySelectorAll('[data-dataTable-filter*="[]"]');
+            const rangeFilters = $dataTableWrapperNode.querySelectorAll('[data-dataTable-filter*="[]"]');
             rangeFilters.forEach(element => {
                 element.addEventListener('input', () => {
-                    clusterize.update(filterOnActiveRows(applySearchAndFiltersToDataRows(dataRows, dataTableWrapperNode)));
+                    clusterize.update(filterOnActiveRows(applySearchAndFiltersToDataRows(dataRows, $dataTableWrapperNode)));
                     $scrollElement.scrollTop = 0;
                 });
             });
 
-            dataTableWrapperNode.querySelector('[data-dataTable-reset]').addEventListener('click', () => {
+            // Reset filter event listeners.
+            $dataTableWrapperNode.querySelector('[data-dataTable-reset]').addEventListener('click', (e) => {
+                e.preventDefault();
                 location.reload();
             });
+
+            $dataTableWrapperNode.querySelectorAll('[data-datatable-filter-clear]').forEach(element => {
+                element.addEventListener('click', (e) => {
+                    e.preventDefault();
+
+                    const filterNameToClear = element.getAttribute('data-datatable-filter-clear');
+                    const $checkableFiltersToClear = $dataTableWrapperNode.querySelectorAll('input[type="checkbox"][name^="' + filterNameToClear + '"],input[type="radio"][name^="' + filterNameToClear + '"]');
+                    $checkableFiltersToClear.forEach($filterToClear => {
+                        $filterToClear.checked = false;
+                    });
+
+                    const $valueFiltersToClear = $dataTableWrapperNode.querySelectorAll('input[type="date"][name^="' + filterNameToClear + '"]');
+                    $valueFiltersToClear.forEach($filterToClear => {
+                        $filterToClear.value = '';
+                    });
+
+                    clusterize.update(filterOnActiveRows(applySearchAndFiltersToDataRows(dataRows, $dataTableWrapperNode)));
+                    $scrollElement.scrollTop = 0;
+                });
+            })
         });
     });
 };
 
-const applySearchAndFiltersToDataRows = function (dataRows, $dataTableNode) {
-    const $searchInput = $dataTableNode.querySelector('input[type="search"]');
+const applySearchAndFiltersToDataRows = function (dataRows, $dataTableWrapperNode) {
+    const $searchInput = $dataTableWrapperNode.querySelector('input[type="search"]');
     const searchValue = $searchInput.value.toLowerCase();
 
-    const $activeCheckedFilters = $dataTableNode.querySelectorAll('[data-dataTable-filter]:checked');
-    const $rangeFilters = $dataTableNode.querySelectorAll('[data-dataTable-filter*="[]"]');
+    const $activeCheckedFilters = $dataTableWrapperNode.querySelectorAll('[data-dataTable-filter]:checked');
+    const $rangeFilters = $dataTableWrapperNode.querySelectorAll('[data-dataTable-filter*="[]"]');
 
     const filters = [];
     $activeCheckedFilters.forEach(element => {

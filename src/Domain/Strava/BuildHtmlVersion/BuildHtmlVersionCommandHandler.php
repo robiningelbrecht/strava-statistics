@@ -425,6 +425,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
             'build/html/segments.html',
             $this->twig->load('html/segment/segments.html.twig')->render([
                 'sportTypes' => $importedSportTypes,
+                'totalSegmentCount' => $this->segmentRepository->count(),
             ]),
         );
 

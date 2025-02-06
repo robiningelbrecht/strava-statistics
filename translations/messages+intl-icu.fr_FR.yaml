@@ -17,7 +17,6 @@ Calories: Calories
 Canoeing: Canoë
 'Challenge consistency': 'Challenge sur la régularité'
 Challenges: Challenges
-'Clear all': 'Clear all'
 'Climb a total of 2000m': 'Grimpez un total de 2000m'
 'Climb a total of 7500m': 'Grimpez un total de 7500m'
 'Close modal': 'Fermer la fenêtre'
@@ -200,9 +199,11 @@ Yoga: Yoga
 'Zone 5 (maximal)': 'Zone 5 (maximal)'
 age: age
 bpm: bpm
+clear: clear
 intensity: intensité
 intensityFactor: "facteur d'intensité"
 'max gradient': 'pente maximale'
 maxHeartRate: 'fréquence cardiaque max'
 n/a: n/a
 workouts: entrainements
+'{numberOfResults} results based on your active filters': '{numberOfResults} results based on your active filters'

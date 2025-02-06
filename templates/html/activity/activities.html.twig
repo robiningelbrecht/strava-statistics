@@ -52,12 +52,13 @@
                                     <ul class="max-h-48 overflow-y-auto px-1 py-2 space-y-1 text-sm text-gray-700" aria-labelledby="dropdownSportTypesButton">
                                         {% for sportType in sportTypes %}
                                             <li>
-                                                <div class="flex items-center p-2 rounded-sm hover:bg-gray-100">
-                                                    <input type="radio" id="{{ sportType.value }}" data-dataTable-filter="sportType" name="sportType" value="{{ sportType.value }}" class="w-4 h-4 text-strava-orange bg-gray-100 border-gray-300 focus:ring-orange-500 focus:ring-2" />
-                                                    <label for="{{ sportType.value }}" class="w-full ms-2 flex gap-x-1 items-center text-sm font-medium text-gray-500 cursor-pointer peer-checked:border-strava-orange peer-checked:text-strava-orange hover:text-gray-600 hover:bg-gray-100">
+                                                <div class="flex items-center gap-x-2 p-2 rounded-sm hover:bg-gray-100">
+                                                    <input type="radio" id="{{ sportType.value }}" data-dataTable-filter="sportType" name="sportType" value="{{ sportType.value }}" class="w-4 h-4 peer text-strava-orange bg-gray-100 border-gray-300 focus:ring-orange-500 focus:ring-2" />
+                                                    <label for="{{ sportType.value }}" class="flex gap-x-1 items-center text-sm font-medium text-gray-500 cursor-pointer peer-checked:text-strava-orange hover:text-gray-600 hover:bg-gray-100">
                                                         {{ renderSvg(sportType.getSvgIcon(), {'customPath': 'html/svg/sport-type'}) }}
                                                         <div>{{ sportType|trans }}</div>
                                                     </label>
+                                                    <a href="#activities" class="text-strava-orange text-sm underline invisible peer-checked:visible ml-auto" data-datatable-filter-clear="sportType">clear</a>
                                                 </div>
                                             </li>
                                         {% endfor %}
@@ -75,24 +76,24 @@
                                     </svg>
                                 </button>
                                 <div id="dropdownDateRange" class="z-[20] w-fit hidden border border-gray-200 bg-white divide-y divide-gray-100 rounded-lg shadow-sm">
-                                    <div class="p-3" aria-labelledby="dropdownDateRangeButton">
+                                    <div class="flex items-center gap-x-2 p-3" aria-labelledby="dropdownDateRangeButton">
                                         <div class="flex items-center" data-dataTable-filter="start-date[]">
                                             <input name="start-date[from]" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                             <span class="mx-2 text-gray-500">to</span>
                                             <input name="start-date[to]" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                         </div>
+                                        <a href="#activities" class="text-strava-orange text-sm text-right underline" data-datatable-filter-clear="start-date">clear</a>
                                     </div>
                                 </div>
                             </div>
-                            <button type="reset" data-dataTable-reset class="w-fit inline-flex items-center sm:ml-auto text-gray-900 bg-white focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-3 py-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 me-2" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" clip-rule="evenodd" aria-hidden="true" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"></path>
-                                </svg>
-                                {{ "Clear all"|trans }}
-                            </button>
+                        </div>
+                        <div class="text-xs text-gray-700">
+                            {% set numberOfResults = '<span class="font-bold" data-dataTable-result-count>' ~ activityTotals.getTotalActivities() ~ '</span>' %}
+                            {{ "{numberOfResults} results based on your active filters"|trans({'{numberOfResults}': numberOfResults}) }}
+                            <a href="#activities" class="text-strava-orange underline" data-dataTable-reset>{{ "clear"|trans }}</a>
                         </div>
                     </form>
-                    <div class="scroll-area overflow-auto max-h-[calc(100vh-240px)]">
+                    <div class="scroll-area overflow-auto max-h-[calc(100vh-285px)]">
                         <table class="w-full text-sm text-center text-gray-500">
                             <thead class="z-[10] sticky top-0 text-xs text-gray-700 uppercase bg-gray-50">
                             <tr>
