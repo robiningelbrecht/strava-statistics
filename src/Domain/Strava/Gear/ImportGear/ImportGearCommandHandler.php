@@ -63,6 +63,7 @@ final readonly class ImportGearCommandHandler implements CommandHandler
             try {
                 $gear = $this->gearRepository->find($gearId);
                 $gear
+                    ->updateName($stravaGear['name'])
                     ->updateDistance(Meter::from($stravaGear['distance']))
                     ->updateIsRetired($stravaGear['retired'] ?? false);
             } catch (EntityNotFound) {

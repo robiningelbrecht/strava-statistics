@@ -18,7 +18,7 @@ class Gear
         #[ORM\Column(type: 'integer')]
         private Meter $distanceInMeter,
         #[ORM\Column(type: 'string')]
-        private readonly string $name,
+        private string $name,
         #[ORM\Column(type: 'boolean')]
         private bool $isRetired,
     ) {
@@ -59,6 +59,13 @@ class Gear
     public function getId(): GearId
     {
         return $this->gearId;
+    }
+
+    public function updateName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
     }
 
     public function getOriginalName(): string
