@@ -90,7 +90,7 @@
                         <div class="text-xs text-gray-700">
                             {% set numberOfResults = '<span class="font-bold" data-dataTable-result-count>' ~ activityTotals.getTotalActivities() ~ '</span>' %}
                             {{ "{numberOfResults} results based on your active filters"|trans({'{numberOfResults}': numberOfResults}) }}
-                            <a href="#activities" class="text-strava-orange underline" data-dataTable-reset>{{ "clear"|trans }}</a>
+                            <a href="#activities" class="hidden text-strava-orange underline" data-dataTable-reset>{{ "clear"|trans }}</a>
                         </div>
                     </form>
                     <div class="scroll-area overflow-auto max-h-[calc(100vh-285px)]">

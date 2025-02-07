@@ -156,6 +156,12 @@ const applySearchAndFiltersToDataRows = function (dataRows, $dataTableWrapperNod
         }
     });
 
+    if (Object.keys(filters).length > 0 || searchValue) {
+        $dataTableWrapperNode.querySelector('[data-dataTable-reset]').classList.remove('hidden');
+    }else{
+        $dataTableWrapperNode.querySelector('[data-dataTable-reset]').classList.add('hidden');
+    }
+
     for (let i = 0; i < dataRows.length; i++) {
         const rowFilterables = dataRows[i].filterables;
         const searchables = dataRows[i].searchables.toLowerCase();
