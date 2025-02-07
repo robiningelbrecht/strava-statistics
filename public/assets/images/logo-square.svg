@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   width="512px"
-   height="512px"
-   viewBox="0 0 161.75798 161.75799"
+   width="161.75783pt"
+   height="161.75784pt"
+   viewBox="0 0 161.75783 161.75784"
    version="1.1"
    id="svg1"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
   <defs
      id="defs1" />
-  <path
-     id="rect1-8"
-     style="display:inline;fill:#f9f9f9;stroke:#ffffff;stroke-width:0"
-     d="M 1.9096456e-8,0 H 161.75799 V 161.75799 H 1.9096456e-8 Z" />
+  <rect
+     style="fill:#ffffff;stroke:#ffffff;stroke-width:0"
+     id="rect1"
+     width="161.75781"
+     height="161.75784"
+     x="-5.5289218e-14"
+     y="-8.9578186e-14" />
   <path
      fill-rule="nonzero"
      fill="#fc5200"

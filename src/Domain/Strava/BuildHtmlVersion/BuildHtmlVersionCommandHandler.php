@@ -259,6 +259,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
             activities: $allActivities,
             now: $now,
         );
+        $trivia = Trivia::create($allActivities);
 
         $this->filesystem->write(
             'build/html/dashboard.html',
@@ -287,7 +288,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
                 ),
                 'daytimeStats' => $dayTimeStats,
                 'distanceBreakdowns' => $distanceBreakdowns,
-                'trivia' => Trivia::create($allActivities),
+                'trivia' => $trivia,
                 'ftpHistoryChart' => !$allFtps->isEmpty() ? Json::encode(
                     FtpHistoryChartBuilder::create(
                         ftps: $allFtps,
@@ -606,6 +607,18 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
         $this->filesystem->write(
             'build/html/fetch-json/activity-data-table.json',
             Json::encode($dataDatableRows),
+        );
+
+        $command->getOutput()->writeln('  => Building badge.svg');
+        $this->filesystem->write(
+            'storage/files/badge.svg',
+            $this->twig->load('svg/badge.svg.twig')->render([
+                'athlete' => $athlete,
+                'activities' => $allActivities->slice(0, 5),
+                'activityTotals' => $activityTotals,
+                'trivia' => $trivia,
+                'challengesCompleted' => count($allChallenges),
+            ])
         );
 
         $command->getOutput()->writeln('  => Building error pages');

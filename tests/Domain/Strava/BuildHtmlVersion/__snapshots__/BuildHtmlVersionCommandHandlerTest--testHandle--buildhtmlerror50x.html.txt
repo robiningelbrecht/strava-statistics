@@ -15,4 +15,5 @@
   => Building gear-stats.html
   => Building heatmap.html
   => Building activities.html
+  => Building badge.svg
   => Building error pages

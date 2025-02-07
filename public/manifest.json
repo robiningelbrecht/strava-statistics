@@ -42,14 +42,14 @@
       "purpose": "maskable"
     },
     {
-      "src": "/assets/images/manifest/icon-512.svg",
+      "src": "/assets/images/manifest/icon-512.png",
       "sizes": "any",
-      "type": "image/svg+xml"
+      "type": "image/png"
     },
     {
-      "src": "/assets/images/manifest/icon-512.maskable.svg",
+      "src": "/assets/images/manifest/icon-512.maskable.png",
       "sizes": "any",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "maskable"
     }
   ],
