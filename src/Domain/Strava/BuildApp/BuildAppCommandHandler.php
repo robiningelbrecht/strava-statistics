@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Strava\BuildHtmlVersion;
+namespace App\Domain\Strava\BuildApp;
 
 use App\Domain\Strava\Activity\ActivityHeatmapChartBuilder;
 use App\Domain\Strava\Activity\ActivityIntensity;
@@ -64,7 +64,7 @@ use League\Flysystem\FilesystemOperator;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
-final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
+final readonly class BuildAppCommandHandler implements CommandHandler
 {
     public const string APP_VERSION = 'v0.4.11';
 
@@ -96,7 +96,7 @@ final readonly class BuildHtmlVersionCommandHandler implements CommandHandler
 
     public function handle(Command $command): void
     {
-        assert($command instanceof BuildHtmlVersion);
+        assert($command instanceof BuildApp);
 
         $this->localeSwitcher->setLocale();
         $now = $this->clock->getCurrentDateTimeImmutable();

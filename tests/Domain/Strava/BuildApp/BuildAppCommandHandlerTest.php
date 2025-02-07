@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\Domain\Strava\BuildHtmlVersion;
+namespace App\Tests\Domain\Strava\BuildApp;
 
-use App\Domain\Strava\BuildHtmlVersion\BuildHtmlVersion;
+use App\Domain\Strava\BuildApp\BuildApp;
 use App\Infrastructure\CQRS\Bus\CommandBus;
 use App\Tests\ContainerTestCase;
 use App\Tests\ProvideTestData;
@@ -10,7 +10,7 @@ use App\Tests\SpyOutput;
 use League\Flysystem\FilesystemOperator;
 use Spatie\Snapshots\MatchesSnapshots;
 
-class BuildHtmlVersionCommandHandlerTest extends ContainerTestCase
+class BuildAppCommandHandlerTest extends ContainerTestCase
 {
     use MatchesSnapshots;
     use ProvideTestData;
@@ -23,7 +23,7 @@ class BuildHtmlVersionCommandHandlerTest extends ContainerTestCase
         $this->provideFullTestSet();
 
         $output = new SpyOutput();
-        $this->commandBus->dispatch(new BuildHtmlVersion($output));
+        $this->commandBus->dispatch(new BuildApp($output));
 
         /** @var \App\Tests\Infrastructure\FileSystem\SpyFileSystem $fileSystem */
         $fileSystem = $this->getContainer()->get(FilesystemOperator::class);
@@ -43,7 +43,7 @@ class BuildHtmlVersionCommandHandlerTest extends ContainerTestCase
         $this->provideRunningOnlyTestSet();
 
         $output = new SpyOutput();
-        $this->commandBus->dispatch(new BuildHtmlVersion($output));
+        $this->commandBus->dispatch(new BuildApp($output));
 
         /** @var \App\Tests\Infrastructure\FileSystem\SpyFileSystem $fileSystem */
         $fileSystem = $this->getContainer()->get(FilesystemOperator::class);

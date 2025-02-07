@@ -4,7 +4,7 @@ namespace App\Console;
 
 use App\Domain\Manifest\BuildManifest\BuildManifest;
 use App\Domain\Notification\SendNotification\SendNotification;
-use App\Domain\Strava\BuildHtmlVersion\BuildHtmlVersion;
+use App\Domain\Strava\BuildApp\BuildApp;
 use App\Domain\Strava\StravaDataImportStatus;
 use App\Infrastructure\CQRS\Bus\CommandBus;
 use App\Infrastructure\Doctrine\Migrations\MigrationRunner;
@@ -44,7 +44,7 @@ final class BuildStravaActivityFilesConsoleCommand extends Command
         $this->commandBus->dispatch(new BuildManifest());
 
         $output->writeln('Building HTML...');
-        $this->commandBus->dispatch(new BuildHtmlVersion($output));
+        $this->commandBus->dispatch(new BuildApp($output));
         $this->commandBus->dispatch(new SendNotification(
             title: 'Build successful',
             message: 'New build of your Strava stats was successful',

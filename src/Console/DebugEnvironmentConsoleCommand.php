@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console;
 
-use App\Domain\Strava\BuildHtmlVersion\BuildHtmlVersionCommandHandler;
+use App\Domain\Strava\BuildApp\BuildAppCommandHandler;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
@@ -26,7 +26,7 @@ final class DebugEnvironmentConsoleCommand extends Command
         $table
             ->setHeaders(['ENV variable', 'Value'])
             ->setRows([
-                ['APP_VERSION', BuildHtmlVersionCommandHandler::APP_VERSION],
+                ['APP_VERSION', BuildAppCommandHandler::APP_VERSION],
                 ...array_map(fn (string $key, string $value) => [$key, $value], array_keys(getenv()), getenv()),
             ]);
         $table->render();
