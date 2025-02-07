@@ -620,6 +620,10 @@ final readonly class BuildAppCommandHandler implements CommandHandler
                 'challengesCompleted' => count($allChallenges),
             ])
         );
+        $this->filesystem->write(
+            'build/html/badge.html',
+            $this->twig->load('html/badge.html.twig')->render(),
+        );
 
         $command->getOutput()->writeln('  => Building error pages');
         $this->filesystem->write(

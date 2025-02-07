@@ -1424,6 +1424,14 @@ input:checked + .toggle-bg {
   max-height: 12rem;
 }
 
+.max-h-80 {
+  max-height: 20rem;
+}
+
+.max-h-\[calc\(100vh-160px\)\] {
+  max-height: calc(100vh - 160px);
+}
+
 .max-h-\[calc\(100vh-200px\)\] {
   max-height: calc(100vh - 200px);
 }
@@ -1434,6 +1442,10 @@ input:checked + .toggle-bg {
 
 .max-h-full {
   max-height: 100%;
+}
+
+.min-h-40 {
+  min-height: 10rem;
 }
 
 .min-h-\[16rem\] {
