@@ -20,6 +20,9 @@ final readonly class StringTwigExtension
 
     public static function doCountUpperCaseChars(string $string): int
     {
-        return strlen($string) - strlen(preg_replace('/[A-Z]/', '', $string));
+        /** @var string $stringWithoutUppercaseChars */
+        $stringWithoutUppercaseChars = preg_replace('/[A-Z]/', '', $string);
+
+        return strlen($string) - strlen($stringWithoutUppercaseChars);
     }
 }
