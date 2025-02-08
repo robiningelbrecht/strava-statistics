@@ -54,7 +54,7 @@ final class Activity
         #[ORM\Column(type: 'string')]
         private string $name,
         #[ORM\Column(type: 'string', nullable: true)]
-        private ?string $description,
+        private readonly ?string $description,
         #[ORM\Column(type: 'integer')]
         private readonly Kilometer $distance,
         #[ORM\Column(type: 'integer')]
@@ -331,13 +331,6 @@ final class Activity
     public function getDescription(): string
     {
         return trim($this->description ?? '');
-    }
-
-    public function updateDescription(string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
     }
 
     public function getDistance(): Kilometer

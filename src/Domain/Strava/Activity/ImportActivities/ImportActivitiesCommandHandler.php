@@ -91,7 +91,6 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
 
                 $activity
                     ->updateName($stravaActivity['name'])
-                    ->updateDescription($stravaActivity['description'] ?? '')
                     ->updateElevation(Meter::from($stravaActivity['total_elevation_gain']))
                     ->updateKudoCount($stravaActivity['kudos_count'] ?? 0)
                     ->updateGear(
