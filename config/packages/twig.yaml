@@ -3,4 +3,4 @@ twig:
     default_path: '%kernel.project_dir%/templates'
     strict_variables: false
     globals:
-        uuid: '@App\Infrastructure\ValueObject\Identifier\UuidFactory'
+        appVersion: '@App\Infrastructure\App\AppVersion'

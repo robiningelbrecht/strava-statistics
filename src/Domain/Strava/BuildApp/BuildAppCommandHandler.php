@@ -66,8 +66,6 @@ use Twig\Environment;
 
 final readonly class BuildAppCommandHandler implements CommandHandler
 {
-    public const string APP_VERSION = 'v0.4.11';
-
     public function __construct(
         private ActivityRepository $activityRepository,
         private ChallengeRepository $challengeRepository,
@@ -202,7 +200,6 @@ final readonly class BuildAppCommandHandler implements CommandHandler
                 'totalPhotoCount' => count($allImages),
                 'lastUpdate' => $now,
                 'athlete' => $athlete,
-                'currentAppVersion' => self::APP_VERSION,
             ]),
         );
 
