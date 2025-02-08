@@ -14,7 +14,7 @@ const initDataTables = async () => {
             return;
         }
 
-        fetch(settings.url).then(async function (response) {
+        fetch(settings.url, {cache: 'no-store'}).then(async function (response) {
             const dataRows = await response.json();
             const $scrollElement = $dataTableWrapperNode.querySelector('.scroll-area');
 
@@ -158,7 +158,7 @@ const applySearchAndFiltersToDataRows = function (dataRows, $dataTableWrapperNod
 
     if (Object.keys(filters).length > 0 || searchValue) {
         $dataTableWrapperNode.querySelector('[data-dataTable-reset]').classList.remove('hidden');
-    }else{
+    } else {
         $dataTableWrapperNode.querySelector('[data-dataTable-reset]').classList.add('hidden');
     }
 

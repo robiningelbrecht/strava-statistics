@@ -8,7 +8,7 @@ const mobileNavTriggerEl = document.querySelector('[data-drawer-target="drawer-n
 const defaultRoute = 'dashboard';
 
 const renderContent = async (page) => {
-    if(!menu.hasAttribute('aria-hidden')){
+    if (!menu.hasAttribute('aria-hidden')) {
         // Trigger click event to close mobile nav.
         mobileNavTriggerEl.dispatchEvent(
             new MouseEvent('click', {
@@ -25,7 +25,7 @@ const renderContent = async (page) => {
     appContent.classList.add('hidden');
 
     // Load content.
-    const response = await fetch(page+'.html');
+    const response = await fetch(page + '.html', {cache: 'no-store'});
     appContent.innerHTML = await response.text();
     window.scrollTo(0, 0);
 
@@ -39,17 +39,17 @@ const renderContent = async (page) => {
     menuItems.forEach(node => {
         node.setAttribute('aria-selected', 'false')
     });
-    document.querySelector('aside li a[data-router-navigate="'+page+'"]').setAttribute('aria-selected', 'true');
+    document.querySelector('aside li a[data-router-navigate="' + page + '"]').setAttribute('aria-selected', 'true');
 
     // There might be other nav links on the newly loaded page, make sure they are registered.
-    const nav =  document.querySelectorAll("nav a[data-router-navigate], main a[data-router-navigate]");
+    const nav = document.querySelectorAll("nav a[data-router-navigate], main a[data-router-navigate]");
     registerNavItems(nav);
 
     document.dispatchEvent(new CustomEvent('pageWasLoaded', {
         bubbles: true,
         cancelable: false,
     }));
-    document.dispatchEvent(new CustomEvent('pageWasLoaded.'+page, {
+    document.dispatchEvent(new CustomEvent('pageWasLoaded.' + page, {
         bubbles: true,
         cancelable: false,
     }));
@@ -69,14 +69,14 @@ const registerNavItems = (items) => {
             renderContent(route);
             window.history.pushState({
                 route: route
-            }, "", '#'+route);
+            }, "", '#' + route);
         });
     });
 };
 
 const registerBrowserBackAndForth = () => {
     window.onpopstate = function (e) {
-        if(!e.state){
+        if (!e.state) {
             return;
         }
         renderContent(e.state.route);

@@ -487,7 +487,7 @@
                     closable: true,
                     backdropClasses: 'bg-gray-900 bg-opacity-50 fixed inset-0 z-[1400]',
                     onShow: async () => {
-                        const response = await fetch(node.getAttribute('data-model-content-url'));
+                        const response = await fetch(node.getAttribute('data-model-content-url'), {cache: 'no-store'});
                         // Remove loading state.
                         modalSpinner.classList.add('hidden');
                         modalSpinner.classList.remove('flex');
