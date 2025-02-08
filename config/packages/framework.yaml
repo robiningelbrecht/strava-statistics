@@ -1,13 +1,9 @@
 # see https://symfony.com/doc/current/reference/configuration/framework.html
 framework:
     secret: '%env(APP_SECRET)%'
-    #csrf_protection: true
-
-    # Note that the session will be started ONLY if you read or write from it.
     session: true
-
-    #esi: true
-    #fragments: true
+    assets:
+        version_strategy: 'App\Infrastructure\App\UuidAssetVersioningStrategy'
 
 when@test:
     framework:

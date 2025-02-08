@@ -1,4 +1,3 @@
-{% set uuid = uuid.random() %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,11 +7,11 @@
     <meta name="theme-color" content="#F26822">
     <meta name="mobile-web-app-title" content="{{ "Strava Statistics"|trans }} | {{ athlete.getName() }}">
     <meta name="mobile-web-app-capable" content="yes">
-    <link href="/manifest.json?{{ uuid }}" rel="manifest" crossorigin="">
+    <link href="{{ asset('manifest.json') }}" rel="manifest" crossorigin="">
     <link rel="icon" type="image/x-icon" href="assets/images/logo.svg">
-    <link href="assets/flowbite/tailwind.min.css?{{ uuid }}" rel="stylesheet"/>
-    <link href="assets/leaflet/leaflet.css?{{ uuid }}" rel="stylesheet"/>
-    <link href="assets/data-table/clusterize.min.css?{{ uuid }}" rel="stylesheet">
+    <link href="{{ asset('assets/flowbite/tailwind.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('assets/leaflet/leaflet.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('assets/data-table/clusterize.min.css') }}" rel="stylesheet">
 </head>
 <body>
 <div class="antialiased bg-gray-50">
@@ -395,16 +394,16 @@
     </main>
 </div>
 
-<script src="assets/echarts/echarts.min.js?{{ uuid }}"></script>
-<script src="assets/lazyload.min.js?{{ uuid }}"></script>
-<script src="assets/flowbite/flowbite.js?{{ uuid }}"></script>
-<script src="assets/utils.js?{{ uuid }}"></script>
-<script src="assets/router.js?{{ uuid }}"></script>
-<script src="assets/leaflet/leaflet.js?{{ uuid }}"></script>
-<script src="assets/leaflet/leaflet.polyline.encoded.js?{{ uuid }}"></script>
-<script src="assets/leaflet/leaflet.fly.to.places.js?{{ uuid }}"></script>
-<script src="assets/data-table/clusterize.min.js?{{ uuid }}"></script>
-<script src="assets/data-table/data-table.js?{{ uuid }}"></script>
+<script src="{{ asset('assets/echarts/echarts.min.js') }}"></script>
+<script src="{{ asset('assets/lazyload.min.js') }}"></script>
+<script src="{{ asset('assets/flowbite/flowbite.js') }}"></script>
+<script src="{{ asset('assets/utils.js') }}"></script>
+<script src="{{ asset('assets/router.js') }}"></script>
+<script src="{{ asset('assets/leaflet/leaflet.js') }}"></script>
+<script src="{{ asset('assets/leaflet/leaflet.polyline.encoded.js') }}"></script>
+<script src="{{ asset('assets/leaflet/leaflet.fly.to.places.js') }}"></script>
+<script src="{{ asset('assets/data-table/clusterize.min.js') }}"></script>
+<script src="{{ asset('assets/data-table/data-table.js') }}"></script>
 
 <script>
     // Enable image lazy load.
