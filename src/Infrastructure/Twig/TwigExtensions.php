@@ -22,8 +22,9 @@ final class TwigExtensions extends AbstractExtension
     public function getFilters(): array
     {
         return [
-            new TwigFilter('repeat', StrRepeatTwigExtension::doRepeat(...)),
-            new TwigFilter('ellipses', StrEllipsisTwigExtension::doEllipses(...)),
+            new TwigFilter('repeat', StringTwigExtension::doRepeat(...)),
+            new TwigFilter('ellipses', StringTwigExtension::doEllipses(...)),
+            new TwigFilter('countUppercaseChars', StringTwigExtension::doCountUpperCaseChars(...)),
             new TwigFilter('formatNumber', FormatNumberTwigExtension::doFormat(...)),
             new TwigFilter('formatDate', [new FormatDateAndTimeTwigExtension($this->dateAndTimeFormat), 'formatDate']),
             new TwigFilter('formatTime', [new FormatDateAndTimeTwigExtension($this->dateAndTimeFormat), 'formatTime']),
