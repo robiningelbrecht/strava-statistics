@@ -9,8 +9,21 @@ use App\Infrastructure\ValueObject\String\Url;
 
 class SpyNotify implements Ntfy
 {
+    private array $notifications = [];
+
     public function sendNotification(string $title, string $message, array $tags, ?Url $click, ?Url $icon): void
     {
-        // TODO: Implement sendNotification() method.
+        $this->notifications[] = [
+            'title' => $title,
+            'message' => $message,
+            'tags' => $tags,
+            'click' => $click,
+            'icon' => $icon,
+        ];
+    }
+
+    public function getNotifications(): array
+    {
+        return $this->notifications;
     }
 }
