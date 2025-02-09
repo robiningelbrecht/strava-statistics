@@ -21,6 +21,9 @@
         <bootstrap class="RobinIngelbrecht\PHPUnitPrettyPrint\PhpUnitExtension">
             <parameter name="displayProfiling" value="false"/>
         </bootstrap>
+        <bootstrap class="RobinIngelbrecht\PHPUnitCoverageTools\PhpUnitExtension">
+            <parameter name="cleanUpCloverXml" value="1"/>
+        </bootstrap>
     </extensions>
     <testsuites>
         <testsuite name="Test Suite">

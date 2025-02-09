@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9debb7b648757bd54f18c2b0dfd38fbf",
+    "content-hash": "e51077bc9a961f489e13acb3687ec422",
     "packages": [
         {
             "name": "adrenalinkin/doctrine-naming-strategy",
@@ -8554,6 +8554,61 @@
                 }
             ],
             "time": "2024-06-11T12:45:25+00:00"
+        },
+        {
+            "name": "robiningelbrecht/phpunit-coverage-tools",
+            "version": "v1.8.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/robiningelbrecht/phpunit-coverage-tools.git",
+                "reference": "db5534ed89dc93dceed91daffbefbcdab95a1f4e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/robiningelbrecht/phpunit-coverage-tools/zipball/db5534ed89dc93dceed91daffbefbcdab95a1f4e",
+                "reference": "db5534ed89dc93dceed91daffbefbcdab95a1f4e",
+                "shasum": ""
+            },
+            "require": {
+                "ext-simplexml": "*",
+                "ext-xmlreader": "*",
+                "php": "^8.1",
+                "phpunit/phpunit": "^10.3||^11.0",
+                "symfony/console": "^5.4||^6.2||^7.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.9",
+                "phpstan/phpstan": "^1.10",
+                "spatie/phpunit-snapshot-assertions": "^5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "RobinIngelbrecht\\PHPUnitCoverageTools\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Robin Ingelbrecht",
+                    "email": "ingelbrecht_robin@hotmail.com"
+                }
+            ],
+            "description": "PHPUnit coverage tools",
+            "keywords": [
+                "code coverage",
+                "php",
+                "phpunit",
+                "testing"
+            ],
+            "support": {
+                "issues": "https://github.com/robiningelbrecht/phpunit-coverage-tools/issues",
+                "source": "https://github.com/robiningelbrecht/phpunit-coverage-tools/tree/v1.8.2"
+            },
+            "time": "2024-12-30T21:39:51+00:00"
         },
         {
             "name": "robiningelbrecht/phpunit-pretty-print",

@@ -20,6 +20,7 @@ public/assets/images/readme
 .phpunit.result.cache
 docker-compose.yml
 Makefile
+min-coverage-rules.php
 phpstan.dist.neon
 phpunit.xml.dist
 package-lock.json
