@@ -4,18 +4,14 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\App;
 
-final readonly class AppVersion implements \Stringable
+final readonly class AppVersion
 {
     private const int MAJOR = 0;
     private const int MINOR = 4;
-    private const int PATCH = 11;
+    private const int PATCH = 12;
 
-    public function __toString(): string
+    public static function getSemanticVersion(): string
     {
-        return 'v'.implode('.', [
-            self::MAJOR,
-            self::MINOR,
-            self::PATCH,
-        ]);
+        return sprintf('v%d.%d.%d', self::MAJOR, self::MINOR, self::PATCH);
     }
 }

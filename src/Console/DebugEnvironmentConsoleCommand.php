@@ -26,7 +26,7 @@ final class DebugEnvironmentConsoleCommand extends Command
         $table
             ->setHeaders(['ENV variable', 'Value'])
             ->setRows([
-                ['APP_VERSION', (string) new AppVersion()],
+                ['APP_VERSION', AppVersion::getSemanticVersion()],
                 ...array_map(fn (string $key, string $value) => [$key, $value], array_keys(getenv()), getenv()),
             ]);
         $table->render();

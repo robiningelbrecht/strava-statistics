@@ -341,8 +341,8 @@
                 </a>
             </div>
             <div class="flex justify-center gap-x-1 text-xs text-center text-gray-500">
-                <span>{{ appVersion }}</span>
-                <span class="hidden" data-latest-version data-current-version="{{ appVersion }}">
+                <span>{{ appVersion.getSemanticVersion() }}</span>
+                <span class="hidden" data-latest-version data-current-version="{{ appVersion.getSemanticVersion() }}">
                     (latest: <a class="underline"
                                 href="https://github.com/robiningelbrecht/strava-statistics/releases/tag/[LATEST_VERSION]">[LATEST_VERSION]</a>)
                 </span>
