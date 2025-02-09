@@ -8,9 +8,6 @@ use App\Infrastructure\CQRS\Bus\CommandBus;
 use Doctrine\Migrations\AbstractMigration;
 use Doctrine\Migrations\Version\MigrationFactory;
 
-/**
- * @codeCoverageIgnore
- */
 readonly class CommandBusAwareMigrationFactory implements MigrationFactory
 {
     public function __construct(

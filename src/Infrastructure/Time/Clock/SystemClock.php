@@ -6,9 +6,6 @@ namespace App\Infrastructure\Time\Clock;
 
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
-/**
- * @codeCoverageIgnore
- */
 class SystemClock implements Clock
 {
     public function getCurrentDateTimeImmutable(): SerializableDateTime
