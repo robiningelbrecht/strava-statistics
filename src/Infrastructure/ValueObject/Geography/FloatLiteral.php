@@ -18,11 +18,6 @@ abstract readonly class FloatLiteral implements \JsonSerializable
         return $this->float;
     }
 
-    public function equals(FloatLiteral $that): bool
-    {
-        return $this->float === $that->float;
-    }
-
     public static function fromString(string $string): static
     {
         if (!\is_numeric($string)) {
