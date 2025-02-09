@@ -1,6 +1,0 @@
-framework:
-  rate_limiter:
-    anonymous:
-      policy: 'sliding_window'
-      limit: 100
-      interval: '60 minutes'

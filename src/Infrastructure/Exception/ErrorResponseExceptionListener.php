@@ -35,6 +35,9 @@ final readonly class ErrorResponseExceptionListener implements EventSubscriberIn
         $event->setResponse($response);
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public static function getSubscribedEvents(): array
     {
         return [KernelEvents::EXCEPTION => 'onKernelException'];

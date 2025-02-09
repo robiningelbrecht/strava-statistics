@@ -41,6 +41,26 @@ class LiveNtfyTest extends TestCase
         );
     }
 
+    public function testSendNotificationWithoutUrl(): void
+    {
+        $this->ntfy = new LiveNtfy(
+            $this->client,
+            null,
+        );
+
+        $this->client
+            ->expects($this->never())
+            ->method('request');
+
+        $this->ntfy->sendNotification(
+            title: 'The title',
+            message: 'The message',
+            tags: ['+1'],
+            click: null,
+            icon: Url::fromString('https://raw.githubusercontent.com/robiningelbrecht/strava-statistics/master/public/assets/images/logo.png')
+        );
+    }
+
     protected function setUp(): void
     {
         parent::setUp();

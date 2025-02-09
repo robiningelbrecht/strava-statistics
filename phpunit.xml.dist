@@ -31,5 +31,9 @@
         <include>
             <directory>src</directory>
         </include>
+        <exclude>
+            <file>src/Kernel.php</file>
+            <directory>src/Infrastructure/Doctrine/Migrations</directory>
+        </exclude>
     </source>
 </phpunit>
