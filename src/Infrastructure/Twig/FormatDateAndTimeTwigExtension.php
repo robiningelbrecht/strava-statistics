@@ -34,7 +34,7 @@ final readonly class FormatDateAndTimeTwigExtension
         };
     }
 
-    public function formatTime(SerializableDateTime $date, string $formatType = 'normal'): string
+    public function formatTime(SerializableDateTime $date): string
     {
         $timeFormat = $this->dateAndTimeFormat->getTimeFormat();
 
