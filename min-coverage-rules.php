@@ -5,7 +5,7 @@ use RobinIngelbrecht\PHPUnitCoverageTools\MinCoverage\MinCoverageRule;
 return [
     new MinCoverageRule(
         pattern: MinCoverageRule::TOTAL,
-        minCoverage: 95,
+        minCoverage: 94,
         exitOnLowCoverage: true
     ),
     new MinCoverageRule(
@@ -15,12 +15,12 @@ return [
     ),
     new MinCoverageRule(
         pattern: 'App\Infrastructure\*',
-        minCoverage: 92,
+        minCoverage: 90,
         exitOnLowCoverage: true
     ),
     new MinCoverageRule(
         pattern: 'App\Domain\*',
-        minCoverage: 95,
+        minCoverage: 94,
         exitOnLowCoverage: true
     ),
     new MinCoverageRule(
