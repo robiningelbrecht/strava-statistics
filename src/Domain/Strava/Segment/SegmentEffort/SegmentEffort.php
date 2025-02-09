@@ -40,6 +40,7 @@ final class SegmentEffort
         private readonly Kilometer $distance,
         #[ORM\Column(type: 'float', nullable: true)]
         private readonly ?float $averageWatts,
+        private readonly ?int $rank,
     ) {
     }
 
@@ -62,6 +63,7 @@ final class SegmentEffort
             elapsedTimeInSeconds: $elapsedTimeInSeconds,
             distance: $distance,
             averageWatts: $averageWatts,
+            rank: null,
         );
     }
 
@@ -74,6 +76,7 @@ final class SegmentEffort
         float $elapsedTimeInSeconds,
         Kilometer $distance,
         ?float $averageWatts,
+        ?int $rank,
     ): self {
         return new self(
             segmentEffortId: $segmentEffortId,
@@ -84,6 +87,7 @@ final class SegmentEffort
             elapsedTimeInSeconds: $elapsedTimeInSeconds,
             distance: $distance,
             averageWatts: $averageWatts,
+            rank: $rank,
         );
     }
 
@@ -137,6 +141,11 @@ final class SegmentEffort
     public function getDistance(): Kilometer
     {
         return $this->distance;
+    }
+
+    public function getRank(): ?int
+    {
+        return $this->rank;
     }
 
     public function getActivity(): ?Activity

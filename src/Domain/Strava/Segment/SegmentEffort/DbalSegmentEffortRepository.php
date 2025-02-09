@@ -19,6 +19,7 @@ final readonly class DbalSegmentEffortRepository extends DbalRepository implemen
     public function __construct(
         Connection $connection,
         private EventBus $eventBus,
+        private SegmentEffortRankingMap $segmentEffortRankingMap,
     ) {
         parent::__construct($connection);
     }
@@ -118,8 +119,10 @@ final readonly class DbalSegmentEffortRepository extends DbalRepository implemen
      */
     private function hydrate(array $result): SegmentEffort
     {
+        $segmentEffortId = SegmentEffortId::fromString($result['segmentEffortId']);
+
         return SegmentEffort::fromState(
-            segmentEffortId: SegmentEffortId::fromString($result['segmentEffortId']),
+            segmentEffortId: $segmentEffortId,
             segmentId: SegmentId::fromString($result['segmentId']),
             activityId: ActivityId::fromString($result['activityId']),
             startDateTime: SerializableDateTime::fromString($result['startDateTime']),
@@ -127,6 +130,7 @@ final readonly class DbalSegmentEffortRepository extends DbalRepository implemen
             elapsedTimeInSeconds: $result['elapsedTimeInSeconds'],
             distance: Kilometer::from($result['distance'] / 1000),
             averageWatts: $result['averageWatts'],
+            rank: $this->segmentEffortRankingMap->getRankFor($segmentEffortId)
         );
     }
 }

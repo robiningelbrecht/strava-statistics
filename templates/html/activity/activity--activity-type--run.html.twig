@@ -147,6 +147,11 @@
                 <table class="w-full text-sm text-center text-gray-500">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                     <tr>
+                        <th scope="col" class="px-2 py-3">
+                            <div class="flex items-center justify-center">
+                                {{ renderSvg('hashtag') }}
+                            </div>
+                        </th>
                         <th scope="col" class="px-2 py-3 text-left">
 
                         </th>
@@ -170,6 +175,9 @@
                     <tbody>
                     {% for segmentEffort in segmentEfforts %}
                         <tr class="{{ cycle(['bg-white border-b', 'border-b bg-gray-50'], loop.index0) }}">
+                            <td class="px-2 py-2">
+                                {{ segmentEffort.getRank() }}
+                            </td>
                             <td class="px-2 py-2 text-left">
                                 <a href="#" data-model-content-url="segment/{{ segmentEffort.getSegmentId() }}.html"
                                    class="flex items-center gap-x-1 font-medium text-blue-600 hover:underline"

@@ -5,6 +5,7 @@ namespace App\Tests\Domain\Strava\Segment\SegmentEffort;
 use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Segment\SegmentEffort\DbalSegmentEffortRepository;
 use App\Domain\Strava\Segment\SegmentEffort\SegmentEffortId;
+use App\Domain\Strava\Segment\SegmentEffort\SegmentEffortRankingMap;
 use App\Domain\Strava\Segment\SegmentEffort\SegmentEffortRepository;
 use App\Domain\Strava\Segment\SegmentEffort\SegmentEfforts;
 use App\Domain\Strava\Segment\SegmentId;
@@ -25,6 +26,7 @@ class DbalSegmentEffortRepositoryTest extends ContainerTestCase
     public function testFindAndSave(): void
     {
         $segmentEffort = SegmentEffortBuilder::fromDefaults()
+            ->withRank(1)
             ->build();
         $this->segmentEffortRepository->add($segmentEffort);
 
@@ -45,18 +47,21 @@ class DbalSegmentEffortRepositoryTest extends ContainerTestCase
         $segmentEffortOne = SegmentEffortBuilder::fromDefaults()
             ->withSegmentEffortId(SegmentEffortId::fromUnprefixed(1))
             ->withSegmentId(SegmentId::fromUnprefixed(1))
+            ->withRank(1)
             ->build();
         $this->segmentEffortRepository->add($segmentEffortOne);
 
         $segmentEffortTwo = SegmentEffortBuilder::fromDefaults()
             ->withSegmentEffortId(SegmentEffortId::fromUnprefixed(2))
             ->withSegmentId(SegmentId::fromUnprefixed(1))
+            ->withRank(2)
             ->build();
         $this->segmentEffortRepository->add($segmentEffortTwo);
 
         $segmentEffortThree = SegmentEffortBuilder::fromDefaults()
             ->withSegmentEffortId(SegmentEffortId::fromUnprefixed(3))
             ->withSegmentId(SegmentId::fromUnprefixed(2))
+            ->withRank(null)
             ->build();
         $this->segmentEffortRepository->add($segmentEffortThree);
 
@@ -71,18 +76,21 @@ class DbalSegmentEffortRepositoryTest extends ContainerTestCase
         $segmentEffortOne = SegmentEffortBuilder::fromDefaults()
             ->withSegmentEffortId(SegmentEffortId::fromUnprefixed(1))
             ->withSegmentId(SegmentId::fromUnprefixed(1))
+            ->withRank(null)
             ->build();
         $this->segmentEffortRepository->add($segmentEffortOne);
 
         $segmentEffortTwo = SegmentEffortBuilder::fromDefaults()
             ->withSegmentEffortId(SegmentEffortId::fromUnprefixed(2))
             ->withSegmentId(SegmentId::fromUnprefixed(1))
+            ->withRank(null)
             ->build();
         $this->segmentEffortRepository->add($segmentEffortTwo);
 
         $segmentEffortThree = SegmentEffortBuilder::fromDefaults()
             ->withSegmentEffortId(SegmentEffortId::fromUnprefixed(3))
             ->withSegmentId(SegmentId::fromUnprefixed(2))
+            ->withRank(null)
             ->build();
         $this->segmentEffortRepository->add($segmentEffortThree);
 
@@ -97,18 +105,21 @@ class DbalSegmentEffortRepositoryTest extends ContainerTestCase
         $segmentEffortOne = SegmentEffortBuilder::fromDefaults()
             ->withSegmentEffortId(SegmentEffortId::fromUnprefixed(1))
             ->withActivityId(ActivityId::fromUnprefixed(1))
+            ->withRank(1)
             ->build();
         $this->segmentEffortRepository->add($segmentEffortOne);
 
         $segmentEffortTwo = SegmentEffortBuilder::fromDefaults()
             ->withSegmentEffortId(SegmentEffortId::fromUnprefixed(2))
             ->withActivityId(ActivityId::fromUnprefixed(1))
+            ->withRank(2)
             ->build();
         $this->segmentEffortRepository->add($segmentEffortTwo);
 
         $segmentEffortThree = SegmentEffortBuilder::fromDefaults()
             ->withSegmentEffortId(SegmentEffortId::fromUnprefixed(3))
             ->withActivityId(ActivityId::fromUnprefixed(2))
+            ->withRank(null)
             ->build();
         $this->segmentEffortRepository->add($segmentEffortThree);
 
@@ -148,7 +159,8 @@ class DbalSegmentEffortRepositoryTest extends ContainerTestCase
 
         $this->segmentEffortRepository = new DbalSegmentEffortRepository(
             $this->getConnection(),
-            $this->eventBus = new SpyEventBus()
+            $this->eventBus = new SpyEventBus(),
+            $this->getContainer()->get(SegmentEffortRankingMap::class)
         );
     }
 }
