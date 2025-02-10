@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Strava\BuildApp;
+namespace App\Domain\App\BuildApp;
 
 use App\Infrastructure\CQRS\Bus\DomainCommand;
 use Symfony\Component\Console\Output\OutputInterface;

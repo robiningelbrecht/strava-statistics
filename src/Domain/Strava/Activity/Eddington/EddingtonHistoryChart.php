@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Activity\Eddington;
 
-final readonly class EddingtonHistoryChartBuilder
+final readonly class EddingtonHistoryChart
 {
     private function __construct(
         private Eddington $eddington,

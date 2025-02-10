@@ -1,5 +1,5 @@
 {
-    "commandName": "App\\Domain\\Strava\\BuildApp\\BuildApp",
+    "commandName": "App\\Domain\\App\\BuildApp\\BuildApp",
     "payload": {
         "output": {}
     }

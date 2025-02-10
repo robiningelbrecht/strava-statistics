@@ -7,7 +7,7 @@ namespace App\Domain\Strava\Activity;
 use App\Domain\Strava\Activity\Stream\ActivityStream;
 use App\Infrastructure\Time\Format\ProvideTimeFormats;
 
-final readonly class HeartRateChartBuilder
+final readonly class HeartRateChart
 {
     use ProvideTimeFormats;
 

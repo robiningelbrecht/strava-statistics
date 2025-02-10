@@ -2,7 +2,7 @@
 
 namespace App\Domain\Strava\Activity\WeekdayStats;
 
-final readonly class WeekdayStatsChartsBuilder
+final readonly class WeekdayStatsChart
 {
     private function __construct(
         private WeekdayStats $weekdayStats,

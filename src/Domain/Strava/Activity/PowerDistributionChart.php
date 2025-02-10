@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Activity;
 
-final readonly class PowerDistributionChartBuilder
+final readonly class PowerDistributionChart
 {
     private function __construct(
         /** @var array<int, int> */

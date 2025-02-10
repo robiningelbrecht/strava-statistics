@@ -4,7 +4,7 @@ namespace App\Domain\Strava\Activity\DaytimeStats;
 
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final readonly class DaytimeStatsChartsBuilder
+final readonly class DaytimeStatsCharts
 {
     private function __construct(
         private DaytimeStats $daytimeStats,

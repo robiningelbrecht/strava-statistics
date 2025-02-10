@@ -8,7 +8,7 @@ use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final readonly class WeeklyDistanceChartBuilder
+final readonly class WeeklyDistanceChart
 {
     private function __construct(
         private Activities $activities,

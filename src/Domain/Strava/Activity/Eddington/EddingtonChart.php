@@ -6,7 +6,7 @@ use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final readonly class EddingtonChartBuilder
+final readonly class EddingtonChart
 {
     private function __construct(
         private Eddington $eddington,

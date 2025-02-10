@@ -6,7 +6,7 @@ namespace App\Domain\Strava\Athlete;
 
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final readonly class TimeInHeartRateZoneChartBuilder
+final readonly class TimeInHeartRateZoneChart
 {
     private function __construct(
         private int $timeInSecondsInHeartRateZoneOne,

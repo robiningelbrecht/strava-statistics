@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Activity;
 
-final readonly class HeartRateDistributionChartBuilder
+final readonly class HeartRateDistributionChart
 {
     private function __construct(
         /** @var array<int, int> */

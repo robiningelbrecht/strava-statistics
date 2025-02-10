@@ -5,7 +5,7 @@ namespace App\Domain\Strava\Activity;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final readonly class ActivityHeatmapChartBuilder
+final readonly class ActivityHeatmapChart
 {
     private SerializableDateTime $fromDate;
     private SerializableDateTime $toDate;

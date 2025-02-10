@@ -1,47 +1,47 @@
 <?php
 
-namespace App\Domain\Strava\BuildApp;
+namespace App\Domain\App\BuildApp;
 
-use App\Domain\Strava\Activity\ActivityHeatmapChartBuilder;
+use App\Domain\Strava\Activity\ActivityHeatmapChart;
 use App\Domain\Strava\Activity\ActivityIntensity;
 use App\Domain\Strava\Activity\ActivityRepository;
 use App\Domain\Strava\Activity\ActivityTotals;
 use App\Domain\Strava\Activity\ActivityTypeRepository;
 use App\Domain\Strava\Activity\DaytimeStats\DaytimeStats;
-use App\Domain\Strava\Activity\DaytimeStats\DaytimeStatsChartsBuilder;
+use App\Domain\Strava\Activity\DaytimeStats\DaytimeStatsCharts;
 use App\Domain\Strava\Activity\DistanceBreakdown;
 use App\Domain\Strava\Activity\Eddington\Eddington;
-use App\Domain\Strava\Activity\Eddington\EddingtonChartBuilder;
-use App\Domain\Strava\Activity\Eddington\EddingtonHistoryChartBuilder;
-use App\Domain\Strava\Activity\HeartRateChartBuilder;
-use App\Domain\Strava\Activity\HeartRateDistributionChartBuilder;
+use App\Domain\Strava\Activity\Eddington\EddingtonChart;
+use App\Domain\Strava\Activity\Eddington\EddingtonHistoryChart;
+use App\Domain\Strava\Activity\HeartRateChart;
+use App\Domain\Strava\Activity\HeartRateDistributionChart;
 use App\Domain\Strava\Activity\Image\ImageRepository;
-use App\Domain\Strava\Activity\PowerDistributionChartBuilder;
+use App\Domain\Strava\Activity\PowerDistributionChart;
 use App\Domain\Strava\Activity\Split\ActivitySplitRepository;
 use App\Domain\Strava\Activity\SportType\SportTypeRepository;
 use App\Domain\Strava\Activity\Stream\ActivityHeartRateRepository;
 use App\Domain\Strava\Activity\Stream\ActivityPowerRepository;
 use App\Domain\Strava\Activity\Stream\ActivityStreamRepository;
-use App\Domain\Strava\Activity\Stream\PowerOutputChartBuilder;
+use App\Domain\Strava\Activity\Stream\PowerOutputChart;
 use App\Domain\Strava\Activity\Stream\StreamType;
 use App\Domain\Strava\Activity\WeekdayStats\WeekdayStats;
-use App\Domain\Strava\Activity\WeekdayStats\WeekdayStatsChartsBuilder;
-use App\Domain\Strava\Activity\WeeklyDistanceChartBuilder;
-use App\Domain\Strava\Activity\YearlyDistance\YearlyDistanceChartBuilder;
+use App\Domain\Strava\Activity\WeekdayStats\WeekdayStatsChart;
+use App\Domain\Strava\Activity\WeeklyDistanceChart;
+use App\Domain\Strava\Activity\YearlyDistance\YearlyDistanceChart;
 use App\Domain\Strava\Activity\YearlyDistance\YearlyStatistics;
 use App\Domain\Strava\Athlete\AthleteRepository;
 use App\Domain\Strava\Athlete\HeartRateZone;
-use App\Domain\Strava\Athlete\TimeInHeartRateZoneChartBuilder;
+use App\Domain\Strava\Athlete\TimeInHeartRateZoneChart;
 use App\Domain\Strava\Athlete\Weight\AthleteWeightRepository;
 use App\Domain\Strava\Calendar\Calendar;
 use App\Domain\Strava\Calendar\Month;
 use App\Domain\Strava\Calendar\Months;
 use App\Domain\Strava\Challenge\ChallengeRepository;
 use App\Domain\Strava\Challenge\Consistency\ChallengeConsistency;
-use App\Domain\Strava\Ftp\FtpHistoryChartBuilder;
+use App\Domain\Strava\Ftp\FtpHistoryChart;
 use App\Domain\Strava\Ftp\FtpRepository;
-use App\Domain\Strava\Gear\DistanceOverTimePerGearChartBuilder;
-use App\Domain\Strava\Gear\DistancePerMonthPerGearChartBuilder;
+use App\Domain\Strava\Gear\DistanceOverTimePerGearChart;
+use App\Domain\Strava\Gear\DistancePerMonthPerGearChart;
 use App\Domain\Strava\Gear\GearRepository;
 use App\Domain\Strava\Gear\GearStatistics;
 use App\Domain\Strava\MonthlyStatistics;
@@ -215,7 +215,7 @@ final readonly class BuildAppCommandHandler implements CommandHandler
                 continue;
             }
 
-            if ($activityType->supportsWeeklyDistanceStats() && $chartData = WeeklyDistanceChartBuilder::create(
+            if ($activityType->supportsWeeklyDistanceStats() && $chartData = WeeklyDistanceChart::create(
                 activities: $activitiesPerActivityType[$activityType->value],
                 unitSystem: $this->unitSystem,
                 translator: $this->translator,
@@ -237,7 +237,7 @@ final readonly class BuildAppCommandHandler implements CommandHandler
 
             if ($activityType->supportsYearlyStats()) {
                 $yearlyDistanceCharts[$activityType->value] = Json::encode(
-                    YearlyDistanceChartBuilder::create(
+                    YearlyDistanceChart::create(
                         activities: $activitiesPerActivityType[$activityType->value],
                         unitSystem: $this->unitSystem,
                         translator: $this->translator,
@@ -266,7 +266,7 @@ final readonly class BuildAppCommandHandler implements CommandHandler
                 'weeklyDistanceCharts' => $weeklyDistanceCharts,
                 'powerOutputs' => $bestPowerOutputs,
                 'activityHeatmapChart' => Json::encode(
-                    ActivityHeatmapChartBuilder::create(
+                    ActivityHeatmapChart::create(
                         activities: $allActivities,
                         activityIntensity: $this->activityIntensity,
                         translator: $this->translator,
@@ -274,11 +274,11 @@ final readonly class BuildAppCommandHandler implements CommandHandler
                     )->build()
                 ),
                 'weekdayStatsChart' => Json::encode(
-                    WeekdayStatsChartsBuilder::create($weekdayStats)->build(),
+                    WeekdayStatsChart::create($weekdayStats)->build(),
                 ),
                 'weekdayStats' => $weekdayStats,
                 'daytimeStatsChart' => Json::encode(
-                    DaytimeStatsChartsBuilder::create(
+                    DaytimeStatsCharts::create(
                         daytimeStats: $dayTimeStats,
                         translator: $this->translator,
                     )->build(),
@@ -287,13 +287,13 @@ final readonly class BuildAppCommandHandler implements CommandHandler
                 'distanceBreakdowns' => $distanceBreakdowns,
                 'trivia' => $trivia,
                 'ftpHistoryChart' => !$allFtps->isEmpty() ? Json::encode(
-                    FtpHistoryChartBuilder::create(
+                    FtpHistoryChart::create(
                         ftps: $allFtps,
                         now: $now
                     )->build()
                 ) : null,
                 'timeInHeartRateZoneChart' => Json::encode(
-                    TimeInHeartRateZoneChartBuilder::create(
+                    TimeInHeartRateZoneChart::create(
                         timeInSecondsInHeartRateZoneOne: $this->activityHeartRateRepository->findTotalTimeInSecondsInHeartRateZone(HeartRateZone::ONE),
                         timeInSecondsInHeartRateZoneTwo: $this->activityHeartRateRepository->findTotalTimeInSecondsInHeartRateZone(HeartRateZone::TWO),
                         timeInSecondsInHeartRateZoneThree: $this->activityHeartRateRepository->findTotalTimeInSecondsInHeartRateZone(HeartRateZone::THREE),
@@ -317,7 +317,7 @@ final readonly class BuildAppCommandHandler implements CommandHandler
                 'build/html/power-output.html',
                 $this->twig->load('html/power-output.html.twig')->render([
                     'powerOutputChart' => Json::encode(
-                        PowerOutputChartBuilder::create($bestPowerOutputs)->build()
+                        PowerOutputChart::create($bestPowerOutputs)->build()
                     ),
                 ]),
             );
@@ -350,14 +350,14 @@ final readonly class BuildAppCommandHandler implements CommandHandler
         $eddingtonHistoryChartsPerActivityType = [];
         foreach ($eddingtonPerActivityType as $activityType => $eddington) {
             $eddingtonChartsPerActivityType[$activityType] = Json::encode(
-                EddingtonChartBuilder::create(
+                EddingtonChart::create(
                     eddington: $eddington,
                     unitSystem: $this->unitSystem,
                     translator: $this->translator,
                 )->build()
             );
             $eddingtonHistoryChartsPerActivityType[$activityType] = Json::encode(
-                EddingtonHistoryChartBuilder::create(
+                EddingtonHistoryChart::create(
                     eddington: $eddington,
                 )->build()
             );
@@ -461,7 +461,7 @@ final readonly class BuildAppCommandHandler implements CommandHandler
                     bikes: $allGear
                 ),
                 'distancePerMonthPerGearChart' => Json::encode(
-                    DistancePerMonthPerGearChartBuilder::create(
+                    DistancePerMonthPerGearChart::create(
                         gearCollection: $allGear,
                         activityCollection: $allActivities,
                         unitSystem: $this->unitSystem,
@@ -469,7 +469,7 @@ final readonly class BuildAppCommandHandler implements CommandHandler
                     )->build()
                 ),
                 'distanceOverTimePerGear' => Json::encode(
-                    DistanceOverTimePerGearChartBuilder::create(
+                    DistanceOverTimePerGearChart::create(
                         gearCollection: $allGear,
                         activityCollection: $allActivities,
                         unitSystem: $this->unitSystem,
@@ -569,14 +569,14 @@ final readonly class BuildAppCommandHandler implements CommandHandler
                         'map' => $leafletMap,
                     ] : null,
                     'heartRateDistributionChart' => $timeInSecondsPerHeartRate && $activity->getAverageHeartRate() ? Json::encode(
-                        HeartRateDistributionChartBuilder::fromHeartRateData(
+                        HeartRateDistributionChart::fromHeartRateData(
                             heartRateData: $timeInSecondsPerHeartRate,
                             averageHeartRate: $activity->getAverageHeartRate(),
                             athleteMaxHeartRate: $athlete->getMaxHeartRate($activity->getStartDate())
                         )->build(),
                     ) : null,
                     'powerDistributionChart' => $timeInSecondsPerWattage && $activity->getAveragePower() ? Json::encode(
-                        PowerDistributionChartBuilder::create(
+                        PowerDistributionChart::create(
                             powerData: $timeInSecondsPerWattage,
                             averagePower: $activity->getAveragePower(),
                         )->build(),
@@ -584,7 +584,7 @@ final readonly class BuildAppCommandHandler implements CommandHandler
                     'segmentEfforts' => $this->segmentEffortRepository->findByActivityId($activity->getId()),
                     'splits' => $activitySplits,
                     'heartRateChart' => $heartRateStream?->getData() ? Json::encode(
-                        HeartRateChartBuilder::create($heartRateStream)->build(),
+                        HeartRateChart::create($heartRateStream)->build(),
                     ) : null,
                 ]),
             );

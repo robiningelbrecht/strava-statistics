@@ -6,7 +6,7 @@ namespace App\Domain\Strava\Ftp;
 
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
-final readonly class FtpHistoryChartBuilder
+final readonly class FtpHistoryChart
 {
     private function __construct(
         private Ftps $ftps,

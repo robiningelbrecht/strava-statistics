@@ -2,7 +2,7 @@
 
 namespace App\Tests\Domain\Strava\BuildApp;
 
-use App\Domain\Strava\BuildApp\BuildApp;
+use App\Domain\App\BuildApp\BuildApp;
 use App\Infrastructure\CQRS\Bus\CommandBus;
 use App\Tests\ContainerTestCase;
 use App\Tests\ProvideTestData;

@@ -2,9 +2,9 @@
 
 namespace App\Console;
 
+use App\Domain\App\BuildApp\BuildApp;
 use App\Domain\Manifest\BuildManifest\BuildManifest;
 use App\Domain\Notification\SendNotification\SendNotification;
-use App\Domain\Strava\BuildApp\BuildApp;
 use App\Domain\Strava\StravaDataImportStatus;
 use App\Infrastructure\CQRS\Bus\CommandBus;
 use App\Infrastructure\Doctrine\Migrations\MigrationRunner;

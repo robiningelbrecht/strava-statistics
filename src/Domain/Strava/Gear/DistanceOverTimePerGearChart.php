@@ -11,7 +11,7 @@ use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final readonly class DistanceOverTimePerGearChartBuilder
+final readonly class DistanceOverTimePerGearChart
 {
     private function __construct(
         private Gears $gears,

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Activity\Stream;
 
-final class PowerOutputChartBuilder
+final readonly class PowerOutputChart
 {
     private function __construct(
         /** @var PowerOutput[] */
-        private readonly array $bestPowerOutputs,
+        private array $bestPowerOutputs,
     ) {
     }
 

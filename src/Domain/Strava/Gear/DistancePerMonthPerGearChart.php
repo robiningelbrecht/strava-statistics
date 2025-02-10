@@ -9,7 +9,7 @@ use App\Domain\Strava\Calendar\Month;
 use App\Domain\Strava\Calendar\Months;
 use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 
-final readonly class DistancePerMonthPerGearChartBuilder
+final readonly class DistancePerMonthPerGearChart
 {
     private function __construct(
         private Gears $gears,
