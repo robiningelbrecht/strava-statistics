@@ -2,7 +2,7 @@
 
 namespace App\Tests\Infrastructure\App;
 
-use App\Infrastructure\App\UuidAssetVersioningStrategy;
+use App\Infrastructure\Twig\UuidAssetVersioningStrategy;
 use App\Tests\Infrastructure\ValueObject\Identifier\FakeUuidFactory;
 use PHPUnit\Framework\TestCase;
 

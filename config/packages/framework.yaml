@@ -3,7 +3,7 @@ framework:
     secret: '%env(APP_SECRET)%'
     session: true
     assets:
-        version_strategy: 'App\Infrastructure\App\UuidAssetVersioningStrategy'
+        version_strategy: 'App\Infrastructure\Twig\UuidAssetVersioningStrategy'
 
 when@test:
     framework:
