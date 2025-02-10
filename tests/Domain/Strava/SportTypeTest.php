@@ -18,7 +18,7 @@ class SportTypeTest extends ContainerTestCase
 
         $snapshot = [];
         foreach (SportType::cases() as $sportType) {
-            $snapshot[] = $twig->load('html/svg/sport-type/svg-'.$sportType->getSvgIcon().'.html.twig')->render();
+            $snapshot[] = $twig->load('svg/sport-type/svg-'.$sportType->getSvgIcon().'.html.twig')->render();
         }
         $this->assertMatchesHtmlSnapshot(implode(PHP_EOL, $snapshot));
     }

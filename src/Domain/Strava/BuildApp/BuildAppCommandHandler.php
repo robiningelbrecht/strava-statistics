@@ -609,7 +609,7 @@ final readonly class BuildAppCommandHandler implements CommandHandler
         $command->getOutput()->writeln('  => Building badge.svg');
         $this->filesystem->write(
             'storage/files/badge.svg',
-            $this->twig->load('svg/badge.svg.twig')->render([
+            $this->twig->load('svg/svg-badge.html.twig')->render([
                 'athlete' => $athlete,
                 'activities' => $allActivities->slice(0, 5),
                 'activityTotals' => $activityTotals,

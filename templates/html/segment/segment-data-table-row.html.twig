@@ -12,7 +12,7 @@
                         {{ renderSvg('indoor-bike') }}
                     {% endif %}
                 {% else %}
-                    {{ renderSvg(segment.getSportType().getSvgIcon(), {'customPath': 'html/svg/sport-type'}) }}
+                    {{ renderSvg(segment.getSportType().getSvgIcon(), {'customPath': 'svg/sport-type'}) }}
                 {% endif %}
                 <span class="truncate">{{ segment.getName()|ellipses(50) }}</span>
             </a>
