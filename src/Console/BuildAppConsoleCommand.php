@@ -15,7 +15,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'app:strava:build-files', description: 'Build Strava files')]
-final class BuildStravaActivityFilesConsoleCommand extends Command
+final class BuildAppConsoleCommand extends Command
 {
     public function __construct(
         private readonly CommandBus $commandBus,

@@ -2,7 +2,7 @@
 
 namespace App\Tests\Console;
 
-use App\Console\BuildStravaActivityFilesConsoleCommand;
+use App\Console\BuildAppConsoleCommand;
 use App\Domain\Strava\StravaDataImportStatus;
 use App\Infrastructure\CQRS\Bus\CommandBus;
 use App\Infrastructure\CQRS\Bus\DomainCommand;
@@ -18,11 +18,11 @@ use Spatie\Snapshots\MatchesSnapshots;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class BuildStravaActivityFilesConsoleCommandTest extends ConsoleCommandTestCase
+class BuildAppConsoleCommandTest extends ConsoleCommandTestCase
 {
     use MatchesSnapshots;
 
-    private BuildStravaActivityFilesConsoleCommand $buildStravaActivityFilesConsoleCommand;
+    private BuildAppConsoleCommand $buildAppConsoleCommand;
     private MockObject $commandBus;
     private MockObject $migrationRunner;
 
@@ -104,7 +104,7 @@ class BuildStravaActivityFilesConsoleCommandTest extends ConsoleCommandTestCase
 
         $this->commandBus = $this->createMock(CommandBus::class);
 
-        $this->buildStravaActivityFilesConsoleCommand = new BuildStravaActivityFilesConsoleCommand(
+        $this->buildAppConsoleCommand = new BuildAppConsoleCommand(
             $this->commandBus,
             $this->getContainer()->get(StravaDataImportStatus::class),
             new FixedResourceUsage(),
@@ -114,6 +114,6 @@ class BuildStravaActivityFilesConsoleCommandTest extends ConsoleCommandTestCase
 
     protected function getConsoleCommand(): Command
     {
-        return $this->buildStravaActivityFilesConsoleCommand;
+        return $this->buildAppConsoleCommand;
     }
 }
