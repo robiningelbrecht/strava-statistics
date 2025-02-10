@@ -2942,10 +2942,6 @@ input:checked + .toggle-bg {
     display: block;
   }
 
-  .lg\:flex {
-    display: flex;
-  }
-
   .lg\:w-\[450px\] {
     width: 450px;
   }
