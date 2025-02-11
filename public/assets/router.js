@@ -1,4 +1,3 @@
-// https://dev.to/rohanbagchi/how-to-write-a-vanillajs-router-hk3
 const app = document.querySelector("main");
 const appContent = app.querySelector('#js-loaded-content');
 const spinner = app.querySelector('#spinner');
@@ -7,7 +6,7 @@ const menuItems = document.querySelectorAll("aside li a[data-router-navigate]");
 const mobileNavTriggerEl = document.querySelector('[data-drawer-target="drawer-navigation"]');
 const defaultRoute = 'dashboard';
 
-const renderContent = async (page) => {
+const renderContent = async (page, modal) => {
     if (!menu.hasAttribute('aria-hidden')) {
         // Trigger click event to close mobile nav.
         mobileNavTriggerEl.dispatchEvent(
@@ -35,11 +34,15 @@ const renderContent = async (page) => {
     appContent.classList.remove('hidden');
 
     app.setAttribute('data-router-current', page);
+    app.setAttribute('data-modal-current', modal);
     // Manage active classes.
     menuItems.forEach(node => {
         node.setAttribute('aria-selected', 'false')
     });
-    document.querySelector('aside li a[data-router-navigate="' + page + '"]').setAttribute('aria-selected', 'true');
+    const $activeMenuLink = document.querySelector('aside li a[data-router-navigate="' + page + '"]');
+    if ($activeMenuLink) {
+        $activeMenuLink.setAttribute('aria-selected', 'true');
+    }
 
     // There might be other nav links on the newly loaded page, make sure they are registered.
     const nav = document.querySelectorAll("nav a[data-router-navigate], main a[data-router-navigate]");
@@ -53,6 +56,11 @@ const renderContent = async (page) => {
         bubbles: true,
         cancelable: false,
     }));
+
+    if (modal) {
+        // Open modal.
+        openModal(modal);
+    }
 };
 
 const registerNavItems = (items) => {
@@ -66,10 +74,8 @@ const registerNavItems = (items) => {
                 return
             }
 
-            renderContent(route);
-            window.history.pushState({
-                route: route
-            }, "", '#' + route);
+            renderContent(route, null);
+            pushRouteToHistoryState(route);
         });
     });
 };
@@ -79,17 +85,36 @@ const registerBrowserBackAndForth = () => {
         if (!e.state) {
             return;
         }
-        renderContent(e.state.route);
+        renderContent(e.state.route, e.state.modal);
     };
 };
 
+const currentRoute = () => {
+    return location.pathname.replace('/', '') || defaultRoute;
+};
+
+const pushCurrentRouteToHistoryState = (modal) => {
+    pushRouteToHistoryState(currentRoute(), modal);
+}
+
+const pushRouteToHistoryState = (route, modal) => {
+    const fullRouteWithModal = modal ? route + '#' + modal : route;
+
+    window.history.pushState({
+        route: route,
+        modal: modal
+    }, "", fullRouteWithModal);
+};
 
 (function boot() {
-    const route = location.hash.replace('#', '') || defaultRoute;
+    const route = currentRoute();
+    const modal = location.hash.replace('#', '');
+
     registerNavItems(menuItems);
     registerBrowserBackAndForth();
-    renderContent(route);
+    renderContent(route, modal);
     window.history.replaceState({
-        route: route
-    }, "", '#'.route);
+        route: route,
+        modal: modal
+    }, "", route + location.hash);
 })();

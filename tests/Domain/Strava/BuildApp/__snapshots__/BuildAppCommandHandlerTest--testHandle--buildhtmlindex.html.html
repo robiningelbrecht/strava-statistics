@@ -344,15 +344,7 @@
         initElements(document);
     });
     document.addEventListener('dataTableClusterWasChanged', () => {
-        // Data tables are only supported on page load, not in modals.
         initModals(document);
-    });
-    document.addEventListener('modalWasLoaded', (event) => {
-        event.detail.node.querySelector('button.close').addEventListener('click', function (e) {
-            e.preventDefault();
-            modal.hide();
-        });
-        initElements(event.detail.node);
     });
     document.addEventListener('pageWasLoaded.heatmap', () => {
         const heatmap = document.getElementById('heatmap');
@@ -470,43 +462,14 @@
 
     const initModals = (rootNode) => {
         const modalLinks = rootNode.querySelectorAll('a[data-model-content-url]');
+
         modalLinks.forEach(function (node) {
             node.addEventListener('click', function (e) {
-                if (modal) {
-                    // Only allow one open modal at a time.
-                    modal.hide();
-                }
                 e.preventDefault();
-
-                // Show loading state.
-                modalSpinner.classList.remove('hidden');
-                modalSpinner.classList.add('flex');
-
-                modal = new Modal(modalSkeletonNode, {
-                    placement: 'bottom',
-                    closable: true,
-                    backdropClasses: 'bg-gray-900 bg-opacity-50 fixed inset-0 z-[1400]',
-                    onShow: async () => {
-                        const response = await fetch(node.getAttribute('data-model-content-url'), {cache: 'no-store'});
-                        // Remove loading state.
-                        modalSpinner.classList.add('hidden');
-                        modalSpinner.classList.remove('flex');
-
-                        modalContent.innerHTML = await response.text();
-                        document.dispatchEvent(new CustomEvent('modalWasLoaded', {
-                            bubbles: true,
-                            cancelable: true,
-                            detail: {
-                                node: modalSkeletonNode,
-                            }
-                        }));
-                    },
-                    onHide: () => {
-                        modalContent.innerHTML = '';
-                    }
-                });
-
-                modal.toggle();
+                const modalId = node.getAttribute('data-model-content-url');
+                openModal(modalId);
+                // Add modal to history state.
+                pushCurrentRouteToHistoryState(modalId);
             });
         });
     };
@@ -531,6 +494,56 @@
                 },
             });
         });
+    }
+
+    const openModal = (modalId) => {
+        if (modal) {
+            // Only allow one open modal at a time.
+            modal.hide();
+        }
+
+        // Show loading state.
+        modalSpinner.classList.remove('hidden');
+        modalSpinner.classList.add('flex');
+
+        modal = new Modal(modalSkeletonNode, {
+            placement: 'bottom',
+            closable: true,
+            backdropClasses: 'bg-gray-900 bg-opacity-50 fixed inset-0 z-[1400]',
+            onShow: async () => {
+                const response = await fetch(modalId, {cache: 'no-store'});
+                // Remove loading state.
+                modalSpinner.classList.add('hidden');
+                modalSpinner.classList.remove('flex');
+
+                modalContent.innerHTML = await response.text();
+                // Init elements in modal.
+                initElements(modalSkeletonNode);
+                // Modal close event listeners.
+                modalContent.querySelector('button.close').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    modal.hide();
+                    pushCurrentRouteToHistoryState();
+                });
+                document.body.addEventListener('keydown', (e) => {
+                    if (e.key !== 'Escape') {
+                        return;
+                    }
+                    pushCurrentRouteToHistoryState();
+                });
+                document.body.addEventListener('click', (e) => {
+                    if (e.target.id !== 'modal-skeleton') {
+                        return;
+                    }
+                    pushCurrentRouteToHistoryState();
+                });
+            },
+            onHide: () => {
+                modalContent.innerHTML = '';
+            }
+        });
+
+        modal.toggle();
     }
 
     const updateGithubLatestRelease = async () => {
