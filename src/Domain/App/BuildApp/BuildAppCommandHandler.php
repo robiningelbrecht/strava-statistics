@@ -621,15 +621,5 @@ final readonly class BuildAppCommandHandler implements CommandHandler
             'build/html/badge.html',
             $this->twig->load('html/badge.html.twig')->render(),
         );
-
-        $command->getOutput()->writeln('  => Building error pages');
-        $this->filesystem->write(
-            'build/html/error/404.html',
-            $this->twig->load('html/error/404.html.twig')->render(),
-        );
-        $this->filesystem->write(
-            'build/html/error/50x.html',
-            $this->twig->load('html/error/50x.html.twig')->render(),
-        );
     }
 }

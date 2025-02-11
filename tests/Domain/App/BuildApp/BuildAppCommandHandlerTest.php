@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Domain\Strava\BuildApp;
+namespace App\Tests\Domain\App\BuildApp;
 
 use App\Domain\App\BuildApp\BuildApp;
 use App\Infrastructure\CQRS\Bus\CommandBus;
@@ -35,6 +35,7 @@ class BuildAppCommandHandlerTest extends ContainerTestCase
             }
             $this->assertMatchesHtmlSnapshot($content);
         }
+        $this->snapshotName = 'consoleOutput';
         $this->assertMatchesTextSnapshot($output);
     }
 
@@ -55,6 +56,7 @@ class BuildAppCommandHandlerTest extends ContainerTestCase
             }
             $this->assertMatchesHtmlSnapshot($content);
         }
+        $this->snapshotName = 'consoleOutput';
         $this->assertMatchesTextSnapshot($output);
     }
 

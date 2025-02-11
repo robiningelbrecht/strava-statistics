@@ -3,6 +3,7 @@ module.exports = {
     content: [
         "./templates/**/*.html.twig",
         "./public/app.php",
+        "./public/*.html",
         "./node_modules/flowbite/**/*.js"
     ],
     theme: {
