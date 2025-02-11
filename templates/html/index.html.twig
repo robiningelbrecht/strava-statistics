@@ -607,25 +607,27 @@
                     modal.hide();
                     pushCurrentRouteToHistoryState();
                 });
+
                 document.body.addEventListener('keydown', (e) => {
                     if (e.key !== 'Escape') {
                         return;
                     }
                     pushCurrentRouteToHistoryState();
-                });
+                }, {once: true});
+
                 document.body.addEventListener('click', (e) => {
                     if (e.target.id !== 'modal-skeleton') {
                         return;
                     }
                     pushCurrentRouteToHistoryState();
-                });
+                }, {once: true});
             },
             onHide: () => {
                 modalContent.innerHTML = '';
             }
         });
 
-        modal.toggle();
+        modal.show();
     }
 
     const updateGithubLatestRelease = async () => {
