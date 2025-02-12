@@ -90,18 +90,6 @@ final class DbalActivityRepository implements ActivityRepository
         ));
     }
 
-    public function findMostActiveState(): ?string
-    {
-        $queryBuilder = $this->connection->createQueryBuilder();
-        $queryBuilder->select("JSON_EXTRACT(location, '$.state') as state")
-            ->from('Activity')
-            ->andWhere('state IS NOT NULL')
-            ->groupBy("JSON_EXTRACT(location, '$.state')")
-            ->orderBy('COUNT(*)', 'DESC');
-
-        return ((string) $queryBuilder->executeQuery()->fetchOne()) ?: null;
-    }
-
     /**
      * @param array<string, mixed> $result
      */

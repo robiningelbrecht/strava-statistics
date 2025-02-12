@@ -8,8 +8,6 @@ interface ActivityRepository
 
     public function findAll(?int $limit = null): Activities;
 
-    public function findMostActiveState(): ?string;
-
     public function delete(Activity $activity): void;
 
     public function findActivityIds(): ActivityIds;

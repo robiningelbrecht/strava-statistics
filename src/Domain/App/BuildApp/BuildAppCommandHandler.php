@@ -480,9 +480,7 @@ final readonly class BuildAppCommandHandler implements CommandHandler
             ]),
         );
 
-        $routesPerCountry = [];
-        $routesInMostActiveState = [];
-        $mostActiveState = $this->activityRepository->findMostActiveState();
+        $routes = [];
         foreach ($allActivities as $activity) {
             if (!$activity->getSportType()->supportsReverseGeocoding()) {
                 continue;
@@ -490,21 +488,25 @@ final readonly class BuildAppCommandHandler implements CommandHandler
             if (!$polyline = $activity->getPolyline()) {
                 continue;
             }
-            if (!$countryCode = $activity->getLocation()?->getCountryCode()) {
+            if (!$activity->getLocation()?->getCountryCode()) {
                 continue;
             }
-            $routesPerCountry[$countryCode][] = $polyline;
-            if ($activity->getLocation()?->getState() === $mostActiveState) {
-                $routesInMostActiveState[] = $polyline;
-            }
+            $routes[] = [
+                'location' => [
+                    'countryCode' => $activity->getLocation()->getCountryCode(),
+                    'state' => $activity->getLocation()->getState(),
+                ],
+                'sportType' => $activity->getSportType(),
+                'startDate' => $activity->getStartDate(),
+                'polyline' => $polyline,
+            ];
         }
 
         $command->getOutput()->writeln('  => Building heatmap.html');
         $this->filesystem->write(
             'build/html/heatmap.html',
             $this->twig->load('html/heatmap.html.twig')->render([
-                'routesPerCountry' => Json::encode($routesPerCountry),
-                'routesInMostActiveState' => Json::encode($routesInMostActiveState),
+                'routes' => Json::encode($routes),
             ]),
         );
 

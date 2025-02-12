@@ -12,7 +12,6 @@ use App\Domain\Strava\Activity\DbalActivityRepository;
 use App\Domain\Strava\Activity\DbalActivityWithRawDataRepository;
 use App\Infrastructure\Eventing\EventBus;
 use App\Infrastructure\Exception\EntityNotFound;
-use App\Infrastructure\Geocoding\Nominatim\Location;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use App\Tests\ContainerTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -49,42 +48,6 @@ class DbalActivityRepositoryTest extends ContainerTestCase
     }
 
     public function testFindAll(): void
-    {
-        $activityOne = ActivityBuilder::fromDefaults()
-            ->withActivityId(ActivityId::fromUnprefixed(1))
-            ->withStartDateTime(SerializableDateTime::fromString('2023-10-10 14:00:34'))
-            ->withLocation(Location::fromState(['state' => 'Brugge']))
-            ->build();
-        $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
-            $activityOne,
-            ['raw' => 'data']
-        ));
-        $activityTwo = ActivityBuilder::fromDefaults()
-            ->withActivityId(ActivityId::fromUnprefixed(2))
-            ->withStartDateTime(SerializableDateTime::fromString('2023-10-10 13:00:34'))
-            ->withLocation(Location::fromState(['state' => 'Gent']))
-            ->build();
-        $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
-            $activityTwo,
-            ['raw' => 'data']
-        ));
-        $activityThree = ActivityBuilder::fromDefaults()
-            ->withActivityId(ActivityId::fromUnprefixed(3))
-            ->withStartDateTime(SerializableDateTime::fromString('2023-10-09 14:00:34'))
-            ->withLocation(Location::fromState(['state' => 'Brugge']))
-            ->build();
-        $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
-            $activityThree,
-            ['raw' => 'data']
-        ));
-
-        $this->assertEquals(
-            'Brugge',
-            $this->activityRepository->findMostActiveState()
-        );
-    }
-
-    public function testFindMostActiveState(): void
     {
         $activityOne = ActivityBuilder::fromDefaults()
             ->withActivityId(ActivityId::fromUnprefixed(1))

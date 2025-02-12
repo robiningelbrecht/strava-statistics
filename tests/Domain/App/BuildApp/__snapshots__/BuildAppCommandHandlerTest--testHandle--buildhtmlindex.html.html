@@ -320,6 +320,7 @@
 <script src="/assets/leaflet/leaflet.js?0025176c-5652-11ee-923d-02424dd627d5"></script>
 <script src="/assets/leaflet/leaflet.polyline.encoded.js?0025176c-5652-11ee-923d-02424dd627d5"></script>
 <script src="/assets/leaflet/leaflet.fly.to.places.js?0025176c-5652-11ee-923d-02424dd627d5"></script>
+<script src="/assets/leaflet/heatmap.js?0025176c-5652-11ee-923d-02424dd627d5"></script>
 <script src="/assets/data-table/clusterize.min.js?0025176c-5652-11ee-923d-02424dd627d5"></script>
 <script src="/assets/data-table/data-table.js?0025176c-5652-11ee-923d-02424dd627d5"></script>
 
@@ -345,56 +346,6 @@
     });
     document.addEventListener('dataTableClusterWasChanged', () => {
         initModals(document);
-    });
-    document.addEventListener('pageWasLoaded.heatmap', () => {
-        const heatmap = document.getElementById('heatmap');
-        const routes = JSON.parse(heatmap.getAttribute('data-leaflet-routes'));
-        const fitMapBoundsRoutes = JSON.parse(heatmap.getAttribute('data-leaflet-fit-map-bounds-routes'));
-
-        const map = L.map(heatmap, {
-            scrollWheelZoom: false,
-            minZoom: 1,
-            maxZoom: 21,
-        });
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-
-        const places = [];
-        Object.keys(routes).forEach(function (countryCode) {
-            const featureGroup = L.featureGroup();
-            routes[countryCode].forEach((route) => {
-                L.polyline(
-                    L.Polyline.fromEncoded(route).getLatLngs(),
-                    {
-                        color: '#fc6719',
-                        weight: 1.5,
-                        opacity: 0.5,
-                        smoothFactor: 1,
-                        overrideExisting: true,
-                        detectColors: true,
-                    }
-                ).addTo(featureGroup);
-            });
-            featureGroup.addTo(map);
-
-            places.push({
-                'name': countryCode,
-                'bounds': featureGroup.getBounds()
-            });
-        });
-
-        L.control.flyToPlaces({
-            places: places
-        }).addTo(map);
-
-        const fitMapBoundsFeatureGroup = L.featureGroup();
-        fitMapBoundsRoutes.forEach((route) => {
-            L.polyline(
-                L.Polyline.fromEncoded(route).getLatLngs(),
-            ).addTo(fitMapBoundsFeatureGroup);
-        });
-
-
-        map.fitBounds(fitMapBoundsFeatureGroup.getBounds());
     });
 
     const initElements = (rootNode) => {
@@ -560,6 +511,7 @@
             $latestVersionEl.classList.remove('hidden');
         }
     }
+
     updateGithubLatestRelease();
 </script>
 </body>
