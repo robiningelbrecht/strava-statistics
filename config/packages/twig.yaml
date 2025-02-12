@@ -3,4 +3,4 @@ twig:
     default_path: '%kernel.project_dir%/templates'
     strict_variables: false
     globals:
-        appVersion: '@App\Infrastructure\App\AppVersion'
+        appVersion: '@App\Domain\App\AppVersion'

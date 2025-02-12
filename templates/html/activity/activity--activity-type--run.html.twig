@@ -4,7 +4,7 @@
             <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow">
                 <div class="text-center">
                     <dd class="text-xs text-gray-500">{{ "Distance"|trans }}</dd>
-                    <dt class="font-extrabold">{{ renderComponent('measurement', {'measurement': activity.getDistance(), 'precision': 0}) }}</dt>
+                    <dt class="font-extrabold">{{ renderComponent('measurement', {'measurement': activity.getDistance(), 'precision': activity.getSportType().getActivityType().getDistancePrecision()}) }}</dt>
                 </div>
             </div>
             <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow">

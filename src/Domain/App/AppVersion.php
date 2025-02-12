@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\App;
+namespace App\Domain\App;
 
 final readonly class AppVersion
 {

@@ -7,7 +7,7 @@
         {{ renderComponent('activity-title', {'activity': activity, 'ellipses': 50}) }}
     </td>
     <td class="px-6 py-2">
-        {{ renderComponent('measurement', {'measurement': activity.getDistance(), 'precision': 0}) }}
+        {{ renderComponent('measurement', {'measurement': activity.getDistance(), 'precision': activity.getSportType().getActivityType().getDistancePrecision()}) }}
     </td>
     <td class="px-6 py-2">
         {{ renderComponent('measurement', {'measurement': activity.getElevation(), 'precision': 0}) }}

@@ -79,6 +79,14 @@ enum ActivityType: string implements TranslatableInterface
         };
     }
 
+    public function getDistancePrecision(): int
+    {
+        return match ($this) {
+            self::RUN, self::WALK => 2,
+            default => 0,
+        };
+    }
+
     public function getColor(): string
     {
         return match ($this) {

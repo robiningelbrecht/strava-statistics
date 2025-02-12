@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Infrastructure\App;
+namespace App\Tests\Infrastructure\Twig;
 
 use App\Infrastructure\Twig\UuidAssetVersioningStrategy;
 use App\Tests\Infrastructure\ValueObject\Identifier\FakeUuidFactory;
