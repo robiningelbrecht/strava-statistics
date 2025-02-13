@@ -209,5 +209,6 @@
     "maxHeartRate": "maxHeartRate",
     "n/a": "n/a",
     "workouts": "workouts",
-    "{numberOfResults} results based on your active filters": "{numberOfResults} results based on your active filters"
+    "{numberOfResults} results based on your active filters": "{numberOfResults} results based on your active filters",
+    "{numberOfResults} routes based on your active filters": "{numberOfResults} routes based on your active filters"
 }

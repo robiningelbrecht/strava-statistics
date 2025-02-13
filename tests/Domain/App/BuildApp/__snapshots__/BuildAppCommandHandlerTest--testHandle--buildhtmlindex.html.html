@@ -320,11 +320,13 @@
 <script src="/assets/leaflet/leaflet.js?0025176c-5652-11ee-923d-02424dd627d5"></script>
 <script src="/assets/leaflet/leaflet.polyline.encoded.js?0025176c-5652-11ee-923d-02424dd627d5"></script>
 <script src="/assets/leaflet/leaflet.fly.to.places.js?0025176c-5652-11ee-923d-02424dd627d5"></script>
+<script src="/assets/leaflet/leaflet-map.js?0025176c-5652-11ee-923d-02424dd627d5" type="module"></script>
 <script src="/assets/leaflet/heatmap.js?0025176c-5652-11ee-923d-02424dd627d5" type="module"></script>
 <script src="/assets/data-table/clusterize.min.js?0025176c-5652-11ee-923d-02424dd627d5"></script>
 <script src="/assets/data-table/data-table.js?0025176c-5652-11ee-923d-02424dd627d5" type="module"></script>
 
 <script type="module">
+    import LeafletMap from "./assets/leaflet/leaflet-map.js";
     import Heatmap from "./assets/leaflet/heatmap.js";
     import DataTable from "./assets/data-table/data-table.js";
     import Router from "./assets/router.js";
@@ -390,41 +392,7 @@
         // Render Leaflet maps.
         rootNode.querySelectorAll('[data-leaflet]').forEach(function (mapNode) {
             const data = JSON.parse(mapNode.getAttribute('data-leaflet'));
-            const map = L.map(mapNode, {
-                scrollWheelZoom: false,
-                minZoom: data.minZoom,
-                maxZoom: data.maxZoom,
-            });
-            if (data.tileLayer) {
-                L.tileLayer(
-                    data.tileLayer
-                ).addTo(map);
-            }
-
-            const featureGroup = L.featureGroup();
-            data.routes.forEach((route) => {
-                L.polyline(
-                    L.Polyline.fromEncoded(route).getLatLngs(),
-                    {
-                        color: '#fc6719',
-                        weight: 3,
-                        opacity: 1,
-                        lineJoin: 'round'
-                    }
-                ).addTo(featureGroup);
-            });
-
-            if (data.imageOverlay) {
-                L.imageOverlay(
-                    data.imageOverlay,
-                    data.bounds,
-                    {attribution: '&copy; <a href="https://zwift.com" rel="noreferrer noopener">Zwift',}
-                ).addTo(map);
-                map.setMaxBounds(data.bounds);
-            }
-
-            featureGroup.addTo(map);
-            map.fitBounds(featureGroup.getBounds(), {maxZoom: 14});
+            LeafletMap(mapNode, data).render();
         });
     };
 

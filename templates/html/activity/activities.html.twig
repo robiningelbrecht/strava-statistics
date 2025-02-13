@@ -58,7 +58,7 @@
                                                         {{ renderSvg(sportType.getSvgIcon(), {'customPath': 'svg/sport-type'}) }}
                                                         <div>{{ sportType|trans }}</div>
                                                     </label>
-                                                    <a href="#activities" class="text-strava-orange text-sm underline invisible peer-checked:visible ml-auto" data-datatable-filter-clear="sportType">clear</a>
+                                                    <a href="#" class="text-strava-orange text-sm underline invisible peer-checked:visible ml-auto" data-datatable-filter-clear="sportType">clear</a>
                                                 </div>
                                             </li>
                                         {% endfor %}
@@ -82,7 +82,7 @@
                                             <span class="mx-2 text-gray-500">to</span>
                                             <input name="start-date[to]" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                         </div>
-                                        <a href="#activities" class="text-strava-orange text-sm text-right underline" data-datatable-filter-clear="start-date">clear</a>
+                                        <a href="#" class="text-strava-orange text-sm text-right underline" data-datatable-filter-clear="start-date">clear</a>
                                     </div>
                                 </div>
                             </div>
@@ -90,7 +90,7 @@
                         <div class="text-xs text-gray-700">
                             {% set numberOfResults = '<span class="font-bold" data-dataTable-result-count>' ~ activityTotals.getTotalActivities() ~ '</span>' %}
                             {{ "{numberOfResults} results based on your active filters"|trans({'{numberOfResults}': numberOfResults}) }}
-                            <a href="#activities" class="hidden text-strava-orange underline" data-dataTable-reset>{{ "clear"|trans }}</a>
+                            <a href="#" class="hidden text-strava-orange underline" data-dataTable-reset>{{ "clear"|trans }}</a>
                         </div>
                     </form>
                     <div class="scroll-area overflow-auto max-h-[calc(100vh-285px)]">

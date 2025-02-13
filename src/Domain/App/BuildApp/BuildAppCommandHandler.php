@@ -18,6 +18,7 @@ use App\Domain\Strava\Activity\HeartRateDistributionChart;
 use App\Domain\Strava\Activity\Image\ImageRepository;
 use App\Domain\Strava\Activity\PowerDistributionChart;
 use App\Domain\Strava\Activity\Split\ActivitySplitRepository;
+use App\Domain\Strava\Activity\SportType\SportType;
 use App\Domain\Strava\Activity\SportType\SportTypeRepository;
 use App\Domain\Strava\Activity\Stream\ActivityHeartRateRepository;
 use App\Domain\Strava\Activity\Stream\ActivityPowerRepository;
@@ -506,7 +507,11 @@ final readonly class BuildAppCommandHandler implements CommandHandler
         $this->filesystem->write(
             'build/html/heatmap.html',
             $this->twig->load('html/heatmap.html.twig')->render([
+                'numberOfRoutes' => count($routes),
                 'routes' => Json::encode($routes),
+                'sportTypes' => $importedSportTypes->filter(
+                    fn (SportType $sportType) => $sportType->supportsReverseGeocoding()
+                ),
             ]),
         );
 

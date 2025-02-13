@@ -209,3 +209,4 @@ maxHeartRate: 'fréquence cardiaque max'
 n/a: n/a
 workouts: entrainements
 '{numberOfResults} results based on your active filters': '{numberOfResults} results based on your active filters'
+'{numberOfResults} routes based on your active filters': '{numberOfResults} routes based on your active filters'
