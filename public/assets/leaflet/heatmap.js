@@ -1,5 +1,16 @@
-export default function Heatmap($heatmap, routes) {
-    const determineMostActiveState = () => {
+export default function Heatmap($heatmapWrapper) {
+    const $heatmap = $heatmapWrapper.querySelector('[data-leaflet-routes]');
+
+    const mainFeatureGroup = L.featureGroup();
+    let placesControl = null;
+    const map = L.map($heatmap, {
+        scrollWheelZoom: false,
+        minZoom: 1,
+        maxZoom: 21,
+    });
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+    const determineMostActiveState = (routes) => {
         const stateCounts = routes.reduce((counts, route) => {
             const state = route.location.state;
             if (state) counts[state] = (counts[state] || 0) + 1;
@@ -9,20 +20,34 @@ export default function Heatmap($heatmap, routes) {
         return Object.keys(stateCounts).reduce((a, b) => stateCounts[a] > stateCounts[b] ? a : b, '');
     };
 
-    const render = () => {
-        const mostActiveState = determineMostActiveState();
+    const filterOnActiveRoutes = function (routes) {
+        return routes.filter((route) => route.active);
+    }
 
-        const map = L.map($heatmap, {
-            scrollWheelZoom: false,
-            minZoom: 1,
-            maxZoom: 21,
+    const render = () => {
+        const routes = JSON.parse($heatmap.getAttribute('data-leaflet-routes'));
+        updateRoutes(filterOnActiveRoutes(routes));
+
+        // Filter event listeners.
+        const clickableFilters = $heatmapWrapper.querySelectorAll('input[type="checkbox"][data-heatmap-filter],input[type="radio"][data-heatmap-filter]');
+        clickableFilters.forEach(element => {
+            element.addEventListener('click', () => {
+                updateRoutes([]);
+            });
         });
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+    }
+
+    const updateRoutes = (routes) => {
+        // First reset map before adding routes and controls.
+        mainFeatureGroup.clearLayers();
+        if (placesControl) {
+            map.removeControl(placesControl);
+        }
 
         const places = [];
         const countryFeatureGroups = new Map();
-        const mainFeatureGroup = L.featureGroup();
         const fitMapBoundsFeatureGroup = L.featureGroup();
+        const mostActiveState = determineMostActiveState(routes);
 
         routes.forEach(route => {
             const {countryCode, state} = route.location;
@@ -53,11 +78,14 @@ export default function Heatmap($heatmap, routes) {
                 bounds: featureGroup.getBounds()
             });
         });
-
         mainFeatureGroup.addTo(map);
-        L.control.flyToPlaces({places}).addTo(map);
 
-        map.fitBounds(fitMapBoundsFeatureGroup.getBounds());
+        placesControl = L.control.flyToPlaces({places});
+        placesControl.addTo(map);
+
+        if (fitMapBoundsFeatureGroup.getBounds().isValid()) {
+            map.fitBounds(fitMapBoundsFeatureGroup.getBounds());
+        }
     }
 
     return {

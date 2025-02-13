@@ -440,10 +440,8 @@
         initElements(document);
     });
     document.addEventListener('pageWasLoaded.heatmap', () => {
-        const $heatmap = document.getElementById('heatmap');
-        const routes = JSON.parse($heatmap.getAttribute('data-leaflet-routes'));
-
-        Heatmap($heatmap, routes).render();
+        const $heatmapWrapper = document.querySelector('.heatmap-wrapper');
+        Heatmap($heatmapWrapper).render();
     });
     document.addEventListener('dataTableClusterWasChanged', () => {
         initModals(document);

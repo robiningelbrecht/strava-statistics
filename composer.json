@@ -34,6 +34,7 @@
         "nesbot/carbon": "*",
         "ramsey/uuid": "^4.7",
         "respect/validation": "^2.3",
+        "sentry/sentry-symfony": "^5.1",
         "symfony/asset": "7.2.*",
         "symfony/console": "7.2.*",
         "symfony/dotenv": "7.2.*",

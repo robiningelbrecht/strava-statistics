@@ -28,6 +28,8 @@ RUN docker-php-ext-install bcmath
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug
 
+RUN pecl install excimer
+
 COPY ./xdebug.ini "${PHP_INI_DIR}/conf.d"
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer

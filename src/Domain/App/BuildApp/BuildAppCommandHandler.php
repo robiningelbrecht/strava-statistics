@@ -493,6 +493,7 @@ final readonly class BuildAppCommandHandler implements CommandHandler
                 continue;
             }
             $routes[] = [
+                'active' => true,
                 'location' => [
                     'countryCode' => $activity->getLocation()->getCountryCode(),
                     'state' => $activity->getLocation()->getState(),

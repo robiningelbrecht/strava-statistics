@@ -1,0 +1,10 @@
+sentry:
+    dsn: '%env(SENTRY_DSN)%'
+    options:
+        # Specify a fixed sample rate
+        traces_sample_rate: 1.0
+        # Set a sampling rate for profiling - this is relative to traces_sample_rate
+        profiles_sample_rate: 1.0
+        ignore_exceptions:
+            - 'Symfony\Component\ErrorHandler\Error\FatalError'
+            - 'Symfony\Component\Debug\Exception\FatalErrorException'
