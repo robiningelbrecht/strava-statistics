@@ -1,12 +1,13 @@
-const debounce = function(func, timeout = 300){
+export const debounce = (func, timeout = 300) => {
     let timer;
     return (...args) => {
         clearTimeout(timer);
-        timer = setTimeout(() => { func.apply(this, args); }, timeout);
+        timer = setTimeout(() => {
+            func.apply(this, args);
+        }, timeout);
     };
 }
-
-const numberFormat = function (number, decimals, decPoint, thousandsSep) {
+export const numberFormat = (number, decimals, decPoint, thousandsSep) => {
     number = (number + '').replace(/[^0-9+\-Ee.]/g, '')
     const n = !isFinite(+number) ? 0 : +number
     const prec = !isFinite(+decimals) ? 0 : Math.abs(decimals)

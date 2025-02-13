@@ -397,16 +397,24 @@
 <script src="{{ asset('assets/echarts/echarts.min.js') }}"></script>
 <script src="{{ asset('assets/lazyload.min.js') }}"></script>
 <script src="{{ asset('assets/flowbite/flowbite.js') }}"></script>
-<script src="{{ asset('assets/utils.js') }}"></script>
-<script src="{{ asset('assets/router.js') }}"></script>
+<script src="{{ asset('assets/utils.js') }}" type="module"></script>
+<script src="{{ asset('assets/router.js') }}"  type="module"></script>
 <script src="{{ asset('assets/leaflet/leaflet.js') }}"></script>
 <script src="{{ asset('assets/leaflet/leaflet.polyline.encoded.js') }}"></script>
 <script src="{{ asset('assets/leaflet/leaflet.fly.to.places.js') }}"></script>
-<script src="{{ asset('assets/leaflet/heatmap.js') }}"></script>
+<script src="{{ asset('assets/leaflet/heatmap.js') }}" type="module"></script>
 <script src="{{ asset('assets/data-table/clusterize.min.js') }}"></script>
-<script src="{{ asset('assets/data-table/data-table.js') }}"></script>
+<script src="{{ asset('assets/data-table/data-table.js') }}" type="module"></script>
 
-<script>
+<script type="module">
+    import Heatmap from "./assets/leaflet/heatmap.js";
+    import DataTable from "./assets/data-table/data-table.js";
+    import Router from "./assets/router.js";
+
+    // Boot router.
+    const router = Router(document.querySelector("main"));
+    router.boot();
+
     // Enable image lazy load.
     const lazyLoad = new LazyLoad({
         thresholds: "50px",
@@ -423,8 +431,17 @@
             modal.hide();
         }
 
-        initDataTables();
+        document.querySelectorAll('div[data-dataTable-settings]').forEach(function ($dataTableWrapperNode) {
+            DataTable($dataTableWrapperNode).render()
+        });
+
         initElements(document);
+    });
+    document.addEventListener('pageWasLoaded.heatmap', () => {
+        const $heatmap = document.getElementById('heatmap');
+        const routes = JSON.parse($heatmap.getAttribute('data-leaflet-routes'));
+
+        Heatmap($heatmap, routes).render();
     });
     document.addEventListener('dataTableClusterWasChanged', () => {
         initModals(document);
@@ -502,7 +519,7 @@
                 const modalId = node.getAttribute('data-model-content-url');
                 openModal(modalId);
                 // Add modal to history state.
-                pushCurrentRouteToHistoryState(modalId);
+                router.pushCurrentRouteToHistoryState(modalId);
             });
         });
     };
@@ -556,21 +573,21 @@
                 modalContent.querySelector('button.close').addEventListener('click', (e) => {
                     e.preventDefault();
                     modal.hide();
-                    pushCurrentRouteToHistoryState();
+                    router.pushCurrentRouteToHistoryState();
                 });
 
                 document.body.addEventListener('keydown', (e) => {
                     if (e.key !== 'Escape') {
                         return;
                     }
-                    pushCurrentRouteToHistoryState();
+                    router.pushCurrentRouteToHistoryState();
                 }, {once: true});
 
                 document.body.addEventListener('click', (e) => {
                     if (e.target.id !== 'modal-skeleton') {
                         return;
                     }
-                    pushCurrentRouteToHistoryState();
+                    router.pushCurrentRouteToHistoryState();
                 }, {once: true});
             },
             onHide: () => {

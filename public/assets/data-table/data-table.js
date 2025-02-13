@@ -1,7 +1,78 @@
-const initDataTables = async () => {
-    const dataTables = document.querySelectorAll('div[data-dataTable-settings]');
+import {debounce, numberFormat} from "../utils.js";
 
-    dataTables.forEach(function ($dataTableWrapperNode) {
+export default function DataTable($dataTableWrapperNode) {
+    const calculateSummables = function (dataRows) {
+        const sums = [];
+        dataRows.filter((row) => row.active).map((row) => row.summables).forEach((summables => {
+            Object.keys(summables).forEach(summable => {
+                if (sums[summable] === undefined) {
+                    sums[summable] = 0;
+                }
+                sums[summable] += summables[summable];
+            });
+        }));
+
+        return sums;
+    }
+
+    const filterOnActiveRows = function (rows) {
+        return rows.filter((row) => row.active).map((row) => row.markup);
+    }
+
+    const applySearchAndFiltersToDataRows = function (dataRows, $dataTableWrapperNode) {
+        const $searchInput = $dataTableWrapperNode.querySelector('input[type="search"]');
+        const searchValue = $searchInput.value.toLowerCase();
+
+        const $activeCheckedFilters = $dataTableWrapperNode.querySelectorAll('[data-dataTable-filter]:checked');
+        const $rangeFilters = $dataTableWrapperNode.querySelectorAll('[data-dataTable-filter*="[]"]');
+
+        const filters = [];
+        $activeCheckedFilters.forEach(element => {
+            const filterName = element.getAttribute('data-dataTable-filter');
+            filters[filterName] = element.value.toLowerCase();
+        });
+        $rangeFilters.forEach(element => {
+            const filterName = element.getAttribute('data-dataTable-filter').replace('[]', '');
+            const $rangeInputFrom = element.querySelector('input[name="' + filterName + '[from]"]');
+            if (!$rangeInputFrom) {
+                throw new Error('input[name="' + filterName + '[from]"] element not found');
+            }
+            const $rangeInputTo = element.querySelector('input[name="' + filterName + '[to]"]');
+            if (!$rangeInputTo) {
+                throw new Error('input[name="' + filterName + '[to]"] element not found');
+            }
+
+            if (!isNaN($rangeInputFrom.valueAsNumber) && !isNaN($rangeInputTo.valueAsNumber)) {
+                filters[filterName] = [$rangeInputFrom.valueAsNumber, $rangeInputTo.valueAsNumber];
+            }
+        });
+
+        if (Object.keys(filters).length > 0 || searchValue) {
+            $dataTableWrapperNode.querySelector('[data-dataTable-reset]').classList.remove('hidden');
+        } else {
+            $dataTableWrapperNode.querySelector('[data-dataTable-reset]').classList.add('hidden');
+        }
+
+        for (let i = 0; i < dataRows.length; i++) {
+            const rowFilterables = dataRows[i].filterables;
+            const searchables = dataRows[i].searchables.toLowerCase();
+            dataRows[i].active = !(searchables.indexOf(searchValue) === -1);
+
+            for (const filter in filters) {
+                const filterValue = filters[filter];
+                if (Array.isArray(filterValue)) {
+                    // This is range filter.
+                    dataRows[i].active = dataRows[i].active && filter in rowFilterables && filterValue[0] <= rowFilterables[filter] && rowFilterables[filter] <= filterValue[1]
+                } else {
+                    dataRows[i].active = dataRows[i].active && filter in rowFilterables && rowFilterables[filter].toLowerCase() === filterValue
+                }
+            }
+        }
+
+        return dataRows;
+    };
+
+    const render = () => {
         const settings = JSON.parse($dataTableWrapperNode.getAttribute('data-dataTable-settings'));
 
         const $searchInput = $dataTableWrapperNode.querySelector('input[type="search"]');
@@ -125,76 +196,9 @@ const initDataTables = async () => {
                 });
             })
         });
-    });
-};
-
-const applySearchAndFiltersToDataRows = function (dataRows, $dataTableWrapperNode) {
-    const $searchInput = $dataTableWrapperNode.querySelector('input[type="search"]');
-    const searchValue = $searchInput.value.toLowerCase();
-
-    const $activeCheckedFilters = $dataTableWrapperNode.querySelectorAll('[data-dataTable-filter]:checked');
-    const $rangeFilters = $dataTableWrapperNode.querySelectorAll('[data-dataTable-filter*="[]"]');
-
-    const filters = [];
-    $activeCheckedFilters.forEach(element => {
-        const filterName = element.getAttribute('data-dataTable-filter');
-        filters[filterName] = element.value.toLowerCase();
-    });
-    $rangeFilters.forEach(element => {
-        const filterName = element.getAttribute('data-dataTable-filter').replace('[]', '');
-        const $rangeInputFrom = element.querySelector('input[name="' + filterName + '[from]"]');
-        if (!$rangeInputFrom) {
-            throw new Error('input[name="' + filterName + '[from]"] element not found');
-        }
-        const $rangeInputTo = element.querySelector('input[name="' + filterName + '[to]"]');
-        if (!$rangeInputTo) {
-            throw new Error('input[name="' + filterName + '[to]"] element not found');
-        }
-
-        if (!isNaN($rangeInputFrom.valueAsNumber) && !isNaN($rangeInputTo.valueAsNumber)) {
-            filters[filterName] = [$rangeInputFrom.valueAsNumber, $rangeInputTo.valueAsNumber];
-        }
-    });
-
-    if (Object.keys(filters).length > 0 || searchValue) {
-        $dataTableWrapperNode.querySelector('[data-dataTable-reset]').classList.remove('hidden');
-    } else {
-        $dataTableWrapperNode.querySelector('[data-dataTable-reset]').classList.add('hidden');
     }
 
-    for (let i = 0; i < dataRows.length; i++) {
-        const rowFilterables = dataRows[i].filterables;
-        const searchables = dataRows[i].searchables.toLowerCase();
-        dataRows[i].active = !(searchables.indexOf(searchValue) === -1);
-
-        for (const filter in filters) {
-            const filterValue = filters[filter];
-            if (Array.isArray(filterValue)) {
-                // This is range filter.
-                dataRows[i].active = dataRows[i].active && filter in rowFilterables && filterValue[0] <= rowFilterables[filter] && rowFilterables[filter] <= filterValue[1]
-            } else {
-                dataRows[i].active = dataRows[i].active && filter in rowFilterables && rowFilterables[filter].toLowerCase() === filterValue
-            }
-        }
-    }
-
-    return dataRows;
-};
-
-const calculateSummables = function (dataRows) {
-    const sums = [];
-    dataRows.filter((row) => row.active).map((row) => row.summables).forEach((summables => {
-        Object.keys(summables).forEach(summable => {
-            if (sums[summable] === undefined) {
-                sums[summable] = 0;
-            }
-            sums[summable] += summables[summable];
-        });
-    }));
-
-    return sums;
-}
-
-const filterOnActiveRows = function (rows) {
-    return rows.filter((row) => row.active).map((row) => row.markup);
+    return {
+        render
+    };
 }
