@@ -4,9 +4,9 @@ L.Control.FlyToPlaces = L.Control.extend({
         places: {}
     },
     onAdd: function(map) {
-        const container = L.DomUtil.create('ul', 'leaflet-control bg-gray-50');
+        const container = L.DomUtil.create('ul', 'leaflet-control leaflet-control--fly-to-places');
         this.options.places.forEach((place) => {
-            const item = L.DomUtil.create('li', 'p-1 cursor-pointer', container);
+            const item = L.DomUtil.create('li', '', container);
             item.innerHTML = '<img src="assets/images/flags/'+place.name.toLowerCase()+'.svg" width="20" title="'+place.name+'" />'
             // Prevent click events propagation to map.
             L.DomEvent.disableClickPropagation(item);

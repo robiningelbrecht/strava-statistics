@@ -4,6 +4,7 @@ module.exports = {
         "./templates/**/*.html.twig",
         "./public/app.php",
         "./public/*.html",
+        "./public/assets/leaflet/leaflet.fly.to.places.js",
         "./node_modules/flowbite/**/*.js"
     ],
     theme: {
@@ -13,6 +14,7 @@ module.exports = {
             },
             colors: {
                 'strava-orange': '#F26722',
+                'grey-yo': '#cccccc'
             },
             aria: {
                 asc: 'sort="ascending"',

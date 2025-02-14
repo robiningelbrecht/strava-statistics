@@ -1051,6 +1051,28 @@ input:checked + .toggle-bg {
   }
 }
 
+ul.leaflet-control.leaflet-control--fly-to-places > :not([hidden]) ~ :not([hidden]) {
+  --tw-divide-y-reverse: 0;
+  border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
+  border-bottom-width: calc(1px * var(--tw-divide-y-reverse));
+  --tw-divide-opacity: 1;
+  border-color: rgb(204 204 204 / var(--tw-divide-opacity, 1));
+}
+
+ul.leaflet-control.leaflet-control--fly-to-places {
+  border-radius: 0.25rem;
+  border-width: 2px;
+  border-color: rgb(0 0 0 / .3);
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
+  background-clip: padding-box;
+}
+
+ul.leaflet-control.leaflet-control--fly-to-places li {
+  cursor: pointer;
+  padding: 0.25rem;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
