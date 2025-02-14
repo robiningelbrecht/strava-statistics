@@ -1,0 +1,14 @@
+[
+    {
+        "active": true,
+        "location": {
+            "countryCode": "BE",
+            "state": null
+        },
+        "filterables": {
+            "sportType": "Ride",
+            "start-date": 1696946434000
+        },
+        "encodedPolyline": "line"
+    }
+]

@@ -17,6 +17,7 @@ use App\Domain\Strava\Activity\HeartRateChart;
 use App\Domain\Strava\Activity\HeartRateDistributionChart;
 use App\Domain\Strava\Activity\Image\ImageRepository;
 use App\Domain\Strava\Activity\PowerDistributionChart;
+use App\Domain\Strava\Activity\Route\RouteRepository;
 use App\Domain\Strava\Activity\Split\ActivitySplitRepository;
 use App\Domain\Strava\Activity\SportType\SportType;
 use App\Domain\Strava\Activity\SportType\SportTypeRepository;
@@ -83,6 +84,7 @@ final readonly class BuildAppCommandHandler implements CommandHandler
         private FtpRepository $ftpRepository,
         private SportTypeRepository $sportTypeRepository,
         private ActivityTypeRepository $activityTypeRepository,
+        private RouteRepository $routeRepository,
         private ActivityIntensity $activityIntensity,
         private UnitSystem $unitSystem,
         private Environment $twig,
@@ -481,30 +483,8 @@ final readonly class BuildAppCommandHandler implements CommandHandler
             ]),
         );
 
-        $routes = [];
-        foreach ($allActivities as $activity) {
-            if (!$activity->getSportType()->supportsReverseGeocoding()) {
-                continue;
-            }
-            if (!$polyline = $activity->getPolyline()) {
-                continue;
-            }
-            if (!$activity->getLocation()?->getCountryCode()) {
-                continue;
-            }
-            $routes[] = [
-                'active' => true,
-                'location' => [
-                    'countryCode' => $activity->getLocation()->getCountryCode(),
-                    'state' => $activity->getLocation()->getState(),
-                ],
-                'sportType' => $activity->getSportType(),
-                'startDate' => $activity->getStartDate(),
-                'polyline' => $polyline,
-            ];
-        }
-
         $command->getOutput()->writeln('  => Building heatmap.html');
+        $routes = $this->routeRepository->findAll();
         $this->filesystem->write(
             'build/html/heatmap.html',
             $this->twig->load('html/heatmap.html.twig')->render([

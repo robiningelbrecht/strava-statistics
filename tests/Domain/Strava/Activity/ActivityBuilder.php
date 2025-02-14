@@ -39,7 +39,7 @@ final class ActivityBuilder
     private ?string $deviceName;
     /** @var array<string> */
     private readonly array $localImagePaths;
-    private readonly ?string $polyline;
+    private ?string $polyline;
     private ?Location $location;
     private readonly string $weather;
     private ?GearId $gearId;
@@ -168,7 +168,7 @@ final class ActivityBuilder
         return $this;
     }
 
-    public function withLocation(Location $location): self
+    public function withLocation(?Location $location): self
     {
         $this->location = $location;
 
@@ -192,6 +192,13 @@ final class ActivityBuilder
     public function withSportType(SportType $sportType): self
     {
         $this->sportType = $sportType;
+
+        return $this;
+    }
+
+    public function withPolyline(?string $polyline): self
+    {
+        $this->polyline = $polyline;
 
         return $this;
     }

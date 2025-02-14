@@ -26,18 +26,66 @@ export default function Heatmap($heatmapWrapper) {
 
     const render = () => {
         const routes = JSON.parse($heatmap.getAttribute('data-leaflet-routes'));
-        updateRoutes(filterOnActiveRoutes(routes));
+        redraw(filterOnActiveRoutes(routes));
 
         // Filter event listeners.
         const clickableFilters = $heatmapWrapper.querySelectorAll('input[type="checkbox"][data-heatmap-filter],input[type="radio"][data-heatmap-filter]');
         clickableFilters.forEach(element => {
             element.addEventListener('click', () => {
-                updateRoutes([]);
+                redraw(filterOnActiveRoutes(applyFiltersToRoutes(routes, $heatmapWrapper)));
             });
         });
     }
 
-    const updateRoutes = (routes) => {
+    const applyFiltersToRoutes = function (routes, $heatmapWrapper) {
+        const $activeCheckedFilters = $heatmapWrapper.querySelectorAll('[data-heatmap-filter]:checked');
+        const $rangeFilters = $heatmapWrapper.querySelectorAll('[data-heatmap-filter*="[]"]');
+
+        const filters = [];
+        $activeCheckedFilters.forEach(element => {
+            const filterName = element.getAttribute('data-heatmap-filter');
+            filters[filterName] = element.value.toLowerCase();
+        });
+        $rangeFilters.forEach(element => {
+            const filterName = element.getAttribute('data-heatmap-filter').replace('[]', '');
+            const $rangeInputFrom = element.querySelector('input[name="' + filterName + '[from]"]');
+            if (!$rangeInputFrom) {
+                throw new Error('input[name="' + filterName + '[from]"] element not found');
+            }
+            const $rangeInputTo = element.querySelector('input[name="' + filterName + '[to]"]');
+            if (!$rangeInputTo) {
+                throw new Error('input[name="' + filterName + '[to]"] element not found');
+            }
+
+            if (!isNaN($rangeInputFrom.valueAsNumber) && !isNaN($rangeInputTo.valueAsNumber)) {
+                filters[filterName] = [$rangeInputFrom.valueAsNumber, $rangeInputTo.valueAsNumber];
+            }
+        });
+
+        if (Object.keys(filters).length > 0) {
+            $heatmapWrapper.querySelector('[data-heatmap-reset]').classList.remove('hidden');
+        } else {
+            $heatmapWrapper.querySelector('[data-heatmap-reset]').classList.add('hidden');
+        }
+
+        for (let i = 0; i < routes.length; i++) {
+            const routeFilterables = routes[i].filterables;
+
+            for (const filter in filters) {
+                const filterValue = filters[filter];
+                if (Array.isArray(filterValue)) {
+                    // This is range filter.
+                    routes[i].active = filter in routeFilterables && filterValue[0] <= routeFilterables[filter] && routeFilterables[filter] <= filterValue[1]
+                } else {
+                    routes[i].active = filter in routeFilterables && routeFilterables[filter].toLowerCase() === filterValue
+                }
+            }
+        }
+
+        return routes;
+    }
+
+    const redraw = (routes) => {
         // First reset map before adding routes and controls.
         mainFeatureGroup.clearLayers();
         if (placesControl) {
@@ -56,7 +104,7 @@ export default function Heatmap($heatmapWrapper) {
                 countryFeatureGroups.set(countryCode, L.featureGroup());
             }
 
-            const polyline = L.Polyline.fromEncoded(route.polyline).getLatLngs();
+            const polyline = L.Polyline.fromEncoded(route.encodedPolyline).getLatLngs();
             L.polyline(polyline, {
                 color: '#fc6719',
                 weight: 1.5,
