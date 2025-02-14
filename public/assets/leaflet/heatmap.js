@@ -35,6 +35,38 @@ export default function Heatmap($heatmapWrapper) {
                 redraw(filterOnActiveRoutes(applyFiltersToRoutes(routes, $heatmapWrapper)));
             });
         });
+
+        const rangeFilters = $heatmapWrapper.querySelectorAll('[data-heatmap-filter*="[]"]');
+        rangeFilters.forEach(element => {
+            element.addEventListener('input', () => {
+                redraw(filterOnActiveRoutes(applyFiltersToRoutes(routes, $heatmapWrapper)));
+            });
+        });
+
+        // Reset filter event listeners.
+        $heatmapWrapper.querySelector('[data-heatmap-reset]').addEventListener('click', (e) => {
+            e.preventDefault();
+            location.reload();
+        });
+
+        $heatmapWrapper.querySelectorAll('[data-heatmap-filter-clear]').forEach(element => {
+            element.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                const filterNameToClear = element.getAttribute('data-heatmap-filter-clear');
+                const $checkableFiltersToClear = $heatmapWrapper.querySelectorAll('input[type="checkbox"][name^="' + filterNameToClear + '"],input[type="radio"][name^="' + filterNameToClear + '"]');
+                $checkableFiltersToClear.forEach($filterToClear => {
+                    $filterToClear.checked = false;
+                });
+
+                const $valueFiltersToClear = $heatmapWrapper.querySelectorAll('input[type="date"][name^="' + filterNameToClear + '"]');
+                $valueFiltersToClear.forEach($filterToClear => {
+                    $filterToClear.value = '';
+                });
+
+                redraw(filterOnActiveRoutes(applyFiltersToRoutes(routes, $heatmapWrapper)));
+            });
+        });
     }
 
     const applyFiltersToRoutes = function (routes, $heatmapWrapper) {
@@ -70,6 +102,7 @@ export default function Heatmap($heatmapWrapper) {
 
         for (let i = 0; i < routes.length; i++) {
             const routeFilterables = routes[i].filterables;
+            routes[i].active = true;
 
             for (const filter in filters) {
                 const filterValue = filters[filter];
@@ -133,6 +166,12 @@ export default function Heatmap($heatmapWrapper) {
 
         if (fitMapBoundsFeatureGroup.getBounds().isValid()) {
             map.fitBounds(fitMapBoundsFeatureGroup.getBounds());
+        }
+
+        // Update total route count.
+        const $resultCountNode = $heatmapWrapper.querySelector('[data-heatmap-route-count]');
+        if ($resultCountNode) {
+            $resultCountNode.innerText = routes.filter(route => route.active).length;
         }
     }
 
