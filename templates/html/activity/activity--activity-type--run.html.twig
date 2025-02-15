@@ -1,37 +1,37 @@
 {% autoescape false %}
 <div>
         <div class="mb-4 grid grid-cols-6 gap-2">
-            <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow">
+            <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow-sm">
                 <div class="text-center">
                     <dd class="text-xs text-gray-500">{{ "Distance"|trans }}</dd>
                     <dt class="font-extrabold">{{ renderComponent('measurement', {'measurement': activity.getDistance(), 'precision': activity.getSportType().getActivityType().getDistancePrecision()}) }}</dt>
                 </div>
             </div>
-            <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow">
+            <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow-sm">
                 <div class="text-center">
                     <dd class="text-xs text-gray-500">{{ "Moving time"|trans }}</dd>
                     <dt class="font-extrabold">{{ activity.getMovingTimeFormatted() }}</dt>
                 </div>
             </div>
-            <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow">
+            <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow-sm">
                 <div class="text-center">
                     <dd class="text-xs text-gray-500">{{ "Pace"|trans }}</dd>
                     <dt class="font-extrabold">{{ activity.getPaceInSecPerKm()|formatPace }}</dt>
                 </div>
             </div>
-            <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow">
+            <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow-sm">
                 <div class="text-center">
                     <dd class="text-xs text-gray-500">{{ "Elevation"|trans }}</dd>
                     <dt class="font-extrabold">{{ renderComponent('measurement', {'measurement': activity.getElevation(), 'precision': 0}) }}</dt>
                 </div>
             </div>
-            <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow">
+            <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow-sm">
                 <div class="text-center">
                     <dd class="text-xs text-gray-500">{{ "Calories"|trans }}</dd>
                     <dt class="font-extrabold">{{ activity.getCalories() }}</dt>
                 </div>
             </div>
-            <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-4 border border-gray-200 rounded-lg shadow">
+            <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-4 border border-gray-200 rounded-lg shadow-sm">
                 <div class="text-center">
                     <dd class="text-xs text-gray-500">{{ "Device"|trans }}</dd>
                     <dt class="text-xs font-extrabold">{{ activity.getDeviceName() ?: 'None' }}</dt>
@@ -58,7 +58,7 @@
                         </a>
                     </div>
                     <div data-popover id="popover-image-{{ loop.index }}" role="tooltip"
-                         class="z-[1000] w-[35rem] absolute invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0">
+                         class="z-1000 w-[35rem] absolute invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-xs opacity-0">
                         <img class="h-auto max-w-full rounded-lg lazy"
                              src="{{ renderComponent('placeholder-image') }}" data-src="{{ imagePath }}"
                              alt="Activity image"/>
@@ -70,11 +70,11 @@
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
     {% if not splits.isEmpty() %}
         <div>
-            <div class="text-center text-gray-500 text-sm h-[350px] mb-4 relative overflow-x-auto px-2 pb-2 border border-gray-200 rounded-lg shadow">
+            <div class="text-center text-gray-500 text-sm h-[350px] mb-4 relative overflow-x-auto px-2 pb-2 border border-gray-200 rounded-lg shadow-sm">
                 <div class="bg-white sticky top-0 pt-2 flex items-center text-xs text-gray-700 uppercase font-bold">
                     <div class="w-[2rem] px-2 py-2">{{ renderUnitSymbol('distance') }}</div>
                     <div class="w-[5rem] px-2 py-2">{{ "Pace"|trans }}</div>
-                    <div class="flex-grow min-w-[10rem] px-2 py-2"></div>
+                    <div class="grow min-w-[10rem] px-2 py-2"></div>
                     <div class="w-[5rem] px-2 py-2">{{ "Elev"|trans }}</div>
                     <div  class="w-[5rem] px-2 py-2">{{ "HR"|trans }}</div>
                 </div>
@@ -86,7 +86,7 @@
                         <div class="w-[5rem] px-2 py-2">
                             {{ split.getPaceInSecPerKm()|formatPace }}
                         </div>
-                        <div class="flex-grow min-w-[10rem] px-2 py-2">
+                        <div class="grow min-w-[10rem] px-2 py-2">
                             <div class=" bg-gray-200 rounded-full h-2.5">
                                 <div class="bg-strava-orange h-2.5 rounded-full" style="width: {{ split.getRelativePacePercentage() }}%"></div>
                             </div>

@@ -2,37 +2,37 @@
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
     <div>
         <div class="mb-4 grid grid-cols-6 gap-2">
-            <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow">
+            <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow-sm">
                 <div class="text-center">
                     <dd class="text-xs text-gray-500">{{ "Distance"|trans }}</dd>
                     <dt class="font-extrabold">{{ renderComponent('measurement', {'measurement': activity.getDistance(), 'precision': activity.getSportType().getActivityType().getDistancePrecision()}) }}</dt>
                 </div>
             </div>
-            <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow">
+            <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow-sm">
                 <div class="text-center">
                     <dd class="text-xs text-gray-500">{{ "Moving time"|trans }}</dd>
                     <dt class="font-extrabold">{{ activity.getMovingTimeFormatted() }}</dt>
                 </div>
             </div>
-            <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow">
+            <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow-sm">
                 <div class="text-center">
                     <dd class="text-xs text-gray-500">{{ "Elevation"|trans }}</dd>
                     <dt class="font-extrabold">{{ renderComponent('measurement', {'measurement': activity.getElevation(), 'precision': 0}) }}</dt>
                 </div>
             </div>
-            <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow">
+            <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-2 border border-gray-200 rounded-lg shadow-sm">
                 <div class="text-center">
                     <dd class="text-xs text-gray-500">{{ "Calories"|trans }}</dd>
                     <dt class="font-extrabold">{{ activity.getCalories() }}</dt>
                 </div>
             </div>
-            <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-4 border border-gray-200 rounded-lg shadow">
+            <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-4 border border-gray-200 rounded-lg shadow-sm">
                 <div class="text-center">
                     <dd class="text-xs text-gray-500">{{ "Gear"|trans }}</dd>
                     <dt class="text-xs font-extrabold">{{ activity.getGearName() ?: 'Other' }}</dt>
                 </div>
             </div>
-            <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-4 border border-gray-200 rounded-lg shadow">
+            <div class="flex flex-col items-center justify-center overflow-hidden px-2 py-4 border border-gray-200 rounded-lg shadow-sm">
                 <div class="text-center">
                     <dd class="text-xs text-gray-500">{{ "Device"|trans }}</dd>
                     <dt class="text-xs font-extrabold">{{ activity.getDeviceName() ?: 'None' }}</dt>
@@ -59,7 +59,7 @@
                         </a>
                     </div>
                     <div data-popover id="popover-image-{{ loop.index }}" role="tooltip"
-                         class="z-[1000] w-[35rem] absolute invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0">
+                         class="z-1000 w-[35rem] absolute invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-xs opacity-0">
                         <img class="h-auto max-w-full rounded-lg lazy"
                              src="{{ renderComponent('placeholder-image') }}" data-src="{{ imagePath }}"
                              alt="Activity image"/>
@@ -67,7 +67,7 @@
                 {% endfor %}
             </div>
         {% endif %}
-        <div class="mb-4 relative overflow-x-auto px-2 py-2 border border-gray-200 rounded-lg shadow">
+        <div class="mb-4 relative overflow-x-auto px-2 py-2 border border-gray-200 rounded-lg shadow-sm">
             <table class="w-full text-sm text-center text-gray-500">
                 <thead class="text-xs text-gray-700 uppercase">
                 <tr>
@@ -159,7 +159,7 @@
             </table>
         </div>
         {% if activity.hasDetailedPowerData() %}
-            <div class="relative overflow-x-auto px-2 py-2 border border-gray-200 rounded-lg shadow">
+            <div class="relative overflow-x-auto px-2 py-2 border border-gray-200 rounded-lg shadow-sm">
                 <table class="w-full text-sm text-center text-gray-500">
                     <thead class="text-xs text-gray-700 uppercase">
                     {% set timeIntervals =  [5, 60, 300, 1200] %}

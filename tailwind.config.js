@@ -5,7 +5,6 @@ module.exports = {
         "./public/app.php",
         "./public/*.html",
         "./public/assets/leaflet/leaflet.fly.to.places.js",
-        "./node_modules/flowbite/**/*.js"
     ],
     theme: {
         extend: {
@@ -21,8 +20,5 @@ module.exports = {
                 desc: 'sort="descending"',
             },
         },
-    },
-    plugins: [
-        require('flowbite/plugin')
-    ]
+    }
 }

@@ -19,7 +19,7 @@
 </nav>
             <!-- ALL ACTIVITIES -->
         <div class="grid grid-cols-1">
-            <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm">
+            <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-xs">
                 <!--HTML-->
                 <div data-datatable-settings='{"url":"fetch-json/activity-data-table.json"}' class="relative">
                     <form class="flex flex-col gap-y-2 mb-2" autocomplete="off">
@@ -36,16 +36,16 @@
                         </div>
                         <div class="flex flex-col sm:flex-row gap-2">
                                                         <div>
-                                <button id="dropdownSportTypesButton" data-dropdown-toggle="dropdownSportTypes" data-dropdown-offset-distance="10" data-dropdown-offset-skidding="0" class="w-fit text-white bg-strava-orange hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-3 py-2 inline-flex items-center justify-between" type="button">
+                                <button id="dropdownSportTypesButton" data-dropdown-toggle="dropdownSportTypes" data-dropdown-offset-distance="10" data-dropdown-offset-skidding="0" class="w-fit text-white bg-strava-orange hover:bg-orange-600 focus:ring-4 focus:outline-hidden focus:ring-orange-300 font-medium rounded-lg text-sm px-3 py-2 inline-flex items-center justify-between" type="button">
                                     <span>Filter on sport type</span>
                                     <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 10 6">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"></path>
                                     </svg>
                                 </button>
-                                <div id="dropdownSportTypes" class="z-[20] w-fit hidden border border-gray-200 bg-white divide-y divide-gray-100 rounded-lg shadow-sm">
+                                <div id="dropdownSportTypes" class="z-20 w-fit hidden border border-gray-200 bg-white divide-y divide-gray-100 rounded-lg shadow-xs">
                                     <ul class="max-h-48 overflow-y-auto px-1 py-2 space-y-1 text-sm text-gray-700" aria-labelledby="dropdownSportTypesButton">
                                                                                     <li>
-                                                <div class="flex items-center gap-x-2 p-2 rounded-sm hover:bg-gray-100">
+                                                <div class="flex items-center gap-x-2 p-2 rounded-xs hover:bg-gray-100">
                                                     <input type="radio" id="Run" data-datatable-filter="sportType" name="sportType" value="Run" class="w-4 h-4 peer text-strava-orange bg-gray-100 border-gray-300 focus:ring-orange-500 focus:ring-2">
                                                     <label for="Run" class="flex gap-x-1 items-center text-sm font-medium text-gray-500 cursor-pointer peer-checked:text-strava-orange hover:text-gray-600 hover:bg-gray-100">
                                                         <svg class="h-4 shrink-0" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#F26722"><path d="M8.688 0C8.025 0 7.38.215 6.85.613l-3.32 2.49-2.845.948A1 1 0 000 5c0 1.579.197 2.772.567 3.734.376.978.907 1.654 1.476 2.223.305.305.6.567.886.82.785.697 1.5 1.33 2.159 2.634 1.032 2.57 2.37 4.748 4.446 6.27C11.629 22.218 14.356 23 18 23c2.128 0 3.587-.553 4.549-1.411a4.378 4.378 0 001.408-2.628c.152-.987-.389-1.787-.967-2.25l-3.892-3.114a1 1 0 01-.329-.477l-3.094-9.726A2 2 0 0013.769 2h-1.436a2 2 0 00-1.2.4l-.57.428-.516-1.803A1.413 1.413 0 008.688 0zM8.05 2.213c.069-.051.143-.094.221-.127l1.168 4.086L12.333 4h1.436l.954 3H12v2h3.36l.318 1H13v2h3.314l.55 1.726a3 3 0 00.984 1.433l3.106 2.485c-.77.19-1.778.356-2.954.356-1.97 0-3.178-.431-4.046-1.087-.895-.677-1.546-1.675-2.251-3.056-.224-.437-.45-.907-.688-1.403C9.875 10.08 8.444 7.1 5.531 4.102zM3.743 5.14c2.902 2.858 4.254 5.664 5.441 8.126.25.517.49 1.018.738 1.502.732 1.432 1.55 2.777 2.827 3.74C14.053 19.495 15.72 20 18 20c1.492 0 2.754-.23 3.684-.479a2.285 2.285 0 01-.467.575c-.5.446-1.435.904-3.217.904-3.356 0-5.629-.718-7.284-1.931-1.663-1.22-2.823-3.028-3.788-5.44a1.012 1.012 0 00-.034-.076c-.853-1.708-1.947-2.673-2.79-3.417a14.61 14.61 0 01-.647-.593c-.431-.431-.775-.88-1.024-1.527-.21-.545-.367-1.271-.417-2.3z" fill=""></path></svg>
@@ -58,13 +58,13 @@
                                 </div>
                             </div>
                                                         <div>
-                                <button id="dropdownDateRangeButton" data-dropdown-toggle="dropdownDateRange" type="button" class="w-fit text-strava-orange border border-strava-orange hover:border-orange-600 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-3 py-2 inline-flex items-center justify-between">
+                                <button id="dropdownDateRangeButton" data-dropdown-toggle="dropdownDateRange" type="button" class="w-fit text-strava-orange border border-strava-orange hover:border-orange-600 focus:ring-4 focus:outline-hidden focus:ring-orange-300 font-medium rounded-lg text-sm px-3 py-2 inline-flex items-center justify-between">
                                     <span>From - To</span>
                                     <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 10 6">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"></path>
                                     </svg>
                                 </button>
-                                <div id="dropdownDateRange" class="z-[20] w-fit hidden border border-gray-200 bg-white divide-y divide-gray-100 rounded-lg shadow-sm">
+                                <div id="dropdownDateRange" class="z-20 w-fit hidden border border-gray-200 bg-white divide-y divide-gray-100 rounded-lg shadow-xs">
                                     <div class="flex items-center gap-x-2 p-3" aria-labelledby="dropdownDateRangeButton">
                                         <div class="flex items-center" data-datatable-filter="start-date[]">
                                             <input name="start-date[from]" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
@@ -83,7 +83,7 @@
                     </form>
                     <div class="scroll-area overflow-auto max-h-[calc(100vh-285px)]">
                         <table class="w-full text-sm text-center text-gray-500">
-                            <thead class="z-[10] sticky top-0 text-xs text-gray-700 uppercase bg-gray-50">
+                            <thead class="z-10 sticky top-0 text-xs text-gray-700 uppercase bg-gray-50">
                             <tr>
                                 <th scope="col" data-datatable-sort="start-date" class="px-2 py-3 cursor-pointer">
                                     <div class="w-[4.5rem] flex items-center justify-center">

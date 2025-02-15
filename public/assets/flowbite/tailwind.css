@@ -1,18 +1,30 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@import "flowbite/src/themes/default";
+@plugin "flowbite/plugin";
+@source "../../..//node_modules/flowbite";
+@config '../../../tailwind.config.js';
 
-.leaflet-tile-pane {
-    -webkit-filter: grayscale(100%);
-    filter: grayscale(100%);
+@utility leaflet-control--fly-to-places  {
+    @apply rounded-sm border-2 border-black/[.3] bg-white bg-clip-padding divide-y divide-grey-yo;
+
+  & li {
+    @apply p-1 cursor-pointer;
+  }
 }
 
-@layer components {
-    ul.leaflet-control.leaflet-control--fly-to-places {
-        @apply rounded border-2 border-black/[.3] bg-white bg-clip-padding divide-y divide-grey-yo
-    }
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
 
-    ul.leaflet-control.leaflet-control--fly-to-places li {
-        @apply p-1 cursor-pointer
-    }
+@layer utilities {
+  .leaflet-tile-pane {
+    -webkit-filter: grayscale(100%);
+    filter: grayscale(100%);
+  }
 }

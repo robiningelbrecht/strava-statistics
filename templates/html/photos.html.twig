@@ -18,7 +18,7 @@
                     {% set imageCount =  images|filter(image => image.getActivity().getSportType() == sportType)|length %}
                     {% if imageCount > 0 %}
                         <li class="mr-2" role="presentation">
-                            <a href="#photos" data-tabs-target="#{{ sportType.value }}" role="tab" aria-controls="{{ sportType.value }}" class="inline-flex items-center justify-center p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 aria-selected:text-strava-orange aria-selected:border-strava-orange group">
+                            <a href="#photos" data-tabs-target="#{{ sportType.value }}" role="tab" aria-controls="{{ sportType.value }}" class="inline-flex items-center justify-center p-4 border-b-2 rounded-t-lg group">
                                 {{ sportType|trans }} ({{ imageCount }})
                             </a>
                         </li>
@@ -30,7 +30,7 @@
             {% for sportType in sportTypes %}
                 <div class="gap-4 columns-2 md:columns-3 lg:columns-4" id="{{ sportType.value }}" role="tabpanel" aria-labelledby="{{ sportType.value }}-tab">
                     {% for image in images|filter(image => image.getActivity().getSportType() == sportType) %}
-                        <div class="mb-4 break-inside-avoid-column bg-white border border-gray-200 rounded-lg shadow">
+                        <div class="mb-4 break-inside-avoid-column bg-white border border-gray-200 rounded-lg shadow-sm">
                             <a href="{{ image.getActivity().getUrl() }}" target="_blank">
                                 <img class="h-auto max-w-full rounded-t-lg lazy" data-src="{{ image.getImageUrl() }}" alt="{{ image.getActivity().getName() }}" src="{{ renderComponent('placeholder-image') }}" />
                             </a>

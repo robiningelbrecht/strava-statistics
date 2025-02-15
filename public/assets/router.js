@@ -6,7 +6,7 @@ export default function Router(app) {
     const mobileNavTriggerEl = document.querySelector('[data-drawer-target="drawer-navigation"]');
     const defaultRoute = 'dashboard';
 
-    const renderContent = async (page, modal) => {
+    const renderContent = async (page, modalId) => {
         if (!menu.hasAttribute('aria-hidden')) {
             // Trigger click event to close mobile nav.
             mobileNavTriggerEl.dispatchEvent(
@@ -34,7 +34,7 @@ export default function Router(app) {
         appContent.classList.remove('hidden');
 
         app.setAttribute('data-router-current', page);
-        app.setAttribute('data-modal-current', modal);
+        app.setAttribute('data-modal-current', modalId);
         // Manage active classes.
         menuItems.forEach(node => {
             node.setAttribute('aria-selected', 'false')
@@ -51,16 +51,17 @@ export default function Router(app) {
         document.dispatchEvent(new CustomEvent('pageWasLoaded', {
             bubbles: true,
             cancelable: false,
+            detail: {
+                modalId: modalId
+            }
         }));
         document.dispatchEvent(new CustomEvent('pageWasLoaded.' + page, {
             bubbles: true,
             cancelable: false,
+            detail: {
+                modalId: modalId
+            }
         }));
-
-        if (modal) {
-            // Open modal.
-            openModal(modal);
-        }
     };
 
     const registerNavItems = (items) => {

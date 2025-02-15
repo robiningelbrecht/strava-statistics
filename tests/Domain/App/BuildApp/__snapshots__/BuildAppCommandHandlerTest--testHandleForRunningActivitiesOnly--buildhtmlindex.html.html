@@ -16,7 +16,7 @@
 <body>
 <div class="antialiased bg-gray-50">
     <!-- NAVIGATION -->
-    <nav class="bg-white border-b border-gray-200 px-4 py-2.5 fixed left-0 right-0 top-0 z-[1100]">
+    <nav class="bg-white border-b border-gray-200 px-4 py-2.5 fixed left-0 right-0 top-0 z-1100">
         <div class="flex flex-wrap justify-between items-center">
             <div class="flex justify-start items-center">
                 <button data-drawer-target="drawer-navigation" data-drawer-toggle="drawer-navigation" aria-controls="drawer-navigation" class="p-2 mr-2 text-gray-600 rounded-lg cursor-pointer md:hidden hover:text-gray-900 hover:bg-gray-100 focus:bg-gray-100 focus:ring-2 focus:ring-gray-100">
@@ -49,7 +49,7 @@
                     <span class="sr-only">Open user menu</span>
                     <img class="w-8 h-8 rounded-full bg-white" src="assets/images/me.png" alt="Robin Ingelbrecht, Developer">
                 </button>
-                <div class="hidden z-50 my-4 w-56 text-base list-none bg-white divide-y divide-gray-100 shadow rounded-xl" id="dropdown" style="position: absolute; inset: 0 auto auto 0; margin: 0; transform: translate3d(1374px, 57px, 0px);" data-popper-placement="bottom">
+                <div class="hidden z-50 my-4 w-56 text-base list-none bg-white divide-y divide-gray-100 shadow-sm rounded-xl" id="dropdown" style="position: absolute; inset: 0 auto auto 0; margin: 0; transform: translate3d(1374px, 57px, 0px);" data-popper-placement="bottom">
                     <div class="py-3 px-4">
                         <span class="block text-sm text-center font-semibold text-gray-900">Robin Ingelbrecht,</span>
                         <span class="block text-sm text-center font-semibold text-gray-900">developer of this project</span>
@@ -124,7 +124,7 @@
         </div>
     </nav>
     <!-- SIDEBAR -->
-    <aside class="fixed top-0 left-0 w-64 h-screen pt-14 transition-transform -translate-x-full bg-white border-r border-gray-200 md:translate-x-0 z-[1001]" aria-label="Sidenav" id="drawer-navigation">
+    <aside class="fixed top-0 left-0 w-64 h-screen pt-14 transition-transform -translate-x-full bg-white border-r border-gray-200 md:translate-x-0 z-1001" aria-label="Sidenav" id="drawer-navigation">
         <div class="max-h-[calc(100vh-160px)] overflow-y-auto py-5 px-3 h-full bg-white divide-y divide-gray-100">
             <ul class="space-y-2 mb-2">
                 <li>
@@ -138,16 +138,16 @@
                 </li>
                 <li>
                     <a href="#" data-router-navigate="activities" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg hover:bg-gray-100 aria-selected:bg-gray-100 group">
-                        <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewbox="0 0 20 16">
+                        <svg class="shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewbox="0 0 20 16">
                             <path d="M18 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2ZM5 12a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm0-3a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm0-3a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm10 6H9a1 1 0 0 1 0-2h6a1 1 0 0 1 0 2Zm0-3H9a1 1 0 0 1 0-2h6a1 1 0 1 1 0 2Zm0-3H9a1 1 0 0 1 0-2h6a1 1 0 1 1 0 2Z"></path>
                         </svg>
                         <span class="flex-1 ml-3 whitespace-nowrap">All activities</span>
-                        <span class="bg-orange-200 text-orange-800 text-xs font-medium px-2.5 py-0.5 rounded-full">4</span>
+                        <span class="bg-orange-400/40 text-orange-800 text-xs font-medium px-2.5 py-0.5 rounded-full">4</span>
                     </a>
                 </li>
                 <li>
                     <a href="#" data-router-navigate="monthly-stats" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg hover:bg-gray-100 aria-selected:bg-gray-100 group">
-                        <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewbox="0 0 20 20">
+                        <svg class="shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewbox="0 0 20 20">
                             <path d="M0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm14-7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4Z"></path>
                         </svg>
                         <span class="flex-1 ml-3 whitespace-nowrap">Monthly stats</span>
@@ -155,7 +155,7 @@
                 </li>
                 <li>
                     <a href="#" data-router-navigate="gear-stats" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg hover:bg-gray-100 aria-selected:bg-gray-100 group">
-                        <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewbox="0 0 20 20">
+                        <svg class="shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewbox="0 0 20 20">
                             <path d="m7.164 3.805-4.475.38L.327 6.546a1.114 1.114 0 0 0 .63 1.89l3.2.375 3.007-5.006ZM11.092 15.9l.472 3.14a1.114 1.114 0 0 0 1.89.63l2.36-2.362.38-4.475-5.102 3.067Zm8.617-14.283A1.613 1.613 0 0 0 18.383.291c-1.913-.33-5.811-.736-7.556 1.01-1.98 1.98-6.172 9.491-7.477 11.869a1.1 1.1 0 0 0 .193 1.316l.986.985.985.986a1.1 1.1 0 0 0 1.316.193c2.378-1.3 9.889-5.5 11.869-7.477 1.746-1.745 1.34-5.643 1.01-7.556Zm-3.873 6.268a2.63 2.63 0 1 1-3.72-3.72 2.63 2.63 0 0 1 3.72 3.72Z"></path>
                         </svg>
                         <span class="flex-1 ml-3 whitespace-nowrap">Gear stats</span>
@@ -163,16 +163,16 @@
                 </li>
                 <li>
                     <a href="#" data-router-navigate="eddington" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg hover:bg-gray-100 aria-selected:bg-gray-100 group">
-                        <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 18 16">
+                        <svg class="shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 18 16">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1v14h16m0-9-3-2-3 5-3-2-3 4"></path>
                         </svg>
                         <span class="flex-1 ml-3 whitespace-nowrap">Eddington</span>
-                                                    <span class="bg-orange-200 text-orange-800 text-xs font-medium px-2.5 py-0.5 rounded-full ">4</span>
+                                                    <span class="bg-orange-400/40 text-orange-800 text-xs font-medium px-2.5 py-0.5 rounded-full ">4</span>
                                             </a>
                 </li>
                 <li>
                     <a href="#" data-router-navigate="segments" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg hover:bg-gray-100 aria-selected:bg-gray-100 group">
-                        <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900" fill="currentColor" viewbox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+                        <svg class="shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900" fill="currentColor" viewbox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
                             <g stroke-width="0"></g>
                             <g stroke-linecap="round" stroke-linejoin="round"></g>
                             <g>
@@ -184,7 +184,7 @@
                 </li>
                 <li>
                     <a href="#" data-router-navigate="heatmap" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg hover:bg-gray-100 aria-selected:bg-gray-100 group">
-                        <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg class="shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g stroke-width="0"></g>
                             <g stroke-linecap="round" stroke-linejoin="round"></g>
                             <g>
@@ -198,28 +198,28 @@
                 </li>
                 <li>
                     <a href="#" data-router-navigate="challenges" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg hover:bg-gray-100 aria-selected:bg-gray-100 group">
-                        <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewbox="0 0 20 20">
+                        <svg class="shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewbox="0 0 20 20">
                             <path fill="currentColor" d="m18.774 8.245-.892-.893a1.5 1.5 0 0 1-.437-1.052V5.036a2.484 2.484 0 0 0-2.48-2.48H13.7a1.5 1.5 0 0 1-1.052-.438l-.893-.892a2.484 2.484 0 0 0-3.51 0l-.893.892a1.5 1.5 0 0 1-1.052.437H5.036a2.484 2.484 0 0 0-2.48 2.481V6.3a1.5 1.5 0 0 1-.438 1.052l-.892.893a2.484 2.484 0 0 0 0 3.51l.892.893a1.5 1.5 0 0 1 .437 1.052v1.264a2.484 2.484 0 0 0 2.481 2.481H6.3a1.5 1.5 0 0 1 1.052.437l.893.892a2.484 2.484 0 0 0 3.51 0l.893-.892a1.5 1.5 0 0 1 1.052-.437h1.264a2.484 2.484 0 0 0 2.481-2.48V13.7a1.5 1.5 0 0 1 .437-1.052l.892-.893a2.484 2.484 0 0 0 0-3.51Z"></path>
                             <path fill="#fff" d="M8 13a1 1 0 0 1-.707-.293l-2-2a1 1 0 1 1 1.414-1.414l1.42 1.42 5.318-3.545a1 1 0 0 1 1.11 1.664l-6 4A1 1 0 0 1 8 13Z"></path>
                         </svg>
                         <span class="flex-1 ml-3 whitespace-nowrap">Challenges</span>
-                        <span class="bg-orange-200 text-orange-800 text-xs font-medium px-2.5 py-0.5 rounded-full">0</span>
+                        <span class="bg-orange-400/40 text-orange-800 text-xs font-medium px-2.5 py-0.5 rounded-full">0</span>
                     </a>
                 </li>
                 <li>
                     <a href="#" data-router-navigate="photos" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg hover:bg-gray-100 aria-selected:bg-gray-100 group">
-                        <svg class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewbox="0 0 24 24">
+                        <svg class="shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewbox="0 0 24 24">
                             <path d="M19 5h-1.382l-.171-.342A2.985 2.985 0 0 0 14.764 3H9.236a2.984 2.984 0 0 0-2.683 1.658L6.382 5H5a3 3 0 0 0-3 3v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a3 3 0 0 0-3-3Zm-3.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"></path>
                         </svg>
                         <span class="flex-1 ml-3 whitespace-nowrap">Photos</span>
-                        <span class="bg-orange-200 text-orange-800 text-xs font-medium px-2.5 py-0.5 rounded-full">4</span>
+                        <span class="bg-orange-400/40 text-orange-800 text-xs font-medium px-2.5 py-0.5 rounded-full">4</span>
                     </a>
                 </li>
             </ul>
         </div>
         <div class="absolute flex flex-col justify-center bottom-0 left-0 p-4 w-full bg-white z-20">
             <div class="flex justify-center gap-px">
-                <a href="https://www.strava.com/athletes/100" target="_blank" class="p-2 text-gray-500 rounded cursor-pointer hover:text-[#fc4c01] hover:bg-gray-100">
+                <a href="https://www.strava.com/athletes/100" target="_blank" class="p-2 text-gray-500 rounded-sm cursor-pointer hover:text-[#fc4c01] hover:bg-gray-100">
                     <svg class="w-6 h-6" fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <g stroke-width="0"></g>
                         <g stroke-linecap="round" stroke-linejoin="round"></g>
@@ -228,7 +228,7 @@
                         </g>
                     </svg>
                 </a>
-                <a href="#" data-model-content-url="badge.html" title="Show badge" class="p-2 text-gray-500 rounded cursor-pointer hover:text-[#fc4c01] hover:bg-gray-100">
+                <a href="#" data-model-content-url="badge.html" title="Show badge" class="p-2 text-gray-500 rounded-sm cursor-pointer hover:text-[#fc4c01] hover:bg-gray-100">
                     <svg class="w-6 h-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 507.9 507.9" xml:space="preserve">
                     <g stroke-width="0"></g>
                         <g stroke-linecap="round" stroke-linejoin="round"></g>
@@ -290,10 +290,10 @@
         </div>
         <!-- JS LOADED CONTENT -->
         <div id="js-loaded-content"></div>
-        <div id="modal-skeleton" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-[1500] justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div id="modal-skeleton" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-1500 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
             <div class="relative p-4 w-full max-w-7xl max-h-full">
                 <!-- Modal spinner -->
-                <div class="spinner hidden p-4 items-center justify-center h-auto bg-white rounded-lg shadow">
+                <div class="spinner hidden p-4 items-center justify-center h-auto bg-white rounded-lg shadow-sm">
                     <div role="status">
                         <svg aria-hidden="true" class="w-8 h-8 mr-2 text-gray-200 animate-spin fill-orange-500" viewbox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"></path>
@@ -303,7 +303,7 @@
                     </div>
                 </div>
                 <!-- Modal content -->
-                <div id="modal-content" class="relative bg-white rounded-lg shadow">
+                <div id="modal-content" class="relative bg-white rounded-lg shadow-sm">
 
                 </div>
             </div>
@@ -344,9 +344,9 @@
     const modalSpinner = modalSkeletonNode.querySelector('.spinner');
     let modal = null;
     let renderedCharts = [];
-    document.addEventListener('pageWasLoaded', () => {
+    document.addEventListener('pageWasLoaded', (e) => {
         if (modal) {
-            // Close modal when a new page is loaded.
+            // Close any old modals when a new page is loaded.
             modal.hide();
         }
 
@@ -355,6 +355,11 @@
         });
 
         initElements(document);
+
+        if (e.detail && e.detail.modalId) {
+            // Open modal.
+            openModal(e.detail.modalId);
+        }
     });
     document.addEventListener('pageWasLoaded.heatmap', () => {
         const $heatmapWrapper = document.querySelector('.heatmap-wrapper');
@@ -419,8 +424,11 @@
                         targetEl: document.querySelector($triggerEl.getAttribute('data-tabs-target')),
                     });
                 });
-            new Tabs(tabItems, {
+
+            new Tabs($triggerEl, tabItems, {
                 defaultTabId: null,
+                activeClasses: 'text-strava-orange border-strava-orange hover:text-gray-600 hover:border-gray-300',
+                inactiveClasses: 'text-gray-500 hover:text-gray-600 border-gray-100 hover:border-gray-300',
                 onShow: () => {
                     // Trigger a chart resize to make sure charts are displayed.
                     renderedCharts.forEach((chart) => chart.resize());
@@ -429,7 +437,7 @@
         });
     }
 
-    const openModal = (modalId) => {
+    export const openModal = (modalId) => {
         if (modal) {
             // Only allow one open modal at a time.
             modal.hide();
@@ -442,7 +450,7 @@
         modal = new Modal(modalSkeletonNode, {
             placement: 'bottom',
             closable: true,
-            backdropClasses: 'bg-gray-900 bg-opacity-50 fixed inset-0 z-[1400]',
+            backdropClasses: 'bg-gray-900/50 fixed inset-0 z-1400',
             onShow: async () => {
                 const response = await fetch(modalId, {cache: 'no-store'});
                 // Remove loading state.
