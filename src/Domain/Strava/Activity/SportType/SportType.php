@@ -106,22 +106,23 @@ enum SportType: string implements TranslatableInterface
             self::ICE_SKATE => $translator->trans('Ice Skate', locale: $locale),
             self::SNOWBOARD => $translator->trans('Snowboard', locale: $locale),
             self::SNOWSHOE => $translator->trans('Snowshoe', locale: $locale),
+            // Skating.
+            self::INLINE_SKATE => $translator->trans('Inline Skate', locale: $locale),
+            self::ROLLER_SKI => $translator->trans('Roller Ski', locale: $locale),
+            self::SKATEBOARD => $translator->trans('Skateboard', locale: $locale),
             // Other sports.
             self::BADMINTON => $translator->trans('Badminton', locale: $locale),
             self::CROSSFIT => $translator->trans('Crossfit', locale: $locale),
             self::ELLIPTICAL => $translator->trans('Elliptical', locale: $locale),
             self::GOLF => $translator->trans('Golf', locale: $locale),
-            self::INLINE_SKATE => $translator->trans('Inline Skate', locale: $locale),
             self::HAND_CYCLE => $translator->trans('Hand Cycle', locale: $locale),
             self::HIIT => $translator->trans('HIIT', locale: $locale),
             self::PICKLE_BALL => $translator->trans('Pickle Ball', locale: $locale),
             self::PILATES => $translator->trans('Pilates', locale: $locale),
             self::RACQUET_BALL => $translator->trans('Racquet Ball', locale: $locale),
             self::ROCK_CLIMBING => $translator->trans('Rock Climbing', locale: $locale),
-            self::ROLLER_SKI => $translator->trans('Roller Ski', locale: $locale),
             self::VIRTUAL_ROW => $translator->trans('Virtual Row', locale: $locale),
             self::SAIL => $translator->trans('Sail', locale: $locale),
-            self::SKATEBOARD => $translator->trans('Skateboard', locale: $locale),
             self::SOCCER => $translator->trans('Soccer', locale: $locale),
             self::SQUASH => $translator->trans('Squash', locale: $locale),
             self::STAIR_STEPPER => $translator->trans('Stair Stepper', locale: $locale),
@@ -153,6 +154,8 @@ enum SportType: string implements TranslatableInterface
             // WINTER.
             SportType::BACK_COUNTRY_SKI, SportType::ALPINE_SKI, SportType::NORDIC_SKI,
             SportType::ICE_SKATE, SportType::SNOWBOARD, SportType::SNOWSHOE => ActivityType::WINTER_SPORTS,
+            // SKATING.
+            SportType::SKATEBOARD, SportType::INLINE_SKATE, SportType::ROLLER_SKI => ActivityType::SKATING,
             // OTHER.
             default => ActivityType::OTHER,
         };
@@ -182,7 +185,6 @@ enum SportType: string implements TranslatableInterface
             self::BADMINTON,
             self::CROSSFIT,
             self::ELLIPTICAL,
-            self::INLINE_SKATE,
             self::HIIT,
             self::PICKLE_BALL,
             self::PILATES,
@@ -208,7 +210,6 @@ enum SportType: string implements TranslatableInterface
             self::BADMINTON,
             self::CROSSFIT,
             self::ELLIPTICAL,
-            self::INLINE_SKATE,
             self::HIIT,
             self::PICKLE_BALL,
             self::PILATES,

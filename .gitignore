@@ -28,4 +28,5 @@ phpstan.neon
 /build
 /storage
 /cron
+/ollama
 ###> app-build ###
