@@ -28,5 +28,21 @@ services:
             - '8081:8080'
         networks:
             - app_network
+
+    ollama:
+        image: ollama/ollama:latest
+        container_name: 'strava-statistics-ollama'
+        tty: true
+        restart: unless-stopped
+        volumes:
+            - .:/code
+            - ./ollama:/root/.ollama
+        environment:
+            - OLLAMA_KEEP_ALIVE=24h
+            - OLLAMA_HOST=0.0.0.0
+        ports:
+            - '11434:11434'
+        networks:
+            - app_network
 networks:
     app_network: {}
