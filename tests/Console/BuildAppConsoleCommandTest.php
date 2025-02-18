@@ -12,6 +12,8 @@ use App\Infrastructure\KeyValue\KeyValue;
 use App\Infrastructure\KeyValue\KeyValueStore;
 use App\Infrastructure\KeyValue\Value;
 use App\Infrastructure\Serialization\Json;
+use App\Infrastructure\ValueObject\Time\SerializableDateTime;
+use App\Tests\Infrastructure\Time\Clock\PausedClock;
 use App\Tests\Infrastructure\Time\ResourceUsage\FixedResourceUsage;
 use PHPUnit\Framework\MockObject\MockObject;
 use Spatie\Snapshots\MatchesSnapshots;
@@ -109,6 +111,7 @@ class BuildAppConsoleCommandTest extends ConsoleCommandTestCase
             $this->getContainer()->get(StravaDataImportStatus::class),
             new FixedResourceUsage(),
             $this->migrationRunner = $this->createMock(MigrationRunner::class),
+            PausedClock::on(SerializableDateTime::fromString('2023-10-17 16:15:04'))
         );
     }
 

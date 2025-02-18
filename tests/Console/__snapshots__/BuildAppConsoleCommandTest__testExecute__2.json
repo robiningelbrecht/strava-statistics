@@ -1,6 +1,4 @@
 {
-    "commandName": "App\\Domain\\App\\BuildApp\\BuildApp",
-    "payload": {
-        "output": {}
-    }
+    "commandName": "App\\Domain\\Manifest\\BuildManifest\\BuildManifest",
+    "payload": []
 }

@@ -54,10 +54,8 @@ use App\Domain\Strava\Trivia;
 use App\Infrastructure\CQRS\Bus\Command;
 use App\Infrastructure\CQRS\Bus\CommandHandler;
 use App\Infrastructure\Exception\EntityNotFound;
-use App\Infrastructure\Localisation\LocaleSwitcher;
 use App\Infrastructure\Repository\Pagination;
 use App\Infrastructure\Serialization\Json;
-use App\Infrastructure\Time\Clock\Clock;
 use App\Infrastructure\ValueObject\DataTableRow;
 use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Measurement\UnitSystem;
@@ -90,8 +88,6 @@ final readonly class BuildAppCommandHandler implements CommandHandler
         private Environment $twig,
         private FilesystemOperator $filesystem,
         private TranslatorInterface $translator,
-        private LocaleSwitcher $localeSwitcher,
-        private Clock $clock,
     ) {
     }
 
@@ -99,8 +95,7 @@ final readonly class BuildAppCommandHandler implements CommandHandler
     {
         assert($command instanceof BuildApp);
 
-        $this->localeSwitcher->setLocale();
-        $now = $this->clock->getCurrentDateTimeImmutable();
+        $now = $command->getCurrentDateTime();
 
         $athlete = $this->athleteRepository->find();
         $allActivities = $this->activityRepository->findAll();

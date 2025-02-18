@@ -4,6 +4,7 @@ namespace App\Tests\Domain\App\BuildApp;
 
 use App\Domain\App\BuildApp\BuildApp;
 use App\Infrastructure\CQRS\Bus\CommandBus;
+use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use App\Tests\ContainerTestCase;
 use App\Tests\ProvideTestData;
 use App\Tests\SpyOutput;
@@ -23,7 +24,10 @@ class BuildAppCommandHandlerTest extends ContainerTestCase
         $this->provideFullTestSet();
 
         $output = new SpyOutput();
-        $this->commandBus->dispatch(new BuildApp($output));
+        $this->commandBus->dispatch(new BuildApp(
+            output: $output,
+            now: SerializableDateTime::fromString('2023-10-17 16:15:04')
+        ));
 
         /** @var \App\Tests\Infrastructure\FileSystem\SpyFileSystem $fileSystem */
         $fileSystem = $this->getContainer()->get(FilesystemOperator::class);
@@ -44,7 +48,10 @@ class BuildAppCommandHandlerTest extends ContainerTestCase
         $this->provideRunningOnlyTestSet();
 
         $output = new SpyOutput();
-        $this->commandBus->dispatch(new BuildApp($output));
+        $this->commandBus->dispatch(new BuildApp(
+            output: $output,
+            now: SerializableDateTime::fromString('2023-10-17 16:15:04')
+        ));
 
         /** @var \App\Tests\Infrastructure\FileSystem\SpyFileSystem $fileSystem */
         $fileSystem = $this->getContainer()->get(FilesystemOperator::class);

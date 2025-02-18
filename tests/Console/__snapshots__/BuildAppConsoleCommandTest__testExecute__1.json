@@ -1,4 +1,4 @@
 {
-    "commandName": "App\\Domain\\Manifest\\BuildManifest\\BuildManifest",
+    "commandName": "App\\Domain\\App\\ConfigureAppLocale\\ConfigureAppLocale",
     "payload": []
 }

@@ -3,11 +3,13 @@
 namespace App\Console;
 
 use App\Domain\App\BuildApp\BuildApp;
+use App\Domain\App\ConfigureAppLocale\ConfigureAppLocale;
 use App\Domain\Manifest\BuildManifest\BuildManifest;
 use App\Domain\Notification\SendNotification\SendNotification;
 use App\Domain\Strava\StravaDataImportStatus;
 use App\Infrastructure\CQRS\Bus\CommandBus;
 use App\Infrastructure\Doctrine\Migrations\MigrationRunner;
+use App\Infrastructure\Time\Clock\Clock;
 use App\Infrastructure\Time\ResourceUsage\ResourceUsage;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -22,6 +24,7 @@ final class BuildAppConsoleCommand extends Command
         private readonly StravaDataImportStatus $stravaDataImportStatus,
         private readonly ResourceUsage $resourceUsage,
         private readonly MigrationRunner $migrationRunner,
+        private readonly Clock $clock,
     ) {
         parent::__construct();
     }
@@ -40,11 +43,15 @@ final class BuildAppConsoleCommand extends Command
         }
         $this->resourceUsage->startTimer();
 
+        $this->commandBus->dispatch(new ConfigureAppLocale());
         $output->writeln('Building Manifest...');
         $this->commandBus->dispatch(new BuildManifest());
 
-        $output->writeln('Building HTML...');
-        $this->commandBus->dispatch(new BuildApp($output));
+        $output->writeln('Building App...');
+        $this->commandBus->dispatch(new BuildApp(
+            output: $output,
+            now: $this->clock->getCurrentDateTimeImmutable()
+        ));
         $this->commandBus->dispatch(new SendNotification(
             title: 'Build successful',
             message: 'New build of your Strava stats was successful',
