@@ -39,6 +39,14 @@ enum ActivityType: string implements TranslatableInterface
         };
     }
 
+    public function supportsEFTP(): bool
+    {
+        return match ($this) {
+            self::RUN, self::RIDE, => true,
+            default => false,
+        };
+    }
+
     public function supportsWeeklyDistanceStats(): bool
     {
         return match ($this) {

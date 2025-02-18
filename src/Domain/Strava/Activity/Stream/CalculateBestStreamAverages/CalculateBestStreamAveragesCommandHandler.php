@@ -21,9 +21,15 @@ final readonly class CalculateBestStreamAveragesCommandHandler implements Comman
         assert($command instanceof CalculateBestStreamAverages);
         $command->getOutput()->writeln('Calculating best stream averages...');
 
+        if ($command->getAll()) {
+            $command->getOutput()->writeln('  => Including all streams');
+        }
+
         $countCalculatedStreams = 0;
         do {
-            $streams = $this->activityStreamRepository->findWithoutBestAverages(100);
+            $streams = $command->getAll() 
+                ? $this->activityStreamRepository->findAll()
+                : $this->activityStreamRepository->findWithoutBestAverages(100);
 
             /** @var \App\Domain\Strava\Activity\Stream\ActivityStream $stream */
             foreach ($streams as $stream) {
@@ -38,7 +44,8 @@ final readonly class CalculateBestStreamAveragesCommandHandler implements Comman
                 $stream->updateBestAverages($bestAverages);
                 $this->activityStreamRepository->update($stream);
             }
-        } while (!$streams->isEmpty());
+            
+        } while (!$streams->isEmpty() && !$command->getAll());
 
         $command->getOutput()->writeln(sprintf('  => Calculated averages for %d streams', $countCalculatedStreams));
     }

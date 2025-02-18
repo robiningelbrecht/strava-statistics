@@ -119,6 +119,19 @@ final readonly class DbalActivityStreamRepository extends DbalRepository impleme
         ));
     }
 
+    public function findAll(): ActivityStreams
+    {
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $queryBuilder->select('*')
+            ->from('ActivityStream')
+            ->orderBy('activityId');
+
+        return ActivityStreams::fromArray(array_map(
+            fn (array $result) => $this->hydrate($result),
+            $queryBuilder->executeQuery()->fetchAllAssociative()
+        ));
+    }
+
     public function findWithoutBestAverages(int $limit): ActivityStreams
     {
         $queryBuilder = $this->connection->createQueryBuilder();

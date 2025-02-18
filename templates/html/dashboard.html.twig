@@ -694,7 +694,7 @@
                 </div>
             </div>
         </div>
-        <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-4">
+        <div class="grid grid-cols-1 gap-4 mb-4">
             <!-- CHALLENGE CONSISTENCY -->
             <div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-xs sm:p-6">
                 <h3 class="mb-4 text-lg font-semibold">
@@ -736,15 +736,39 @@
                     </table>
                 </div>
             </div>
-            {% if ftpHistoryChart is not empty %}
-                <!-- FTP HISTORY -->
-                <div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-xs sm:p-6">
-                    <h3 class="mb-4 text-lg font-semibold">
-                        {{ "FTP history"|trans }}
-                    </h3>
-                    <div class="h-full min-h-[16rem]" data-echarts-options='{{ ftpHistoryChart }}'></div>
-                </div>
-            {% endif %}
         </div>
+
+        {% if eftpCharts is not empty %}
+        <div class="grid grid-cols-1 gap-4 mb-4">
+            <!-- FTP HISTORY -->
+            <div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-xs sm:p-6">
+                <h3 class="mb-4 text-lg font-semibold">
+                    eFTP
+                </h3>
+
+                {% if eftpCharts|length > 1 %}
+                    <div class="mb-4 border-b border-gray-200">
+                        <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="eftpActivityTypeTab" data-tabs-toggle="#eftpActivityTypeTabContent" role="tablist">
+                            {% for activityType,chart in eftpCharts %}
+                                <li class="mr-2" role="presentation">
+                                    <a href="#dashboard" data-tabs-target="#eftp{{ activityType }}" role="tab" aria-controls="eftp{{ activityType }}" class="inline-flex items-center justify-center p-2 border-b-2 rounded-t-lg group">
+                                        {{ enum('App\\Domain\\Strava\\Activity\\ActivityType').from(activityType)|trans }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
+                <div id="eftpActivityTypeTabContent">
+                    {% for activityType,chart in eftpCharts %}
+                        <div id="eftp{{ activityType }}" role="tabpanel" aria-labelledby="eftp{{ activityType }}-tab">
+                            <div class="h-full min-h-[16rem]" data-echarts-options='{{ chart }}'></div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
     {% endautoescape %}
 {% endblock %}

@@ -41,6 +41,7 @@ use App\Domain\Strava\Calendar\Months;
 use App\Domain\Strava\Challenge\ChallengeRepository;
 use App\Domain\Strava\Challenge\Consistency\ChallengeConsistency;
 use App\Domain\Strava\Ftp\FtpHistoryChart;
+use App\Domain\Strava\Ftp\EFtpHistoryChart;
 use App\Domain\Strava\Ftp\FtpRepository;
 use App\Domain\Strava\Gear\DistanceOverTimePerGearChart;
 use App\Domain\Strava\Gear\DistancePerMonthPerGearChart;
@@ -209,6 +210,7 @@ final readonly class BuildAppCommandHandler implements CommandHandler
         $command->getOutput()->writeln('  => Building dashboard.html');
 
         $weeklyDistanceCharts = [];
+        $eftpCharts = [];
         $distanceBreakdowns = [];
         $yearlyDistanceCharts = [];
         $yearlyStatistics = [];
@@ -216,6 +218,13 @@ final readonly class BuildAppCommandHandler implements CommandHandler
         foreach ($importedActivityTypes as $activityType) {
             if ($activitiesPerActivityType[$activityType->value]->isEmpty()) {
                 continue;
+            }
+
+            if ($activityType->supportsEFTP() && $chartData = EFtpHistoryChart::create(
+                activities: $activitiesPerActivityType[$activityType->value],
+                now: $now,
+            )->build()) {
+                $eftpCharts[$activityType->value] = Json::encode($chartData);
             }
 
             if ($activityType->supportsWeeklyDistanceStats() && $chartData = WeeklyDistanceChart::create(
@@ -289,12 +298,7 @@ final readonly class BuildAppCommandHandler implements CommandHandler
                 'daytimeStats' => $dayTimeStats,
                 'distanceBreakdowns' => $distanceBreakdowns,
                 'trivia' => $trivia,
-                'ftpHistoryChart' => !$allFtps->isEmpty() ? Json::encode(
-                    FtpHistoryChart::create(
-                        ftps: $allFtps,
-                        now: $now
-                    )->build()
-                ) : null,
+                'eftpCharts' => !empty($eftpCharts) ? $eftpCharts : null,
                 'timeInHeartRateZoneChart' => Json::encode(
                     TimeInHeartRateZoneChart::create(
                         timeInSecondsInHeartRateZoneOne: $this->activityHeartRateRepository->findTotalTimeInSecondsInHeartRateZone(HeartRateZone::ONE),

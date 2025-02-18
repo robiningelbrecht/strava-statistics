@@ -45,7 +45,7 @@ final class StreamBasedActivityPowerRepository implements ActivityPowerRepositor
             $activityStream = $powerStreamsForActivity->getFirst();
             $bestAverages = $activityStream->getBestAverages();
 
-            foreach (self::TIME_INTERVAL_IN_SECONDS as $timeIntervalInSeconds) {
+            foreach (self::TIME_INTERVAL_IN_SECONDS_OVERALL as $timeIntervalInSeconds) {
                 $interval = CarbonInterval::seconds($timeIntervalInSeconds);
                 if (!isset($bestAverages[$timeIntervalInSeconds])) {
                     continue;

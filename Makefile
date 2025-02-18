@@ -65,6 +65,9 @@ delete-snapshots:
 app-import-data:
 	docker compose exec app bin/console app:strava:import-data
 
+app-import-recalculate:
+	docker compose exec app bin/console app:strava:recalculate
+
 app-build-files:
 	docker compose exec app bin/console app:strava:build-files
 

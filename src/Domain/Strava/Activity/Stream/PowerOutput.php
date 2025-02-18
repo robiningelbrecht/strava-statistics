@@ -43,6 +43,11 @@ final readonly class PowerOutput
         return $this->relativePower;
     }
 
+    public function getWeight(): float
+    {
+        return $this->power / $this->relativePower;
+    }
+
     public function getActivity(): ?Activity
     {
         return $this->activity;
