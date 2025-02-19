@@ -1,5 +1,5 @@
 {
-    "commandName": "App\\Domain\\App\\BuildMonthlyStatsHtml\\BuildMonthlyStatsHtml",
+    "commandName": "App\\Domain\\App\\BuildActivitiesHtml\\BuildActivitiesHtml",
     "payload": {
         "now": "2023-10-17 16:15:04"
     }
