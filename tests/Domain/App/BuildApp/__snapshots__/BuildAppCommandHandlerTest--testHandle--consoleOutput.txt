@@ -1,10 +1,5 @@
   => Calculating Eddington
-  => Calculating weekday stats
-  => Calculating daytime stats
   => Calculating monthly stats
-  => Calculating best power outputs
-  => Building dashboard.html
-  => Building power-output.html
   => Building photos.html
   => Building challenges.html
   => Building eddington.html
