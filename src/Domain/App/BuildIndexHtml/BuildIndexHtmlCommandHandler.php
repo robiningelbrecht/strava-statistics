@@ -4,25 +4,70 @@ declare(strict_types=1);
 
 namespace App\Domain\App\BuildIndexHtml;
 
+use App\Domain\Strava\Activity\ActivitiesEnricher;
+use App\Domain\Strava\Activity\ActivityRepository;
+use App\Domain\Strava\Activity\ActivityType;
+use App\Domain\Strava\Activity\Eddington\Eddington;
+use App\Domain\Strava\Activity\Image\ImageRepository;
+use App\Domain\Strava\Athlete\AthleteRepository;
+use App\Domain\Strava\Challenge\ChallengeRepository;
 use App\Infrastructure\CQRS\Bus\Command;
 use App\Infrastructure\CQRS\Bus\CommandHandler;
+use App\Infrastructure\ValueObject\Measurement\UnitSystem;
+use League\Flysystem\FilesystemOperator;
+use Twig\Environment;
 
 final readonly class BuildIndexHtmlCommandHandler implements CommandHandler
 {
+    public function __construct(
+        private AthleteRepository $athleteRepository,
+        private ActivityRepository $activityRepository,
+        private ChallengeRepository $challengeRepository,
+        private ImageRepository $imageRepository,
+        private ActivitiesEnricher $activitiesEnricher,
+        private UnitSystem $unitSystem,
+        private Environment $twig,
+        private FilesystemOperator $filesystem,
+    ) {
+    }
+
     public function handle(Command $command): void
     {
         assert($command instanceof BuildIndexHtml);
 
-        /*$this->filesystem->write(
+        $athlete = $this->athleteRepository->find();
+        $activitiesPerActivityType = $this->activitiesEnricher->getActivitiesPerActivityType();
+
+        $eddingtonNumbers = [];
+        foreach ($activitiesPerActivityType as $activityType => $activities) {
+            $activityType = ActivityType::from($activityType);
+            if (!$activityType->supportsEddington()) {
+                continue;
+            }
+            if ($activities->isEmpty()) {
+                continue;
+            }
+            $eddington = Eddington::create(
+                activities: $activities,
+                activityType: $activityType,
+                unitSystem: $this->unitSystem
+            );
+            if ($eddington->getNumber() <= 0) {
+                continue;
+            }
+            $eddingtonNumbers[] = $eddington->getNumber();
+        }
+
+        $this->filesystem->write(
             'build/html/index.html',
             $this->twig->load('html/index.html.twig')->render([
-                'totalActivityCount' => count($allActivities),
-                'eddingtons' => $eddingtonPerActivityType,
-                'completedChallenges' => count($allChallenges),
-                'totalPhotoCount' => count($allImages),
-                'lastUpdate' => $now,
+                'totalActivityCount' => $this->activityRepository->count(),
+                'eddingtonNumbers' => $eddingtonNumbers,
+                'completedChallenges' => $this->challengeRepository->count(),
+                'totalPhotoCount' => $this->imageRepository->count(),
+                'lastUpdate' => $command->getCurrentDateTime(),
                 'athlete' => $athlete,
             ]),
-        );*/
+        );
     }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Domain\App\BuildApp;
 
+use App\Domain\Strava\Activity\ActivitiesEnricher;
 use App\Domain\Strava\Activity\ActivityHeatmapChart;
 use App\Domain\Strava\Activity\ActivityIntensity;
-use App\Domain\Strava\Activity\ActivityRepository;
 use App\Domain\Strava\Activity\ActivityTotals;
 use App\Domain\Strava\Activity\ActivityTypeRepository;
 use App\Domain\Strava\Activity\DaytimeStats\DaytimeStats;
@@ -67,7 +67,6 @@ use Twig\Environment;
 final readonly class BuildAppCommandHandler implements CommandHandler
 {
     public function __construct(
-        private ActivityRepository $activityRepository,
         private ChallengeRepository $challengeRepository,
         private GearRepository $gearRepository,
         private ImageRepository $imageRepository,
@@ -83,6 +82,7 @@ final readonly class BuildAppCommandHandler implements CommandHandler
         private SportTypeRepository $sportTypeRepository,
         private ActivityTypeRepository $activityTypeRepository,
         private RouteRepository $routeRepository,
+        private ActivitiesEnricher $activitiesEnricher,
         private ActivityIntensity $activityIntensity,
         private UnitSystem $unitSystem,
         private Environment $twig,
@@ -98,13 +98,10 @@ final readonly class BuildAppCommandHandler implements CommandHandler
         $now = $command->getCurrentDateTime();
 
         $athlete = $this->athleteRepository->find();
-        $allActivities = $this->activityRepository->findAll();
+        $allActivities = $this->activitiesEnricher->getEnrichedActivities();
         $importedSportTypes = $this->sportTypeRepository->findAll();
         $importedActivityTypes = $this->activityTypeRepository->findAll();
-        $activitiesPerActivityType = [];
-        foreach ($importedActivityTypes as $activityType) {
-            $activitiesPerActivityType[$activityType->value] = $allActivities->filterOnActivityType($activityType);
-        }
+        $activitiesPerActivityType = $this->activitiesEnricher->getActivitiesPerActivityType();
 
         $allChallenges = $this->challengeRepository->findAll();
         $allGear = $this->gearRepository->findAll();
@@ -159,26 +156,6 @@ final readonly class BuildAppCommandHandler implements CommandHandler
         $command->getOutput()->writeln('  => Calculating best power outputs');
         $bestPowerOutputs = $this->activityPowerRepository->findBest();
 
-        $command->getOutput()->writeln('  => Enriching activities with data');
-        /** @var \App\Domain\Strava\Activity\Activity $activity */
-        foreach ($allActivities as $activity) {
-            $activity->enrichWithBestPowerOutputs(
-                $this->activityPowerRepository->findBestForActivity($activity->getId())
-            );
-
-            try {
-                $cadenceStream = $this->activityStreamRepository->findOneByActivityAndStreamType(
-                    activityId: $activity->getId(),
-                    streamType: StreamType::CADENCE
-                );
-
-                if (!empty($cadenceStream->getData())) {
-                    $activity->enrichWithMaxCadence(max($cadenceStream->getData()));
-                }
-            } catch (EntityNotFound) {
-            }
-        }
-
         /** @var \App\Domain\Strava\Ftp\Ftp $ftp */
         foreach ($allFtps as $ftp) {
             try {
@@ -188,19 +165,6 @@ final readonly class BuildAppCommandHandler implements CommandHandler
             } catch (EntityNotFound) {
             }
         }
-
-        $command->getOutput()->writeln('  => Building index.html');
-        $this->filesystem->write(
-            'build/html/index.html',
-            $this->twig->load('html/index.html.twig')->render([
-                'totalActivityCount' => count($allActivities),
-                'eddingtons' => $eddingtonPerActivityType,
-                'completedChallenges' => count($allChallenges),
-                'totalPhotoCount' => count($allImages),
-                'lastUpdate' => $now,
-                'athlete' => $athlete,
-            ]),
-        );
 
         $command->getOutput()->writeln('  => Building dashboard.html');
 

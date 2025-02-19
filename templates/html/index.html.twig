@@ -222,8 +222,8 @@
                                   d="M1 1v14h16m0-9-3-2-3 5-3-2-3 4"/>
                         </svg>
                         <span class="flex-1 ml-3 whitespace-nowrap">Eddington</span>
-                        {% for sportType,eddington in eddingtons %}
-                            <span class="bg-orange-400/40 text-orange-800 text-xs font-medium px-2.5 py-0.5 rounded-full {{ loop.last and not loop.first ? 'ml-0.5' : '' }}">{{ eddington.getNumber() }}</span>
+                        {% for eddingtonNumber in eddingtonNumbers %}
+                            <span class="bg-orange-400/40 text-orange-800 text-xs font-medium px-2.5 py-0.5 rounded-full {{ loop.last and not loop.first ? 'ml-0.5' : '' }}">{{ eddingtonNumber }}</span>
                         {% endfor %}
                     </a>
                 </li>

@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Domain\App\BuildApp\BuildApp;
+use App\Domain\App\BuildIndexHtml\BuildIndexHtml;
 use App\Domain\App\ConfigureAppLocale\ConfigureAppLocale;
 use App\Domain\Manifest\BuildManifest\BuildManifest;
 use App\Domain\Notification\SendNotification\SendNotification;
@@ -43,14 +44,18 @@ final class BuildAppConsoleCommand extends Command
         }
         $this->resourceUsage->startTimer();
 
+        $now = $this->clock->getCurrentDateTimeImmutable();
+
         $output->writeln('Configuring locale...');
         $this->commandBus->dispatch(new ConfigureAppLocale());
         $output->writeln('Building Manifest...');
         $this->commandBus->dispatch(new BuildManifest());
         $output->writeln('Building App...');
+        $output->writeln('  => Building index.html');
+        $this->commandBus->dispatch(new BuildIndexHtml($now));
         $this->commandBus->dispatch(new BuildApp(
             output: $output,
-            now: $this->clock->getCurrentDateTimeImmutable()
+            now: $now
         ));
         $this->commandBus->dispatch(new SendNotification(
             title: 'Build successful',
