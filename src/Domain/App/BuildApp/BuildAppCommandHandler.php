@@ -121,8 +121,9 @@ final readonly class BuildAppCommandHandler implements CommandHandler
             if ($activitiesPerActivityType[$activityType->value]->isEmpty()) {
                 continue;
             }
-            $eddington = Eddington::fromActivities(
+            $eddington = Eddington::create(
                 activities: $activitiesPerActivityType[$activityType->value],
+                activityType: $activityType,
                 unitSystem: $this->unitSystem
             );
             if ($eddington->getNumber() <= 0) {

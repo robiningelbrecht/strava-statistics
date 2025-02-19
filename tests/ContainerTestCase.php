@@ -3,6 +3,7 @@
 namespace App\Tests;
 
 use App\Domain\Strava\Activity\ActivityRepository;
+use App\Domain\Strava\Activity\Eddington\Eddington;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
@@ -28,8 +29,9 @@ abstract class ContainerTestCase extends KernelTestCase
 
         $this->createTestDatabase();
 
-        // Empty the static cache of the activity repository between tests.
+        // Empty the static cache between tests.
         $this->getContainer()->get(ActivityRepository::class)::$cachedActivities = [];
+        Eddington::$instances = [];
         $this->getContainer()->get(FilesystemOperator::class)->resetWrites();
     }
 

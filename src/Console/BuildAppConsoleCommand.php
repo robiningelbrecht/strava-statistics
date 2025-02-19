@@ -43,10 +43,10 @@ final class BuildAppConsoleCommand extends Command
         }
         $this->resourceUsage->startTimer();
 
+        $output->writeln('Configuring locale...');
         $this->commandBus->dispatch(new ConfigureAppLocale());
         $output->writeln('Building Manifest...');
         $this->commandBus->dispatch(new BuildManifest());
-
         $output->writeln('Building App...');
         $this->commandBus->dispatch(new BuildApp(
             output: $output,
