@@ -21,15 +21,12 @@ use App\Domain\Strava\Activity\Stream\ActivityPowerRepository;
 use App\Domain\Strava\Activity\Stream\ActivityStreamRepository;
 use App\Domain\Strava\Activity\Stream\StreamType;
 use App\Domain\Strava\Athlete\AthleteRepository;
-use App\Domain\Strava\Calendar\Calendar;
-use App\Domain\Strava\Calendar\Month;
 use App\Domain\Strava\Calendar\Months;
 use App\Domain\Strava\Challenge\ChallengeRepository;
 use App\Domain\Strava\Gear\DistanceOverTimePerGearChart;
 use App\Domain\Strava\Gear\DistancePerMonthPerGearChart;
 use App\Domain\Strava\Gear\GearRepository;
 use App\Domain\Strava\Gear\GearStatistics;
-use App\Domain\Strava\MonthlyStatistics;
 use App\Domain\Strava\Segment\Segment;
 use App\Domain\Strava\Segment\SegmentEffort\SegmentEffortRepository;
 use App\Domain\Strava\Segment\SegmentRepository;
@@ -110,13 +107,6 @@ final readonly class BuildAppCommandHandler implements CommandHandler
         $allMonths = Months::create(
             startDate: $allActivities->getFirstActivityStartDate(),
             now: $now
-        );
-
-        $command->getOutput()->writeln('  => Calculating monthly stats');
-        $monthlyStatistics = MonthlyStatistics::create(
-            activities: $allActivities,
-            challenges: $allChallenges,
-            months: $allMonths,
         );
 
         $activityTotals = ActivityTotals::create(
@@ -228,31 +218,6 @@ final readonly class BuildAppCommandHandler implements CommandHandler
                 'totalSegmentCount' => $this->segmentRepository->count(),
             ]),
         );
-
-        $command->getOutput()->writeln('  => Building monthly-stats.html');
-        $this->filesystem->write(
-            'build/html/monthly-stats.html',
-            $this->twig->load('html/monthly-stats.html.twig')->render([
-                'monthlyStatistics' => $monthlyStatistics,
-                'sportTypes' => $importedSportTypes,
-            ]),
-        );
-
-        /** @var Month $month */
-        foreach ($allMonths as $month) {
-            $this->filesystem->write(
-                'build/html/month/month-'.$month->getId().'.html',
-                $this->twig->load('html/month.html.twig')->render([
-                    'hasPreviousMonth' => $month->getId() != $allActivities->getFirstActivityStartDate()->format(Month::MONTH_ID_FORMAT),
-                    'hasNextMonth' => $month->getId() != $now->format(Month::MONTH_ID_FORMAT),
-                    'statistics' => $monthlyStatistics->getStatisticsForMonth($month),
-                    'calendar' => Calendar::create(
-                        month: $month,
-                        activities: $allActivities
-                    ),
-                ]),
-            );
-        }
 
         $command->getOutput()->writeln('  => Building gear-stats.html');
         $this->filesystem->write(

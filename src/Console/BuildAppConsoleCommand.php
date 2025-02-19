@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Domain\App\BuildApp\BuildApp;
 use App\Domain\App\BuildDashboardHtml\BuildDashboardHtml;
 use App\Domain\App\BuildIndexHtml\BuildIndexHtml;
+use App\Domain\App\BuildMonthlyStatsHtml\BuildMonthlyStatsHtml;
 use App\Domain\App\ConfigureAppLocale\ConfigureAppLocale;
 use App\Domain\Manifest\BuildManifest\BuildManifest;
 use App\Domain\Notification\SendNotification\SendNotification;
@@ -56,6 +57,8 @@ final class BuildAppConsoleCommand extends Command
         $this->commandBus->dispatch(new BuildIndexHtml($now));
         $output->writeln('  => Building dashboard.html');
         $this->commandBus->dispatch(new BuildDashboardHtml($now));
+        $output->writeln('  => Building monthly-stats.html');
+        $this->commandBus->dispatch(new BuildMonthlyStatsHtml($now));
         $this->commandBus->dispatch(new BuildApp(
             output: $output,
             now: $now

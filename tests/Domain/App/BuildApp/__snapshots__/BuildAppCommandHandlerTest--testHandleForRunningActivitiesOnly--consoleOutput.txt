@@ -1,10 +1,8 @@
   => Calculating Eddington
-  => Calculating monthly stats
   => Building photos.html
   => Building challenges.html
   => Building eddington.html
   => Building segments.html
-  => Building monthly-stats.html
   => Building gear-stats.html
   => Building heatmap.html
   => Building activities.html
