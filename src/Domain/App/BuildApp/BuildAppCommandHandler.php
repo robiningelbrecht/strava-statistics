@@ -4,10 +4,6 @@ namespace App\Domain\App\BuildApp;
 
 use App\Domain\Strava\Activity\ActivitiesEnricher;
 use App\Domain\Strava\Activity\ActivityTotals;
-use App\Domain\Strava\Activity\ActivityTypeRepository;
-use App\Domain\Strava\Activity\Eddington\Eddington;
-use App\Domain\Strava\Activity\Eddington\EddingtonChart;
-use App\Domain\Strava\Activity\Eddington\EddingtonHistoryChart;
 use App\Domain\Strava\Activity\Image\ImageRepository;
 use App\Domain\Strava\Activity\Route\RouteRepository;
 use App\Domain\Strava\Activity\SportType\SportType;
@@ -23,10 +19,7 @@ use App\Infrastructure\CQRS\Bus\CommandHandler;
 use App\Infrastructure\Repository\Pagination;
 use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\ValueObject\DataTableRow;
-use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
-use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use League\Flysystem\FilesystemOperator;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
 final readonly class BuildAppCommandHandler implements CommandHandler
@@ -38,13 +31,10 @@ final readonly class BuildAppCommandHandler implements CommandHandler
         private SegmentRepository $segmentRepository,
         private SegmentEffortRepository $segmentEffortRepository,
         private SportTypeRepository $sportTypeRepository,
-        private ActivityTypeRepository $activityTypeRepository,
         private RouteRepository $routeRepository,
         private ActivitiesEnricher $activitiesEnricher,
-        private UnitSystem $unitSystem,
         private Environment $twig,
         private FilesystemOperator $filesystem,
-        private TranslatorInterface $translator,
     ) {
     }
 
@@ -57,31 +47,8 @@ final readonly class BuildAppCommandHandler implements CommandHandler
         $athlete = $this->athleteRepository->find();
         $allActivities = $this->activitiesEnricher->getEnrichedActivities();
         $importedSportTypes = $this->sportTypeRepository->findAll();
-        $importedActivityTypes = $this->activityTypeRepository->findAll();
-        $activitiesPerActivityType = $this->activitiesEnricher->getActivitiesPerActivityType();
         $allChallenges = $this->challengeRepository->findAll();
         $allImages = $this->imageRepository->findAll();
-
-        $command->getOutput()->writeln('  => Calculating Eddington');
-        $eddingtonPerActivityType = [];
-        /** @var \App\Domain\Strava\Activity\ActivityType $activityType */
-        foreach ($importedActivityTypes as $activityType) {
-            if (!$activityType->supportsEddington()) {
-                continue;
-            }
-            if ($activitiesPerActivityType[$activityType->value]->isEmpty()) {
-                continue;
-            }
-            $eddington = Eddington::create(
-                activities: $activitiesPerActivityType[$activityType->value],
-                activityType: $activityType,
-                unitSystem: $this->unitSystem
-            );
-            if ($eddington->getNumber() <= 0) {
-                continue;
-            }
-            $eddingtonPerActivityType[$activityType->value] = $eddington;
-        }
 
         $activityTotals = ActivityTotals::create(
             activities: $allActivities,
@@ -107,36 +74,6 @@ final readonly class BuildAppCommandHandler implements CommandHandler
             'build/html/challenges.html',
             $this->twig->load('html/challenges.html.twig')->render([
                 'challengesGroupedPerMonth' => $challengesGroupedByMonth,
-            ]),
-        );
-
-        $command->getOutput()->writeln('  => Building eddington.html');
-
-        $eddingtonChartsPerActivityType = [];
-        $eddingtonHistoryChartsPerActivityType = [];
-        foreach ($eddingtonPerActivityType as $activityType => $eddington) {
-            $eddingtonChartsPerActivityType[$activityType] = Json::encode(
-                EddingtonChart::create(
-                    eddington: $eddington,
-                    unitSystem: $this->unitSystem,
-                    translator: $this->translator,
-                )->build()
-            );
-            $eddingtonHistoryChartsPerActivityType[$activityType] = Json::encode(
-                EddingtonHistoryChart::create(
-                    eddington: $eddington,
-                )->build()
-            );
-        }
-
-        $this->filesystem->write(
-            'build/html/eddington.html',
-            $this->twig->load('html/eddington.html.twig')->render([
-                'activityTypes' => $importedActivityTypes,
-                'eddingtons' => $eddingtonPerActivityType,
-                'eddingtonCharts' => $eddingtonChartsPerActivityType,
-                'eddingtonHistoryCharts' => $eddingtonHistoryChartsPerActivityType,
-                'distanceUnit' => Kilometer::from(1)->toUnitSystem($this->unitSystem)->getSymbol(),
             ]),
         );
 

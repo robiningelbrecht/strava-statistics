@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Domain\App\BuildActivitiesHtml\BuildActivitiesHtml;
 use App\Domain\App\BuildApp\BuildApp;
 use App\Domain\App\BuildDashboardHtml\BuildDashboardHtml;
+use App\Domain\App\BuildEddingtonHtml\BuildEddingtonHtml;
 use App\Domain\App\BuildGearStatsHtml\BuildGearStatsHtml;
 use App\Domain\App\BuildIndexHtml\BuildIndexHtml;
 use App\Domain\App\BuildMonthlyStatsHtml\BuildMonthlyStatsHtml;
@@ -65,6 +66,8 @@ final class BuildAppConsoleCommand extends Command
         $this->commandBus->dispatch(new BuildMonthlyStatsHtml($now));
         $output->writeln('  => Building gear-stats.html');
         $this->commandBus->dispatch(new BuildGearStatsHtml($now));
+        $output->writeln('  => Building eddington.html');
+        $this->commandBus->dispatch(new BuildEddingtonHtml($now));
         $this->commandBus->dispatch(new BuildApp(
             output: $output,
             now: $now

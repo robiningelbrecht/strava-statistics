@@ -1,7 +1,5 @@
-  => Calculating Eddington
   => Building photos.html
   => Building challenges.html
-  => Building eddington.html
   => Building segments.html
   => Building heatmap.html
   => Building badge.svg
