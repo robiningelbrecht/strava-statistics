@@ -35,8 +35,7 @@ final class Activity
     public const string DATE_TIME_FORMAT = 'Y-m-d\TH:i:s\Z';
 
     private ?int $maxCadence = null;
-    private ?int $eFTP = null;
-    private ?float $relativeEFTP = null;
+    private ?PowerOutput $eFTP = null;
     /** @var array<mixed> */
     private array $bestPowerOutputs = [];
 
@@ -273,16 +272,9 @@ final class Activity
         return $this->bestPowerOutputs[$timeInterval] ?? null;
     }
 
-    public function getEFTP(): ?int
+    public function getEFTP(): ?PowerOutput
     {
         return $this->eFTP;
-    }
-
-    public function getRelativeEFTP(): ?float
-    {
-        return $this->relativeEFTP !== null 
-            ? round($this->relativeEFTP, 1) 
-            : null;
     }
 
     /**
@@ -291,38 +283,11 @@ final class Activity
     public function enrichWithBestPowerOutputs(array $bestPowerOutputs): void
     {
         $this->bestPowerOutputs = $bestPowerOutputs;
-        $this->calculateEFTP();
     }
 
-    public function calculateEFTP(): void
+    public function enrichWithEFTP(?PowerOutput $eftp): void
     {
-        if (!$this->bestPowerOutputs) {
-            return;
-        }
-
-        $eftp = null;
-        $weight = null;
-
-        foreach (ActivityPowerRepository::EFTP_FACTORS as $interval => $factor) {
-            $power = $this->getBestAveragePowerForTimeInterval($interval);
-
-            if ($power) {
-                $calculatedEFTP = $power->getPower() * $factor;
-
-                if ($eftp === null || $calculatedEFTP > $eftp) {
-                    $eftp = $calculatedEFTP;
-                }
-
-                if ($weight === null) {
-                    $weight = $power->getWeight();
-                }
-            }
-        }
-    
         $this->eFTP = $eftp;
-        $this->relativeEFTP = $weight > 0 
-            ? ($eftp * 1.0) / $weight 
-            : null;
     }
 
     public function getWeather(): ?Weather

@@ -2,6 +2,7 @@
 
 namespace App\Domain\Strava\Activity\Stream;
 
+use App\Domain\Strava\Activity\Activity;
 use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\ActivityRepository;
 use App\Domain\Strava\Athlete\Weight\AthleteWeightRepository;
@@ -91,6 +92,49 @@ final class StreamBasedActivityPowerRepository implements ActivityPowerRepositor
         ksort($powerStreamForActivity);
 
         return $powerStreamForActivity;
+    }
+
+    public function calculateEFTP(Activity $activity): ?PowerOutput
+    {
+        $bestPowerOutputs = $this->findBestForActivity($activity->getId());
+        $eftp = null;
+
+        if (!$bestPowerOutputs) {
+            return $eftp;
+        }
+
+        try {
+            $athleteWeight = $this->athleteWeightRepository->find($activity->getStartDate())->getWeightInKg();
+        } catch (EntityNotFound) {
+            throw new EntityNotFound(sprintf('Trying to calculate the relative power for activity "%s" on %s, but no corresponding athleteWeight was found. 
+            Make sure you configure the proper weights in your .env file. Do not forgot to run the app:strava:import-data command after changing the weights', $activity->getName(), $activity->getStartDate()->format('Y-m-d')));
+        }
+
+        foreach (ActivityPowerRepository::EFTP_FACTORS as $timeIntervalInSeconds => $factor) {
+            $power = $bestPowerOutputs[$timeIntervalInSeconds] ?? null;
+
+            if ($power) {
+                $calculatedEFTP = $power->getPower() * $factor;
+
+                if ($eftp === null || $calculatedEFTP > $eftp->getPower()) {
+                    $interval = CarbonInterval::seconds($timeIntervalInSeconds);
+
+                    $relativePower = $athleteWeight->toFloat() > 0 
+                        ? round($calculatedEFTP / $athleteWeight->toFloat(), 2) 
+                        : 0;
+
+                    $time = (int) $interval->totalHours ? $interval->totalHours.' h' : ((int) $interval->totalMinutes ? $interval->totalMinutes.' m' : $interval->totalSeconds.' s');
+
+                    $eftp = PowerOutput::fromState(
+                        time: sprintf('%s @ %d w', $time, $power->getPower()),
+                        power: $calculatedEFTP,
+                        relativePower: $relativePower,
+                    );
+                }
+            }
+        }
+
+        return $eftp;
     }
 
     /**

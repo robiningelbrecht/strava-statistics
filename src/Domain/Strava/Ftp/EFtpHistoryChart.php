@@ -42,8 +42,9 @@ final readonly class EFtpHistoryChart
         ksort($uniqueDates);
         $eftp = [];
         $relative_eftp = [];
+        $minEftp = null;
+        $minRelativeEftp = null;
 
-        // Käydään läpi jokainen uniikki päivämäärä
         foreach ($uniqueDates as $date) {
             $currentDate = Carbon::parse($date);
             $startDate = $currentDate->copy()->subWeeks(8);
@@ -55,8 +56,8 @@ final readonly class EFtpHistoryChart
                 $activityDate = Carbon::instance($activity->getStartDate());
 
                 if ($activityDate->between($startDate, $currentDate)) {
-                    $eftpValue = $activity->getEFTP();
-                    $relativeEftpValue = $activity->getRelativeEftp();
+                    $eftpValue = $activity->getEFTP()->getPower();
+                    $relativeEftpValue = $activity->getEFTP()->getRelativePower();
 
                     if ($maxEftp === null || $eftpValue > $maxEftp) {
                         $maxEftp = $eftpValue;
@@ -64,6 +65,14 @@ final readonly class EFtpHistoryChart
                     
                     if ($maxRelativeEftp === null || $relativeEftpValue > $maxRelativeEftp) {
                         $maxRelativeEftp = $relativeEftpValue;
+                    }
+                    
+                    if ($minEftp === null || $eftpValue < $minEftp) {
+                        $minEftp = $eftpValue;
+                    }
+                    
+                    if ($minRelativeEftp === null || $relativeEftpValue < $minRelativeEftp) {
+                        $minRelativeEftp = $relativeEftpValue;
                     }
                 }
             }
@@ -128,7 +137,7 @@ final readonly class EFtpHistoryChart
                     'axisLabel' => [
                         'formatter' => '{value} w',
                     ],
-                    'min' => min(array_column($eftp, 1)) - 10,
+                    'min' => $minEftp - 10,
                 ],
                 !empty($relative_eftp) ? [
                     'type' => 'value',
@@ -138,7 +147,7 @@ final readonly class EFtpHistoryChart
                     'axisLabel' => [
                         'formatter' => '{value} w/kg',
                     ],
-                    'min' => min(array_column($relative_eftp, 1)) - 1,
+                    'min' => $minRelativeEftp - 1,
                 ] : [],
             ],
             'series' => [

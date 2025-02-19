@@ -171,6 +171,10 @@ final readonly class BuildAppCommandHandler implements CommandHandler
                 $this->activityPowerRepository->findBestForActivity($activity->getId())
             );
 
+            $activity->enrichWithEFTP(
+                $this->activityPowerRepository->calculateEFTP($activity)
+            );
+
             try {
                 $cadenceStream = $this->activityStreamRepository->findOneByActivityAndStreamType(
                     activityId: $activity->getId(),

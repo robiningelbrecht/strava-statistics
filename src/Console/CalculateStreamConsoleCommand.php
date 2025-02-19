@@ -2,16 +2,7 @@
 
 namespace App\Console;
 
-use App\Domain\Strava\Activity\ImportActivities\ImportActivities;
-use App\Domain\Strava\Activity\Split\ImportActivitySplits\ImportActivitySplits;
 use App\Domain\Strava\Activity\Stream\CalculateBestStreamAverages\CalculateBestStreamAverages;
-use App\Domain\Strava\Activity\Stream\ImportActivityStreams\ImportActivityStreams;
-use App\Domain\Strava\Athlete\ImportAthlete\ImportAthlete;
-use App\Domain\Strava\Athlete\Weight\ImportAthleteWeight\ImportAthleteWeight;
-use App\Domain\Strava\Challenge\ImportChallenges\ImportChallenges;
-use App\Domain\Strava\Ftp\ImportFtp\ImportFtp;
-use App\Domain\Strava\Gear\ImportGear\ImportGear;
-use App\Domain\Strava\Segment\ImportSegments\ImportSegments;
 use App\Infrastructure\CQRS\Bus\CommandBus;
 use App\Infrastructure\Doctrine\Migrations\MigrationRunner;
 use App\Infrastructure\FileSystem\PermissionChecker;
