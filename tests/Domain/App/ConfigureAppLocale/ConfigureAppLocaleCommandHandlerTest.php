@@ -21,7 +21,7 @@ class ConfigureAppLocaleCommandHandlerTest extends ContainerTestCase
             $this->localeSwitcher->getLocale()
         );
         $this->assertEquals(
-            'en',
+            'en_US',
             Carbon::getLocale()
         );
 

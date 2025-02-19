@@ -4,12 +4,14 @@ namespace App\Tests;
 
 use App\Domain\Strava\Activity\ActivityRepository;
 use App\Domain\Strava\Activity\Eddington\Eddington;
+use Carbon\Carbon;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\ToolsException;
 use League\Flysystem\FilesystemOperator;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Translation\LocaleSwitcher;
 
 abstract class ContainerTestCase extends KernelTestCase
 {
@@ -33,6 +35,12 @@ abstract class ContainerTestCase extends KernelTestCase
         $this->getContainer()->get(ActivityRepository::class)::$cachedActivities = [];
         Eddington::$instances = [];
         $this->getContainer()->get(FilesystemOperator::class)->resetWrites();
+
+        // Make sure every test is initialized with the default locale.
+        /** @var LocaleSwitcher $localeSwitcher */
+        $localeSwitcher = $this->getContainer()->get(LocaleSwitcher::class);
+        $localeSwitcher->reset();
+        Carbon::setLocale($localeSwitcher->getLocale());
     }
 
     /**
