@@ -13,12 +13,7 @@ use App\Domain\Strava\Activity\Route\RouteRepository;
 use App\Domain\Strava\Activity\SportType\SportType;
 use App\Domain\Strava\Activity\SportType\SportTypeRepository;
 use App\Domain\Strava\Athlete\AthleteRepository;
-use App\Domain\Strava\Calendar\Months;
 use App\Domain\Strava\Challenge\ChallengeRepository;
-use App\Domain\Strava\Gear\DistanceOverTimePerGearChart;
-use App\Domain\Strava\Gear\DistancePerMonthPerGearChart;
-use App\Domain\Strava\Gear\GearRepository;
-use App\Domain\Strava\Gear\GearStatistics;
 use App\Domain\Strava\Segment\Segment;
 use App\Domain\Strava\Segment\SegmentEffort\SegmentEffortRepository;
 use App\Domain\Strava\Segment\SegmentRepository;
@@ -38,7 +33,6 @@ final readonly class BuildAppCommandHandler implements CommandHandler
 {
     public function __construct(
         private ChallengeRepository $challengeRepository,
-        private GearRepository $gearRepository,
         private ImageRepository $imageRepository,
         private AthleteRepository $athleteRepository,
         private SegmentRepository $segmentRepository,
@@ -65,9 +59,7 @@ final readonly class BuildAppCommandHandler implements CommandHandler
         $importedSportTypes = $this->sportTypeRepository->findAll();
         $importedActivityTypes = $this->activityTypeRepository->findAll();
         $activitiesPerActivityType = $this->activitiesEnricher->getActivitiesPerActivityType();
-
         $allChallenges = $this->challengeRepository->findAll();
-        $allGear = $this->gearRepository->findAll();
         $allImages = $this->imageRepository->findAll();
 
         $command->getOutput()->writeln('  => Calculating Eddington');
@@ -90,11 +82,6 @@ final readonly class BuildAppCommandHandler implements CommandHandler
             }
             $eddingtonPerActivityType[$activityType->value] = $eddington;
         }
-
-        $allMonths = Months::create(
-            startDate: $allActivities->getFirstActivityStartDate(),
-            now: $now
-        );
 
         $activityTotals = ActivityTotals::create(
             activities: $allActivities,
@@ -203,34 +190,6 @@ final readonly class BuildAppCommandHandler implements CommandHandler
             $this->twig->load('html/segment/segments.html.twig')->render([
                 'sportTypes' => $importedSportTypes,
                 'totalSegmentCount' => $this->segmentRepository->count(),
-            ]),
-        );
-
-        $command->getOutput()->writeln('  => Building gear-stats.html');
-        $this->filesystem->write(
-            'build/html/gear-stats.html',
-            $this->twig->load('html/gear-stats.html.twig')->render([
-                'gearStatistics' => GearStatistics::fromActivitiesAndGear(
-                    activities: $allActivities,
-                    bikes: $allGear
-                ),
-                'distancePerMonthPerGearChart' => Json::encode(
-                    DistancePerMonthPerGearChart::create(
-                        gearCollection: $allGear,
-                        activityCollection: $allActivities,
-                        unitSystem: $this->unitSystem,
-                        months: $allMonths,
-                    )->build()
-                ),
-                'distanceOverTimePerGear' => Json::encode(
-                    DistanceOverTimePerGearChart::create(
-                        gearCollection: $allGear,
-                        activityCollection: $allActivities,
-                        unitSystem: $this->unitSystem,
-                        translator: $this->translator,
-                        now: $now,
-                    )->build()
-                ),
             ]),
         );
 

@@ -3,6 +3,5 @@
   => Building challenges.html
   => Building eddington.html
   => Building segments.html
-  => Building gear-stats.html
   => Building heatmap.html
   => Building badge.svg
