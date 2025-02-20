@@ -42,8 +42,6 @@ final readonly class EFtpHistoryChart
         ksort($uniqueDates);
         $eftp = [];
         $relative_eftp = [];
-        $minEftp = null;
-        $minRelativeEftp = null;
 
         foreach ($uniqueDates as $date) {
             $currentDate = Carbon::parse($date);
@@ -66,24 +64,16 @@ final readonly class EFtpHistoryChart
                     if ($maxRelativeEftp === null || $relativeEftpValue > $maxRelativeEftp) {
                         $maxRelativeEftp = $relativeEftpValue;
                     }
-                    
-                    if ($minEftp === null || $eftpValue < $minEftp) {
-                        $minEftp = $eftpValue;
-                    }
-                    
-                    if ($minRelativeEftp === null || $relativeEftpValue < $minRelativeEftp) {
-                        $minRelativeEftp = $relativeEftpValue;
-                    }
                 }
             }
 
             $lastEftp = end($eftp);
-            if (!$lastEftp || $lastEftp[1] !== $maxEftp) {
+            if ($maxEftp && (!$lastEftp || $lastEftp[1] !== $maxEftp)) {
                 $eftp[] = [$date, $maxEftp];
             }
 
             $lastRelative = end($relative_eftp);
-            if (!$lastRelative || $lastRelative[1] !== $maxRelativeEftp) {
+            if ($maxRelativeEftp && (!$lastRelative || $lastRelative[1] !== $maxRelativeEftp)) {
                 $relative_eftp[] = [$date, $maxRelativeEftp];
             }
         }
@@ -137,7 +127,7 @@ final readonly class EFtpHistoryChart
                     'axisLabel' => [
                         'formatter' => '{value} w',
                     ],
-                    'min' => $minEftp - 10,
+                    'min' => min(array_column($eftp, 1)) - 10,
                 ],
                 !empty($relative_eftp) ? [
                     'type' => 'value',
@@ -147,7 +137,7 @@ final readonly class EFtpHistoryChart
                     'axisLabel' => [
                         'formatter' => '{value} w/kg',
                     ],
-                    'min' => $minRelativeEftp - 1,
+                    'min' => min(array_column($relative_eftp, 1)) - 1,
                 ] : [],
             ],
             'series' => [

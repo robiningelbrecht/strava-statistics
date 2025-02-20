@@ -1,9 +1,8 @@
 
 {% if activity.hasDetailedPowerData() %}
     <div class="grid grid-cols-1 gap-4">
-        <div id="accordion-powers"
-             class="text-gray-900 border border-gray-200 rounded-lg shadow-sm">
-            <div id="accordion-powers-body" class="relative overflow-x-auto">
+        <div class="text-gray-900 border border-gray-200 rounded-lg shadow-sm">
+            <div class="relative overflow-x-auto">
                 <table class="w-full text-sm text-center text-gray-500">
                     <thead class="text-xs text-gray-700 uppercase">
                     {% set timeIntervals =  [5, 60, 300, 600, 1200] %}
@@ -21,7 +20,9 @@
                         {% endfor %}
                         {% if eftp %}
                             <th scope="col" colspan="2" class="px-2 py-2">
-                                eFTP <span class="cursor-help" data-popover-target="eftp-description" data-popover-placement="left">ⓘ</span>
+                                <span class="cursor-help" data-popover-target="eftp-description" data-popover-placement="left">
+                                    eFTP ⓘ
+                                </span>
 
                                 <div data-popover id="eftp-description" role="tooltip" class="hidden lg:block lowercase absolute z-100 invisible text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-xs opacity-0">
                                     <div class="p-3 space-y-2">
