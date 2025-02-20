@@ -176,16 +176,14 @@
         </div>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
             {% if powerOutputs is not empty %}
-                <!-- PEAK POWER OUTPUTS -->
-                <div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-xs sm:p-6">
-                <h3 class="flex items-center gap-x-1 mb-4 text-lg font-semibold">
-                    <span>{{ "Peak power outputs"|trans }}</span>
-                    <a href="#" data-model-content-url="power-output.html" rel="nofollow">
-                        <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v15a1 1 0 0 0 1 1h15M8 16l2.5-5.5 3 3L17.273 7 20 9.667"/>
-                        </svg>
+            <!-- PEAK POWER OUTPUTS -->
+            <div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-xs sm:p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold">{{ "Peak power outputs"|trans }}</h3>
+                    <a href="#" data-model-content-url="power-output.html" class="inline-flex items-center p-2 text-sm font-medium rounded-lg text-blue-600 hover:bg-gray-100">
+                        {{ "View details"|trans }}
                     </a>
-                </h3>
+                </div>
                 <div class="relative overflow-x-auto">
                     <table class="w-full text-sm text-center text-gray-500">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
