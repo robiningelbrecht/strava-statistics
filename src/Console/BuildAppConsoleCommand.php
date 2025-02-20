@@ -9,6 +9,7 @@ use App\Domain\App\BuildEddingtonHtml\BuildEddingtonHtml;
 use App\Domain\App\BuildGearStatsHtml\BuildGearStatsHtml;
 use App\Domain\App\BuildIndexHtml\BuildIndexHtml;
 use App\Domain\App\BuildMonthlyStatsHtml\BuildMonthlyStatsHtml;
+use App\Domain\App\BuildSegmentsHtml\BuildSegmentsHtml;
 use App\Domain\App\ConfigureAppLocale\ConfigureAppLocale;
 use App\Domain\Manifest\BuildManifest\BuildManifest;
 use App\Domain\Notification\SendNotification\SendNotification;
@@ -68,6 +69,8 @@ final class BuildAppConsoleCommand extends Command
         $this->commandBus->dispatch(new BuildGearStatsHtml($now));
         $output->writeln('  => Building eddington.html');
         $this->commandBus->dispatch(new BuildEddingtonHtml($now));
+        $output->writeln('  => Building segments.html');
+        $this->commandBus->dispatch(new BuildSegmentsHtml($now));
         $this->commandBus->dispatch(new BuildApp(
             output: $output,
             now: $now

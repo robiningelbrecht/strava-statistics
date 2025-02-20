@@ -7,4 +7,5 @@ Building App...
   => Building monthly-stats.html
   => Building gear-stats.html
   => Building eddington.html
+  => Building segments.html
 Time: 10s, Memory: 45MB

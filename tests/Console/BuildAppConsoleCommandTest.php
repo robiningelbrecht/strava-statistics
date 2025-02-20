@@ -45,10 +45,13 @@ class BuildAppConsoleCommandTest extends ConsoleCommandTestCase
             ->method('isAtLatestVersion')
             ->willReturn(true);
 
+        $dispatchedCommands = [];
         $this->commandBus
             ->expects($this->any())
             ->method('dispatch')
-            ->willReturnCallback(fn (DomainCommand $command) => $this->assertMatchesJsonSnapshot(Json::encode($command)));
+            ->willReturnCallback(function (DomainCommand $command) use (&$dispatchedCommands) {
+                $dispatchedCommands[] = $command;
+            });
 
         $command = $this->getCommandInApplication('app:strava:build-files');
         $commandTester = new CommandTester($command);
@@ -57,6 +60,7 @@ class BuildAppConsoleCommandTest extends ConsoleCommandTestCase
         ]);
 
         $this->assertMatchesTextSnapshot($commandTester->getDisplay());
+        $this->assertMatchesJsonSnapshot(Json::encode($dispatchedCommands));
     }
 
     public function testExecuteWhenStravaImportIsNotCompleted(): void

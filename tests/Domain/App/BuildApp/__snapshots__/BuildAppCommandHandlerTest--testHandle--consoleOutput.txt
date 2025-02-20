@@ -1,5 +1,4 @@
   => Building photos.html
   => Building challenges.html
-  => Building segments.html
   => Building heatmap.html
   => Building badge.svg

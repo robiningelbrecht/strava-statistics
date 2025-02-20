@@ -1,7 +1,0 @@
-{
-    "commandName": "App\\Domain\\App\\BuildApp\\BuildApp",
-    "payload": {
-        "output": {},
-        "now": "2023-10-17 16:15:04"
-    }
-}

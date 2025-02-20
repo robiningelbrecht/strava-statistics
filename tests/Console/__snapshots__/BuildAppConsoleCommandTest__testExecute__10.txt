@@ -1,9 +1,0 @@
-Configuring locale...
-Building Manifest...
-Building App...
-  => Building index.html
-  => Building dashboard.html
-  => Building activities.html
-  => Building monthly-stats.html
-  => Building gear-stats.html
-Time: 10s, Memory: 45MB
