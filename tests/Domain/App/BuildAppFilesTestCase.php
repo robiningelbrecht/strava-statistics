@@ -16,6 +16,8 @@ abstract class BuildAppFilesTestCase extends ContainerTestCase
     use ProvideTestData;
     use MatchesSnapshots;
 
+    private string $snapshotName;
+
     abstract protected function getDomainCommand(): DomainCommand;
 
     private CommandBus $commandBus;
@@ -31,9 +33,10 @@ abstract class BuildAppFilesTestCase extends ContainerTestCase
         $this->assertFileSystemWrites($fileSystem->getWrites());
     }
 
-    public function assertFileSystemWrites(array $writes): void
+    private function assertFileSystemWrites(array $writes): void
     {
         foreach ($writes as $location => $content) {
+            $this->snapshotName = preg_replace('/[^a-zA-Z0-9]/', '-', $location);
             if (str_ends_with($location, '.json')) {
                 $this->assertMatchesJsonSnapshot($content);
                 continue;
@@ -44,6 +47,13 @@ abstract class BuildAppFilesTestCase extends ContainerTestCase
             }
             $this->assertMatchesTextSnapshot($content);
         }
+    }
+
+    protected function getSnapshotId(): string
+    {
+        return new \ReflectionClass($this)->getShortName().'--'.
+            $this->name().'--'.
+            $this->snapshotName;
     }
 
     #[\Override]
