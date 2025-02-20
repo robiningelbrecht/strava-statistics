@@ -56,9 +56,18 @@
         }
     },
     {
-        "commandName": "App\\Domain\\App\\BuildApp\\BuildApp",
+        "commandName": "App\\Domain\\App\\BuildChallengesHtml\\BuildChallengesHtml",
         "payload": {
-            "output": {},
+            "now": "2023-10-17 16:15:04"
+        }
+    },
+    {
+        "commandName": "App\\Domain\\App\\BuildPhotosHtml\\BuildPhotosHtml",
+        "payload": []
+    },
+    {
+        "commandName": "App\\Domain\\App\\BuildBadgeSvg\\BuildBadgeSvg",
+        "payload": {
             "now": "2023-10-17 16:15:04"
         }
     },

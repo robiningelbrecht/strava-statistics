@@ -9,4 +9,7 @@ Building App...
   => Building eddington.html
   => Building segments.html
   => Building heatmap.html
+  => Building challenges.html
+  => Building photos.html
+  => Building badge.svg
 Time: 10s, Memory: 45MB

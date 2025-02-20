@@ -3,13 +3,15 @@
 namespace App\Console;
 
 use App\Domain\App\BuildActivitiesHtml\BuildActivitiesHtml;
-use App\Domain\App\BuildApp\BuildApp;
+use App\Domain\App\BuildBadgeSvg\BuildBadgeSvg;
+use App\Domain\App\BuildChallengesHtml\BuildChallengesHtml;
 use App\Domain\App\BuildDashboardHtml\BuildDashboardHtml;
 use App\Domain\App\BuildEddingtonHtml\BuildEddingtonHtml;
 use App\Domain\App\BuildGearStatsHtml\BuildGearStatsHtml;
 use App\Domain\App\BuildHeatmapHtml\BuildHeatmapHtml;
 use App\Domain\App\BuildIndexHtml\BuildIndexHtml;
 use App\Domain\App\BuildMonthlyStatsHtml\BuildMonthlyStatsHtml;
+use App\Domain\App\BuildPhotosHtml\BuildPhotosHtml;
 use App\Domain\App\BuildSegmentsHtml\BuildSegmentsHtml;
 use App\Domain\App\ConfigureAppLocale\ConfigureAppLocale;
 use App\Domain\Manifest\BuildManifest\BuildManifest;
@@ -74,10 +76,12 @@ final class BuildAppConsoleCommand extends Command
         $this->commandBus->dispatch(new BuildSegmentsHtml($now));
         $output->writeln('  => Building heatmap.html');
         $this->commandBus->dispatch(new BuildHeatmapHtml($now));
-        $this->commandBus->dispatch(new BuildApp(
-            output: $output,
-            now: $now
-        ));
+        $output->writeln('  => Building challenges.html');
+        $this->commandBus->dispatch(new BuildChallengesHtml($now));
+        $output->writeln('  => Building photos.html');
+        $this->commandBus->dispatch(new BuildPhotosHtml());
+        $output->writeln('  => Building badge.svg');
+        $this->commandBus->dispatch(new BuildBadgeSvg($now));
         $this->commandBus->dispatch(new SendNotification(
             title: 'Build successful',
             message: 'New build of your Strava stats was successful',

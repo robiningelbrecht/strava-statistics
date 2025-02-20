@@ -1,3 +1,0 @@
-  => Building photos.html
-  => Building challenges.html
-  => Building badge.svg
