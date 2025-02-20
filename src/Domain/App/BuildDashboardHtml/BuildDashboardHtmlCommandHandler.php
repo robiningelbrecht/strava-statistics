@@ -139,7 +139,7 @@ final readonly class BuildDashboardHtmlCommandHandler implements CommandHandler
             now: $now,
         );
         $trivia = Trivia::create($allActivities);
-        $bestPowerOutputs = $this->activityPowerRepository->findBest();
+        $bestPowerOutputs = $this->activityPowerRepository->findBest(ActivityType::RIDE);
 
         $this->filesystem->write(
             'build/html/dashboard.html',

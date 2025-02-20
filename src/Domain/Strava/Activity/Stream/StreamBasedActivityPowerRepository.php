@@ -4,6 +4,7 @@ namespace App\Domain\Strava\Activity\Stream;
 
 use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\ActivityRepository;
+use App\Domain\Strava\Activity\ActivityType;
 use App\Domain\Strava\Athlete\Weight\AthleteWeightRepository;
 use App\Infrastructure\Exception\EntityNotFound;
 use Carbon\CarbonInterval;
@@ -96,7 +97,7 @@ final class StreamBasedActivityPowerRepository implements ActivityPowerRepositor
     /**
      * @return PowerOutput[]
      */
-    public function findBest(): array
+    public function findBest(ActivityType $activityType): array
     {
         /** @var PowerOutput[] $best */
         $best = [];
@@ -112,6 +113,9 @@ final class StreamBasedActivityPowerRepository implements ActivityPowerRepositor
             }
 
             $activity = $this->activityRepository->find($stream->getActivityId());
+            if ($activityType !== $activity->getSportType()->getActivityType()) {
+                continue;
+            }
             $interval = CarbonInterval::seconds($timeIntervalInSeconds);
             $bestAverageForTimeInterval = $stream->getBestAverages()[$timeIntervalInSeconds];
 

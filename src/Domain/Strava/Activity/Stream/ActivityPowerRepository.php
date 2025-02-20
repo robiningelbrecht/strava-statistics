@@ -3,6 +3,7 @@
 namespace App\Domain\Strava\Activity\Stream;
 
 use App\Domain\Strava\Activity\ActivityId;
+use App\Domain\Strava\Activity\ActivityType;
 
 interface ActivityPowerRepository
 {
@@ -17,7 +18,7 @@ interface ActivityPowerRepository
     /**
      * @return PowerOutput[]
      */
-    public function findBest(): array;
+    public function findBest(ActivityType $activityType): array;
 
     /**
      * @return array<int, int>
