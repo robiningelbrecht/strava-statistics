@@ -21,7 +21,7 @@
     @apply rounded-sm border-2 border-black/[.3] bg-white bg-clip-padding divide-y divide-grey-yo;
 
   & li {
-    @apply p-1 cursor-pointer;
+    @apply p-1 cursor-pointer hover:bg-[#f4f4f4];
   }
 }
 

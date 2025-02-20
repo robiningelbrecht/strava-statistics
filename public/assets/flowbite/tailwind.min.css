@@ -2232,6 +2232,11 @@
     & li {
       cursor: pointer;
       padding: calc(var(--spacing) * 1);
+      &:hover {
+        @media (hover: hover) {
+          background-color: #f4f4f4;
+        }
+      }
     }
   }
   .divide-y {
