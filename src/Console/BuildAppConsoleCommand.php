@@ -7,6 +7,7 @@ use App\Domain\App\BuildApp\BuildApp;
 use App\Domain\App\BuildDashboardHtml\BuildDashboardHtml;
 use App\Domain\App\BuildEddingtonHtml\BuildEddingtonHtml;
 use App\Domain\App\BuildGearStatsHtml\BuildGearStatsHtml;
+use App\Domain\App\BuildHeatmapHtml\BuildHeatmapHtml;
 use App\Domain\App\BuildIndexHtml\BuildIndexHtml;
 use App\Domain\App\BuildMonthlyStatsHtml\BuildMonthlyStatsHtml;
 use App\Domain\App\BuildSegmentsHtml\BuildSegmentsHtml;
@@ -71,6 +72,8 @@ final class BuildAppConsoleCommand extends Command
         $this->commandBus->dispatch(new BuildEddingtonHtml($now));
         $output->writeln('  => Building segments.html');
         $this->commandBus->dispatch(new BuildSegmentsHtml($now));
+        $output->writeln('  => Building heatmap.html');
+        $this->commandBus->dispatch(new BuildHeatmapHtml($now));
         $this->commandBus->dispatch(new BuildApp(
             output: $output,
             now: $now

@@ -8,4 +8,5 @@ Building App...
   => Building gear-stats.html
   => Building eddington.html
   => Building segments.html
+  => Building heatmap.html
 Time: 10s, Memory: 45MB

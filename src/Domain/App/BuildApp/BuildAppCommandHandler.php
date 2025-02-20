@@ -5,15 +5,12 @@ namespace App\Domain\App\BuildApp;
 use App\Domain\Strava\Activity\ActivitiesEnricher;
 use App\Domain\Strava\Activity\ActivityTotals;
 use App\Domain\Strava\Activity\Image\ImageRepository;
-use App\Domain\Strava\Activity\Route\RouteRepository;
-use App\Domain\Strava\Activity\SportType\SportType;
 use App\Domain\Strava\Activity\SportType\SportTypeRepository;
 use App\Domain\Strava\Athlete\AthleteRepository;
 use App\Domain\Strava\Challenge\ChallengeRepository;
 use App\Domain\Strava\Trivia;
 use App\Infrastructure\CQRS\Bus\Command;
 use App\Infrastructure\CQRS\Bus\CommandHandler;
-use App\Infrastructure\Serialization\Json;
 use League\Flysystem\FilesystemOperator;
 use Twig\Environment;
 
@@ -24,7 +21,6 @@ final readonly class BuildAppCommandHandler implements CommandHandler
         private ImageRepository $imageRepository,
         private AthleteRepository $athleteRepository,
         private SportTypeRepository $sportTypeRepository,
-        private RouteRepository $routeRepository,
         private ActivitiesEnricher $activitiesEnricher,
         private Environment $twig,
         private FilesystemOperator $filesystem,
@@ -67,19 +63,6 @@ final readonly class BuildAppCommandHandler implements CommandHandler
             'build/html/challenges.html',
             $this->twig->load('html/challenges.html.twig')->render([
                 'challengesGroupedPerMonth' => $challengesGroupedByMonth,
-            ]),
-        );
-
-        $command->getOutput()->writeln('  => Building heatmap.html');
-        $routes = $this->routeRepository->findAll();
-        $this->filesystem->write(
-            'build/html/heatmap.html',
-            $this->twig->load('html/heatmap.html.twig')->render([
-                'numberOfRoutes' => count($routes),
-                'routes' => Json::encode($routes),
-                'sportTypes' => $importedSportTypes->filter(
-                    fn (SportType $sportType) => $sportType->supportsReverseGeocoding()
-                ),
             ]),
         );
 
