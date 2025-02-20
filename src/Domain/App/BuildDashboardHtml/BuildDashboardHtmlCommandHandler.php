@@ -139,7 +139,7 @@ final readonly class BuildDashboardHtmlCommandHandler implements CommandHandler
             now: $now,
         );
         $trivia = Trivia::create($allActivities);
-        $bestPowerOutputs = $this->activityPowerRepository->findBest(ActivityType::RIDE);
+        $bestPowerOutputs = $this->activityPowerRepository->findBestForActivityType(ActivityType::RIDE);
 
         $this->filesystem->write(
             'build/html/dashboard.html',
@@ -195,14 +195,16 @@ final readonly class BuildDashboardHtmlCommandHandler implements CommandHandler
         );
 
         if (!empty($bestPowerOutputs)) {
-            $this->filesystem->write(
-                'build/html/power-output.html',
-                $this->twig->load('html/power-output.html.twig')->render([
-                    'powerOutputChart' => Json::encode(
-                        PowerOutputChart::create($bestPowerOutputs)->build()
-                    ),
-                ]),
-            );
+            return;
         }
+
+        $this->filesystem->write(
+            'build/html/power-output.html',
+            $this->twig->load('html/power-output.html.twig')->render([
+                'powerOutputChart' => Json::encode(
+                    PowerOutputChart::create($bestPowerOutputs)->build()
+                ),
+            ]),
+        );
     }
 }

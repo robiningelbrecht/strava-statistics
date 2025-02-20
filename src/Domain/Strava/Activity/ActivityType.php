@@ -2,6 +2,8 @@
 
 namespace App\Domain\Strava\Activity;
 
+use App\Domain\Strava\Activity\SportType\SportType;
+use App\Domain\Strava\Activity\SportType\SportTypes;
 use Symfony\Contracts\Translation\TranslatableInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -18,6 +20,20 @@ enum ActivityType: string implements TranslatableInterface
     public function getTemplateName(): string
     {
         return str_replace(['_'], '-', strtolower($this->name));
+    }
+
+    public function getSportTypes(): SportTypes
+    {
+        $sportTypes = SportTypes::empty();
+
+        foreach (SportType::cases() as $sportType) {
+            if ($sportType->getActivityType() !== $this) {
+                continue;
+            }
+            $sportTypes->add($sportType);
+        }
+
+        return $sportTypes;
     }
 
     public function trans(TranslatorInterface $translator, ?string $locale = null): string

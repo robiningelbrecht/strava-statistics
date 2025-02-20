@@ -18,4 +18,13 @@ class ActivityTypeTest extends TestCase
         }
         $this->assertMatchesJsonSnapshot($snapshot);
     }
+
+    public function testGetSportTypes(): void
+    {
+        $snapshot = [];
+        foreach (ActivityType::cases() as $activityType) {
+            $snapshot[] = $activityType->getSportTypes();
+        }
+        $this->assertMatchesJsonSnapshot($snapshot);
+    }
 }

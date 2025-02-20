@@ -5,9 +5,15 @@ namespace App\Domain\Strava\Activity\Stream;
 use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\ActivityRepository;
 use App\Domain\Strava\Activity\ActivityType;
+use App\Domain\Strava\Activity\SportType\SportType;
 use App\Domain\Strava\Athlete\Weight\AthleteWeightRepository;
 use App\Infrastructure\Exception\EntityNotFound;
+use App\Infrastructure\Serialization\Json;
+use App\Infrastructure\ValueObject\Time\DateRange;
+use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use Carbon\CarbonInterval;
+use Doctrine\DBAL\ArrayParameterType;
+use Doctrine\DBAL\Connection;
 
 final class StreamBasedActivityPowerRepository implements ActivityPowerRepository
 {
@@ -15,6 +21,7 @@ final class StreamBasedActivityPowerRepository implements ActivityPowerRepositor
     private static array $cachedPowerOutputs = [];
 
     public function __construct(
+        private readonly Connection $connection,
         private readonly ActivityRepository $activityRepository,
         private readonly AthleteWeightRepository $athleteWeightRepository,
         private readonly ActivityStreamRepository $activityStreamRepository,
@@ -97,25 +104,41 @@ final class StreamBasedActivityPowerRepository implements ActivityPowerRepositor
     /**
      * @return PowerOutput[]
      */
-    public function findBest(ActivityType $activityType): array
+    public function findBestForActivityType(ActivityType $activityType): array
     {
         /** @var PowerOutput[] $best */
         $best = [];
 
         foreach (self::TIME_INTERVAL_IN_SECONDS_OVERALL as $timeIntervalInSeconds) {
-            try {
-                $stream = $this->activityStreamRepository->findWithBestAverageFor(
-                    intervalInSeconds: $timeIntervalInSeconds,
-                    streamType: StreamType::WATTS
-                );
-            } catch (EntityNotFound) {
+            $query = 'SELECT ActivityStream.* FROM ActivityStream 
+                        INNER JOIN Activity ON Activity.activityId = ActivityStream.activityId 
+                        WHERE streamType = :streamType
+                        AND Activity.sportType IN(:sportType)
+                        AND JSON_EXTRACT(bestAverages, "$.'.$timeIntervalInSeconds.'") IS NOT NULL
+                        ORDER BY JSON_EXTRACT(bestAverages, "$.'.$timeIntervalInSeconds.'") DESC, createdOn DESC LIMIT 1';
+
+            if (!$result = $this->connection->executeQuery(
+                $query,
+                [
+                    'streamType' => StreamType::WATTS->value,
+                    'sportType' => $activityType->getSportTypes()->map(fn (SportType $sportType) => $sportType->value),
+                ],
+                [
+                    'sportType' => ArrayParameterType::STRING,
+                ]
+            )->fetchAssociative()) {
                 continue;
             }
 
+            $stream = ActivityStream::fromState(
+                activityId: ActivityId::fromString($result['activityId']),
+                streamType: StreamType::from($result['streamType']),
+                streamData: Json::decode($result['data']),
+                createdOn: SerializableDateTime::fromString($result['createdOn']),
+                bestAverages: Json::decode($result['bestAverages'] ?? '[]'),
+            );
+
             $activity = $this->activityRepository->find($stream->getActivityId());
-            if ($activityType !== $activity->getSportType()->getActivityType()) {
-                continue;
-            }
             $interval = CarbonInterval::seconds($timeIntervalInSeconds);
             $bestAverageForTimeInterval = $stream->getBestAverages()[$timeIntervalInSeconds];
 
@@ -136,5 +159,12 @@ final class StreamBasedActivityPowerRepository implements ActivityPowerRepositor
         }
 
         return $best;
+    }
+
+    /**
+     * @return PowerOutput[]
+     */
+    public function findBestForActivityTypeInDateRange(ActivityType $activityType, DateRange $dateRange): array
+    {
     }
 }
