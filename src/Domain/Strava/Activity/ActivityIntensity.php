@@ -5,33 +5,40 @@ declare(strict_types=1);
 namespace App\Domain\Strava\Activity;
 
 use App\Domain\Strava\Athlete\AthleteRepository;
-use App\Domain\Strava\Ftp\FtpRepository;
+use App\Domain\Strava\Ftp\EFtpRepository;
 use App\Infrastructure\Exception\EntityNotFound;
 
 final readonly class ActivityIntensity
 {
+    private EFtpRepository $eftpRepository;
+
     public function __construct(
-        private AthleteRepository $athleteRepository,
-        private FtpRepository $ftpRepository,
+        private AthleteRepository $athleteRepository
     ) {
+    }
+
+    public function setEftpRepository(EFtpRepository $eftpRepository): void
+    {
+        $this->eftpRepository = $eftpRepository;
     }
 
     public function calculate(Activity $activity): ?int
     {
         $athlete = $this->athleteRepository->find();
-        try {
-            // To calculate intensity, we need
-            // 1) Max and average heart rate
-            // OR
-            // 2) FTP and average power
-            $ftp = $this->ftpRepository->find($activity->getStartDate())->getFtp();
-            if ($averagePower = $activity->getAveragePower()) {
-                // Use more complicated and more accurate calculation.
-                // intensityFactor = averagePower / FTP
-                // (durationInSeconds * averagePower * intensityFactor) / (FTP x 3600) * 100
-                return (int) round(($activity->getMovingTimeInSeconds() * $averagePower * ($averagePower / $ftp->getValue())) / ($ftp->getValue() * 3600) * 100);
-            }
-        } catch (EntityNotFound) {
+        $ftp = $this->eftpRepository->findForActivityType(
+            $activity->getStartDate(), 
+            $activity->getSportType()->getActivityType()
+        );
+
+        // To calculate intensity, we need
+        // 1) Max and average heart rate
+        // OR
+        // 2) FTP and average power
+        if ($ftp && $averagePower = $activity->getAveragePower()) {
+            // Use more complicated and more accurate calculation.
+            // intensityFactor = averagePower / FTP
+            // (durationInSeconds * averagePower * intensityFactor) / (FTP x 3600) * 100
+            return (int) round(($activity->getMovingTimeInSeconds() * $averagePower * ($averagePower / $ftp->getEftp())) / ($ftp->getEftp() * 3600) * 100);
         }
 
         if ($averageHeartRate = $activity->getAverageHeartRate()) {

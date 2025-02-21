@@ -5,24 +5,22 @@ declare(strict_types=1);
 namespace App\Domain\Strava\Ftp;
 
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
-use App\Domain\Strava\Activity\Activities;
-use App\Domain\Strava\Activity\Activity;
-use Carbon\Carbon;
+use App\Domain\Strava\Ftp\EFtps;
 
 final readonly class EFtpHistoryChart
 {
     private function __construct(
-        private Activities $activities,
+        private EFtps $eftps,
         private SerializableDateTime $now,
     ) {
     }
 
     public static function create(
-        Activities $activities,
+        EFtps $eftps,
         SerializableDateTime $now,
     ): self {
         return new self(
-            activities: $activities,
+            eftps: $eftps,
             now: $now
         );
     }
@@ -32,49 +30,30 @@ final readonly class EFtpHistoryChart
      */
     public function build(): array
     {
-        $activitiesWithEFTP = $this->activities->filter(fn (Activity $activity) => $activity->getEFTP() !== null);
-
         $uniqueDates = [];
-        foreach ($activitiesWithEFTP as $activity) {
-            $dateKey = $activity->getStartDate()->format('Y-m-d');
+        foreach ($this->eftps as $eftp) {
+            $dateKey = $eftp->getSetOn()->format('Y-m-d');
             $uniqueDates[$dateKey] = $dateKey;
         }
+
         ksort($uniqueDates);
         $eftp = [];
         $relative_eftp = [];
 
         foreach ($uniqueDates as $date) {
-            $currentDate = Carbon::parse($date);
-            $startDate = $currentDate->copy()->subWeeks(8);
+            $currentDate = SerializableDateTime::fromString($date);
+            $eftpForDate = $this->eftps->findForDate($currentDate);
 
-            $maxEftp = null;
-            $maxRelativeEftp = null;
-            
-            foreach ($activitiesWithEFTP as $activity) {
-                $activityDate = Carbon::instance($activity->getStartDate());
-
-                if ($activityDate->between($startDate, $currentDate)) {
-                    $eftpValue = $activity->getEFTP()->getPower();
-                    $relativeEftpValue = $activity->getEFTP()->getRelativePower();
-
-                    if ($maxEftp === null || $eftpValue > $maxEftp) {
-                        $maxEftp = $eftpValue;
-                    }
-                    
-                    if ($maxRelativeEftp === null || $relativeEftpValue > $maxRelativeEftp) {
-                        $maxRelativeEftp = $relativeEftpValue;
-                    }
+            if ($eftpForDate) {
+                $lastEftp = end($eftp);
+                if (!$lastEftp || $lastEftp[1] !== $eftpForDate->getEftp()) {
+                    $eftp[] = [$date, $eftpForDate->getEftp()];
                 }
-            }
 
-            $lastEftp = end($eftp);
-            if ($maxEftp && (!$lastEftp || $lastEftp[1] !== $maxEftp)) {
-                $eftp[] = [$date, $maxEftp];
-            }
-
-            $lastRelative = end($relative_eftp);
-            if ($maxRelativeEftp && (!$lastRelative || $lastRelative[1] !== $maxRelativeEftp)) {
-                $relative_eftp[] = [$date, $maxRelativeEftp];
+                $lastRelative = end($relative_eftp);
+                if (!$lastRelative || $lastRelative[1] !== $eftpForDate->getRelativeEftp()) {
+                    $relative_eftp[] = [$date, $eftpForDate->getRelativeEftp()];
+                }
             }
         }
 
@@ -137,7 +116,7 @@ final readonly class EFtpHistoryChart
                     'axisLabel' => [
                         'formatter' => '{value} w/kg',
                     ],
-                    'min' => min(array_column($relative_eftp, 1)) - 1,
+                    'min' => round(min(array_column($relative_eftp, 1)) - 1, 1),
                 ] : [],
             ],
             'series' => [
