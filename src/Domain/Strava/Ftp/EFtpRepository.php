@@ -2,8 +2,8 @@
 
 namespace App\Domain\Strava\Ftp;
 
-use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use App\Domain\Strava\Activity\ActivityType;
+use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
 interface EFtpRepository
 {

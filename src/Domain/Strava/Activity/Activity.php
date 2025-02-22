@@ -2,7 +2,6 @@
 
 namespace App\Domain\Strava\Activity;
 
-use App\Domain\Strava\Activity\Stream\ActivityPowerRepository;
 use App\Domain\Strava\Activity\SportType\SportType;
 use App\Domain\Strava\Activity\Stream\PowerOutput;
 use App\Domain\Strava\Gear\GearId;

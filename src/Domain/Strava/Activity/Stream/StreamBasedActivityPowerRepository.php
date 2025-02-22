@@ -33,7 +33,7 @@ final class StreamBasedActivityPowerRepository implements ActivityPowerRepositor
         $activities = $this->activityRepository->findAll();
         $powerStreams = $this->activityStreamRepository->findByStreamType(StreamType::WATTS);
 
-        /** @var \App\Domain\Strava\Activity\Activity $activity */
+        /** @var Activity $activity */
         foreach ($activities as $activity) {
             StreamBasedActivityPowerRepository::$cachedPowerOutputs[(string) $activity->getId()] = [];
             $powerStreamsForActivity = $powerStreams->filter(fn (ActivityStream $stream) => $stream->getActivityId() == $activity->getId());
@@ -94,9 +94,6 @@ final class StreamBasedActivityPowerRepository implements ActivityPowerRepositor
         return $powerStreamForActivity;
     }
 
-    /**
-     * @return ?PowerOutput
-     */
     public function calculateEFTP(Activity $activity): ?PowerOutput
     {
         $bestPowerOutputs = $this->findBestForActivity($activity->getId());
@@ -119,11 +116,11 @@ final class StreamBasedActivityPowerRepository implements ActivityPowerRepositor
             if ($power) {
                 $calculatedEFTP = $power->getPower() * $factor;
 
-                if ($eftp === null || $calculatedEFTP > $eftp->getPower()) {
+                if (null === $eftp || $calculatedEFTP > $eftp->getPower()) {
                     $interval = CarbonInterval::seconds($timeIntervalInSeconds);
 
-                    $relativePower = $athleteWeight->toFloat() > 0 
-                        ? round($calculatedEFTP / $athleteWeight->toFloat(), 2) 
+                    $relativePower = $athleteWeight->toFloat() > 0
+                        ? round($calculatedEFTP / $athleteWeight->toFloat(), 2)
                         : 0;
 
                     $time = (int) $interval->totalHours ? $interval->totalHours.' h' : ((int) $interval->totalMinutes ? $interval->totalMinutes.' m' : $interval->totalSeconds.' s');

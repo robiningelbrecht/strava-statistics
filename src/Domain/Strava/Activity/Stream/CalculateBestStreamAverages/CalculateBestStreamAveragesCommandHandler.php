@@ -27,7 +27,7 @@ final readonly class CalculateBestStreamAveragesCommandHandler implements Comman
 
         $countCalculatedStreams = 0;
         do {
-            $streams = $command->getAll() 
+            $streams = $command->getAll()
                 ? $this->activityStreamRepository->findAll()
                 : $this->activityStreamRepository->findWithoutBestAverages(100);
 
@@ -44,7 +44,6 @@ final readonly class CalculateBestStreamAveragesCommandHandler implements Comman
                 $stream->updateBestAverages($bestAverages);
                 $this->activityStreamRepository->update($stream);
             }
-            
         } while (!$streams->isEmpty() && !$command->getAll());
 
         $command->getOutput()->writeln(sprintf('  => Calculated averages for %d streams', $countCalculatedStreams));

@@ -6,8 +6,8 @@ use App\Domain\Strava\Activity\ActivityHeatmapChart;
 use App\Domain\Strava\Activity\ActivityIntensity;
 use App\Domain\Strava\Activity\ActivityRepository;
 use App\Domain\Strava\Activity\ActivityTotals;
-use App\Domain\Strava\Activity\ActivityTypeRepository;
 use App\Domain\Strava\Activity\ActivityType;
+use App\Domain\Strava\Activity\ActivityTypeRepository;
 use App\Domain\Strava\Activity\DaytimeStats\DaytimeStats;
 use App\Domain\Strava\Activity\DaytimeStats\DaytimeStatsCharts;
 use App\Domain\Strava\Activity\DistanceBreakdown;
@@ -41,7 +41,6 @@ use App\Domain\Strava\Calendar\Month;
 use App\Domain\Strava\Calendar\Months;
 use App\Domain\Strava\Challenge\ChallengeRepository;
 use App\Domain\Strava\Challenge\Consistency\ChallengeConsistency;
-use App\Domain\Strava\Ftp\FtpHistoryChart;
 use App\Domain\Strava\Ftp\EFtpHistoryChart;
 use App\Domain\Strava\Ftp\FtpRepository;
 use App\Domain\Strava\Ftp\InMemoryEFtpRepository;
@@ -121,7 +120,7 @@ final readonly class BuildAppCommandHandler implements CommandHandler
 
         $command->getOutput()->writeln('  => Calculating Eddington');
         $eddingtonPerActivityType = [];
-        /** @var \App\Domain\Strava\Activity\ActivityType $activityType */
+        /** @var ActivityType $activityType */
         foreach ($importedActivityTypes as $activityType) {
             if (!$activityType->supportsEddington()) {
                 continue;
@@ -222,8 +221,8 @@ final readonly class BuildAppCommandHandler implements CommandHandler
         $yearlyStatistics = [];
         $eftpRepository = InMemoryEFtpRepository::fromActivities($allActivities);
         $this->activityIntensity->setEftpRepository($eftpRepository);
-        
-        /** @var \App\Domain\Strava\Activity\ActivityType $activityType */
+
+        /** @var ActivityType $activityType */
         foreach ($importedActivityTypes as $activityType) {
             if ($activitiesPerActivityType[$activityType->value]->isEmpty()) {
                 continue;

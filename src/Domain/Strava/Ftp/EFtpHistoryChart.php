@@ -5,17 +5,16 @@ declare(strict_types=1);
 namespace App\Domain\Strava\Ftp;
 
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
-use App\Domain\Strava\Ftp\EFtps;
 
 final readonly class EFtpHistoryChart
 {
     private function __construct(
-        private EFtps $eftps
+        private EFtps $eftps,
     ) {
     }
 
     public static function create(
-        EFtps $eftps
+        EFtps $eftps,
     ): self {
         return new self(
             eftps: $eftps
@@ -138,7 +137,7 @@ final readonly class EFtpHistoryChart
                     'symbolSize' => 6,
                     'showSymbol' => true,
                     'data' => [
-                        ...$eftp
+                        ...$eftp,
                     ],
                 ],
                 !empty($relative_eftp) ? [

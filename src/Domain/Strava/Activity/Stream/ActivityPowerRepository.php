@@ -17,7 +17,7 @@ interface ActivityPowerRepository
         1800 => 0.96,
         2400 => 0.97,
         3000 => 0.99,
-        3600 => 1
+        3600 => 1,
     ];
 
     /**
@@ -35,8 +35,5 @@ interface ActivityPowerRepository
      */
     public function findTimeInSecondsPerWattageForActivity(ActivityId $activityId): array;
 
-    /**
-     * @return ?PowerOutput
-     */
     public function calculateEFTP(Activity $activity): ?PowerOutput;
 }

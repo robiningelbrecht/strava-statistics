@@ -6,14 +6,13 @@ namespace App\Domain\Strava\Activity;
 
 use App\Domain\Strava\Athlete\AthleteRepository;
 use App\Domain\Strava\Ftp\EFtpRepository;
-use App\Infrastructure\Exception\EntityNotFound;
 
 final class ActivityIntensity
 {
     private EFtpRepository $eftpRepository;
 
     public function __construct(
-        private AthleteRepository $athleteRepository
+        private AthleteRepository $athleteRepository,
     ) {
     }
 
@@ -26,7 +25,7 @@ final class ActivityIntensity
     {
         $athlete = $this->athleteRepository->find();
         $ftp = $this->eftpRepository->findForActivityType(
-            $activity->getStartDate(), 
+            $activity->getStartDate(),
             $activity->getSportType()->getActivityType()
         );
 
