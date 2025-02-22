@@ -144,6 +144,7 @@ final readonly class BuildDashboardHtmlCommandHandler implements CommandHandler
         $this->filesystem->write(
             'build/html/dashboard.html',
             $this->twig->load('html/dashboard.html.twig')->render([
+                'timeIntervals' => ActivityPowerRepository::TIME_INTERVAL_IN_SECONDS,
                 'mostRecentActivities' => $allActivities->slice(0, 5),
                 'intro' => $activityTotals,
                 'weeklyDistanceCharts' => $weeklyDistanceCharts,
@@ -194,7 +195,7 @@ final readonly class BuildDashboardHtmlCommandHandler implements CommandHandler
             ]),
         );
 
-        if (!empty($bestPowerOutputs)) {
+        if ($bestPowerOutputs->isEmpty()) {
             return;
         }
 

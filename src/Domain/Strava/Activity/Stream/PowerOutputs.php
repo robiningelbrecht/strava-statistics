@@ -7,12 +7,12 @@ namespace App\Domain\Strava\Activity\Stream;
 use App\Infrastructure\ValueObject\Collection;
 
 /**
- * @extends Collection<StreamType>
+ * @extends Collection<PowerOutput>
  */
-class StreamTypes extends Collection
+final class PowerOutputs extends Collection
 {
     public function getItemClassName(): string
     {
-        return StreamType::class;
+        return PowerOutput::class;
     }
 }

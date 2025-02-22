@@ -204,13 +204,11 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% set timeIntervals =  [5, 10, 30, 60, 300, 480, 1200, 3600] %}
-                        {% for timeInterval in timeIntervals %}
-                            {% if powerOutputs[timeInterval] %}
-                                {% set powerOutput = powerOutputs[timeInterval] %}
+                        {% for powerOutput in powerOutputs %}
+                            {% if powerOutput.getTimeInSeconds() in timeIntervals %}
                                 <tr class="bg-white border-b">
                                     <td class="px-6 py-2 sticky left-0 bg-white font-medium text-gray-900 whitespace-nowrap">
-                                        {{ powerOutput.getTime() }}
+                                        {{ powerOutput.getFormattedTime() }}
                                     </td>
                                     <td class="px-2 py-2">
                                         {{ powerOutput.getPower() }}<span class="text-xs">w</span>

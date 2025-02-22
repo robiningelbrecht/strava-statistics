@@ -6,7 +6,7 @@
 @source "../../../public/assets/leaflet/leaflet.fly.to.places.js";
 
 @plugin "flowbite/plugin";
-@source "../../..//node_modules/flowbite";
+@source "../../../node_modules/flowbite";
 
 @theme {
   --text-xxs: 0.625rem;

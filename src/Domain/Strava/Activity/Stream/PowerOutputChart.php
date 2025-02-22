@@ -7,16 +7,12 @@ namespace App\Domain\Strava\Activity\Stream;
 final readonly class PowerOutputChart
 {
     private function __construct(
-        /** @var PowerOutput[] */
-        private array $bestPowerOutputs,
+        private PowerOutputs $bestPowerOutputs,
     ) {
     }
 
-    /**
-     * @param PowerOutput[] $bestPowerOutputs
-     */
     public static function create(
-        array $bestPowerOutputs,
+        PowerOutputs $bestPowerOutputs,
     ): self {
         return new self($bestPowerOutputs);
     }
@@ -26,15 +22,10 @@ final readonly class PowerOutputChart
      */
     public function build(): array
     {
-        $powerOutputs = array_values(array_map(fn (PowerOutput $powerOutput) => $powerOutput->getPower(), $this->bestPowerOutputs));
+        $powerOutputs = array_values($this->bestPowerOutputs->map(fn (PowerOutput $powerOutput) => $powerOutput->getPower()));
         // @phpstan-ignore-next-line
         $yAxisOneMaxValue = ceil(max($powerOutputs) / 100) * 100;
         $yAxisOneInterval = $yAxisOneMaxValue / 5;
-
-        $relativePowerOutputs = array_values(array_map(fn (PowerOutput $powerOutput) => $powerOutput->getRelativePower(), $this->bestPowerOutputs));
-        // @phpstan-ignore-next-line
-        $yAxisTwoMaxValue = ceil(max($relativePowerOutputs) / 5) * 5;
-        $yAxisTwoInterval = $yAxisTwoMaxValue / 5;
 
         return [
             'animation' => true,
@@ -55,7 +46,7 @@ final readonly class PowerOutputChart
             'tooltip' => [
                 'show' => true,
                 'trigger' => 'axis',
-                'formatter' => '<div style="width: 130px"><div style="display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;column-gap:6px"><div style="border-radius:10px;width:10px;height:10px;background-color:#e34902"></div><div style="font-size:14px;color:#666;font-weight:400">Watt</div></div><div style="font-size:14px;color:#666;font-weight:900">{c0}</div></div><div style="display:flex;align-items:center;justify-content:space-between"><div style="display:flex;align-items:center;column-gap:6px"><div style="border-radius:10px;width:10px;height:10px;background-color:rgba(227,73,2,.7)"></div><div style="font-size:14px;color:#666;font-weight:400">Watt per kg</div></div><div style="font-size:14px;color:#666;font-weight:900">{c1}</div></div></div>',
+                // 'formatter' => '<div style="width: 130px"><div style="display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;column-gap:6px"><div style="border-radius:10px;width:10px;height:10px;background-color:#e34902"></div><div style="font-size:14px;color:#666;font-weight:400">Watt</div></div><div style="font-size:14px;color:#666;font-weight:900">{c0}</div></div><div style="display:flex;align-items:center;justify-content:space-between"><div style="display:flex;align-items:center;column-gap:6px"><div style="border-radius:10px;width:10px;height:10px;background-color:rgba(227,73,2,.7)"></div><div style="font-size:14px;color:#666;font-weight:400">Watt per kg</div></div><div style="font-size:14px;color:#666;font-weight:900">{c1}</div></div></div>',
             ],
             'xAxis' => [
                 'type' => 'category',
@@ -98,14 +89,6 @@ final readonly class PowerOutputChart
                     'max' => $yAxisOneMaxValue,
                     'interval' => $yAxisOneInterval,
                 ],
-                [
-                    'type' => 'value',
-                    'axisLabel' => [
-                        'formatter' => '{value} w/kg',
-                    ],
-                    'max' => $yAxisTwoMaxValue,
-                    'interval' => $yAxisTwoInterval,
-                ],
             ],
             'series' => [
                 [
@@ -115,17 +98,6 @@ final readonly class PowerOutputChart
                     'symbol' => 'none',
                     'yAxisIndex' => 0,
                     'data' => $powerOutputs,
-                ],
-                [
-                    'type' => 'line',
-                    'name' => 'Watt per kg',
-                    'smooth' => true,
-                    'symbol' => 'none',
-                    'yAxisIndex' => 1,
-                    'data' => $relativePowerOutputs,
-                    'itemStyle' => [
-                        'color' => 'rgba(227, 73, 2, 0.7)',
-                    ],
                 ],
             ],
         ];

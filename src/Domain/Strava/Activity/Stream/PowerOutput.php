@@ -7,7 +7,8 @@ use App\Domain\Strava\Activity\Activity;
 final readonly class PowerOutput
 {
     private function __construct(
-        private string $time,
+        private int $timeInSeconds,
+        private string $formattedTime,
         private int $power,
         private float $relativePower,
         private ?Activity $activity = null,
@@ -15,22 +16,29 @@ final readonly class PowerOutput
     }
 
     public static function fromState(
-        string $time,
+        int $timeInSeconds,
+        string $formattedTime,
         int $power,
         float $relativePower,
         ?Activity $activity = null,
     ): self {
         return new self(
-            time: $time,
+            timeInSeconds: $timeInSeconds,
+            formattedTime: $formattedTime,
             power: $power,
             relativePower: $relativePower,
             activity: $activity
         );
     }
 
-    public function getTime(): string
+    public function getTimeInSeconds(): int
     {
-        return $this->time;
+        return $this->timeInSeconds;
+    }
+
+    public function getFormattedTime(): string
+    {
+        return $this->formattedTime;
     }
 
     public function getPower(): int
