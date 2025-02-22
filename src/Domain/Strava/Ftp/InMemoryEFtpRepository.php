@@ -9,36 +9,48 @@ use App\Domain\Strava\Activity\Activity;
 use App\Domain\Strava\Activity\ActivityType;
 use Carbon\Carbon;
 
-final readonly class MemoryEFtpRepository implements EFtpRepository
+final readonly class InMemoryEFtpRepository implements EFtpRepository
 {
     private function __construct(
-        private Eftps $Eftps
+        private EFtps $Eftps
     ) {
     }
 
+    /**
+     * @return EFtps
+     */
     public function findAllForActivityType(ActivityType $type): EFtps
     {
         return $this->Eftps->filter(fn (EFtp $eftp) => $eftp->getActivityType() === $type);
     }
 
+    /**
+     * @return ?EFtp
+     */
     public function findForActivityType(SerializableDateTime $dateTime, ActivityType $type): ?EFtp
     {
         return $this->findAllForActivityType($type)->findForDate($dateTime);
     }
 
-    public static function fromActivities(Activities $activities): MemoryEFtpRepository
+    /**
+     * @return EFtpRepository
+     */
+    public static function fromActivities(Activities $allActivities): EFtpRepository
     {
         $eftps = [];
-        $activitiesWithEFTP = $activities->filter(fn (Activity $activity) => $activity->getEFTP() !== null);
+        
+        foreach ($allActivities as $activity) {
+            if ($activity->getEFTP() === null) {
+                continue;
+            }
 
-        foreach ($activitiesWithEFTP as $activity) {
-            $eftps[] = Eftp::fromState(
+            $eftps[] = EFtp::fromState(
                 $activity->getStartDate(), 
                 $activity->getEFTP(),
                 $activity->getSportType()->getActivityType()
             );
         }
 
-        return new self(Eftps::fromArray($eftps));
+        return new self(EFtps::fromArray($eftps));
     }
 }

@@ -8,7 +8,7 @@ use App\Domain\Strava\Athlete\AthleteRepository;
 use App\Domain\Strava\Ftp\EFtpRepository;
 use App\Infrastructure\Exception\EntityNotFound;
 
-final readonly class ActivityIntensity
+final class ActivityIntensity
 {
     private EFtpRepository $eftpRepository;
 

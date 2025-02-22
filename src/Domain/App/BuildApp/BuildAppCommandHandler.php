@@ -44,7 +44,7 @@ use App\Domain\Strava\Challenge\Consistency\ChallengeConsistency;
 use App\Domain\Strava\Ftp\FtpHistoryChart;
 use App\Domain\Strava\Ftp\EFtpHistoryChart;
 use App\Domain\Strava\Ftp\FtpRepository;
-use App\Domain\Strava\Ftp\MemoryEFtpRepository;
+use App\Domain\Strava\Ftp\InMemoryEFtpRepository;
 use App\Domain\Strava\Gear\DistanceOverTimePerGearChart;
 use App\Domain\Strava\Gear\DistancePerMonthPerGearChart;
 use App\Domain\Strava\Gear\GearRepository;
@@ -220,7 +220,7 @@ final readonly class BuildAppCommandHandler implements CommandHandler
         $distanceBreakdowns = [];
         $yearlyDistanceCharts = [];
         $yearlyStatistics = [];
-        $eftpRepository = MemoryEFtpRepository::fromActivities($allActivities);
+        $eftpRepository = InMemoryEFtpRepository::fromActivities($allActivities);
         $this->activityIntensity->setEftpRepository($eftpRepository);
         
         /** @var \App\Domain\Strava\Activity\ActivityType $activityType */
@@ -230,8 +230,7 @@ final readonly class BuildAppCommandHandler implements CommandHandler
             }
 
             if ($activityType->supportsEFTP() && $chartData = EFtpHistoryChart::create(
-                eftps: $eftpRepository->findAllForActivityType($activityType),
-                now: $now,
+                eftps: $eftpRepository->findAllForActivityType($activityType)
             )->build()) {
                 $eftpCharts[$activityType->value] = Json::encode($chartData);
             }

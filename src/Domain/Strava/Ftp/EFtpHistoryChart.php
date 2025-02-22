@@ -10,18 +10,15 @@ use App\Domain\Strava\Ftp\EFtps;
 final readonly class EFtpHistoryChart
 {
     private function __construct(
-        private EFtps $eftps,
-        private SerializableDateTime $now,
+        private EFtps $eftps
     ) {
     }
 
     public static function create(
-        EFtps $eftps,
-        SerializableDateTime $now,
+        EFtps $eftps
     ): self {
         return new self(
-            eftps: $eftps,
-            now: $now
+            eftps: $eftps
         );
     }
 
@@ -55,6 +52,10 @@ final readonly class EFtpHistoryChart
                     $relative_eftp[] = [$date, $eftpForDate->getRelativeEftp()];
                 }
             }
+        }
+
+        if (empty($eftp)) {
+            return [];
         }
 
         return [

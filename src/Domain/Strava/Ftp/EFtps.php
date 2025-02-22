@@ -18,6 +18,9 @@ class EFtps extends Collection
         return EFtp::class;
     }
 
+    /**
+     * @return ?EFtp
+     */
     public function findForDate(SerializableDateTime $dateTime): ?EFtp
     {
         $startDate = (clone $dateTime)->modify('-8 weeks');
@@ -40,7 +43,10 @@ class EFtps extends Collection
         return $maxEftp;
     }
 
-    public function last()
+    /**
+     * @return ?EFtp
+     */
+    public function last(): ?EFtp
     {
         if (empty($this->items)) {
             return null;

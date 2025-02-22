@@ -94,6 +94,9 @@ final class StreamBasedActivityPowerRepository implements ActivityPowerRepositor
         return $powerStreamForActivity;
     }
 
+    /**
+     * @return ?PowerOutput
+     */
     public function calculateEFTP(Activity $activity): ?PowerOutput
     {
         $bestPowerOutputs = $this->findBestForActivity($activity->getId());
