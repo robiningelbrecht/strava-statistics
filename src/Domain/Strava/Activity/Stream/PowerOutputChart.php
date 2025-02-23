@@ -27,9 +27,6 @@ final readonly class PowerOutputChart
         foreach ($this->bestPowerOutputs as $bestPowerOutputs) {
             /** @var PowerOutputs $powerOutputs */
             [$description, $powerOutputs] = $bestPowerOutputs;
-            if ($powerOutputs->isEmpty()) {
-                continue;
-            }
             $scalarPowerOutputs = $powerOutputs->map(fn (PowerOutput $powerOutput) => $powerOutput->getPower());
             $series[] = [
                 'type' => 'line',
@@ -49,8 +46,8 @@ final readonly class PowerOutputChart
             'animation' => true,
             'backgroundColor' => null,
             'grid' => [
-                'left' => '3%',
-                'right' => '4%',
+                'left' => '0%',
+                'right' => '0%',
                 'bottom' => '3%',
                 'containLabel' => true,
             ],

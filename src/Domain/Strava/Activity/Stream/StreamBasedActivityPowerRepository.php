@@ -18,7 +18,7 @@ use Doctrine\DBAL\Connection;
 
 final class StreamBasedActivityPowerRepository implements ActivityPowerRepository
 {
-    /** @var array<mixed> */
+    /** @var array<string, PowerOutputs> */
     private static array $cachedPowerOutputs = [];
 
     public function __construct(
@@ -51,7 +51,7 @@ final class StreamBasedActivityPowerRepository implements ActivityPowerRepositor
             $activityStream = $powerStreamsForActivity->getFirst();
             $bestAverages = $activityStream->getBestAverages();
 
-            foreach (self::TIME_INTERVAL_IN_SECONDS as $timeIntervalInSeconds) {
+            foreach (self::TIME_INTERVALS_IN_SECONDS_REDACTED as $timeIntervalInSeconds) {
                 $interval = CarbonInterval::seconds($timeIntervalInSeconds);
                 if (!isset($bestAverages[$timeIntervalInSeconds])) {
                     continue;
@@ -127,7 +127,7 @@ final class StreamBasedActivityPowerRepository implements ActivityPowerRepositor
             );
         }
 
-        foreach (self::TIME_INTERVAL_IN_SECONDS_OVERALL as $timeIntervalInSeconds) {
+        foreach (self::TIME_INTERVALS_IN_SECONDS_ALL as $timeIntervalInSeconds) {
             $query = 'SELECT ActivityStream.* FROM ActivityStream 
                         INNER JOIN Activity ON Activity.activityId = ActivityStream.activityId 
                         WHERE streamType = :streamType

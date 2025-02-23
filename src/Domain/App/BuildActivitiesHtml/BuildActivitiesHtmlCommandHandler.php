@@ -139,7 +139,7 @@ final readonly class BuildActivitiesHtmlCommandHandler implements CommandHandler
 
             $dataDatableRows[] = DataTableRow::create(
                 markup: $this->twig->load('html/activity/activity-data-table-row.html.twig')->render([
-                    'timeIntervals' => ActivityPowerRepository::TIME_INTERVAL_IN_SECONDS,
+                    'timeIntervals' => ActivityPowerRepository::TIME_INTERVALS_IN_SECONDS_REDACTED,
                     'activity' => $activity,
                 ]),
                 searchables: $activity->getSearchables(),

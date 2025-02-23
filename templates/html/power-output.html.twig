@@ -17,6 +17,74 @@
     <div class="p-4 md:p-5 space-y-4">
         <div class="grid grid-cols-1 gap-4">
             <div class="h-80" data-echarts-options='{{ powerOutputChart }}'></div>
+            <div class="relative">
+                <h3 class="mb-4 font-semibold">
+                    Details
+                </h3>
+                <div class="scroll-area overflow-auto">
+                    <table class="w-full text-sm text-center text-gray-500">
+                        <thead class="z-10 sticky top-0 text-xs text-gray-700 uppercase bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-2 py-3 bg-gray-50 sticky left-0">
+                                <div class="w-[6rem]">&nbsp;</div>
+                            </th>
+                            <th scope="col" colspan="2" class="px-6 py-3">
+                                {{ "Best"|trans }} 1s
+                            </th>
+                            <th scope="col" colspan="2" class="px-6 py-3">
+                                {{ "Best"|trans }} 5s
+                            </th>
+                            <th scope="col" colspan="2" class="px-6 py-3">
+                                {{ "Best"|trans }} 15s
+                            </th>
+                            <th scope="col" colspan="2" class="px-6 py-3">
+                                {{ "Best"|trans }} 1m
+                            </th>
+                            <th scope="col" colspan="2" class="px-6 py-3">
+                                {{ "Best"|trans }} 2m
+                            </th>
+                            <th scope="col" colspan="2" class="px-6 py-3">
+                                {{ "Best"|trans }} 5m
+                            </th>
+                            <th scope="col" colspan="2" class="px-6 py-3">
+                                {{ "Best"|trans }} 8m
+                            </th>
+                            <th scope="col" colspan="2" class="px-6 py-3">
+                                {{ "Best"|trans }} 20m
+                            </th>
+                            <th scope="col" colspan="2" class="px-6 py-3">
+                                {{ "Best"|trans }} 30m
+                            </th>
+                            <th scope="col" colspan="2" class="px-6 py-3">
+                                {{ "Best"|trans }} 1h
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% set timeIntervalsToDisplay = [1, 5, 15, 60, 120, 300, 480, 1200, 1800, 3600] %}
+                        {% for bestPowerOutput in bestPowerOutputs %}
+                            {% set description = bestPowerOutput[0] %}
+                            {% set powerOutputs = bestPowerOutput[1] %}
+                            <tr class="group odd:bg-white border-b even:border-b even:bg-gray-50">
+                                <td class="font-medium text-gray-900 px-2 py-2 sticky left-0 group-odd:bg-white group-even:bg-gray-50">
+                                    {{ description }}
+                                </td>
+                                {% for powerOutput in powerOutputs %}
+                                    {% if powerOutput.getTimeIntervalInSeconds() in timeIntervalsToDisplay %}
+                                        <td class="px-2 py-2">
+                                            {{ powerOutput.getPower() }}<span class="text-xs">w</span>
+                                        </td>
+                                        <td class="px-2 py-2 border-r">
+                                            {{ powerOutput.getRelativePower() }}<span class="text-xs">w/kg</span>
+                                        </td>
+                                    {% endif %}
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 {% endautoescape %}

@@ -20,6 +20,10 @@ final class BestPowerOutputs implements \IteratorAggregate
 
     public function add(string $description, PowerOutputs $powerOutputs): self
     {
+        if ($powerOutputs->isEmpty()) {
+            return $this;
+        }
+
         $this->items[] = [$description, $powerOutputs];
 
         return $this;
