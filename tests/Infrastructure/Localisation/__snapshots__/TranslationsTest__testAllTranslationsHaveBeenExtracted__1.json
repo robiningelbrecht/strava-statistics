@@ -204,6 +204,7 @@
     "age": "age",
     "bpm": "bpm",
     "clear": "clear",
+    "eFTP charts display the highest estimated FTP values achieved over an eight‐week period. The eFTP for each activity is determined by multiplying the best average power by a factor:": "eFTP charts display the highest estimated FTP values achieved over an eight‐week period. The eFTP for each activity is determined by multiplying the best average power by a factor:",
     "intensity": "intensity",
     "intensityFactor": "intensityFactor",
     "max gradient": "max gradient",

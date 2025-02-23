@@ -38,13 +38,6 @@ translation-debug:
 composer:
 	@make dcr cmd="composer $(arg)"
 
-# Cron helpers
-cron:
-	@make dcr cmd="vendor/bin/crunz schedule:run"
-
-cron-list:
-	@make dcr cmd="vendor/bin/crunz schedule:list"
-
 # Code quality tools.
 phpunit:
 	@make dcr cmd="vendor/bin/phpunit -d --enable-pretty-print -d --compact $(arg)"
@@ -64,9 +57,6 @@ delete-snapshots:
 # Helpers to manage app imports.
 app-import-data:
 	docker compose exec app bin/console app:strava:import-data
-
-app-import-recalculate:
-	docker compose exec app bin/console app:strava:recalculate
 
 app-build-files:
 	docker compose exec app bin/console app:strava:build-files

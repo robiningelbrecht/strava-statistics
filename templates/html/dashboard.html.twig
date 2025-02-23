@@ -738,41 +738,53 @@
             </div>
         </div>
 
-        {% if eftpCharts is not empty %}
+        {% if ftpHistoryChart is not empty or eftpHistoryCharts is not empty %}
         <div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-xs sm:p-6">
-            <!-- eFTP HISTORY -->
+            <!-- FTP HISTORY -->
             <div class="mb-4 flex items-center">
-                <h3 class="font-semibold text-lg">eFTP</h3>
-                <button class="hidden lg:block" data-popover-target="popover-eftp-description" data-popover-placement="right" type="button">
-                    <svg class="w-4 h-4 ml-1 text-gray-400 hover:text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>
-                    <span class="sr-only">{{ "Show information"|trans }}</span>
-                </button>
-                <div data-popover id="popover-eftp-description" role="tooltip" class="hidden lg:block lg:w-[450px] xl:w-[650px] absolute z-100 invisible text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-xs opacity-0">
-                    <div class="p-3 space-y-2">
-                        <p>
-                            {% trans %}This chart displays the highest eFTP values achieved over an eight‐week period. The eFTP for each activity is determined by multiplying the best average power by a factor:{% endtrans %}
-                        </p>
-                        <blockquote class="p-4 my-4 text-xs border-l-4 border-gray-300 bg-gray-50 italic leading-relaxed text-gray-600">
-                            <span class="font-bold">5min</span> x 0.79<br />
-                            <span class="font-bold">10min</span> x 0.86<br />
-                            <span class="font-bold">15min</span> x 0.92<br />
-                            <span class="font-bold">20min</span> x 0.95<br />
-                            <span class="font-bold">30min</span> x 0.96<br />
-                            <span class="font-bold">40min</span> x 0.97<br />
-                            <span class="font-bold">50min</span> x 0.99<br />
-                            <span class="font-bold">1 hour</span> x 1.00<br />
-                        </blockquote>
+                <h3 class="font-semibold text-lg">
+                    {{ "FTP history"|trans }}
+                </h3>
+
+                {% if eftpHistoryCharts|length > 0 %}
+                    <button class="hidden lg:block" data-popover-target="popover-eftp-description" data-popover-placement="right" type="button">
+                        <svg class="w-4 h-4 ml-1 text-gray-400 hover:text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>
+                        <span class="sr-only">{{ "Show information"|trans }}</span>
+                    </button>
+                    <div data-popover id="popover-eftp-description" role="tooltip" class="hidden lg:block lg:w-[450px] absolute z-100 invisible text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-xs opacity-0">
+                        <div class="p-3 space-y-2">
+                            <p>
+                                {% trans %}eFTP charts display the highest estimated FTP values achieved over an eight‐week period. The eFTP for each activity is determined by multiplying the best average power by a factor:{% endtrans %}
+                            </p>
+                            <blockquote class="p-4 my-4 text-xs border-l-4 border-gray-300 bg-gray-50 italic leading-relaxed text-gray-600">
+                                <span class="font-bold">5min</span> x 0.79<br />
+                                <span class="font-bold">10min</span> x 0.86<br />
+                                <span class="font-bold">15min</span> x 0.92<br />
+                                <span class="font-bold">20min</span> x 0.95<br />
+                                <span class="font-bold">30min</span> x 0.96<br />
+                                <span class="font-bold">40min</span> x 0.97<br />
+                                <span class="font-bold">50min</span> x 0.99<br />
+                                <span class="font-bold">1 hour</span> x 1.00<br />
+                            </blockquote>
+                        </div>
                     </div>
-                </div>
+                {% endif %}
             </div>
 
-            {% if eftpCharts|length > 1 %}
+            {% if eftpHistoryCharts|length > 0 %}
                 <div class="mb-4 border-b border-gray-200">
-                    <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="eftpActivityTypeTab" data-tabs-toggle="#eftpActivityTypeTabContent" role="tablist">
-                        {% for activityType,chart in eftpCharts %}
+                    <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="ftpTab" data-tabs-toggle="#ftpTabContent" role="tablist">
+                        {% if ftpHistoryChart %}
+                            <li class="mr-2" role="presentation">
+                                <a href="#dashboard" data-tabs-target="#ftp" role="tab" aria-controls="ftp" class="inline-flex items-center justify-center p-2 border-b-2 rounded-t-lg group">
+                                    FTP
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% for activityType,chart in eftpHistoryCharts %}
                             <li class="mr-2" role="presentation">
                                 <a href="#dashboard" data-tabs-target="#eftp{{ activityType }}" role="tab" aria-controls="eftp{{ activityType }}" class="inline-flex items-center justify-center p-2 border-b-2 rounded-t-lg group">
-                                    {{ enum('App\\Domain\\Strava\\Activity\\ActivityType').from(activityType)|trans }}
+                                    eFTP ({{ enum('App\\Domain\\Strava\\Activity\\ActivityType').from(activityType)|trans }})
                                 </a>
                             </li>
                         {% endfor %}
@@ -780,8 +792,13 @@
                 </div>
             {% endif %}
 
-            <div id="eftpActivityTypeTabContent">
-                {% for activityType,chart in eftpCharts %}
+            <div id="ftpTabContent">
+                {% if ftpHistoryChart %}
+                    <div id="ftp" role="tabpanel" aria-labelledby="ftp-tab">
+                        <div class="h-full min-h-[16rem]" data-echarts-options='{{ ftpHistoryChart }}'></div>
+                    </div>
+                {% endif %}
+                {% for activityType,chart in eftpHistoryCharts %}
                     <div id="eftp{{ activityType }}" role="tabpanel" aria-labelledby="eftp{{ activityType }}-tab">
                         <div class="h-full min-h-[16rem]" data-echarts-options='{{ chart }}'></div>
                     </div>

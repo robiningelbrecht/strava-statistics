@@ -11,13 +11,7 @@ final class CalculateBestStreamAverages extends DomainCommand
 {
     public function __construct(
         private readonly OutputInterface $output,
-        private readonly bool $all = false,
     ) {
-    }
-
-    public function getAll(): bool
-    {
-        return $this->all;
     }
 
     public function getOutput(): OutputInterface

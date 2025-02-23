@@ -42,6 +42,7 @@ use App\Domain\Strava\Calendar\Months;
 use App\Domain\Strava\Challenge\ChallengeRepository;
 use App\Domain\Strava\Challenge\Consistency\ChallengeConsistency;
 use App\Domain\Strava\Ftp\EFtpHistoryChart;
+use App\Domain\Strava\Ftp\FtpHistoryChart;
 use App\Domain\Strava\Ftp\FtpRepository;
 use App\Domain\Strava\Ftp\InMemoryEFtpRepository;
 use App\Domain\Strava\Gear\DistanceOverTimePerGearChart;
@@ -305,7 +306,13 @@ final readonly class BuildAppCommandHandler implements CommandHandler
                 'daytimeStats' => $dayTimeStats,
                 'distanceBreakdowns' => $distanceBreakdowns,
                 'trivia' => $trivia,
-                'eftpCharts' => !empty($eftpCharts) ? $eftpCharts : null,
+                'ftpHistoryChart' => !$allFtps->isEmpty() ? Json::encode(
+                    FtpHistoryChart::create(
+                        ftps: $allFtps,
+                        now: $now
+                    )->build()
+                ) : null,
+                'eftpHistoryCharts' => !empty($eftpCharts) ? $eftpCharts : null,
                 'timeInHeartRateZoneChart' => Json::encode(
                     TimeInHeartRateZoneChart::create(
                         timeInSecondsInHeartRateZoneOne: $this->activityHeartRateRepository->findTotalTimeInSecondsInHeartRateZone(HeartRateZone::ONE),
