@@ -205,6 +205,15 @@ final readonly class BuildDashboardHtmlCommandHandler implements CommandHandler
             description: 'All time',
             powerOutputs: $bestAllTimePowerOutputs
         );
+        foreach ($allYears->reverse() as $year) {
+            $bestPowerOutputs->add(
+                description: (string) $year,
+                powerOutputs: $this->activityPowerRepository->findBestForActivityTypeInDateRange(
+                    activityType: ActivityType::RIDE,
+                    dateRange: $year->getRange(),
+                )
+            );
+        }
 
         $this->filesystem->write(
             'build/html/power-output.html',
