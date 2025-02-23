@@ -34,6 +34,7 @@ use App\Infrastructure\CQRS\Bus\CommandHandler;
 use App\Infrastructure\Exception\EntityNotFound;
 use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\ValueObject\Measurement\UnitSystem;
+use App\Infrastructure\ValueObject\Time\DateRange;
 use App\Infrastructure\ValueObject\Time\Years;
 use League\Flysystem\FilesystemOperator;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -202,8 +203,22 @@ final readonly class BuildDashboardHtmlCommandHandler implements CommandHandler
 
         $bestPowerOutputs = BestPowerOutputs::empty();
         $bestPowerOutputs->add(
-            description: 'All time',
+            description: $this->translator->trans('All time'),
             powerOutputs: $bestAllTimePowerOutputs
+        );
+        $bestPowerOutputs->add(
+            description: $this->translator->trans('Last 45 days'),
+            powerOutputs: $this->activityPowerRepository->findBestForActivityTypeInDateRange(
+                activityType: ActivityType::RIDE,
+                dateRange: DateRange::lastXDays($now, 45)
+            )
+        );
+        $bestPowerOutputs->add(
+            description: $this->translator->trans('Last 90 days'),
+            powerOutputs: $this->activityPowerRepository->findBestForActivityTypeInDateRange(
+                activityType: ActivityType::RIDE,
+                dateRange: DateRange::lastXDays($now, 90)
+            )
         );
         foreach ($allYears->reverse() as $year) {
             $bestPowerOutputs->add(

@@ -4,6 +4,7 @@ Activities: Activities
 Advanced: Advanced
 Afternoon: Afternoon
 'All activities': 'All activities'
+'All time': 'All time'
 'Alpine Ski': 'Alpine Ski'
 Apr: Apr
 Aug: Aug
@@ -82,6 +83,8 @@ Jun: Jun
 KOM: KOM
 Kayaking: Kayaking
 'Kite Surf': 'Kite Surf'
+'Last 45 days': 'Last 45 days'
+'Last 90 days': 'Last 90 days'
 'Latest start time': 'Latest start time'
 'Loading data...': 'Loading data...'
 Loading...: Loading...

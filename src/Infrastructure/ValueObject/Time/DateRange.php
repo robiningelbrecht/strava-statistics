@@ -17,7 +17,18 @@ final readonly class DateRange
 
     public static function fromDates(SerializableDateTime $from, SerializableDateTime $till): self
     {
-        return new self($from, $till);
+        return new self(
+            from: $from,
+            till: $till
+        );
+    }
+
+    public static function lastXDays(SerializableDateTime $now, int $numberOfDays): self
+    {
+        return new self(
+            from: $now->sub(\DateInterval::createFromDateString($numberOfDays.' days')),
+            till: $now
+        );
     }
 
     public function getFrom(): SerializableDateTime
