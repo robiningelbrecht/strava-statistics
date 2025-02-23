@@ -25,8 +25,11 @@ final readonly class DateRange
 
     public static function lastXDays(SerializableDateTime $now, int $numberOfDays): self
     {
+        /** @var \DateInterval $interval */
+        $interval = \DateInterval::createFromDateString($numberOfDays.' days');
+
         return new self(
-            from: $now->sub(\DateInterval::createFromDateString($numberOfDays.' days')),
+            from: $now->sub($interval),
             till: $now
         );
     }

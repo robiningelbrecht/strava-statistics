@@ -236,6 +236,7 @@ final readonly class BuildDashboardHtmlCommandHandler implements CommandHandler
                 'powerOutputChart' => Json::encode(
                     PowerOutputChart::create($bestPowerOutputs)->build()
                 ),
+                'bestPowerOutputs' => $bestPowerOutputs,
             ]),
         );
     }
