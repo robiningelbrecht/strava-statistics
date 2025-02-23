@@ -17,6 +17,15 @@ class DateRangeTest extends TestCase
         $this->assertEquals($till, $dateRange->getTill());
     }
 
+    public function testLastXDays(): void
+    {
+        $now = SerializableDateTime::fromString('25-02-1982');
+        $this->assertEquals(
+            DateRange::fromDates(SerializableDateTime::fromString('15-02-1982'), $now),
+            DateRange::lastXDays($now, 10),
+        );
+    }
+
     public function testItShouldThrowWhenTillComesBeforeFrom(): void
     {
         $from = SerializableDateTime::fromString('25-02-1982');

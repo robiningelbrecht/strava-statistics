@@ -4,6 +4,7 @@ namespace App\Domain\Strava\Activity;
 
 use App\Domain\Strava\Activity\SportType\SportType;
 use App\Domain\Strava\Activity\Stream\PowerOutput;
+use App\Domain\Strava\Activity\Stream\PowerOutputs;
 use App\Domain\Strava\Gear\GearId;
 use App\Domain\Strava\LeafletMap;
 use App\Domain\Weather\OpenMeteo\Weather;
@@ -34,8 +35,7 @@ final class Activity
     public const string DATE_TIME_FORMAT = 'Y-m-d\TH:i:s\Z';
 
     private ?int $maxCadence = null;
-    /** @var array<mixed> */
-    private array $bestPowerOutputs = [];
+    private ?PowerOutputs $bestPowerOutputs = null;
 
     #[ORM\Column(type: 'json', nullable: true)]
     // @phpstan-ignore-next-line
@@ -262,18 +262,23 @@ final class Activity
 
     public function hasDetailedPowerData(): bool
     {
-        return !empty($this->bestPowerOutputs);
+        if (is_null($this->bestPowerOutputs)) {
+            return false;
+        }
+
+        return !$this->bestPowerOutputs->isEmpty();
     }
 
     public function getBestAveragePowerForTimeInterval(int $timeInterval): ?PowerOutput
     {
-        return $this->bestPowerOutputs[$timeInterval] ?? null;
+        if (is_null($this->bestPowerOutputs)) {
+            return null;
+        }
+
+        return $this->bestPowerOutputs->find(fn (PowerOutput $bestPowerOutput) => $bestPowerOutput->getTimeIntervalInSeconds() === $timeInterval);
     }
 
-    /**
-     * @param array<mixed> $bestPowerOutputs
-     */
-    public function enrichWithBestPowerOutputs(array $bestPowerOutputs): void
+    public function enrichWithBestPowerOutputs(PowerOutputs $bestPowerOutputs): void
     {
         $this->bestPowerOutputs = $bestPowerOutputs;
     }

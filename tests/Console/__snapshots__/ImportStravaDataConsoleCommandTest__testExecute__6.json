@@ -1,6 +1,0 @@
-{
-    "commandName": "App\\Domain\\Strava\\Segment\\ImportSegments\\ImportSegments",
-    "payload": {
-        "output": {}
-    }
-}

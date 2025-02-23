@@ -1,6 +1,0 @@
-{
-    "commandName": "App\\Domain\\Strava\\Activity\\ImportActivities\\ImportActivities",
-    "payload": {
-        "output": {}
-    }
-}

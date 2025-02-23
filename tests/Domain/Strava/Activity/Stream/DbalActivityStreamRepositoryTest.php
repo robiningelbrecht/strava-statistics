@@ -188,47 +188,6 @@ class DbalActivityStreamRepositoryTest extends ContainerTestCase
         );
     }
 
-    public function testFindWithBestAverageFor(): void
-    {
-        $streamOne = ActivityStreamBuilder::fromDefaults()
-            ->withActivityId(ActivityId::fromUnprefixed(1))
-            ->withStreamType(StreamType::WATTS)
-            ->withBestAverages(['10' => 40])
-            ->build();
-        $this->activityStreamRepository->add($streamOne);
-        $streamTwo = ActivityStreamBuilder::fromDefaults()
-            ->withActivityId(ActivityId::fromUnprefixed(2))
-            ->withStreamType(StreamType::WATTS)
-            ->withBestAverages(['10' => 30])
-            ->build();
-        $this->activityStreamRepository->add($streamTwo);
-
-        $this->assertEquals(
-            $streamOne,
-            $this->activityStreamRepository->findWithBestAverageFor(10, StreamType::WATTS)
-        );
-    }
-
-    public function testFindWithBestAverageForItShouldThrowWhenNotFound(): void
-    {
-        $streamOne = ActivityStreamBuilder::fromDefaults()
-            ->withActivityId(ActivityId::fromUnprefixed(1))
-            ->withStreamType(StreamType::WATTS)
-            ->withBestAverages(['10' => 40])
-            ->build();
-        $this->activityStreamRepository->add($streamOne);
-        $streamTwo = ActivityStreamBuilder::fromDefaults()
-            ->withActivityId(ActivityId::fromUnprefixed(2))
-            ->withStreamType(StreamType::WATTS)
-            ->withBestAverages(['10' => 30])
-            ->build();
-        $this->activityStreamRepository->add($streamTwo);
-
-        $this->expectExceptionObject(new EntityNotFound('ActivityStream for average not found'));
-
-        $this->activityStreamRepository->findWithBestAverageFor(20, StreamType::WATTS);
-    }
-
     #[\Override]
     protected function setUp(): void
     {

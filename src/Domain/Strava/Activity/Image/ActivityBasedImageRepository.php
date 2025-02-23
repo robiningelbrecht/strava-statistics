@@ -37,4 +37,16 @@ final readonly class ActivityBasedImageRepository implements ImageRepository
 
         return $images;
     }
+
+    public function count(): int
+    {
+        $activities = $this->activityRepository->findAll();
+        $totalImageCount = 0;
+
+        foreach ($activities as $activity) {
+            $totalImageCount += $activity->getTotalImageCount();
+        }
+
+        return $totalImageCount;
+    }
 }

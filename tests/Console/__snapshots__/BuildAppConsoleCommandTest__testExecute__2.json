@@ -1,6 +1,84 @@
-{
-    "commandName": "App\\Domain\\App\\BuildApp\\BuildApp",
-    "payload": {
-        "output": {}
+[
+    {
+        "commandName": "App\\Domain\\App\\ConfigureAppLocale\\ConfigureAppLocale",
+        "payload": []
+    },
+    {
+        "commandName": "App\\Domain\\Manifest\\BuildManifest\\BuildManifest",
+        "payload": []
+    },
+    {
+        "commandName": "App\\Domain\\App\\BuildIndexHtml\\BuildIndexHtml",
+        "payload": {
+            "now": "2023-10-17 16:15:04"
+        }
+    },
+    {
+        "commandName": "App\\Domain\\App\\BuildDashboardHtml\\BuildDashboardHtml",
+        "payload": {
+            "now": "2023-10-17 16:15:04"
+        }
+    },
+    {
+        "commandName": "App\\Domain\\App\\BuildActivitiesHtml\\BuildActivitiesHtml",
+        "payload": {
+            "now": "2023-10-17 16:15:04"
+        }
+    },
+    {
+        "commandName": "App\\Domain\\App\\BuildMonthlyStatsHtml\\BuildMonthlyStatsHtml",
+        "payload": {
+            "now": "2023-10-17 16:15:04"
+        }
+    },
+    {
+        "commandName": "App\\Domain\\App\\BuildGearStatsHtml\\BuildGearStatsHtml",
+        "payload": {
+            "now": "2023-10-17 16:15:04"
+        }
+    },
+    {
+        "commandName": "App\\Domain\\App\\BuildEddingtonHtml\\BuildEddingtonHtml",
+        "payload": {
+            "now": "2023-10-17 16:15:04"
+        }
+    },
+    {
+        "commandName": "App\\Domain\\App\\BuildSegmentsHtml\\BuildSegmentsHtml",
+        "payload": {
+            "now": "2023-10-17 16:15:04"
+        }
+    },
+    {
+        "commandName": "App\\Domain\\App\\BuildHeatmapHtml\\BuildHeatmapHtml",
+        "payload": {
+            "now": "2023-10-17 16:15:04"
+        }
+    },
+    {
+        "commandName": "App\\Domain\\App\\BuildChallengesHtml\\BuildChallengesHtml",
+        "payload": {
+            "now": "2023-10-17 16:15:04"
+        }
+    },
+    {
+        "commandName": "App\\Domain\\App\\BuildPhotosHtml\\BuildPhotosHtml",
+        "payload": []
+    },
+    {
+        "commandName": "App\\Domain\\App\\BuildBadgeSvg\\BuildBadgeSvg",
+        "payload": {
+            "now": "2023-10-17 16:15:04"
+        }
+    },
+    {
+        "commandName": "App\\Domain\\Notification\\SendNotification\\SendNotification",
+        "payload": {
+            "title": "Build successful",
+            "message": "New build of your Strava stats was successful",
+            "tags": [
+                "+1"
+            ]
+        }
     }
-}
+]

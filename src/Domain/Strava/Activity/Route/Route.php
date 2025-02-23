@@ -57,11 +57,13 @@ final readonly class Route implements \JsonSerializable
      */
     public function jsonSerialize(): array
     {
+        $state = $this->getLocation()->getState();
+
         return [
             'active' => true,
             'location' => [
                 'countryCode' => $this->getLocation()->getCountryCode(),
-                'state' => $this->getLocation()->getState(),
+                'state' => $state ? str_replace(['"', '\''], '', $state) : null, // Fix for ISSUE-287
             ],
             'filterables' => [
                 'sportType' => $this->getSportType(),

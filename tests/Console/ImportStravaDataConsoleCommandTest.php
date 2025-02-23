@@ -33,10 +33,13 @@ class ImportStravaDataConsoleCommandTest extends ConsoleCommandTestCase
             ->expects($this->once())
             ->method('run');
 
+        $dispatchedCommands = [];
         $this->commandBus
             ->expects($this->any())
             ->method('dispatch')
-            ->willReturnCallback(fn (DomainCommand $command) => $this->assertMatchesJsonSnapshot(Json::encode($command)));
+            ->willReturnCallback(function (DomainCommand $command) use (&$dispatchedCommands) {
+                $dispatchedCommands[] = $command;
+            });
 
         $this->connection
             ->expects($this->once())
@@ -50,6 +53,7 @@ class ImportStravaDataConsoleCommandTest extends ConsoleCommandTestCase
         ]);
 
         $this->assertMatchesTextSnapshot($commandTester->getDisplay());
+        $this->assertMatchesJsonSnapshot(Json::encode($dispatchedCommands));
     }
 
     public function testExecuteWithMaxStravaUsageReached(): void

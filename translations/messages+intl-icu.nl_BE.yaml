@@ -4,6 +4,7 @@ Activities: Activiteiten
 Advanced: Gevorderd
 Afternoon: Namiddag
 'All activities': 'Alle activiteiten'
+'All time': 'All time'
 'Alpine Ski': 'Alpine Ski'
 Apr: Apr
 Aug: Aug
@@ -11,7 +12,6 @@ Avg: Gem
 'Back Country Ski': 'Back Country Ski'
 Badminton: Badminton
 Best: Beste
-'Best power outputs over time': 'Beste wattages over een bepaalde periode'
 Cadence: Cadans
 Calories: Calorieën
 Canoeing: Kanoën
@@ -83,10 +83,12 @@ Jun: Jun
 KOM: KOM
 Kayaking: Kajakken
 'Kite Surf': 'Kite Surf'
+'Last 45 days': 'Last 45 days'
+'Last 90 days': 'Last 90 days'
 'Latest start time': 'Laatste starttijd'
 'Loading data...': 'Aan het laden...'
 Loading...: 'Aan het laden...'
-'Longest ride': 'Langste ride'
+'Longest workout': 'Longest workout'
 Low: Laag
 Mar: Mar
 Max: Max
@@ -138,6 +140,7 @@ Sep: Sep
 'Show information': 'Informatie tonen'
 'Since I began working out {numberOfDaysAgo} on {startDate}, I had {totalDaysOfWorkingOut} active days of working out.': 'Sinds ik begon met sporten {numberOfDaysAgo} op {startDate}, had ik {totalDaysOfWorkingOut} dagen waarop ik heb gesport.'
 Skateboard: Skateboard
+Skating: Skating
 Snowboard: Snowboard
 Snowshoe: Snowshoe
 Soccer: Voetbal
@@ -176,6 +179,7 @@ Tuesday: Dinsdag
 'Velo Mobiles': 'Velo Mobiles'
 'Very high': 'Heel hoog'
 'View all': 'Bekijk alles'
+'View details': 'View details'
 'Virtual Rides': 'Virtuele Ritten'
 'Virtual Row': 'Virtueel Roeien'
 'Virtual Runs': 'Virtual Runs'

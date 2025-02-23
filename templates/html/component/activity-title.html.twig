@@ -1,21 +1,15 @@
 {% autoescape false %}
-    {% set classes = ['font-medium text-blue-600 hover:underline'] %}
-    {% if not hideIcon %}
-        {% set classes = classes|merge(['flex items-center gap-x-1']) %}
-    {% endif %}
-    <a href="#" data-model-content-url="activity/{{ activity.getId() }}.html" class="{{ classes|join(' ') }}" rel="nofollow">
-        {% if not hideIcon %}
-            {% if activity.getSportType().isVirtualRide() %}
-                {% if activity.isZwiftRide() %}
-                    {{ renderSvg('zwift-logo') }}
-                {% elseif activity.isRouvyRide() %}
-                    {{ renderSvg('rouvy-logo') }}
-                {% else %}
-                    {{ renderSvg('indoor-bike') }}
-                {% endif %}
+    <a href="#" data-model-content-url="activity/{{ activity.getId() }}.html" class="flex items-center gap-x-1 font-medium text-blue-600 hover:underline" rel="nofollow">
+        {% if activity.getSportType().isVirtualRide() %}
+            {% if activity.isZwiftRide() %}
+                {{ renderSvg('zwift-logo') }}
+            {% elseif activity.isRouvyRide() %}
+                {{ renderSvg('rouvy-logo') }}
             {% else %}
-                {{ renderSvg(activity.getSportType().getSvgIcon(), {'customPath': 'svg/sport-type'}) }}
+                {{ renderSvg('indoor-bike') }}
             {% endif %}
+        {% else %}
+            {{ renderSvg(activity.getSportType().getSvgIcon(), {'customPath': 'svg/sport-type'}) }}
         {% endif %}
         {% if ellipses %}
             <span>{{ activity.getName()|ellipses(ellipses) }}</span>

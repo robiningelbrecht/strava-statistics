@@ -126,31 +126,12 @@ final readonly class DbalActivityStreamRepository extends DbalRepository impleme
             ->from('ActivityStream')
             ->andWhere('bestAverages IS NULL')
             ->orderBy('activityId')
-            ->setMaxResults(100);
+            ->setMaxResults($limit);
 
         return ActivityStreams::fromArray(array_map(
             fn (array $result) => $this->hydrate($result),
             $queryBuilder->executeQuery()->fetchAllAssociative()
         ));
-    }
-
-    public function findWithBestAverageFor(int $intervalInSeconds, StreamType $streamType): ActivityStream
-    {
-        $queryBuilder = $this->connection->createQueryBuilder();
-        $queryBuilder->select('*')
-            ->from('ActivityStream')
-            ->andWhere('streamType = :streamType')
-            ->setParameter('streamType', $streamType->value)
-            ->andWhere('JSON_EXTRACT(bestAverages, "$.'.$intervalInSeconds.'") IS NOT NULL')
-            ->orderBy('JSON_EXTRACT(bestAverages, "$.'.$intervalInSeconds.'")', 'DESC')
-            ->addOrderBy('createdOn', 'DESC')
-            ->setMaxResults(1);
-
-        if (!$result = $queryBuilder->fetchAssociative()) {
-            throw new EntityNotFound('ActivityStream for average not found');
-        }
-
-        return $this->hydrate($result);
     }
 
     /**

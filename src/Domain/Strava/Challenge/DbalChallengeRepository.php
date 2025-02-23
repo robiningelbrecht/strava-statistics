@@ -36,6 +36,15 @@ final readonly class DbalChallengeRepository extends DbalRepository implements C
         ));
     }
 
+    public function count(): int
+    {
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $queryBuilder->select('COUNT(*)')
+            ->from('Challenge');
+
+        return (int) $queryBuilder->executeQuery()->fetchOne();
+    }
+
     public function find(ChallengeId $challengeId): Challenge
     {
         $queryBuilder = $this->connection->createQueryBuilder();

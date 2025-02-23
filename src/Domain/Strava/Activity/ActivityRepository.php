@@ -6,6 +6,8 @@ interface ActivityRepository
 {
     public function find(ActivityId $activityId): Activity;
 
+    public function count(): int;
+
     public function findAll(?int $limit = null): Activities;
 
     public function delete(Activity $activity): void;

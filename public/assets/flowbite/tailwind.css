@@ -6,7 +6,7 @@
 @source "../../../public/assets/leaflet/leaflet.fly.to.places.js";
 
 @plugin "flowbite/plugin";
-@source "../../..//node_modules/flowbite";
+@source "../../../node_modules/flowbite";
 
 @theme {
   --text-xxs: 0.625rem;
@@ -21,7 +21,7 @@
     @apply rounded-sm border-2 border-black/[.3] bg-white bg-clip-padding divide-y divide-grey-yo;
 
   & li {
-    @apply p-1 cursor-pointer;
+    @apply p-1 cursor-pointer hover:bg-[#f4f4f4];
   }
 }
 
