@@ -12,7 +12,7 @@ services:
         profiles:
             - on-demand
         networks:
-            - app_network
+            - strava-statistics-network
     app:
         build:
             context: ./
@@ -27,7 +27,7 @@ services:
         ports:
             - '8081:8080'
         networks:
-            - app_network
+            - strava-statistics-network
 
     ollama:
         image: ollama/ollama:latest
@@ -43,6 +43,6 @@ services:
         ports:
             - '11434:11434'
         networks:
-            - app_network
+            - strava-statistics-network
 networks:
-    app_network: {}
+    strava-statistics-network: {}

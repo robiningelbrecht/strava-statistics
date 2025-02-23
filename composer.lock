@@ -6826,16 +6826,16 @@
         },
         {
             "name": "theodo-group/llphant",
-            "version": "0.9.5",
+            "version": "0.9.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/LLPhant/LLPhant.git",
-                "reference": "83e44bd42d0cfeac4732d97570697f1f63f51443"
+                "reference": "5c797a6465b91b4d2ff95cd82bff417643dc3824"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/LLPhant/LLPhant/zipball/83e44bd42d0cfeac4732d97570697f1f63f51443",
-                "reference": "83e44bd42d0cfeac4732d97570697f1f63f51443",
+                "url": "https://api.github.com/repos/LLPhant/LLPhant/zipball/5c797a6465b91b4d2ff95cd82bff417643dc3824",
+                "reference": "5c797a6465b91b4d2ff95cd82bff417643dc3824",
                 "shasum": ""
             },
             "require": {
@@ -6905,9 +6905,9 @@
             ],
             "support": {
                 "issues": "https://github.com/LLPhant/LLPhant/issues",
-                "source": "https://github.com/LLPhant/LLPhant/tree/0.9.5"
+                "source": "https://github.com/LLPhant/LLPhant/tree/0.9.7"
             },
-            "time": "2025-02-13T11:53:55+00:00"
+            "time": "2025-02-23T12:50:56+00:00"
         },
         {
             "name": "twig/twig",
@@ -7461,16 +7461,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.69.1",
+            "version": "v3.70.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "13b0c0eede38c11cd674b080f2b485d0f14ffa9f"
+                "reference": "2ecd5aae0edc937f0d5aa4a22d1d705c6b2e084e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/13b0c0eede38c11cd674b080f2b485d0f14ffa9f",
-                "reference": "13b0c0eede38c11cd674b080f2b485d0f14ffa9f",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/2ecd5aae0edc937f0d5aa4a22d1d705c6b2e084e",
+                "reference": "2ecd5aae0edc937f0d5aa4a22d1d705c6b2e084e",
                 "shasum": ""
             },
             "require": {
@@ -7552,7 +7552,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.69.1"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.70.0"
             },
             "funding": [
                 {
@@ -7560,7 +7560,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-02-18T23:57:43+00:00"
+            "time": "2025-02-22T23:30:51+00:00"
         },
         {
             "name": "myclabs/deep-copy",
