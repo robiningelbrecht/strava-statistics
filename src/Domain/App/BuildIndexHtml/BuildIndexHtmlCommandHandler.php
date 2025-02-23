@@ -47,7 +47,7 @@ final readonly class BuildIndexHtmlCommandHandler implements CommandHandler
             if ($activities->isEmpty()) {
                 continue;
             }
-            $eddington = Eddington::create(
+            $eddington = Eddington::getInstance(
                 activities: $activities,
                 activityType: $activityType,
                 unitSystem: $this->unitSystem

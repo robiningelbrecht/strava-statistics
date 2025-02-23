@@ -3,7 +3,9 @@
 namespace App\Tests;
 
 use App\Domain\Strava\Activity\ActivityRepository;
+use App\Domain\Strava\Activity\ActivityTotals;
 use App\Domain\Strava\Activity\Eddington\Eddington;
+use App\Domain\Strava\Trivia;
 use Carbon\Carbon;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -34,6 +36,8 @@ abstract class ContainerTestCase extends KernelTestCase
         // Empty the static cache between tests.
         $this->getContainer()->get(ActivityRepository::class)::$cachedActivities = [];
         Eddington::$instances = [];
+        ActivityTotals::$instance = null;
+        Trivia::$instance = null;
         $this->getContainer()->get(FilesystemOperator::class)->resetWrites();
 
         // Make sure every test is initialized with the default locale.

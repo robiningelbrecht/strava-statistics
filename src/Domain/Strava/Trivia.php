@@ -7,16 +7,22 @@ use App\Domain\Strava\Activity\Activity;
 use App\Domain\Strava\Activity\ActivityType;
 use App\Infrastructure\ValueObject\Time\Dates;
 
-final readonly class Trivia
+final class Trivia
 {
+    public static ?Trivia $instance = null;
+
     private function __construct(
-        private Activities $activities,
+        private readonly Activities $activities,
     ) {
     }
 
-    public static function create(Activities $activities): self
+    public static function getInstance(Activities $activities): self
     {
-        return new self($activities);
+        if (null === self::$instance) {
+            self::$instance = new self($activities);
+        }
+
+        return self::$instance;
     }
 
     public function getTotalKudosReceived(): int
@@ -80,16 +86,12 @@ final readonly class Trivia
         return $latestActivity;
     }
 
-    public function getLongestRide(): ?Activity
+    public function getLongestWorkout(): Activity
     {
-        $bikeActivities = $this->activities->filterOnActivityType(ActivityType::RIDE);
-
-        if (!$longestActivity = $bikeActivities->getFirst()) {
-            return null;
-        }
-        /** @var Activity $activity */
-        foreach ($bikeActivities as $activity) {
-            if ($activity->getDistance()->toFloat() < $longestActivity->getDistance()->toFloat()) {
+        /** @var Activity $longestActivity */
+        $longestActivity = $this->activities->getFirst();
+        foreach ($this->activities as $activity) {
+            if ($activity->getMovingTimeInSeconds() < $longestActivity->getMovingTimeInSeconds()) {
                 continue;
             }
             $longestActivity = $activity;
@@ -131,7 +133,7 @@ final readonly class Trivia
         return $mostElevationActivity;
     }
 
-    public function getMostConsecutiveDaysOfCycling(): Dates
+    public function getMostConsecutiveDaysOfWorkingOut(): Dates
     {
         return Dates::fromDates($this->activities->map(
             fn (Activity $activity) => $activity->getStartDate(),

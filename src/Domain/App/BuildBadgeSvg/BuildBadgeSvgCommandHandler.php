@@ -33,11 +33,11 @@ final readonly class BuildBadgeSvgCommandHandler implements CommandHandler
         $athlete = $this->athleteRepository->find();
         $activities = $this->activitiesEnricher->getEnrichedActivities();
 
-        $activityTotals = ActivityTotals::create(
+        $activityTotals = ActivityTotals::getInstance(
             activities: $activities,
             now: $now,
         );
-        $trivia = Trivia::create($activities);
+        $trivia = Trivia::getInstance($activities);
 
         $this->filesystem->write(
             'storage/files/badge.svg',

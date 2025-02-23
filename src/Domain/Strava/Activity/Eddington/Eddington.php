@@ -136,7 +136,7 @@ final class Eddington
         return array_reverse($history, true);
     }
 
-    public static function create(
+    public static function getInstance(
         Activities $activities,
         ActivityType $activityType,
         UnitSystem $unitSystem,

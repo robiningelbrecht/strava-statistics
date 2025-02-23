@@ -52,7 +52,7 @@ final readonly class BuildActivitiesHtmlCommandHandler implements CommandHandler
         $importedSportTypes = $this->sportTypeRepository->findAll();
         $activities = $this->activitiesEnricher->getEnrichedActivities();
 
-        $activityTotals = ActivityTotals::create(
+        $activityTotals = ActivityTotals::getInstance(
             activities: $activities,
             now: $now,
         );

@@ -5,71 +5,70 @@ namespace App\Tests\Domain\Strava\Activity;
 use App\Domain\Strava\Activity\Activities;
 use App\Domain\Strava\Activity\ActivityTotals;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
+use App\Tests\ContainerTestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
-use Spatie\Snapshots\MatchesSnapshots;
 
-class ActivityTotalsTest extends TestCase
+class ActivityTotalsTest extends ContainerTestCase
 {
-    use MatchesSnapshots;
-
     #[DataProvider(methodName: 'provideActivityTotals')]
-    public function testGetTotalDaysSinceFirstActivity(ActivityTotals $activityTotals): void
+    public function testGetTotalDaysSinceFirstActivity(string $expectedResult, Activities $activities, SerializableDateTime $now): void
     {
-        $this->assertMatchesTextSnapshot($activityTotals->getTotalDaysSinceFirstActivity());
+        $this->assertEquals(
+            $expectedResult,
+            ActivityTotals::getInstance(
+                activities: $activities,
+                now: $now,
+            )->getTotalDaysSinceFirstActivity()
+        );
     }
 
     public static function provideActivityTotals(): array
     {
         return [
             [
-                ActivityTotals::create(
-                    activities: Activities::fromArray([
-                        ActivityBuilder::fromDefaults()
-                            ->withStartDateTime(SerializableDateTime::fromString('2023-11-24'))
-                            ->build(),
-                    ]),
-                    now: SerializableDateTime::fromString('2023-11-25'),
-                ),
+                '1 day',
+                Activities::fromArray([
+                    ActivityBuilder::fromDefaults()
+                        ->withStartDateTime(SerializableDateTime::fromString('2023-11-24'))
+                        ->build(),
+                ]),
+                SerializableDateTime::fromString('2023-11-25'),
             ],
             [
-                ActivityTotals::create(
-                    activities: Activities::fromArray([
-                        ActivityBuilder::fromDefaults()
-                            ->withStartDateTime(SerializableDateTime::fromString('2023-11-01'))
-                            ->build(),
-                    ]),
-                    now: SerializableDateTime::fromString('2023-11-25'),
-                ),
+                '3 weeks and 3 days',
+                Activities::fromArray([
+                    ActivityBuilder::fromDefaults()
+                        ->withStartDateTime(SerializableDateTime::fromString('2023-11-01'))
+                        ->build(),
+                ]),
+                SerializableDateTime::fromString('2023-11-25'),
             ],
             [
-                ActivityTotals::create(
-                    activities: Activities::fromArray([
-                        ActivityBuilder::fromDefaults()
-                            ->withStartDateTime(SerializableDateTime::fromString('2023-04-24'))
-                            ->build(),
-                    ]),
-                    now: SerializableDateTime::fromString('2023-11-25'),
-                ),
-            ],  [
-                ActivityTotals::create(
-                    activities: Activities::fromArray([
-                        ActivityBuilder::fromDefaults()
-                            ->withStartDateTime(SerializableDateTime::fromString('2022-11-24'))
-                            ->build(),
-                    ]),
-                    now: SerializableDateTime::fromString('2023-11-25'),
-                ),
+                '7 months and 2 weeks',
+                Activities::fromArray([
+                    ActivityBuilder::fromDefaults()
+                        ->withStartDateTime(SerializableDateTime::fromString('2023-04-24'))
+                        ->build(),
+                ]),
+                SerializableDateTime::fromString('2023-11-25'),
             ],
             [
-                ActivityTotals::create(
-                    activities: Activities::fromArray([
-                        ActivityBuilder::fromDefaults()
-                            ->withStartDateTime(SerializableDateTime::fromString('2017-11-24'))
-                            ->build(),
-                    ]),
-                    now: SerializableDateTime::fromString('2023-11-25'),
-                ),
+                '1 year and 1 month',
+                Activities::fromArray([
+                    ActivityBuilder::fromDefaults()
+                        ->withStartDateTime(SerializableDateTime::fromString('2022-11-24'))
+                        ->build(),
+                ]),
+                SerializableDateTime::fromString('2023-11-25'),
+            ],
+            [
+                '6 years and 6 months',
+                Activities::fromArray([
+                    ActivityBuilder::fromDefaults()
+                        ->withStartDateTime(SerializableDateTime::fromString('2017-11-24'))
+                        ->build(),
+                ]),
+                SerializableDateTime::fromString('2023-11-25'),
             ],
         ];
     }
