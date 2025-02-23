@@ -275,7 +275,7 @@ final class Activity
             return null;
         }
 
-        return $this->bestPowerOutputs->find(fn (PowerOutput $bestPowerOutput) => $bestPowerOutput->getTimeInSeconds() === $timeInterval);
+        return $this->bestPowerOutputs->find(fn (PowerOutput $bestPowerOutput) => $bestPowerOutput->getTimeIntervalInSeconds() === $timeInterval);
     }
 
     public function enrichWithBestPowerOutputs(PowerOutputs $bestPowerOutputs): void

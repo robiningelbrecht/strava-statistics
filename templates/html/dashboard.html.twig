@@ -205,10 +205,10 @@
                         </thead>
                         <tbody>
                         {% for powerOutput in powerOutputs %}
-                            {% if powerOutput.getTimeInSeconds() in timeIntervals %}
+                            {% if powerOutput.getTimeIntervalInSeconds() in timeIntervals %}
                                 <tr class="bg-white border-b">
                                     <td class="px-6 py-2 sticky left-0 bg-white font-medium text-gray-900 whitespace-nowrap">
-                                        {{ powerOutput.getFormattedTime() }}
+                                        {{ powerOutput.getFormattedTimeInterval() }}
                                     </td>
                                     <td class="px-2 py-2">
                                         {{ powerOutput.getPower() }}<span class="text-xs">w</span>

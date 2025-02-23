@@ -14,6 +14,7 @@ use App\Domain\Strava\Activity\DaytimeStats\DaytimeStatsCharts;
 use App\Domain\Strava\Activity\DistanceBreakdown;
 use App\Domain\Strava\Activity\Stream\ActivityHeartRateRepository;
 use App\Domain\Strava\Activity\Stream\ActivityPowerRepository;
+use App\Domain\Strava\Activity\Stream\BestPowerOutputs;
 use App\Domain\Strava\Activity\Stream\PowerOutputChart;
 use App\Domain\Strava\Activity\WeekdayStats\WeekdayStats;
 use App\Domain\Strava\Activity\WeekdayStats\WeekdayStatsChart;
@@ -139,7 +140,7 @@ final readonly class BuildDashboardHtmlCommandHandler implements CommandHandler
             now: $now,
         );
         $trivia = Trivia::create($allActivities);
-        $bestPowerOutputs = $this->activityPowerRepository->findBestForActivityType(ActivityType::RIDE);
+        $bestAllTimePowerOutputs = $this->activityPowerRepository->findBestForActivityType(ActivityType::RIDE);
 
         $this->filesystem->write(
             'build/html/dashboard.html',
@@ -148,7 +149,7 @@ final readonly class BuildDashboardHtmlCommandHandler implements CommandHandler
                 'mostRecentActivities' => $allActivities->slice(0, 5),
                 'intro' => $activityTotals,
                 'weeklyDistanceCharts' => $weeklyDistanceCharts,
-                'powerOutputs' => $bestPowerOutputs,
+                'powerOutputs' => $bestAllTimePowerOutputs,
                 'activityHeatmapChart' => Json::encode(
                     ActivityHeatmapChart::create(
                         activities: $allActivities,
@@ -195,9 +196,15 @@ final readonly class BuildDashboardHtmlCommandHandler implements CommandHandler
             ]),
         );
 
-        if ($bestPowerOutputs->isEmpty()) {
+        if ($bestAllTimePowerOutputs->isEmpty()) {
             return;
         }
+
+        $bestPowerOutputs = BestPowerOutputs::empty();
+        $bestPowerOutputs->add(
+            description: 'All time',
+            powerOutputs: $bestAllTimePowerOutputs
+        );
 
         $this->filesystem->write(
             'build/html/power-output.html',

@@ -7,25 +7,40 @@ namespace App\Domain\Strava\Activity\Stream;
 final readonly class PowerOutputChart
 {
     private function __construct(
-        private PowerOutputs $bestPowerOutputs,
+        private BestPowerOutputs $bestPowerOutputs,
     ) {
     }
 
     public static function create(
-        PowerOutputs $bestPowerOutputs,
+        BestPowerOutputs $bestPowerOutputs,
     ): self {
         return new self($bestPowerOutputs);
     }
 
     /**
-     * @return array<mixed>
+     * @return array<string, mixed>
      */
     public function build(): array
     {
-        $powerOutputs = array_values($this->bestPowerOutputs->map(fn (PowerOutput $powerOutput) => $powerOutput->getPower()));
-        // @phpstan-ignore-next-line
-        $yAxisOneMaxValue = ceil(max($powerOutputs) / 100) * 100;
-        $yAxisOneInterval = $yAxisOneMaxValue / 5;
+        $series = [];
+        $maxPowerOutput = 100;
+        foreach ($this->bestPowerOutputs as $bestPowerOutputs) {
+            /** @var PowerOutputs $powerOutputs */
+            [$description, $powerOutputs] = $bestPowerOutputs;
+            $scalarPowerOutputs = $powerOutputs->map(fn (PowerOutput $powerOutput) => $powerOutput->getPower());
+            $series[] = [
+                'type' => 'line',
+                'name' => $description,
+                'smooth' => true,
+                'symbol' => 'none',
+                'data' => array_values($scalarPowerOutputs),
+            ];
+
+            $maxPowerOutput = max($maxPowerOutput, ...$scalarPowerOutputs);
+        }
+
+        $yAxisMaxValue = ceil($maxPowerOutput / 100) * 100;
+        $yAxisInterval = $yAxisMaxValue / 5;
 
         return [
             'animation' => true,
@@ -46,7 +61,6 @@ final readonly class PowerOutputChart
             'tooltip' => [
                 'show' => true,
                 'trigger' => 'axis',
-                // 'formatter' => '<div style="width: 130px"><div style="display:flex;align-items:center;justify-content:space-between;"><div style="display:flex;align-items:center;column-gap:6px"><div style="border-radius:10px;width:10px;height:10px;background-color:#e34902"></div><div style="font-size:14px;color:#666;font-weight:400">Watt</div></div><div style="font-size:14px;color:#666;font-weight:900">{c0}</div></div><div style="display:flex;align-items:center;justify-content:space-between"><div style="display:flex;align-items:center;column-gap:6px"><div style="border-radius:10px;width:10px;height:10px;background-color:rgba(227,73,2,.7)"></div><div style="font-size:14px;color:#666;font-weight:400">Watt per kg</div></div><div style="font-size:14px;color:#666;font-weight:900">{c1}</div></div></div>',
             ],
             'xAxis' => [
                 'type' => 'category',
@@ -86,20 +100,11 @@ final readonly class PowerOutputChart
                     'axisLabel' => [
                         'formatter' => '{value} w',
                     ],
-                    'max' => $yAxisOneMaxValue,
-                    'interval' => $yAxisOneInterval,
+                    'max' => $yAxisMaxValue,
+                    'interval' => $yAxisInterval,
                 ],
             ],
-            'series' => [
-                [
-                    'type' => 'line',
-                    'name' => 'Watt',
-                    'smooth' => true,
-                    'symbol' => 'none',
-                    'yAxisIndex' => 0,
-                    'data' => $powerOutputs,
-                ],
-            ],
+            'series' => $series,
         ];
     }
 }
