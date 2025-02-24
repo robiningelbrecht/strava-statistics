@@ -5,6 +5,7 @@ namespace App\Domain\Strava;
 use App\Domain\Strava\Activity\Activities;
 use App\Domain\Strava\Activity\Activity;
 use App\Domain\Strava\Activity\ActivityType;
+use App\Infrastructure\ValueObject\Measurement\Mass\Kilogram;
 use App\Infrastructure\ValueObject\Time\Dates;
 
 final class Trivia
@@ -20,6 +21,7 @@ final class Trivia
     private readonly Activity $activityWithMostElevation;
     private readonly Activity $mostKudotedActivity;
     private readonly Dates $mostConsecutiveDaysOfWorkingOut;
+    private readonly Kilogram $totalCarbonSaved;
 
     private function __construct(
         private readonly Activities $activities,
@@ -35,6 +37,7 @@ final class Trivia
         $this->mostConsecutiveDaysOfWorkingOut = Dates::fromDates($this->activities->map(
             fn (Activity $activity) => $activity->getStartDate(),
         ))->getLongestConsecutiveDateRange();
+        $this->totalCarbonSaved = Kilogram::from($this->activities->sum(fn (Activity $activity) => $activity->getCarbonSaved()->toFloat()));
     }
 
     public static function getInstance(Activities $activities): self
@@ -49,6 +52,11 @@ final class Trivia
     public function getTotalKudosReceived(): int
     {
         return $this->totalKudosReceived;
+    }
+
+    public function getTotalCarbonSaved(): Kilogram
+    {
+        return $this->totalCarbonSaved;
     }
 
     public function getMostKudotedActivity(): Activity

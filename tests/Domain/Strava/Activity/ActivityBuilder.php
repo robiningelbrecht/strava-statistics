@@ -44,6 +44,7 @@ final class ActivityBuilder
     private readonly string $weather;
     private ?GearId $gearId;
     private readonly ?string $gearName;
+    private readonly bool $isCommute;
 
     private function __construct()
     {
@@ -73,6 +74,7 @@ final class ActivityBuilder
         $this->gearId = null;
         $this->location = null;
         $this->gearName = null;
+        $this->isCommute = false;
     }
 
     public static function fromDefaults(): self
@@ -108,7 +110,8 @@ final class ActivityBuilder
             location: $this->location,
             weather: $this->weather,
             gearId: $this->gearId,
-            gearName: $this->gearName
+            gearName: $this->gearName,
+            isCommute: $this->isCommute,
         );
     }
 

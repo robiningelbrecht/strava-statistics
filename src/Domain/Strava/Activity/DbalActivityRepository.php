@@ -136,6 +136,7 @@ final class DbalActivityRepository implements ActivityRepository
             weather: $result['weather'],
             gearId: GearId::fromOptionalString($result['gearId']),
             gearName: $result['gearName'],
+            isCommute: (bool) $result['isCommute'],
         );
     }
 }
