@@ -70,7 +70,6 @@ HR: HR
 'Heart rate zones': 'Zones de fréquence cardiaque'
 Heatmap: Heatmap
 High: Élevé
-'Highest elevation': 'Altitude maximale'
 Hikes: Randonnées
 History: Historique
 "I burned {caloriesBurned} calories doing so, that's about {numberOfPizzaSlices} pizza slices 🍕.": "J'ai brûlé {caloriesBurned} calories en faisant cela, soit environ {numberOfPizzaSlices} parts de pizza 🍕."
@@ -99,6 +98,7 @@ Monday: Lundi
 'Monthly stats': 'Statistiques mensuelles'
 Morning: Matin
 'Most consecutive days': 'Plus grand nombre de jours consécutifs'
+'Most elevation': 'Most elevation'
 'Most kudos': 'Plus de kudos'
 'Most recent activities': 'Activités les plus récentes'
 'Mountain Bike Rides': 'Sorties VTT'

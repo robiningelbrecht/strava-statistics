@@ -70,7 +70,6 @@ HR: HR
 'Heart rate zones': Hartslagzones
 Heatmap: Heatmap
 High: Hoog
-'Highest elevation': 'Meeste hoogtemeters'
 Hikes: Hikes
 History: Historiek
 "I burned {caloriesBurned} calories doing so, that's about {numberOfPizzaSlices} pizza slices 🍕.": 'Ik heb {caloriesBurned} calorieën verbrand door dit te doen, dat is ongeveer {numberOfPizzaSlices} pizza slices 🍕.'
@@ -99,6 +98,7 @@ Monday: Maandag
 'Monthly stats': 'Maandelijkste stats'
 Morning: Ochtend
 'Most consecutive days': 'Meeste opeenvolgende dagen'
+'Most elevation': 'Most elevation'
 'Most kudos': 'Meeste kudos'
 'Most recent activities': 'Meest recent activiteiten'
 'Mountain Bike Rides': 'Mountain Bike Ritten'

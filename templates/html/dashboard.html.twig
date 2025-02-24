@@ -554,9 +554,9 @@
                             </td>
                         </tr>
                         <tr class="bg-white border-b">
-                            {% set highestElevationActivity = trivia.getActivityWithHighestElevation() %}
+                            {% set highestElevationActivity = trivia.getActivityWithMostElevation() %}
                             <th scope="row" class="px-2 py-2 sticky left-0 bg-white font-medium text-gray-900 whitespace-nowrap">
-                                {{ "Highest elevation"|trans }}
+                                {{ "Most elevation"|trans }}
                             </th>
                             <td class="px-2 py-2">
                                 {{ renderComponent('measurement', {'measurement': highestElevationActivity.getElevation(), 'precision': 0}) }}
