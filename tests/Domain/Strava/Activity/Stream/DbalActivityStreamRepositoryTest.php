@@ -14,15 +14,6 @@ class DbalActivityStreamRepositoryTest extends ContainerTestCase
 {
     private ActivityStreamRepository $activityStreamRepository;
 
-    public function testIsImportedForActivity(): void
-    {
-        $stream = ActivityStreamBuilder::fromDefaults()->build();
-        $this->activityStreamRepository->add($stream);
-
-        $this->assertTrue($this->activityStreamRepository->isImportedForActivity($stream->getActivityId()));
-        $this->assertFalse($this->activityStreamRepository->isImportedForActivity(ActivityId::fromUnprefixed('1')));
-    }
-
     public function testUpdate(): void
     {
         $stream = ActivityStreamBuilder::fromDefaults()->build();

@@ -15,6 +15,4 @@ enum StreamType: string
     case TEMP = 'temp';
     case MOVING = 'moving';
     case GRADE = 'grade_smooth';
-
-    case HACK = 'hack';
 }

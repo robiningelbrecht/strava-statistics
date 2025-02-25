@@ -81,6 +81,15 @@ final readonly class DbalActivityWithRawDataRepository extends DbalRepository im
         ]);
     }
 
+    public function markActivityStreamsAsImported(ActivityId $activityId): void
+    {
+        $sql = 'UPDATE Activity SET streamsAreImported = 1 WHERE activityId = :activityId';
+
+        $this->connection->executeStatement($sql, [
+            'activityId' => $activityId,
+        ]);
+    }
+
     /**
      * @param array<mixed> $data
      *

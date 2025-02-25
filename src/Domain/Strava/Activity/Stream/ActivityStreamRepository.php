@@ -12,8 +12,6 @@ interface ActivityStreamRepository
 
     public function delete(ActivityStream $stream): void;
 
-    public function isImportedForActivity(ActivityId $activityId): bool;
-
     public function hasOneForActivityAndStreamType(ActivityId $activityId, StreamType $streamType): bool;
 
     public function findByStreamType(StreamType $streamType): ActivityStreams;

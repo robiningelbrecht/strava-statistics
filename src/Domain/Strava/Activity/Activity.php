@@ -41,6 +41,9 @@ final class Activity
     #[ORM\Column(type: 'json', nullable: true)]
     // @phpstan-ignore-next-line
     private readonly array $data;
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    // @phpstan-ignore-next-line
+    private readonly bool $streamsAreImported;
 
     /**
      * @param array<string> $localImagePaths
