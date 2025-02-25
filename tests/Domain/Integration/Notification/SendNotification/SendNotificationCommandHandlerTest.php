@@ -2,7 +2,7 @@
 
 namespace App\Tests\Domain\Notification\SendNotification;
 
-use App\Domain\Notification\SendNotification\SendNotification;
+use App\Domain\Integration\Notification\SendNotification\SendNotification;
 use App\Infrastructure\CQRS\Bus\CommandBus;
 use App\Infrastructure\Notification\Ntfy\Ntfy;
 use App\Infrastructure\Serialization\Json;
