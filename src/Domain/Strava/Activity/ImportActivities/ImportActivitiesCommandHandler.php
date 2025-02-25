@@ -22,7 +22,9 @@ use App\Infrastructure\CQRS\Bus\CommandHandler;
 use App\Infrastructure\Exception\EntityNotFound;
 use App\Infrastructure\Geocoding\Nominatim\Nominatim;
 use App\Infrastructure\ValueObject\Identifier\UuidFactory;
+use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Measurement\Length\Meter;
+use App\Infrastructure\ValueObject\Measurement\Velocity\MetersPerSecond;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 use League\Flysystem\FilesystemOperator;
@@ -91,6 +93,10 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
 
                 $activity
                     ->updateName($stravaActivity['name'])
+                    ->updateDistance(Kilometer::from(round($stravaActivity['distance'] / 1000, 3)))
+                    ->updateAverageSpeed(MetersPerSecond::from($stravaActivity['average_speed'])->toKmPerHour())
+                    ->updateMaxSpeed(MetersPerSecond::from($stravaActivity['max_speed'])->toKmPerHour())
+                    ->updateMovingTimeInSeconds($stravaActivity['moving_time'] ?? 0)
                     ->updateElevation(Meter::from($stravaActivity['total_elevation_gain']))
                     ->updateKudoCount($stravaActivity['kudos_count'] ?? 0)
                     ->updateGear(

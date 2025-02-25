@@ -57,7 +57,7 @@ final class Activity
         #[ORM\Column(type: 'string', nullable: true)]
         private readonly ?string $description,
         #[ORM\Column(type: 'integer')]
-        private readonly Kilometer $distance,
+        private Kilometer $distance,
         #[ORM\Column(type: 'integer')]
         private Meter $elevation,
         #[ORM\Embedded(class: Coordinate::class)]
@@ -69,9 +69,9 @@ final class Activity
         #[ORM\Column(type: 'integer', nullable: true)]
         private readonly ?int $maxPower,
         #[ORM\Column(type: 'float')]
-        private readonly KmPerHour $averageSpeed,
+        private KmPerHour $averageSpeed,
         #[ORM\Column(type: 'float')]
-        private readonly KmPerHour $maxSpeed,
+        private KmPerHour $maxSpeed,
         #[ORM\Column(type: 'integer', nullable: true)]
         private readonly ?int $averageHeartRate,
         #[ORM\Column(type: 'integer', nullable: true)]
@@ -79,7 +79,7 @@ final class Activity
         #[ORM\Column(type: 'integer', nullable: true)]
         private readonly ?int $averageCadence,
         #[ORM\Column(type: 'integer')]
-        private readonly int $movingTimeInSeconds,
+        private int $movingTimeInSeconds,
         #[ORM\Column(type: 'integer')]
         private int $kudoCount,
         #[ORM\Column(type: 'string', nullable: true)]
@@ -349,6 +349,13 @@ final class Activity
         return $this->distance;
     }
 
+    public function updateDistance(Kilometer $distance): self
+    {
+        $this->distance = $distance;
+
+        return $this;
+    }
+
     public function getElevation(): Meter
     {
         return $this->elevation;
@@ -381,6 +388,13 @@ final class Activity
         return $this->averageSpeed;
     }
 
+    public function updateAverageSpeed(KmPerHour $averageSpeed): self
+    {
+        $this->averageSpeed = $averageSpeed;
+
+        return $this;
+    }
+
     public function getPaceInSecPerKm(): SecPerKm
     {
         return $this->getAverageSpeed()->toMetersPerSecond()->toSecPerKm();
@@ -389,6 +403,13 @@ final class Activity
     public function getMaxSpeed(): KmPerHour
     {
         return $this->maxSpeed;
+    }
+
+    public function updateMaxSpeed(KmPerHour $maxSpeed): self
+    {
+        $this->maxSpeed = $maxSpeed;
+
+        return $this;
     }
 
     public function getAverageHeartRate(): ?int
@@ -419,6 +440,13 @@ final class Activity
     public function getMovingTimeInSeconds(): int
     {
         return $this->movingTimeInSeconds;
+    }
+
+    public function updateMovingTimeInSeconds(int $movingTimeInSeconds): self
+    {
+        $this->movingTimeInSeconds = $movingTimeInSeconds;
+
+        return $this;
     }
 
     public function getMovingTimeFormatted(): string
