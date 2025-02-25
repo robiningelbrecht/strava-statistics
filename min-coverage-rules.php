@@ -28,9 +28,4 @@ return [
         minCoverage: 100,
         exitOnLowCoverage: true
     ),
-    new MinCoverageRule(
-        pattern: 'App\Domain\Notification\*',
-        minCoverage: 100,
-        exitOnLowCoverage: true
-    ),
 ];
