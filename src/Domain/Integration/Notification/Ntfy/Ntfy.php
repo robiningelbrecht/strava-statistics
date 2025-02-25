@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Notification\Ntfy;
+namespace App\Domain\Integration\Notification\Ntfy;
 
 use App\Infrastructure\ValueObject\String\Url;
 

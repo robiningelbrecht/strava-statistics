@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Infrastructure\Notification\Ntfy;
+namespace App\Tests\Domain\Integration\Notification\Ntfy;
 
-use App\Infrastructure\Notification\Ntfy\Ntfy;
+use App\Domain\Integration\Notification\Ntfy\Ntfy;
 use App\Infrastructure\ValueObject\String\Url;
 
 class SpyNotify implements Ntfy

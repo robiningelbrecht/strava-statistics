@@ -61,10 +61,6 @@ services:
         factory: [ App\Infrastructure\ValueObject\String\PlatformEnvironment, 'from' ]
         arguments: ['%env(string:APP_ENV)%']
 
-    App\Infrastructure\Notification\Ntfy\NtfyUrl:
-        factory: [ App\Infrastructure\Notification\Ntfy\NtfyUrl, 'fromOptionalString' ]
-        arguments: ['%env(string:NTFY_URL)%']
-
     App\Infrastructure\Time\Format\DateAndTimeFormat:
         factory: [ App\Infrastructure\Time\Format\DateAndTimeFormat, 'create' ]
         arguments: [
@@ -84,6 +80,10 @@ services:
 
     GuzzleHttp\Client:
         class: GuzzleHttp\Client
+
+    App\Domain\Integration\Notification\Ntfy\NtfyUrl:
+        factory: [ App\Domain\Integration\Notification\Ntfy\NtfyUrl, 'fromOptionalString' ]
+        arguments: ['%env(string:NTFY_URL)%']
 
     App\Domain\Manifest\ManifestAppUrl:
         factory: [ App\Domain\Manifest\ManifestAppUrl, 'fromString' ]

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Notification\SendNotification;
+namespace App\Domain\Integration\Notification\SendNotification;
 
 use App\Infrastructure\CQRS\Bus\DomainCommand;
 

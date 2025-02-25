@@ -72,7 +72,7 @@
         }
     },
     {
-        "commandName": "App\\Domain\\Notification\\SendNotification\\SendNotification",
+        "commandName": "App\\Domain\\Integration\\Notification\\SendNotification\\SendNotification",
         "payload": {
             "title": "Build successful",
             "message": "New build of your Strava stats was successful",
