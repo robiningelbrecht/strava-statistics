@@ -4,20 +4,27 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Ftp;
 
+use App\Domain\Strava\Activity\ActivityType;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
 final readonly class EFtpHistoryChart
 {
     private function __construct(
-        private EFtps $eftps,
+        private EFtpRepository $repository,
+        private ActivityType $activityType,
+        private SerializableDateTime $now,
     ) {
     }
 
     public static function create(
-        EFtps $eftps,
+        EFtpRepository $repository,
+        ActivityType $activityType,
+        SerializableDateTime $now,
     ): self {
         return new self(
-            eftps: $eftps
+            repository: $repository,
+            activityType: $activityType,
+            now: $now
         );
     }
 
@@ -26,34 +33,42 @@ final readonly class EFtpHistoryChart
      */
     public function build(): array
     {
-        $uniqueDates = [];
-        foreach ($this->eftps as $eftp) {
-            $dateKey = $eftp->getSetOn()->format('Y-m-d');
-            $uniqueDates[$dateKey] = $dateKey;
-        }
+        $today = $this->now->format('Y-m-d');
+        $eftpDates = $this->repository->findEFtpDates($this->activityType);
 
-        ksort($uniqueDates);
-        $eftp = [];
-        $relative_eftp = [];
+        $dates = array_unique(array_merge($eftpDates, [$today]));
+        sort($dates);
 
-        foreach ($uniqueDates as $date) {
-            $currentDate = SerializableDateTime::fromString($date);
-            $eftpForDate = $this->eftps->findForDate($currentDate);
+        $eftpResults = [];
+        $relativeEftpResults = [];
 
-            if ($eftpForDate) {
-                $lastEftp = end($eftp);
-                if (!$lastEftp || $lastEftp[1] !== $eftpForDate->getEftp()) {
-                    $eftp[] = [$date, $eftpForDate->getEftp()];
-                }
+        foreach ($dates as $date) {
+            $eftpForDate = $this->repository->findForActivityType($this->activityType, SerializableDateTime::fromString($date));
+            if (!$eftpForDate) {
+                continue;
+            }
 
-                $lastRelative = end($relative_eftp);
-                if (!$lastRelative || $lastRelative[1] !== $eftpForDate->getRelativeEftp()) {
-                    $relative_eftp[] = [$date, $eftpForDate->getRelativeEftp()];
-                }
+            $lastEftp = end($eftpResults);
+            $lastRelative = end($relativeEftpResults);
+
+            if (
+                !$lastEftp
+                || $today === $date
+                || $lastEftp[1] !== $eftpForDate->getEftp()
+            ) {
+                $eftpResults[] = [$date, $eftpForDate->getEftp()];
+            }
+
+            if (
+                !$lastRelative
+                || $today === $date
+                || $lastRelative[1] !== $eftpForDate->getRelativeEftp()
+            ) {
+                $relativeEftpResults[] = [$date, $eftpForDate->getRelativeEftp()];
             }
         }
 
-        if (empty($eftp)) {
+        if (empty($eftpResults)) {
             return [];
         }
 
@@ -106,9 +121,9 @@ final readonly class EFtpHistoryChart
                     'axisLabel' => [
                         'formatter' => '{value} w',
                     ],
-                    'min' => min(array_column($eftp, 1)) - 10,
+                    'min' => min(array_column($eftpResults, 1)) - 10,
                 ],
-                !empty($relative_eftp) ? [
+                !empty($relativeEftpResults) ? [
                     'type' => 'value',
                     'splitLine' => [
                         'show' => false,
@@ -116,7 +131,7 @@ final readonly class EFtpHistoryChart
                     'axisLabel' => [
                         'formatter' => '{value} w/kg',
                     ],
-                    'min' => round(min(array_column($relative_eftp, 1)) - 1, 1),
+                    'min' => round(min(array_column($relativeEftpResults, 1)) - 1, 1),
                 ] : [],
             ],
             'series' => [
@@ -137,10 +152,10 @@ final readonly class EFtpHistoryChart
                     'symbolSize' => 6,
                     'showSymbol' => true,
                     'data' => [
-                        ...$eftp,
+                        ...$eftpResults,
                     ],
                 ],
-                !empty($relative_eftp) ? [
+                !empty($relativeEftpResults) ? [
                     'name' => 'eFTP w/kg',
                     'type' => 'line',
                     'smooth' => false,
@@ -157,7 +172,7 @@ final readonly class EFtpHistoryChart
                     'symbolSize' => 6,
                     'showSymbol' => true,
                     'data' => [
-                        ...$relative_eftp,
+                        ...$relativeEftpResults,
                     ],
                 ] : [],
             ],

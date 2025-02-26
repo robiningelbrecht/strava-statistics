@@ -158,6 +158,7 @@ TOTAL: TOTAL
 Tennis: Tennis
 "That's a daily average of {dailyAverage}, a weekly average of {weeklyAverage} and a monthly average of {monthlyAverage} 🐣.": "That's a daily average of {dailyAverage}, a weekly average of {weeklyAverage} and a monthly average of {monthlyAverage} 🐣."
 'The Eddington number in the context of cycling or running is defined as the maximum number E such that the athlete has covered at least E km on at least E days.': 'The Eddington number in the context of cycling or running is defined as the maximum number E such that the athlete has covered at least E km on at least E days.'
+'The eFTP charts display the highest estimated FTP values achieved over a {eftpNumberOfMonths}-month period. The eFTP for each activity is determined by multiplying the best average power by a factor. The highest result is chosen:': 'The eFTP charts display the highest estimated FTP values achieved over a {eftpNumberOfMonths}-month period. The eFTP for each activity is determined by multiplying the best average power by a factor. The highest result is chosen:'
 'This badge is dynamically created. You can use it in any &lt;img&gt; tag': 'This badge is dynamically created. You can use it in any &lt;img&gt; tag'
 'This formula means that riding for an hour at your max heart rate results in a score of 100, which we consider "high intensity"': 'This formula means that riding for an hour at your max heart rate results in a score of 100, which we consider "high intensity"'
 'This map shows the daily training intensity for the last year. The training intensity for an activity is calculated based on several metrics.': 'This map shows the daily training intensity for the last year. The training intensity for an activity is calculated based on several metrics.'
@@ -203,7 +204,6 @@ Yoga: Yoga
 age: age
 bpm: bpm
 clear: clear
-'eFTP charts display the highest estimated FTP values achieved over an eight‐week period. The eFTP for each activity is determined by multiplying the best average power by a factor:': 'eFTP charts display the highest estimated FTP values achieved over an eight‐week period. The eFTP for each activity is determined by multiplying the best average power by a factor:'
 intensity: intensity
 intensityFactor: intensityFactor
 'max gradient': 'max gradient'

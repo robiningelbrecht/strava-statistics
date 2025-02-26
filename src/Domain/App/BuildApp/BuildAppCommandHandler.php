@@ -42,9 +42,9 @@ use App\Domain\Strava\Calendar\Months;
 use App\Domain\Strava\Challenge\ChallengeRepository;
 use App\Domain\Strava\Challenge\Consistency\ChallengeConsistency;
 use App\Domain\Strava\Ftp\EFtpHistoryChart;
+use App\Domain\Strava\Ftp\EFtpRepository;
 use App\Domain\Strava\Ftp\FtpHistoryChart;
 use App\Domain\Strava\Ftp\FtpRepository;
-use App\Domain\Strava\Ftp\InMemoryEFtpRepository;
 use App\Domain\Strava\Gear\DistanceOverTimePerGearChart;
 use App\Domain\Strava\Gear\DistancePerMonthPerGearChart;
 use App\Domain\Strava\Gear\GearRepository;
@@ -94,6 +94,7 @@ final readonly class BuildAppCommandHandler implements CommandHandler
         private FilesystemOperator $filesystem,
         private TranslatorInterface $translator,
         private LocaleSwitcher $localeSwitcher,
+        private EFtpRepository $eftpRepository,
         private Clock $clock,
     ) {
     }
@@ -200,6 +201,9 @@ final readonly class BuildAppCommandHandler implements CommandHandler
             }
         }
 
+        $this->eftpRepository->enrichWithActivities($allActivities);
+        $this->activityIntensity->setEftpRepository($this->eftpRepository);
+
         $command->getOutput()->writeln('  => Building index.html');
         $this->filesystem->write(
             'build/html/index.html',
@@ -220,8 +224,6 @@ final readonly class BuildAppCommandHandler implements CommandHandler
         $distanceBreakdowns = [];
         $yearlyDistanceCharts = [];
         $yearlyStatistics = [];
-        $eftpRepository = InMemoryEFtpRepository::fromActivities($allActivities);
-        $this->activityIntensity->setEftpRepository($eftpRepository);
 
         /** @var ActivityType $activityType */
         foreach ($importedActivityTypes as $activityType) {
@@ -229,8 +231,10 @@ final readonly class BuildAppCommandHandler implements CommandHandler
                 continue;
             }
 
-            if ($activityType->supportsEFTP() && $chartData = EFtpHistoryChart::create(
-                eftps: $eftpRepository->findAllForActivityType($activityType)
+            if ($chartData = EFtpHistoryChart::create(
+                repository: $this->eftpRepository,
+                activityType: $activityType,
+                now: $now,
             )->build()) {
                 $eftpCharts[$activityType->value] = Json::encode($chartData);
             }
@@ -313,6 +317,7 @@ final readonly class BuildAppCommandHandler implements CommandHandler
                     )->build()
                 ) : null,
                 'eftpHistoryCharts' => !empty($eftpCharts) ? $eftpCharts : null,
+                'eftpNumberOfMonths' => $this->eftpRepository->getNumberOfMonths(),
                 'timeInHeartRateZoneChart' => Json::encode(
                     TimeInHeartRateZoneChart::create(
                         timeInSecondsInHeartRateZoneOne: $this->activityHeartRateRepository->findTotalTimeInSecondsInHeartRateZone(HeartRateZone::ONE),

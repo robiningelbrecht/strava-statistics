@@ -13,6 +13,7 @@ parameters:
     env(DATE_FORMAT): 'DAY-MONTH-YEAR'
     env(LOCALE): 'en_US'
     env(MANIFEST_APP_URL): 'http://localhost:8081/'
+    env(CALCULATE_EFTP_BASED_ON_LAST_NUMBER_OF_MONTHS): 6
 
 services:
     # default configuration for services in *this* file
@@ -125,3 +126,12 @@ services:
     App\Domain\Strava\Ftp\ImportFtp\FtpValuesFromEnvFile:
         factory: [ 'App\Domain\Strava\Ftp\ImportFtp\FtpValuesFromEnvFile', fromString ]
         arguments: [ '%env(string:FTP_VALUES)%' ]
+
+    App\Domain\Strava\Ftp\EFtpRepository:
+        factory: [ 'App\Domain\Strava\Ftp\InMemoryEFtpRepository', from ]
+        arguments: [ 
+            '%env(int:CALCULATE_EFTP_BASED_ON_LAST_NUMBER_OF_MONTHS)%'
+        ]
+
+
+    

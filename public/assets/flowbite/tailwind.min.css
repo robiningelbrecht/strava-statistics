@@ -1,4 +1,4 @@
-/*! tailwindcss v4.0.8 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v4.0.9 | MIT License | https://tailwindcss.com */
 @layer theme, base, components, utilities;
 @layer theme {
   :root, :host {
@@ -3882,11 +3882,6 @@
     border-color: var(--color-blue-600);
   }
 }
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
 @property --tw-translate-x {
   syntax: "*";
   inherits: false;
@@ -4107,4 +4102,9 @@
 @property --tw-ease {
   syntax: "*";
   inherits: false;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

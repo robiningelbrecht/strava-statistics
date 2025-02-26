@@ -27,10 +27,10 @@ final class ActivityIntensity
 
     public function calculate(Activity $activity): ?int
     {
-        if (null !== $this->eftpRepository) {
+        if (null !== $this->eftpRepository && $this->eftpRepository->enabled()) {
             $eftp = $this->eftpRepository->findForActivityType(
-                $activity->getStartDate(),
-                $activity->getSportType()->getActivityType()
+                $activity->getSportType()->getActivityType(),
+                $activity->getStartDate()
             );
 
             if ($eftp && $averagePower = $activity->getAveragePower()) {

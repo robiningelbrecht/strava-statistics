@@ -114,7 +114,7 @@ final class StreamBasedActivityPowerRepository implements ActivityPowerRepositor
             $power = $bestPowerOutputs[$timeIntervalInSeconds] ?? null;
 
             if ($power) {
-                $calculatedEFTP = $power->getPower() * $factor;
+                $calculatedEFTP = (int) round($power->getPower() * $factor);
 
                 if (null === $eftp || $calculatedEFTP > $eftp->getPower()) {
                     $interval = CarbonInterval::seconds($timeIntervalInSeconds);
