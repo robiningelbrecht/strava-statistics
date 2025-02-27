@@ -50,7 +50,7 @@ final class ActivityIntensity
 
     private function calculateWithEFTP(Activity $activity): ?int
     {
-        if (null !== $this->eftpRepository && $this->eftpRepository->enabled()) {
+        if ($this->eftpRepository->enabled()) {
             $eftp = $this->eftpRepository->findForActivityType(
                 $activity->getSportType()->getActivityType(),
                 $activity->getStartDate()
