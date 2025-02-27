@@ -21,11 +21,13 @@ class ActivityEFtpTest extends TestCase
     {
         $eftpValue = 200;
         $relativeEftpValue = 4.25;
+        $timeInSeconds = 3600;
         $time = '1 h';
 
         $eftp = PowerOutput::fromState(
-            time: $time,
             power: $eftpValue,
+            timeIntervalInSeconds: $timeInSeconds,
+            formattedTimeInterval: $time,
             relativePower: $relativeEftpValue
         );
         $activity = ActivityBuilder::fromDefaults()->build();
@@ -33,6 +35,7 @@ class ActivityEFtpTest extends TestCase
 
         $this->assertEquals($activity->getEFTP()->getPower(), $eftpValue);
         $this->assertEquals($activity->getEFTP()->getRelativePower(), $relativeEftpValue);
-        $this->assertEquals($activity->getEFTP()->getTime(), $time);
+        $this->assertEquals($activity->getEFTP()->getFormattedTimeInterval(), $time);
+        $this->assertEquals($activity->getEFTP()->getTimeIntervalInSeconds(), $timeInSeconds);
     }
 }

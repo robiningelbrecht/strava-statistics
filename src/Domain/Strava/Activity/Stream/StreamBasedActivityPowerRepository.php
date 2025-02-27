@@ -51,7 +51,7 @@ final class StreamBasedActivityPowerRepository implements ActivityPowerRepositor
             $activityStream = $powerStreamsForActivity->getFirst();
             $bestAverages = $activityStream->getBestAverages();
 
-            foreach (self::TIME_INTERVALS_IN_SECONDS_REDACTED as $timeIntervalInSeconds) {
+            foreach (self::TIME_INTERVALS_IN_SECONDS_ALL as $timeIntervalInSeconds) {
                 $interval = CarbonInterval::seconds($timeIntervalInSeconds);
                 if (!isset($bestAverages[$timeIntervalInSeconds])) {
                     continue;
@@ -77,15 +77,10 @@ final class StreamBasedActivityPowerRepository implements ActivityPowerRepositor
 
         return StreamBasedActivityPowerRepository::$cachedPowerOutputs[(string) $activityId];
     }
-    
+
     public function calculateEFTP(Activity $activity): ?PowerOutput
     {
-        $bestPowerOutputs = $this->findBestForActivity($activity->getId());
         $eftp = null;
-
-        if (!$bestPowerOutputs) {
-            return $eftp;
-        }
 
         try {
             $athleteWeight = $this->athleteWeightRepository->find($activity->getStartDate())->getWeightInKg();
@@ -95,7 +90,7 @@ final class StreamBasedActivityPowerRepository implements ActivityPowerRepositor
         }
 
         foreach (ActivityPowerRepository::EFTP_FACTORS as $timeIntervalInSeconds => $factor) {
-            $power = $bestPowerOutputs[$timeIntervalInSeconds] ?? null;
+            $power = $activity->getBestAveragePowerForTimeInterval($timeIntervalInSeconds);
 
             if ($power) {
                 $calculatedEFTP = (int) round($power->getPower() * $factor);
@@ -110,7 +105,8 @@ final class StreamBasedActivityPowerRepository implements ActivityPowerRepositor
                     $time = (int) $interval->totalHours ? $interval->totalHours.' h' : ((int) $interval->totalMinutes ? $interval->totalMinutes.' m' : $interval->totalSeconds.' s');
 
                     $eftp = PowerOutput::fromState(
-                        time: sprintf('%s @ %d w', $time, $power->getPower()),
+                        formattedTimeInterval: sprintf('%s @ %d w', $time, $power->getPower()),
+                        timeIntervalInSeconds: $timeIntervalInSeconds,
                         power: $calculatedEFTP,
                         relativePower: $relativePower,
                     );

@@ -276,20 +276,13 @@ final class Activity
         return !$this->bestPowerOutputs->isEmpty();
     }
 
-    public function getBestAveragePowerForTimeInterval(int $timeInterval): ?PowerOutput
-    {
-        return $this->bestPowerOutputs[$timeInterval] ?? null;
-    }
-
     public function getEFTP(): ?PowerOutput
     {
         return $this->eFTP;
     }
 
-    /**
-     * @param array<mixed> $bestPowerOutputs
-     */
-    public function enrichWithBestPowerOutputs(array $bestPowerOutputs): void
+    public function getBestAveragePowerForTimeInterval(int $timeInterval): ?PowerOutput
+    {
         if (is_null($this->bestPowerOutputs)) {
             return null;
         }

@@ -51,9 +51,10 @@ final class EFtpRepositoryBuilder
     public function withActivityAndPower(Activity $activity, int $eftp): self
     {
         $activity->enrichWithEFTP(PowerOutput::fromState(
-            time: '',
             power: $eftp,
-            relativePower: 0
+            timeIntervalInSeconds: 3600,
+            formattedTimeInterval: '1 h',
+            relativePower: 3
         ));
         $this->activities->add($activity);
 

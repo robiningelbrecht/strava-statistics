@@ -26,6 +26,8 @@ use App\Domain\Strava\Athlete\TimeInHeartRateZoneChart;
 use App\Domain\Strava\Athlete\Weight\AthleteWeightRepository;
 use App\Domain\Strava\Calendar\Months;
 use App\Domain\Strava\Challenge\Consistency\ChallengeConsistency;
+use App\Domain\Strava\Ftp\EFtpHistoryChart;
+use App\Domain\Strava\Ftp\EFtpRepository;
 use App\Domain\Strava\Ftp\FtpHistoryChart;
 use App\Domain\Strava\Ftp\FtpRepository;
 use App\Domain\Strava\Trivia;
