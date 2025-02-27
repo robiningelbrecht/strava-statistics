@@ -13,8 +13,7 @@ final readonly class CalculateBestStreamAveragesCommandHandler implements Comman
 {
     public function __construct(
         private ActivityStreamRepository $activityStreamRepository,
-    )
-    {
+    ) {
     }
 
     public function handle(Command $command): void

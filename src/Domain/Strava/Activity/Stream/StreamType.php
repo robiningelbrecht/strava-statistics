@@ -16,9 +16,10 @@ enum StreamType: string
     case MOVING = 'moving';
     case GRADE = 'grade_smooth';
 
-    public function supportsBestAverageCalculation(): bool{
-        return (in_array($this, [
+    public function supportsBestAverageCalculation(): bool
+    {
+        return in_array($this, [
             self::WATTS, self::HEART_RATE, self::CADENCE,
-        ]));
+        ]);
     }
 }
