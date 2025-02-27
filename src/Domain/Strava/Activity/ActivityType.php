@@ -69,10 +69,7 @@ enum ActivityType: string implements TranslatableInterface
 
     public function supportsWeeklyDistanceStats(): bool
     {
-        return match ($this) {
-            self::RUN, self::RIDE, self::WALK, self::WATER_SPORTS, self::SKATING => true,
-            default => false,
-        };
+        return ActivityType::OTHER !== $this;
     }
 
     public function supportsHeartRateOverTimeChart(): bool
