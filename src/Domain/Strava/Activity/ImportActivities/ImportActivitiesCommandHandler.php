@@ -99,6 +99,7 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                     ->updateMovingTimeInSeconds($stravaActivity['moving_time'] ?? 0)
                     ->updateElevation(Meter::from($stravaActivity['total_elevation_gain']))
                     ->updateKudoCount($stravaActivity['kudos_count'] ?? 0)
+                    ->updatePolyline($stravaActivity['map']['summary_polyline'] ?? null)
                     ->updateGear(
                         $gearId,
                         $gearId ? $allGears->getByGearId($gearId)?->getName() : null

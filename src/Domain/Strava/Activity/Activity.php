@@ -92,7 +92,7 @@ final class Activity
         #[ORM\Column(type: 'text', nullable: true)]
         private array $localImagePaths,
         #[ORM\Column(type: 'text', nullable: true)]
-        private readonly ?string $polyline,
+        private ?string $polyline,
         #[ORM\Column(type: 'json', nullable: true)]
         private ?Location $location,
         #[ORM\Column(type: 'json', nullable: true)]
@@ -465,6 +465,13 @@ final class Activity
     public function getPolyline(): ?string
     {
         return $this->polyline;
+    }
+
+    public function updatePolyline(?string $polyline): self
+    {
+        $this->polyline = $polyline;
+
+        return $this;
     }
 
     public function getDeviceName(): ?string
