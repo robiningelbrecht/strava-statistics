@@ -26,6 +26,10 @@
         }
     },
     {
+        "commandName": "App\\Domain\\App\\BuildGpxFiles\\BuildGpxFiles",
+        "payload": []
+    },
+    {
         "commandName": "App\\Domain\\App\\BuildMonthlyStatsHtml\\BuildMonthlyStatsHtml",
         "payload": {
             "now": "2023-10-17 16:15:04"

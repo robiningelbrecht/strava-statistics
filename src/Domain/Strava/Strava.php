@@ -3,6 +3,7 @@
 namespace App\Domain\Strava;
 
 use App\Domain\Strava\Activity\ActivityId;
+use App\Domain\Strava\Activity\Stream\StreamType;
 use App\Domain\Strava\Challenge\ImportChallenges\ImportChallengesCommandHandler;
 use App\Domain\Strava\Gear\GearId;
 use App\Infrastructure\Logging\Monolog;
@@ -159,6 +160,9 @@ class Strava
     public function getAllActivityStreams(ActivityId $activityId): array
     {
         return Json::decode($this->request('api/v3/activities/'.$activityId->toUnprefixedString().'/streams', 'GET', [
+            RequestOptions::QUERY => [
+                'keys' => implode(',', array_map(fn (StreamType $streamType) => $streamType->value, StreamType::cases())),
+            ],
             RequestOptions::HEADERS => [
                 'Authorization' => 'Bearer '.$this->getAccessToken(),
             ],

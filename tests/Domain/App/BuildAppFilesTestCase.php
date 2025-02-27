@@ -20,7 +20,7 @@ abstract class BuildAppFilesTestCase extends ContainerTestCase
 
     abstract protected function getDomainCommand(): DomainCommand;
 
-    private CommandBus $commandBus;
+    protected CommandBus $commandBus;
 
     public function testHandle(): void
     {
@@ -33,7 +33,7 @@ abstract class BuildAppFilesTestCase extends ContainerTestCase
         $this->assertFileSystemWrites($fileSystem->getWrites());
     }
 
-    private function assertFileSystemWrites(array $writes): void
+    protected function assertFileSystemWrites(array $writes): void
     {
         foreach ($writes as $location => $content) {
             $this->snapshotName = preg_replace('/[^a-zA-Z0-9]/', '-', $location);

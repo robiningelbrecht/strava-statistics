@@ -8,6 +8,7 @@
          displayDetailsOnTestsThatTriggerDeprecations="true"
          displayDetailsOnTestsThatTriggerWarnings="true"
          displayDetailsOnTestsThatTriggerNotices="true"
+         failOnRisky="true"
 >
     <php>
         <ini name="display_errors" value="1" />

@@ -8,6 +8,7 @@ use App\Domain\App\BuildChallengesHtml\BuildChallengesHtml;
 use App\Domain\App\BuildDashboardHtml\BuildDashboardHtml;
 use App\Domain\App\BuildEddingtonHtml\BuildEddingtonHtml;
 use App\Domain\App\BuildGearStatsHtml\BuildGearStatsHtml;
+use App\Domain\App\BuildGpxFiles\BuildGpxFiles;
 use App\Domain\App\BuildHeatmapHtml\BuildHeatmapHtml;
 use App\Domain\App\BuildIndexHtml\BuildIndexHtml;
 use App\Domain\App\BuildMonthlyStatsHtml\BuildMonthlyStatsHtml;
@@ -66,6 +67,8 @@ final class BuildAppConsoleCommand extends Command
         $this->commandBus->dispatch(new BuildDashboardHtml($now));
         $output->writeln('  => Building activities.html');
         $this->commandBus->dispatch(new BuildActivitiesHtml($now));
+        $output->writeln('  => Building gpx files');
+        $this->commandBus->dispatch(new BuildGpxFiles());
         $output->writeln('  => Building monthly-stats.html');
         $this->commandBus->dispatch(new BuildMonthlyStatsHtml($now));
         $output->writeln('  => Building gear-stats.html');
