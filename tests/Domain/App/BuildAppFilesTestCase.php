@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Domain\App;
 
 use App\Infrastructure\CQRS\Bus\CommandBus;
-use App\Infrastructure\CQRS\Bus\DomainCommand;
+use App\Infrastructure\CQRS\DomainCommand;
 use App\Tests\ContainerTestCase;
 use App\Tests\ProvideTestData;
 use League\Flysystem\FilesystemOperator;

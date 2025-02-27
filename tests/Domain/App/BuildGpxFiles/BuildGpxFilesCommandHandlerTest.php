@@ -3,7 +3,7 @@
 namespace App\Tests\Domain\App\BuildGpxFiles;
 
 use App\Domain\App\BuildGpxFiles\BuildGpxFiles;
-use App\Infrastructure\CQRS\Bus\DomainCommand;
+use App\Infrastructure\CQRS\DomainCommand;
 use App\Tests\Domain\App\BuildAppFilesTestCase;
 
 class BuildGpxFilesCommandHandlerTest extends BuildAppFilesTestCase

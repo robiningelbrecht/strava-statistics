@@ -21,7 +21,7 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
     _instanceof:
-        App\Infrastructure\CQRS\Bus\CommandHandler:
+        App\Infrastructure\CQRS\CommandHandler:
             tags: ['app.command_handler']
 
     # makes classes in src/ available to be used as services

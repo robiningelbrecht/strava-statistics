@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\CQRS\Bus;
+namespace App\Infrastructure\CQRS;
 
 abstract class DomainCommand implements Command
 {

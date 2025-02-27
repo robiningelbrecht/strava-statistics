@@ -6,8 +6,8 @@ namespace App\Domain\App\BuildPhotosHtml;
 
 use App\Domain\Strava\Activity\Image\ImageRepository;
 use App\Domain\Strava\Activity\SportType\SportTypeRepository;
-use App\Infrastructure\CQRS\Bus\Command;
-use App\Infrastructure\CQRS\Bus\CommandHandler;
+use App\Infrastructure\CQRS\Command;
+use App\Infrastructure\CQRS\CommandHandler;
 use League\Flysystem\FilesystemOperator;
 use Twig\Environment;
 
