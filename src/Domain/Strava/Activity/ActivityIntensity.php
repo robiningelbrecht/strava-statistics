@@ -11,13 +11,11 @@ use App\Infrastructure\Exception\EntityNotFound;
 
 final class ActivityIntensity
 {
-    private ?EFtpRepository $eftpRepository;
-
     public function __construct(
         private AthleteRepository $athleteRepository,
         private FtpRepository $ftpRepository,
+        private EFtpRepository $eftpRepository,
     ) {
-        $this->eftpRepository = null;
     }
 
     public function setEftpRepository(EFtpRepository $eftpRepository): void
@@ -25,7 +23,32 @@ final class ActivityIntensity
         $this->eftpRepository = $eftpRepository;
     }
 
-    public function calculate(Activity $activity): ?int
+    private function calculateWithPower(int $movingTimeInSeconds, int $averagePower, int $ftp): int
+    {
+        // Use more complicated and more accurate calculation.
+        // intensityFactor = averagePower / FTP
+        // (durationInSeconds * averagePower * intensityFactor) / (FTP x 3600) * 100
+        return (int) round(($movingTimeInSeconds * $averagePower * ($averagePower / $ftp)) / ($ftp * 3600) * 100);
+    }
+
+    private function calculateWithFTP(Activity $activity): ?int
+    {
+        try {
+            $ftp = $this->ftpRepository->find($activity->getStartDate())->getFtp();
+            if ($averagePower = $activity->getAveragePower()) {
+                return $this->calculateWithPower(
+                    $activity->getMovingTimeInSeconds(),
+                    $averagePower,
+                    $ftp->getValue()
+                );
+            }
+        } catch (EntityNotFound) {
+        }
+
+        return null;
+    }
+
+    private function calculateWithEFTP(Activity $activity): ?int
     {
         if (null !== $this->eftpRepository && $this->eftpRepository->enabled()) {
             $eftp = $this->eftpRepository->findForActivityType(
@@ -34,27 +57,21 @@ final class ActivityIntensity
             );
 
             if ($eftp && $averagePower = $activity->getAveragePower()) {
-                return (int) round(($activity->getMovingTimeInSeconds() * $averagePower * ($averagePower / $eftp->getEftp())) / ($eftp->getEftp() * 3600) * 100);
+                return $this->calculateWithPower(
+                    $activity->getMovingTimeInSeconds(),
+                    $averagePower,
+                    $eftp->getEftp()
+                );
             }
         }
 
-        $athlete = $this->athleteRepository->find();
-        try {
-            // To calculate intensity, we need
-            // 1) Max and average heart rate
-            // OR
-            // 2) FTP and average power
-            $ftp = $this->ftpRepository->find($activity->getStartDate())->getFtp();
-            if ($averagePower = $activity->getAveragePower()) {
-                // Use more complicated and more accurate calculation.
-                // intensityFactor = averagePower / FTP
-                // (durationInSeconds * averagePower * intensityFactor) / (FTP x 3600) * 100
-                return (int) round(($activity->getMovingTimeInSeconds() * $averagePower * ($averagePower / $ftp->getValue())) / ($ftp->getValue() * 3600) * 100);
-            }
-        } catch (EntityNotFound) {
-        }
+        return null;
+    }
 
+    private function calculateWithHeartrate(Activity $activity): ?int
+    {
         if ($averageHeartRate = $activity->getAverageHeartRate()) {
+            $athlete = $this->athleteRepository->find();
             $athleteMaxHeartRate = $athlete->getMaxHeartRate($activity->getStartDate());
             // Use simplified, less accurate calculation.
             // maxHeartRate = = (220 - age) x 0.92
@@ -63,6 +80,30 @@ final class ActivityIntensity
             $maxHeartRate = round($athleteMaxHeartRate * 0.92);
 
             return (int) round(($activity->getMovingTimeInSeconds() * $averageHeartRate * ($averageHeartRate / $maxHeartRate)) / ($maxHeartRate * 3600) * 100);
+        }
+
+        return null;
+    }
+
+    public function calculate(Activity $activity): ?int
+    {
+        // To calculate intensity, we need
+        // 1) FTP and average power
+        // OR
+        // 2) eFTP and average power
+        // OR
+        // 1) Max and average heart rate
+
+        if ($intensity = $this->calculateWithFTP($activity)) {
+            return $intensity;
+        }
+
+        if ($intensity = $this->calculateWithEFTP($activity)) {
+            return $intensity;
+        }
+
+        if ($intensity = $this->calculateWithHeartrate($activity)) {
+            return $intensity;
         }
 
         return null;

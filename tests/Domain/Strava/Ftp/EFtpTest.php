@@ -131,6 +131,20 @@ class InMemoryEFtpTest extends TestCase
         $this->assertEquals($eftp2->getEftp(), 300);
     }
 
+    public function testBikeDates(): void
+    {
+        $result = $this->eftpRepository->findEFtpDates(ActivityType::RIDE);
+
+        $this->assertEquals($result, ['2023-01-01', '2023-01-10']);
+    }
+
+    public function testRunDates(): void
+    {
+        $result = $this->eftpRepository->findEFtpDates(ActivityType::RUN);
+
+        $this->assertEquals($result, ['2023-01-31']);
+    }
+
     #[\Override]
     protected function setUp(): void
     {

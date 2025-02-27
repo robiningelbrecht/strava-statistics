@@ -8,6 +8,7 @@ use App\Domain\Strava\Athlete\Athlete;
 use App\Domain\Strava\Athlete\AthleteRepository;
 use App\Domain\Strava\Athlete\KeyValueBasedAthleteRepository;
 use App\Domain\Strava\Ftp\DbalFtpRepository;
+use App\Domain\Strava\Ftp\EFtpRepository;
 use App\Domain\Strava\Ftp\FtpRepository;
 use App\Domain\Strava\Ftp\FtpValue;
 use App\Infrastructure\KeyValue\KeyValueStore;
@@ -20,6 +21,7 @@ class ActivityIntensityTest extends ContainerTestCase
 {
     private ActivityIntensity $activityIntensity;
     private FtpRepository $ftpRepository;
+    private EFtpRepository $eftpRepository;
     private AthleteRepository $athleteRepository;
 
     public function testCalculateWithFtp(): void
@@ -83,15 +85,56 @@ class ActivityIntensityTest extends ContainerTestCase
 
         $eftpIntensity = new ActivityIntensity(
             $this->athleteRepository,
-            $this->ftpRepository
+            $this->ftpRepository,
+            $eftpRepository
         );
-        $eftpIntensity->setEftpRepository($eftpRepository);
 
         $this->athleteRepository->save(Athlete::create([
             'birthDate' => '1989-08-14',
         ]));
 
         $this->assertNull(
+            $eftpIntensity->calculate($activity),
+        );
+    }
+
+    public function testCalculateWithFTPInsteadOfEFtp(): void
+    {
+        $ftp = FtpBuilder::fromDefaults()
+            ->withSetOn(SerializableDateTime::fromString('2023-01-01'))
+            ->withFtp(FtpValue::fromInt(250))
+            ->build();
+        $this->ftpRepository->save($ftp);
+
+        $this->athleteRepository->save(Athlete::create([
+            'birthDate' => '1989-08-14',
+        ]));
+
+        $eftpRepository = EFtpRepositoryBuilder::fromDefaults()
+            ->withActivityAndPower(
+                ActivityBuilder::fromDefaults()
+                    ->withStartDateTime(SerializableDateTime::fromString('2023-01-01'))
+                    ->withSportType(SportType::RIDE)
+                    ->build(), 100
+            )
+            ->withNumberOfMonths(3)
+            ->build();
+
+        $activity = ActivityBuilder::fromDefaults()
+            ->withStartDateTime(SerializableDateTime::fromString('2023-03-31'))
+            ->withAveragePower(250)
+            ->withMovingTimeInSeconds(3600)
+            ->withSportType(SportType::RIDE)
+            ->build();
+
+        $eftpIntensity = new ActivityIntensity(
+            $this->athleteRepository,
+            $this->ftpRepository,
+            $eftpRepository
+        );
+
+        $this->assertEquals(
+            100,
             $eftpIntensity->calculate($activity),
         );
     }
@@ -117,9 +160,9 @@ class ActivityIntensityTest extends ContainerTestCase
 
         $eftpIntensity = new ActivityIntensity(
             $this->athleteRepository,
-            $this->ftpRepository
+            $this->ftpRepository,
+            $eftpRepository
         );
-        $eftpIntensity->setEftpRepository($eftpRepository);
 
         $this->assertEquals(
             100,
@@ -153,10 +196,14 @@ class ActivityIntensityTest extends ContainerTestCase
         $this->athleteRepository = new KeyValueBasedAthleteRepository(
             $this->getContainer()->get(KeyValueStore::class)
         );
+        $this->eftpRepository = EFtpRepositoryBuilder::fromDefaults()
+            ->withNumberOfMonths(0)
+            ->build();
 
         $this->activityIntensity = new ActivityIntensity(
             $this->athleteRepository,
-            $this->ftpRepository
+            $this->ftpRepository,
+            $this->eftpRepository
         );
     }
 }
