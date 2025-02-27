@@ -45,6 +45,10 @@ abstract class BuildAppFilesTestCase extends ContainerTestCase
                 $this->assertMatchesHtmlSnapshot($content);
                 continue;
             }
+            if (str_ends_with($location, '.gpx')) {
+                $this->assertMatchesXmlSnapshot($content);
+                continue;
+            }
             $this->assertMatchesTextSnapshot($content);
         }
     }

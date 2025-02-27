@@ -5,7 +5,6 @@ namespace App\Tests\Domain\App\BuildGpxFiles;
 use App\Domain\App\BuildGpxFiles\BuildGpxFiles;
 use App\Infrastructure\CQRS\Bus\DomainCommand;
 use App\Tests\Domain\App\BuildAppFilesTestCase;
-use League\Flysystem\FilesystemOperator;
 
 class BuildGpxFilesCommandHandlerTest extends BuildAppFilesTestCase
 {

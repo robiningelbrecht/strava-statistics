@@ -13,7 +13,8 @@ final readonly class CalculateBestStreamAveragesCommandHandler implements Comman
 {
     public function __construct(
         private ActivityStreamRepository $activityStreamRepository,
-    ) {
+    )
+    {
     }
 
     public function handle(Command $command): void
@@ -29,6 +30,9 @@ final readonly class CalculateBestStreamAveragesCommandHandler implements Comman
             foreach ($streams as $stream) {
                 $bestAverages = [];
                 foreach (ActivityPowerRepository::TIME_INTERVALS_IN_SECONDS_ALL as $timeIntervalInSeconds) {
+                    if (!$stream->getStreamType()->supportsBestAverageCalculation()) {
+                        continue;
+                    }
                     if (!$bestAverage = $stream->calculateBestAverageForTimeInterval($timeIntervalInSeconds)) {
                         continue;
                     }
