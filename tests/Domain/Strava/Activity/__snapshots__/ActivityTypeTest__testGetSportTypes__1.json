@@ -36,31 +36,40 @@
         "Snowshoe"
     ],
     [
+        "Skateboard",
         "InlineSkate",
-        "RollerSki",
-        "Skateboard"
+        "RollerSki"
     ],
     [
         "Badminton",
-        "Crossfit",
-        "Elliptical",
-        "Golf",
-        "Handcycle",
-        "HighIntensityIntervalTraining",
         "Pickleball",
-        "Pilates",
         "Racquetball",
-        "RockClimbing",
-        "VirtualRow",
-        "Sail",
-        "Soccer",
         "Squash",
-        "StairStepper",
         "TableTennis",
-        "Tennis",
+        "Tennis"
+    ],
+    [
+        "Crossfit",
         "WeightTraining",
-        "Wheelchair",
         "Workout",
+        "StairStepper",
+        "VirtualRow",
+        "HighIntensityIntervalTraining",
+        "Elliptical"
+    ],
+    [
+        "Pilates",
         "Yoga"
-    ]
+    ],
+    [
+        "Golf",
+        "RockClimbing",
+        "Sail",
+        "Soccer"
+    ],
+    [
+        "Handcycle",
+        "Wheelchair"
+    ],
+    []
 ]

@@ -15,6 +15,11 @@ enum ActivityType: string implements TranslatableInterface
     case WATER_SPORTS = 'WaterSports';
     case WINTER_SPORTS = 'WinterSports';
     case SKATING = 'Skating';
+    case RACQUET_PADDLE_SPORTS = 'RacquetPaddleSports';
+    case FITNESS = 'Fitness';
+    case MIND_BODY_SPORTS = 'MindBodySports';
+    case OUTDOOR_SPORTS = 'OutdoorAdventureSports';
+    case ADAPTIVE_INCLUSIVE_SPORTS = 'AdaptiveInclusiveSports';
     case OTHER = 'Other';
 
     public function getTemplateName(): string
@@ -45,6 +50,11 @@ enum ActivityType: string implements TranslatableInterface
             self::WATER_SPORTS => $translator->trans('Water Sports', locale: $locale),
             self::WINTER_SPORTS => $translator->trans('Winter Sports', locale: $locale),
             self::SKATING => $translator->trans('Skating', locale: $locale),
+            self::RACQUET_PADDLE_SPORTS => $translator->trans('Racquet & Paddle Sports', locale: $locale),
+            self::FITNESS => $translator->trans('Fitness', locale: $locale),
+            self::MIND_BODY_SPORTS => $translator->trans('Mind & Body Sports', locale: $locale),
+            self::OUTDOOR_SPORTS => $translator->trans('Outdoor Sports', locale: $locale),
+            self::ADAPTIVE_INCLUSIVE_SPORTS => $translator->trans('Adaptive & Inclusive Sports', locale: $locale),
             self::OTHER => $translator->trans('Other', locale: $locale),
         };
     }
