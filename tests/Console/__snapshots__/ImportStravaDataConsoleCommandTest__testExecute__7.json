@@ -1,6 +1,0 @@
-{
-    "commandName": "App\\Domain\\Strava\\Challenge\\ImportChallenges\\ImportChallenges",
-    "payload": {
-        "output": {}
-    }
-}

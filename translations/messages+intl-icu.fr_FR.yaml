@@ -4,6 +4,7 @@ Activities: Activités
 Advanced: Avancé
 Afternoon: Après-midi
 'All activities': 'Toutes les activités'
+'All time': 'All time'
 'Alpine Ski': 'Ski alpin'
 Apr: Avr
 Aug: Aoû
@@ -11,7 +12,6 @@ Avg: Moy
 'Back Country Ski': 'Ski de randonnée'
 Badminton: Badminton
 Best: Meilleur
-'Best power outputs over time': 'Meilleures puissances de tout temps'
 Cadence: Cadence
 Calories: Calories
 Canoeing: Canoë
@@ -70,7 +70,6 @@ HR: HR
 'Heart rate zones': 'Zones de fréquence cardiaque'
 Heatmap: Heatmap
 High: Élevé
-'Highest elevation': 'Altitude maximale'
 Hikes: Randonnées
 History: Historique
 "I burned {caloriesBurned} calories doing so, that's about {numberOfPizzaSlices} pizza slices 🍕.": "J'ai brûlé {caloriesBurned} calories en faisant cela, soit environ {numberOfPizzaSlices} parts de pizza 🍕."
@@ -83,10 +82,12 @@ Jun: Juin
 KOM: KOM
 Kayaking: Kayak
 'Kite Surf': 'Kite Surf'
+'Last 45 days': 'Last 45 days'
+'Last 90 days': 'Last 90 days'
 'Latest start time': 'Départ le plus tardif'
 'Loading data...': 'Chargement des données...'
 Loading...: Chargement...
-'Longest ride': 'Sortie vélo la plus longue'
+'Longest workout': 'Longest workout'
 Low: Bas
 Mar: Mar
 Max: Max
@@ -97,6 +98,7 @@ Monday: Lundi
 'Monthly stats': 'Statistiques mensuelles'
 Morning: Matin
 'Most consecutive days': 'Plus grand nombre de jours consécutifs'
+'Most elevation': 'Most elevation'
 'Most kudos': 'Plus de kudos'
 'Most recent activities': 'Activités les plus récentes'
 'Mountain Bike Rides': 'Sorties VTT'
@@ -169,6 +171,7 @@ Thursday: Jeudi
 To: To
 'Toggle sidebar': 'Basculer la barre latérale'
 'Top 10': 'Top 10'
+'Total carbon saved': 'Total carbon saved'
 'Total kudos': 'Total des kudos'
 'Trail Runs': Trail
 Trivia: Trivial
@@ -178,6 +181,7 @@ Tuesday: Mardi
 'Velo Mobiles': Vélomobiles
 'Very high': 'Très élevé'
 'View all': 'Voir tout'
+'View details': 'View details'
 'Virtual Rides': 'Sorties virtuelles'
 'Virtual Row': 'Rameur virtuel'
 'Virtual Runs': 'Courses virtuelles'

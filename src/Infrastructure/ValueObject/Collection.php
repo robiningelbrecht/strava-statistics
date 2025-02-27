@@ -143,6 +143,14 @@ abstract class Collection implements \Countable, \IteratorAggregate, \JsonSerial
         return $item;
     }
 
+    /**
+     * @return T|null
+     */
+    public function find(\Closure $closure): mixed
+    {
+        return array_find($this->items, fn (mixed $item): mixed => $closure($item));
+    }
+
     public function reverse(): static
     {
         return static::fromArray(array_reverse($this->items));

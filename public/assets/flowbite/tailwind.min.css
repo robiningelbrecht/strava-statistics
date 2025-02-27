@@ -1,11 +1,11 @@
-/*! tailwindcss v4.0.9 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v4.0.8 | MIT License | https://tailwindcss.com */
 @layer theme, base, components, utilities;
 @layer theme {
   :root, :host {
     --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
       "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-      "Liberation Mono", "Courier New", monospace;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+      "Courier New", monospace;
     --color-red-600: #DC2626;
     --color-orange-200: #FBD38D;
     --color-orange-300: #F6AD55;
@@ -986,15 +986,13 @@
       color: var(--color-gray-700) !important;
       border: 0 !important;
       border-radius: 0.25rem !important;
-      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1),
-      0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
     }
     .dark & .apexcharts-tooltip {
       background-color: var(--color-gray-700) !important;
       color: var(--color-gray-400) !important;
       border-color: transparent !important;
-      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1),
-      0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
     }
     & .apexcharts-tooltip .apexcharts-tooltip-title {
       padding-top: 0.5rem !important;
@@ -1022,8 +1020,7 @@
       border-color: transparent !important;
       background-color: white !important;
       border-radius: 0.25rem !important;
-      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1),
-      0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
     }
     .dark & .apexcharts-xaxistooltip {
       color: var(--color-gray-400) !important;
@@ -1145,15 +1142,13 @@
       color: var(--color-gray-700) !important;
       border: 0 !important;
       border-radius: 0.25rem !important;
-      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1),
-      0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
     }
     .dark .apexcharts-canvas & {
       background-color: var(--color-gray-700) !important;
       color: var(--color-gray-400) !important;
       border-color: transparent !important;
-      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1),
-      0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
     }
     .apexcharts-canvas & .apexcharts-tooltip-title {
       padding-top: 0.5rem !important;
@@ -1333,8 +1328,7 @@
       border-color: transparent !important;
       background-color: white !important;
       border-radius: 0.25rem !important;
-      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1),
-      0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
     }
     .dark .apexcharts-canvas & {
       color: var(--color-gray-400) !important;
@@ -1807,9 +1801,6 @@
   .grid-cols-1 {
     grid-template-columns: repeat(1, minmax(0, 1fr));
   }
-  .grid-cols-2 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
   .grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
@@ -1946,6 +1937,11 @@
     & li {
       cursor: pointer;
       padding: calc(var(--spacing) * 1);
+      &:hover {
+        @media (hover: hover) {
+          background-color: #f4f4f4;
+        }
+      }
     }
   }
   .divide-y {
@@ -2086,8 +2082,7 @@
       background-color: var(--color-gray-700) !important;
       color: var(--color-gray-400) !important;
       border-color: transparent !important;
-      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1),
-      0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
     }
     & .apexcharts-canvas .apexcharts-tooltip .apexcharts-tooltip-title {
       background-color: var(--color-gray-600) !important;
@@ -3274,11 +3269,6 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
-  .lg\:grid-cols-3 {
-    @media (width >= 64rem) {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-  }
   .lg\:px-6 {
     @media (width >= 64rem) {
       padding-inline: calc(var(--spacing) * 6);
@@ -3880,6 +3870,11 @@
   input:checked + .toggle-bg {
     background: var(--color-blue-600);
     border-color: var(--color-blue-600);
+  }
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }
 @property --tw-translate-x {

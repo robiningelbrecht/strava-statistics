@@ -80,6 +80,39 @@ class DbalActivityRepositoryTest extends ContainerTestCase
         );
     }
 
+    public function testCount(): void
+    {
+        $activityOne = ActivityBuilder::fromDefaults()
+            ->withActivityId(ActivityId::fromUnprefixed(1))
+            ->withStartDateTime(SerializableDateTime::fromString('2023-10-10 14:00:34'))
+            ->build();
+        $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
+            $activityOne,
+            ['raw' => 'data']
+        ));
+        $activityTwo = ActivityBuilder::fromDefaults()
+            ->withActivityId(ActivityId::fromUnprefixed(2))
+            ->withStartDateTime(SerializableDateTime::fromString('2023-10-10 13:00:34'))
+            ->build();
+        $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
+            $activityTwo,
+            ['raw' => 'data']
+        ));
+        $activityThree = ActivityBuilder::fromDefaults()
+            ->withActivityId(ActivityId::fromUnprefixed(3))
+            ->withStartDateTime(SerializableDateTime::fromString('2023-10-09 14:00:34'))
+            ->build();
+        $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
+            $activityThree,
+            ['raw' => 'data']
+        ));
+
+        $this->assertEquals(
+            3,
+            $this->activityRepository->count()
+        );
+    }
+
     public function testDelete(): void
     {
         $activity = ActivityBuilder::fromDefaults()->build();

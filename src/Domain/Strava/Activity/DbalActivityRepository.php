@@ -43,6 +43,15 @@ final class DbalActivityRepository implements ActivityRepository
         return $this->hydrate($result);
     }
 
+    public function count(): int
+    {
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $queryBuilder->select('COUNT(*)')
+            ->from('Activity');
+
+        return (int) $queryBuilder->executeQuery()->fetchOne();
+    }
+
     public function findAll(?int $limit = null): Activities
     {
         $cacheKey = $limit ?? 'all';
@@ -127,6 +136,7 @@ final class DbalActivityRepository implements ActivityRepository
             weather: $result['weather'],
             gearId: GearId::fromOptionalString($result['gearId']),
             gearName: $result['gearName'],
+            isCommute: (bool) $result['isCommute'],
         );
     }
 }

@@ -7,17 +7,19 @@ use App\Infrastructure\ValueObject\Measurement\Length\Meter;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use Carbon\CarbonInterval;
 
-final readonly class ActivityTotals
+final class ActivityTotals
 {
-    private Kilometer $totalDistance;
-    private Meter $totalElevation;
-    private int $totalCalories;
-    private int $totalMovingTimeInSeconds;
-    private int $totalActivities;
+    public static ?ActivityTotals $instance = null;
+
+    private readonly Kilometer $totalDistance;
+    private readonly Meter $totalElevation;
+    private readonly int $totalCalories;
+    private readonly int $totalMovingTimeInSeconds;
+    private readonly int $totalActivities;
 
     private function __construct(
-        private Activities $activities,
-        private SerializableDateTime $now,
+        private readonly Activities $activities,
+        private readonly SerializableDateTime $now,
     ) {
         $this->totalDistance = Kilometer::from(
             $this->activities->sum(fn (Activity $activity) => $activity->getDistance()->toFloat())
@@ -30,9 +32,16 @@ final readonly class ActivityTotals
         $this->totalActivities = count($this->activities);
     }
 
-    public static function create(Activities $activities, SerializableDateTime $now): self
+    public static function getInstance(Activities $activities, SerializableDateTime $now): self
     {
-        return new self($activities, $now);
+        if (null === self::$instance) {
+            self::$instance = new self(
+                activities: $activities,
+                now: $now
+            );
+        }
+
+        return self::$instance;
     }
 
     public function getDistance(): Kilometer

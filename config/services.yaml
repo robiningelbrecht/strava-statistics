@@ -12,7 +12,7 @@ parameters:
     env(TIME_FORMAT): 24
     env(DATE_FORMAT): 'DAY-MONTH-YEAR'
     env(LOCALE): 'en_US'
-    env(MANIFEST_APP_URL): 'http://localhost:8081/'
+    env(MANIFEST_APP_URL): 'http://localhost:8080/'
     env(CALCULATE_EFTP_BASED_ON_LAST_NUMBER_OF_MONTHS): 4
 
 services:

@@ -29,4 +29,12 @@ final readonly class Year implements \Stringable
     {
         return (string) $this->year;
     }
+
+    public function getRange(): DateRange
+    {
+        return DateRange::fromDates(
+            from: SerializableDateTime::fromString(sprintf('%d-01-01', $this->year)),
+            till: SerializableDateTime::fromString(sprintf('%d-12-31', $this->year)),
+        );
+    }
 }

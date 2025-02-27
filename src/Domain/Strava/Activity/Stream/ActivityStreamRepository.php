@@ -25,6 +25,4 @@ interface ActivityStreamRepository
     public function findAll(): ActivityStreams;
 
     public function findWithoutBestAverages(int $limit): ActivityStreams;
-
-    public function findWithBestAverageFor(int $intervalInSeconds, StreamType $streamType): ActivityStream;
 }

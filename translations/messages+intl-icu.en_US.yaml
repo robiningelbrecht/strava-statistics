@@ -4,6 +4,7 @@ Activities: Activities
 Advanced: Advanced
 Afternoon: Afternoon
 'All activities': 'All activities'
+'All time': 'All time'
 'Alpine Ski': 'Alpine Ski'
 Apr: Apr
 Aug: Aug
@@ -11,7 +12,6 @@ Avg: Avg
 'Back Country Ski': 'Back Country Ski'
 Badminton: Badminton
 Best: Best
-'Best power outputs over time': 'Best power outputs over time'
 Cadence: Cadence
 Calories: Calories
 Canoeing: Canoeing
@@ -70,7 +70,6 @@ HR: HR
 'Heart rate zones': 'Heart rate zones'
 Heatmap: Heatmap
 High: High
-'Highest elevation': 'Highest elevation'
 Hikes: Hikes
 History: History
 "I burned {caloriesBurned} calories doing so, that's about {numberOfPizzaSlices} pizza slices 🍕.": "I burned {caloriesBurned} calories doing so, that's about {numberOfPizzaSlices} pizza slices 🍕."
@@ -83,10 +82,12 @@ Jun: Jun
 KOM: KOM
 Kayaking: Kayaking
 'Kite Surf': 'Kite Surf'
+'Last 45 days': 'Last 45 days'
+'Last 90 days': 'Last 90 days'
 'Latest start time': 'Latest start time'
 'Loading data...': 'Loading data...'
 Loading...: Loading...
-'Longest ride': 'Longest ride'
+'Longest workout': 'Longest workout'
 Low: Low
 Mar: Mar
 Max: Max
@@ -97,6 +98,7 @@ Monday: Monday
 'Monthly stats': 'Monthly stats'
 Morning: Morning
 'Most consecutive days': 'Most consecutive days'
+'Most elevation': 'Most elevation'
 'Most kudos': 'Most kudos'
 'Most recent activities': 'Most recent activities'
 'Mountain Bike Rides': 'Mountain Bike Rides'
@@ -169,6 +171,7 @@ Thursday: Thursday
 To: To
 'Toggle sidebar': 'Toggle sidebar'
 'Top 10': 'Top 10'
+'Total carbon saved': 'Total carbon saved'
 'Total kudos': 'Total kudos'
 'Trail Runs': 'Trail Runs'
 Trivia: Trivia
@@ -178,6 +181,7 @@ Tuesday: Tuesday
 'Velo Mobiles': 'Velo Mobiles'
 'Very high': 'Very high'
 'View all': 'View all'
+'View details': 'View details'
 'Virtual Rides': 'Virtual Rides'
 'Virtual Row': 'Virtual Row'
 'Virtual Runs': 'Virtual Runs'

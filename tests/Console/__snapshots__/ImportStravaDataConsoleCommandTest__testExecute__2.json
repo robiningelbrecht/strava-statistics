@@ -1,6 +1,62 @@
-{
-    "commandName": "App\\Domain\\Strava\\Gear\\ImportGear\\ImportGear",
-    "payload": {
-        "output": {}
+[
+    {
+        "commandName": "App\\Domain\\Strava\\Athlete\\ImportAthlete\\ImportAthlete",
+        "payload": {
+            "output": {}
+        }
+    },
+    {
+        "commandName": "App\\Domain\\Strava\\Gear\\ImportGear\\ImportGear",
+        "payload": {
+            "output": {}
+        }
+    },
+    {
+        "commandName": "App\\Domain\\Strava\\Activity\\ImportActivities\\ImportActivities",
+        "payload": {
+            "output": {}
+        }
+    },
+    {
+        "commandName": "App\\Domain\\Strava\\Activity\\Split\\ImportActivitySplits\\ImportActivitySplits",
+        "payload": {
+            "output": {}
+        }
+    },
+    {
+        "commandName": "App\\Domain\\Strava\\Activity\\Stream\\ImportActivityStreams\\ImportActivityStreams",
+        "payload": {
+            "output": {}
+        }
+    },
+    {
+        "commandName": "App\\Domain\\Strava\\Segment\\ImportSegments\\ImportSegments",
+        "payload": {
+            "output": {}
+        }
+    },
+    {
+        "commandName": "App\\Domain\\Strava\\Challenge\\ImportChallenges\\ImportChallenges",
+        "payload": {
+            "output": {}
+        }
+    },
+    {
+        "commandName": "App\\Domain\\Strava\\Ftp\\ImportFtp\\ImportFtp",
+        "payload": {
+            "output": {}
+        }
+    },
+    {
+        "commandName": "App\\Domain\\Strava\\Athlete\\Weight\\ImportAthleteWeight\\ImportAthleteWeight",
+        "payload": {
+            "output": {}
+        }
+    },
+    {
+        "commandName": "App\\Domain\\Strava\\Activity\\Stream\\CalculateBestStreamAverages\\CalculateBestStreamAverages",
+        "payload": {
+            "output": {}
+        }
     }
-}
+]

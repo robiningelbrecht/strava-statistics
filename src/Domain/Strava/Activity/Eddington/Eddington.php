@@ -3,20 +3,59 @@
 namespace App\Domain\Strava\Activity\Eddington;
 
 use App\Domain\Strava\Activity\Activities;
+use App\Domain\Strava\Activity\ActivityType;
 use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
 final class Eddington
 {
+    /** @var array<string, Eddington> */
+    public static array $instances = [];
+
     private const string DATE_FORMAT = 'Y-m-d';
     /** @var array<string, int|float> */
-    private array $distancesPerDay = [];
-    private ?int $eddingtonNumber = null;
+    private readonly array $distancesPerDay;
+    private readonly int $eddingtonNumber;
 
     private function __construct(
         private readonly Activities $activities,
         private readonly UnitSystem $unitSystem,
     ) {
+        $this->distancesPerDay = $this->buildDistancesPerDay();
+        $this->eddingtonNumber = $this->calculateEddingtonNumber();
+    }
+
+    /**
+     * @return array<string, float|int>
+     */
+    private function buildDistancesPerDay(): array
+    {
+        $distancesPerDay = [];
+        foreach ($this->activities as $activity) {
+            $day = $activity->getStartDate()->format(self::DATE_FORMAT);
+            if (!array_key_exists($day, $distancesPerDay)) {
+                $distancesPerDay[$day] = 0;
+            }
+
+            $distance = $activity->getDistance()->toUnitSystem($this->unitSystem);
+            $distancesPerDay[$day] += $distance->toFloat();
+        }
+
+        return $distancesPerDay;
+    }
+
+    private function calculateEddingtonNumber(): int
+    {
+        $number = 0;
+        for ($distance = 1; $distance <= $this->getLongestDistanceInADay(); ++$distance) {
+            $timesCompleted = count(array_filter($this->getDistancesPerDay(), fn (float $distanceForDay) => $distanceForDay >= $distance));
+            if ($timesCompleted < $distance) {
+                break;
+            }
+            $number = $distance;
+        }
+
+        return $number;
     }
 
     /**
@@ -24,21 +63,6 @@ final class Eddington
      */
     private function getDistancesPerDay(): array
     {
-        if (!empty($this->distancesPerDay)) {
-            return $this->distancesPerDay;
-        }
-
-        $this->distancesPerDay = [];
-        foreach ($this->activities as $activity) {
-            $day = $activity->getStartDate()->format(self::DATE_FORMAT);
-            if (!array_key_exists($day, $this->distancesPerDay)) {
-                $this->distancesPerDay[$day] = 0;
-            }
-
-            $distance = $activity->getDistance()->toUnitSystem($this->unitSystem);
-            $this->distancesPerDay[$day] += $distance->toFloat();
-        }
-
         return $this->distancesPerDay;
     }
 
@@ -67,21 +91,6 @@ final class Eddington
 
     public function getNumber(): int
     {
-        if (!is_null($this->eddingtonNumber)) {
-            return $this->eddingtonNumber;
-        }
-
-        $number = 0;
-        for ($distance = 1; $distance <= $this->getLongestDistanceInADay(); ++$distance) {
-            $timesCompleted = count(array_filter($this->getDistancesPerDay(), fn (float $distanceForDay) => $distanceForDay >= $distance));
-            if ($timesCompleted < $distance) {
-                break;
-            }
-            $number = $distance;
-        }
-
-        $this->eddingtonNumber = $number;
-
         return $this->eddingtonNumber;
     }
 
@@ -127,13 +136,20 @@ final class Eddington
         return array_reverse($history, true);
     }
 
-    public static function fromActivities(
+    public static function getInstance(
         Activities $activities,
+        ActivityType $activityType,
         UnitSystem $unitSystem,
     ): self {
-        return new self(
+        if (array_key_exists($activityType->value, self::$instances)) {
+            return self::$instances[$activityType->value];
+        }
+
+        self::$instances[$activityType->value] = new self(
             activities: $activities,
             unitSystem: $unitSystem
         );
+
+        return self::$instances[$activityType->value];
     }
 }

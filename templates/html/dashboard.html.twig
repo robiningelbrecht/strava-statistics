@@ -176,16 +176,14 @@
         </div>
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
             {% if powerOutputs is not empty %}
-                <!-- PEAK POWER OUTPUTS -->
-                <div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-xs sm:p-6">
-                <h3 class="flex items-center gap-x-1 mb-4 text-lg font-semibold">
-                    <span>{{ "Peak power outputs"|trans }}</span>
-                    <a href="#" data-model-content-url="power-output.html" rel="nofollow">
-                        <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v15a1 1 0 0 0 1 1h15M8 16l2.5-5.5 3 3L17.273 7 20 9.667"/>
-                        </svg>
+            <!-- PEAK POWER OUTPUTS -->
+            <div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-xs sm:p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold">{{ "Peak power outputs"|trans }}</h3>
+                    <a href="#" data-model-content-url="power-output.html" class="inline-flex items-center p-2 text-sm font-medium rounded-lg text-blue-600 hover:bg-gray-100">
+                        {{ "View details"|trans }}
                     </a>
-                </h3>
+                </div>
                 <div class="relative overflow-x-auto">
                     <table class="w-full text-sm text-center text-gray-500">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
@@ -206,13 +204,11 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% set timeIntervals =  [5, 10, 30, 60, 300, 480, 1200, 3600] %}
-                        {% for timeInterval in timeIntervals %}
-                            {% if powerOutputs[timeInterval] %}
-                                {% set powerOutput = powerOutputs[timeInterval] %}
+                        {% for powerOutput in powerOutputs %}
+                            {% if powerOutput.getTimeIntervalInSeconds() in timeIntervals %}
                                 <tr class="bg-white border-b">
                                     <td class="px-6 py-2 sticky left-0 bg-white font-medium text-gray-900 whitespace-nowrap">
-                                        {{ powerOutput.getTime() }}
+                                        {{ powerOutput.getFormattedTimeInterval() }}
                                     </td>
                                     <td class="px-2 py-2">
                                         {{ powerOutput.getPower() }}<span class="text-xs">w</span>
@@ -493,100 +489,144 @@
                 <h3 class="mb-4 text-lg font-semibold">
                     {{ "Trivia"|trans }}
                 </h3>
-                <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
-                    <div class="flex flex-col items-center justify-center p-6 border border-gray-200 rounded-lg shadow-sm">
-                        <div class="text-center">
-                            {% set firstActivity = trivia.getFirstActivity() %}
-                            <dd class="text-sm text-gray-500">{{ "First workout"|trans }}</dd>
-                            <dt class="mb-1 font-extrabold">{{ firstActivity.getStartDate()|formatDate('normal') }}</dt>
-                            <span class="text-xs">
-                                {{ renderComponent('activity-title', {'activity': firstActivity, 'ellipses': 30, 'hideIcon': true}) }}
-                            </span>
-                        </div>
-                    </div>
-                    <div class="flex flex-col items-center justify-center p-6 border border-gray-200 rounded-lg shadow-sm">
-                        <div class="text-center">
-                            {% set earliestActivity = trivia.getEarliestActivity() %}
-                            <dd class="text-sm text-gray-500">{{ "Earliest start time"|trans }}</dd>
-                            <dt class="mb-1 font-extrabold">{{ earliestActivity.getStartDate()|formatTime() }}</dt>
-                            <span class="text-xs">
-                                {{ renderComponent('activity-title', {'activity': earliestActivity, 'ellipses': 30, 'hideIcon': true}) }}
-                            </span>
-                        </div>
-                    </div>
-                    <div class="flex flex-col items-center justify-center p-6 border border-gray-200 rounded-lg shadow-sm">
-                        <div class="text-center">
-                            {% set latestActivity = trivia.getLatestActivity() %}
-                            <dd class="text-sm text-gray-500">{{ "Latest start time"|trans }}</dd>
-                            <dt class="mb-1 font-extrabold">{{ latestActivity.getStartDate()|formatTime() }}</dt>
-                            <span class="text-xs">
-                                {{ renderComponent('activity-title', {'activity': latestActivity, 'ellipses': 30, 'hideIcon': true}) }}
-                            </span>
-                        </div>
-                    </div>
-                    {% set longestActivity = trivia.getLongestRide() %}
-                    {% if longestActivity %}
-                        <div class="flex flex-col items-center justify-center p-6 border border-gray-200 rounded-lg shadow-sm">
-                            <div class="text-center">
-                                <dd class="text-sm text-gray-500">{{ "Longest ride"|trans }}</dd>
-                                <dt class="mb-1 font-extrabold">{{ renderComponent('measurement', {'measurement': longestActivity.getDistance(), 'precision': 0}) }}</dt>
-                                <span class="text-xs">
-                                {{ renderComponent('activity-title', {'activity': longestActivity, 'ellipses': 30, 'hideIcon': true}) }}
-                            </span>
-                            </div>
-                        </div>
-                    {% endif %}
-                    <div class="flex flex-col items-center justify-center p-6 border border-gray-200 rounded-lg shadow-sm">
-                        {% set highestElevationActivity = trivia.getActivityWithHighestElevation() %}
-                        <div class="text-center">
-                            <dd class="text-sm text-gray-500">{{ "Highest elevation"|trans }}</dd>
-                            <dt class="mb-1 font-extrabold">{{ renderComponent('measurement', {'measurement': highestElevationActivity.getElevation(), 'precision': 0}) }}</dt>
-                            <span class="text-xs">
-                                {{ renderComponent('activity-title', {'activity': highestElevationActivity, 'ellipses': 30, 'hideIcon': true}) }}
-                            </span>
-                        </div>
-                    </div>
-                    {% set fastestActivity = trivia.getFastestRide() %}
-                    {% if fastestActivity %}
-                        <div class="flex flex-col items-center justify-center p-6 border border-gray-200 rounded-lg shadow-sm">
-                            <div class="text-center">
+                <div class="relative overflow-x-auto">
+                    <table class="w-full text-sm text-center text-gray-500">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-2 py-3 sticky left-0 bg-gray-50">
 
-                                <dd class="text-sm text-gray-500">{{ "Fastest ride"|trans }}</dd>
-                                <dt class="mb-1 font-extrabold">{{ renderComponent('measurement', {'measurement': fastestActivity.getAverageSpeed(), 'precision': 1}) }}</dt>
-                                <span class="text-xs">
-                                {{ renderComponent('activity-title', {'activity': fastestActivity, 'ellipses': 30, 'hideIcon': true}) }}
-                            </span>
-                            </div>
-                        </div>
-                    {% endif %}
-                    <div class="flex flex-col items-center justify-center p-6 border border-gray-200 rounded-lg shadow-sm">
-                        <div class="text-center">
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                {{ "Workout"|trans }}
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="bg-white border-b">
+                            {% set firstActivity = trivia.getFirstActivity() %}
+                            <th scope="row" class="px-2 py-2 sticky left-0 bg-white font-medium text-gray-900 whitespace-nowrap">
+                                {{ "First workout"|trans }}
+                            </th>
+                            <td class="px-2 py-2">
+                                {{ firstActivity.getStartDate()|formatDate('normal') }}
+                            </td>
+                            <td class="px-2 py-2 truncate">
+                                {{ renderComponent('activity-title', {'activity': firstActivity, 'ellipses': 30}) }}
+                            </td>
+                        </tr>
+                        <tr class="bg-white border-b">
+                            {% set earliestActivity = trivia.getEarliestActivity() %}
+                            <th scope="row" class="px-2 py-2 sticky left-0 bg-white font-medium text-gray-900 whitespace-nowrap">
+                                {{ "Earliest start time"|trans }}
+                            </th>
+                            <td class="px-2 py-2">
+                                {{ earliestActivity.getStartDate()|formatTime() }}
+                            </td>
+                            <td class="px-2 py-2 truncate">
+                                {{ renderComponent('activity-title', {'activity': earliestActivity, 'ellipses': 30}) }}
+                            </td>
+                        </tr>
+                        <tr class="bg-white border-b">
+                            {% set latestActivity = trivia.getLatestActivity() %}
+                            <th scope="row" class="px-2 py-2 sticky left-0 bg-white font-medium text-gray-900 whitespace-nowrap">
+                                {{ "Latest start time"|trans }}
+                            </th>
+                            <td class="px-2 py-2">
+                                {{ latestActivity.getStartDate()|formatTime() }}
+                            </td>
+                            <td class="px-2 py-2 truncate">
+                                {{ renderComponent('activity-title', {'activity': latestActivity, 'ellipses': 30}) }}
+                            </td>
+                        </tr>
+                        <tr class="bg-white border-b">
+                            {% set longestWorkout = trivia.getLongestWorkout() %}
+                            <th scope="row" class="px-2 py-2 sticky left-0 bg-white font-medium text-gray-900 whitespace-nowrap">
+                                {{ "Longest workout"|trans }}
+                            </th>
+                            <td class="px-2 py-2">
+                                {{ longestWorkout.getMovingTimeFormatted() }}
+                            </td>
+                            <td class="px-2 py-2 truncate">
+                                {{ renderComponent('activity-title', {'activity': longestWorkout, 'ellipses': 30}) }}
+                            </td>
+                        </tr>
+                        <tr class="bg-white border-b">
+                            {% set highestElevationActivity = trivia.getActivityWithMostElevation() %}
+                            <th scope="row" class="px-2 py-2 sticky left-0 bg-white font-medium text-gray-900 whitespace-nowrap">
+                                {{ "Most elevation"|trans }}
+                            </th>
+                            <td class="px-2 py-2">
+                                {{ renderComponent('measurement', {'measurement': highestElevationActivity.getElevation(), 'precision': 0}) }}
+                            </td>
+                            <td class="px-2 py-2 truncate">
+                                {{ renderComponent('activity-title', {'activity': highestElevationActivity, 'ellipses': 30}) }}
+                            </td>
+                        </tr>
+                        {% set fastestActivity = trivia.getFastestRide() %}
+                        {% if fastestActivity %}
+                            <tr class="bg-white border-b">
+                                <th scope="row" class="px-2 py-2 sticky left-0 bg-white font-medium text-gray-900 whitespace-nowrap">
+                                    {{ "Fastest ride"|trans }}
+                                </th>
+                                <td class="px-2 py-2">
+                                    {{ renderComponent('measurement', {'measurement': fastestActivity.getAverageSpeed(), 'precision': 1}) }}
+                                </td>
+                                <td class="px-2 py-2 truncate">
+                                    {{ renderComponent('activity-title', {'activity': fastestActivity, 'ellipses': 30}) }}
+                                </td>
+                            </tr>
+                        {% endif %}
+                        <tr class="bg-white border-b">
                             {% set mostKudosActivity = trivia.getMostKudotedActivity() %}
-                            <dd class="text-sm text-gray-500">{{ "Most kudos"|trans }}</dd>
-                            <dt class="mb-1 font-extrabold">{{ mostKudosActivity.getKudoCount() }}</dt>
-                            <span class="text-xs">
-                                {{ renderComponent('activity-title', {'activity': mostKudosActivity, 'ellipses': 30, 'hideIcon': true}) }}
-                            </span>
-                        </div>
-                    </div>
-                    <div class="flex flex-col items-center justify-center p-6 border border-gray-200 rounded-lg shadow-sm">
-                        <div class="text-center">
-                            <dd class="text-sm text-gray-500">{{ "Total kudos"|trans }}</dd>
-                            <dt class="mb-1 font-extrabold">{{ trivia.getTotalKudosReceived() }}</dt>
-                        </div>
-                    </div>
-                    <div class="flex flex-col items-center justify-center p-6 border border-gray-200 rounded-lg shadow-sm">
-                        <div class="text-center">
-                            {% set mostConsecutiveDaysOfCycling = trivia.getMostConsecutiveDaysOfCycling() %}
-                            <dd class="text-sm text-gray-500">{{ "Most consecutive days"|trans }}</dd>
-                            <dt class="mb-1 font-extrabold">{{ mostConsecutiveDaysOfCycling|length }}</dt>
-                            <div class="text-xs text-gray-500">
-                                {{ mostConsecutiveDaysOfCycling.getEarliestDate()|formatDate('normal') }}
-                                <span class="font-medium">-</span>
-                                {{ mostConsecutiveDaysOfCycling.getLatestDate()|formatDate('normal') }}
-                            </div>
-                        </div>
-                    </div>
+                            <th scope="row" class="px-2 py-2 sticky left-0 bg-white font-medium text-gray-900 whitespace-nowrap">
+                                {{ "Most kudos"|trans }}
+                            </th>
+                            <td class="px-2 py-2">
+                                {{ mostKudosActivity.getKudoCount() }}
+                            </td>
+                            <td class="px-2 py-2 truncate">
+                                {{ renderComponent('activity-title', {'activity': mostKudosActivity, 'ellipses': 30}) }}
+                            </td>
+                        </tr>
+                        <tr class="bg-white border-b">
+                            <th scope="row" class="px-2 py-2 sticky left-0 bg-white font-medium text-gray-900 whitespace-nowrap">
+                                {{ "Total kudos"|trans }}
+                            </th>
+                            <td class="px-2 py-2">
+                                {{ trivia.getTotalKudosReceived() }}
+                            </td>
+                            <td class="px-2 py-2 truncate"></td>
+                        </tr>
+                        <tr class="bg-white border-b">
+                            {% set totalCarbonSaved = trivia.getTotalCarbonSaved()|convertMeasurement %}
+                            <th scope="row" class="px-2 py-2 sticky left-0 bg-white font-medium text-gray-900 whitespace-nowrap">
+                                {{ "Total carbon saved"|trans }}
+                            </th>
+                            <td class="px-2 py-2">
+                                {{ trivia.getTotalCarbonSaved().toFloat()|formatNumber(2) }}<span class="text-xs">{{ renderUnitSymbol('carbon-saved') }}</span>
+                            </td>
+                            <td class="px-2 py-2 truncate"></td>
+                        </tr>
+                        <tr class="bg-white border-b">
+                            {% set mostConsecutiveDaysOfWorkingOut = trivia.getMostConsecutiveDaysOfWorkingOut() %}
+                            <th scope="row" class="px-2 py-2 sticky left-0 bg-white font-medium text-gray-900 whitespace-nowrap">
+                                {{ "Most consecutive days"|trans }}
+                            </th>
+                            <td class="px-2 py-2 truncate">
+                                {{ mostConsecutiveDaysOfWorkingOut|length }}
+                                <div class="text-xs text-gray-500">
+                                    {{ mostConsecutiveDaysOfWorkingOut.getEarliestDate()|formatDate('normal') }}
+                                    <span class="font-medium">-</span>
+                                    {{ mostConsecutiveDaysOfWorkingOut.getLatestDate()|formatDate('normal') }}
+                                </div>
+                            </td>
+                            <td class="px-2 py-2 truncate"></td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

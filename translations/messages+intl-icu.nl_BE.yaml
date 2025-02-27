@@ -4,6 +4,7 @@ Activities: Activiteiten
 Advanced: Gevorderd
 Afternoon: Namiddag
 'All activities': 'Alle activiteiten'
+'All time': 'All time'
 'Alpine Ski': 'Alpine Ski'
 Apr: Apr
 Aug: Aug
@@ -11,7 +12,6 @@ Avg: Gem
 'Back Country Ski': 'Back Country Ski'
 Badminton: Badminton
 Best: Beste
-'Best power outputs over time': 'Beste wattages over een bepaalde periode'
 Cadence: Cadans
 Calories: Calorieën
 Canoeing: Kanoën
@@ -70,7 +70,6 @@ HR: HR
 'Heart rate zones': Hartslagzones
 Heatmap: Heatmap
 High: Hoog
-'Highest elevation': 'Meeste hoogtemeters'
 Hikes: Hikes
 History: Historiek
 "I burned {caloriesBurned} calories doing so, that's about {numberOfPizzaSlices} pizza slices 🍕.": 'Ik heb {caloriesBurned} calorieën verbrand door dit te doen, dat is ongeveer {numberOfPizzaSlices} pizza slices 🍕.'
@@ -83,10 +82,12 @@ Jun: Jun
 KOM: KOM
 Kayaking: Kajakken
 'Kite Surf': 'Kite Surf'
+'Last 45 days': 'Last 45 days'
+'Last 90 days': 'Last 90 days'
 'Latest start time': 'Laatste starttijd'
 'Loading data...': 'Aan het laden...'
 Loading...: 'Aan het laden...'
-'Longest ride': 'Langste ride'
+'Longest workout': 'Longest workout'
 Low: Laag
 Mar: Mar
 Max: Max
@@ -97,6 +98,7 @@ Monday: Maandag
 'Monthly stats': 'Maandelijkste stats'
 Morning: Ochtend
 'Most consecutive days': 'Meeste opeenvolgende dagen'
+'Most elevation': 'Most elevation'
 'Most kudos': 'Meeste kudos'
 'Most recent activities': 'Meest recent activiteiten'
 'Mountain Bike Rides': 'Mountain Bike Ritten'
@@ -169,6 +171,7 @@ Thursday: Donderdag
 To: To
 'Toggle sidebar': 'Toggle sidebar'
 'Top 10': 'Top 10'
+'Total carbon saved': 'Total carbon saved'
 'Total kudos': 'Totaal aantal kudos'
 'Trail Runs': 'Trail Runs'
 Trivia: Trivia
@@ -178,6 +181,7 @@ Tuesday: Dinsdag
 'Velo Mobiles': 'Velo Mobiles'
 'Very high': 'Heel hoog'
 'View all': 'Bekijk alles'
+'View details': 'View details'
 'Virtual Rides': 'Virtuele Ritten'
 'Virtual Row': 'Virtueel Roeien'
 'Virtual Runs': 'Virtual Runs'
