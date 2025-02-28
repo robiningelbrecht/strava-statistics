@@ -88,18 +88,18 @@ final class ActivityIntensity
     public function calculate(Activity $activity): ?int
     {
         // To calculate intensity, we need
-        // 1) FTP and average power
+        // 1) eFTP and average power
         // OR
-        // 2) eFTP and average power
+        // 2) FTP and average power
         // OR
         // 3) Max and average heart rate
 
-        if ($ftpIntensity = $this->calculateWithFTP($activity)) {
-            return $ftpIntensity;
-        }
-
         if ($eftpIntensity = $this->calculateWithEFTP($activity)) {
             return $eftpIntensity;
+        }
+
+        if ($ftpIntensity = $this->calculateWithFTP($activity)) {
+            return $ftpIntensity;
         }
 
         if ($heartrateIntensity = $this->calculateWithHeartrate($activity)) {

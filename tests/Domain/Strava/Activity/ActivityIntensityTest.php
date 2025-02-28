@@ -98,11 +98,11 @@ class ActivityIntensityTest extends ContainerTestCase
         );
     }
 
-    public function testCalculateWithFTPInsteadOfEFtp(): void
+    public function testCalculateWithEFTPInsteadOfFtp(): void
     {
         $ftp = FtpBuilder::fromDefaults()
             ->withSetOn(SerializableDateTime::fromString('2023-01-01'))
-            ->withFtp(FtpValue::fromInt(250))
+            ->withFtp(FtpValue::fromInt(100))
             ->build();
         $this->ftpRepository->save($ftp);
 
@@ -115,7 +115,7 @@ class ActivityIntensityTest extends ContainerTestCase
                 ActivityBuilder::fromDefaults()
                     ->withStartDateTime(SerializableDateTime::fromString('2023-01-01'))
                     ->withSportType(SportType::RIDE)
-                    ->build(), 100
+                    ->build(), 250
             )
             ->withNumberOfMonths(3)
             ->build();

@@ -13,7 +13,6 @@ parameters:
     env(DATE_FORMAT): 'DAY-MONTH-YEAR'
     env(LOCALE): 'en_US'
     env(MANIFEST_APP_URL): 'http://localhost:8080/'
-    env(CALCULATE_EFTP_BASED_ON_LAST_NUMBER_OF_MONTHS): 4
 
 services:
     # default configuration for services in *this* file
@@ -130,5 +129,5 @@ services:
     App\Domain\Strava\Ftp\EFtpRepository:
         factory: [ 'App\Domain\Strava\Ftp\InMemoryEFtpRepository', from ]
         arguments: [ 
-            '%env(int:CALCULATE_EFTP_BASED_ON_LAST_NUMBER_OF_MONTHS)%'
+            '%env(int:default::CALCULATE_EFTP_BASED_ON_LAST_NUMBER_OF_MONTHS)%'
         ]

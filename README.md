@@ -161,9 +161,9 @@ FTP_VALUES='{
     "YYYY-MM-DD": 220
 }'
 # Calculate estimated FTP (eFTP) based on the activities in the last X months
-# The eFTP will be used to calculate your activity intensity if you leave FTP_VALUES empty
-# To disable eFTP history set the value to 0. The default value is 4 months
-CALCULATE_EFTP_BASED_ON_LAST_NUMBER_OF_MONTHS=4
+# The eFTP will be used to calculate your activity intensity
+# To disable eFTP leave this empty
+CALCULATE_EFTP_BASED_ON_LAST_NUMBER_OF_MONTHS=
 # Full URL with ntfy topic included. This topic will be used to notify you when a new HTML build has run.
 # Leave empty to disable notifications.
 NTFY_URL=''

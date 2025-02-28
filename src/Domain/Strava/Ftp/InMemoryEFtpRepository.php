@@ -88,8 +88,12 @@ final readonly class InMemoryEFtpRepository implements EFtpRepository
         }
     }
 
-    public static function from(int $numberOfMonths): self
+    public static function from(?int $numberOfMonths): self
     {
+        if (null === $numberOfMonths) {
+            $numberOfMonths = 0;
+        }
+
         return new self($numberOfMonths);
     }
 }
