@@ -5,10 +5,12 @@
 <h1 align="center">Strava Statistics</h1>
 
 <p align="center">
-<a href="https://github.com/artop123/strava-statistics/actions/workflows/ci.yml"><img src="https://github.com/artop123/strava-statistics/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-<a href="https://github.com/artop123/strava-statistics/actions/workflows/docker-image.yml"><img src="https://github.com/artop123/strava-statistics/actions/workflows/docker-image.yml/badge.svg" alt="Publish Docker image"></a>
-<a href="https://hub.docker.com/r/artop/strava-statistics"><img src="https://img.shields.io/docker/image-size/artop/strava-statistics" alt="Docker Image Size"></a>
-<a href="https://hub.docker.com/r/artop/strava-statistics"><img src="https://img.shields.io/docker/pulls/artop/strava-statistics" alt="Docker pulls"></a>
+<a href="https://github.com/robiningelbrecht/strava-statistics/actions/workflows/ci.yml"><img src="https://github.com/robiningelbrecht/strava-statistics/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+<a href="https://github.com/robiningelbrecht/strava-statistics/actions/workflows/docker-image.yml"><img src="https://github.com/robiningelbrecht/strava-statistics/actions/workflows/docker-image.yml/badge.svg" alt="Publish Docker image"></a>
+<a href="https://raw.githubusercontent.com/robiningelbrecht/strava-statistics/refs/heads/master/LICENSE"><img src="https://img.shields.io/github/license/robiningelbrecht/strava-statistics?color=428f7e&logo=open%20source%20initiative&logoColor=white" alt="License"></a>
+<a href="https://hub.docker.com/r/robiningelbrecht/strava-statistics"><img src="https://img.shields.io/docker/image-size/robiningelbrecht/strava-statistics" alt="Docker Image Size"></a>
+<a href="https://hub.docker.com/r/robiningelbrecht/strava-statistics"><img src="https://img.shields.io/docker/pulls/robiningelbrecht/strava-statistics" alt="Docker pulls"></a>
+<a href="https://hub.docker.com/r/robiningelbrecht/strava-statistics"><img src="https://img.shields.io/docker/v/robiningelbrecht/strava-statistics?sort=semver" alt="Docker version"></a>
 </p>
 
 ---
@@ -158,6 +160,10 @@ FTP_VALUES='{
     "YYYY-MM-DD": 198,
     "YYYY-MM-DD": 220
 }'
+# Calculate estimated FTP (eFTP) based on the activities in the last X months
+# The eFTP will be used to calculate your activity intensity if you leave FTP_VALUES empty
+# To disable eFTP history set the value to 0. The default value is 4 months
+CALCULATE_EFTP_BASED_ON_LAST_NUMBER_OF_MONTHS=4
 # Full URL with ntfy topic included. This topic will be used to notify you when a new HTML build has run.
 # Leave empty to disable notifications.
 NTFY_URL=''

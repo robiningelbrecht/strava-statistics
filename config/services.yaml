@@ -132,6 +132,3 @@ services:
         arguments: [ 
             '%env(int:CALCULATE_EFTP_BASED_ON_LAST_NUMBER_OF_MONTHS)%'
         ]
-
-
-    
