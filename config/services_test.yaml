@@ -40,6 +40,3 @@ services:
 
     App\Infrastructure\FileSystem\PermissionChecker:
         class: App\Tests\Infrastructure\FileSystem\SuccessfulPermissionChecker
-
-    League\Flysystem\FilesystemOperator:
-        class: App\Tests\Infrastructure\FileSystem\SpyFileSystem

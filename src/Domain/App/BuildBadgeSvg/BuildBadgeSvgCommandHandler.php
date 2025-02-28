@@ -21,7 +21,8 @@ final readonly class BuildBadgeSvgCommandHandler implements CommandHandler
         private ChallengeRepository $challengeRepository,
         private ActivitiesEnricher $activitiesEnricher,
         private Environment $twig,
-        private FilesystemOperator $filesystem,
+        private FilesystemOperator $fileStorage,
+        private FilesystemOperator $buildStorage,
     ) {
     }
 
@@ -39,8 +40,8 @@ final readonly class BuildBadgeSvgCommandHandler implements CommandHandler
         );
         $trivia = Trivia::getInstance($activities);
 
-        $this->filesystem->write(
-            'storage/files/badge.svg',
+        $this->fileStorage->write(
+            'badge.svg',
             $this->twig->load('svg/svg-badge.html.twig')->render([
                 'athlete' => $athlete,
                 'activities' => $activities->slice(0, 5),
@@ -49,8 +50,8 @@ final readonly class BuildBadgeSvgCommandHandler implements CommandHandler
                 'challengesCompleted' => $this->challengeRepository->count(),
             ])
         );
-        $this->filesystem->write(
-            'build/html/badge.html',
+        $this->buildStorage->write(
+            'badge.html',
             $this->twig->load('html/badge.html.twig')->render(),
         );
     }

@@ -14,13 +14,14 @@ use App\Domain\Strava\StravaRefreshToken;
 use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\ValueObject\String\KernelProjectDir;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
-use App\Tests\Infrastructure\FileSystem\SpyFileSystem;
 use App\Tests\Infrastructure\Time\Sleep\NullSleep;
 use App\Tests\NullLogger;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use League\Flysystem\Filesystem;
+use League\Flysystem\InMemory\InMemoryFilesystemAdapter;
 
 class SpyStrava extends Strava
 {
@@ -37,7 +38,7 @@ class SpyStrava extends Strava
             stravaClientId: StravaClientId::fromString('clientId'),
             stravaClientSecret: StravaClientSecret::fromString('clientSecret'),
             stravaRefreshToken: StravaRefreshToken::fromString('refreshToken'),
-            filesystemOperator: new SpyFileSystem(),
+            filesystemOperator: new Filesystem(new InMemoryFilesystemAdapter()),
             sleep: new NullSleep(),
             logger: new NullLogger(),
         );
@@ -206,7 +207,6 @@ class SpyStrava extends Strava
     public function downloadImage(string $uri): string
     {
         if ($this->triggerExceptionOnNextCall) {
-            // $this->triggerExceptionOnNextCall = false;
             throw new \RuntimeException('WAW ERROR');
         }
         ++$this->numberOfCallsExecuted;

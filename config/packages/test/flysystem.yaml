@@ -1,0 +1,10 @@
+flysystem:
+    storages:
+        public.storage:
+            adapter: 'memory'
+
+        file.storage:
+            adapter: 'memory'
+
+        build.storage:
+            adapter: 'memory'

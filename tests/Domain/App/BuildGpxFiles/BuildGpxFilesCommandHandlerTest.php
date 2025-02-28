@@ -14,6 +14,11 @@ class BuildGpxFilesCommandHandlerTest extends BuildAppFilesTestCase
         return new BuildGpxFiles();
     }
 
+    protected function getFileSystemOperators(): array
+    {
+        return [$this->getContainer()->get('file.storage')];
+    }
+
     public function testHandleDuplicates(): void
     {
         $this->provideFullTestSet();
@@ -21,8 +26,8 @@ class BuildGpxFilesCommandHandlerTest extends BuildAppFilesTestCase
         $this->commandBus->dispatch($this->getDomainCommand());
         $this->commandBus->dispatch($this->getDomainCommand());
 
-        /** @var \App\Tests\Infrastructure\FileSystem\SpyFileSystem $fileSystem */
-        $fileSystem = $this->getContainer()->get(FilesystemOperator::class);
-        $this->assertFileSystemWrites($fileSystem->getWrites());
+        /** @var FilesystemOperator $fileSystem */
+        $fileSystem = $this->getContainer()->get('file.storage');
+        $this->assertFileSystemWrites($fileSystem);
     }
 }

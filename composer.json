@@ -31,6 +31,7 @@
         "doctrine/orm": "^3.3",
         "guzzlehttp/guzzle": "*",
         "league/flysystem-bundle": "^3.3",
+        "league/flysystem-memory": "^3.29",
         "moneyphp/money": "^4.5",
         "nesbot/carbon": "*",
         "ramsey/uuid": "^4.7",
