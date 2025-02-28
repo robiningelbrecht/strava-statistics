@@ -22,7 +22,5 @@ interface ActivityStreamRepository
 
     public function findByActivityId(ActivityId $activityId): ActivityStreams;
 
-    public function findAll(): ActivityStreams;
-
     public function findWithoutBestAverages(int $limit): ActivityStreams;
 }
