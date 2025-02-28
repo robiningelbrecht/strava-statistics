@@ -2,7 +2,7 @@
 
 namespace App\Tests\Infrastructure\CQRS\Bus;
 
-use App\Infrastructure\CQRS\Bus\DomainCommand;
+use App\Infrastructure\CQRS\DomainCommand;
 use App\Infrastructure\ValueObject\String\Url;
 
 class TestCommandWithValueObject extends DomainCommand

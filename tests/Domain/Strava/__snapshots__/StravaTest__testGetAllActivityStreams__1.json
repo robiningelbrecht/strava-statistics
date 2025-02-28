@@ -1,7 +1,7 @@
 {
     "base_uri": "https://www.strava.com/",
     "query": {
-        "keys": "watts,heartrate,cadence,hack"
+        "keys": "time,distance,latlng,altitude,velocity_smooth,heartrate,cadence,watts,temp,moving,grade_smooth"
     },
     "headers": {
         "Authorization": "Bearer theAccessToken"

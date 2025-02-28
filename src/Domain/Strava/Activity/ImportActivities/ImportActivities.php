@@ -2,7 +2,7 @@
 
 namespace App\Domain\Strava\Activity\ImportActivities;
 
-use App\Infrastructure\CQRS\Bus\DomainCommand;
+use App\Infrastructure\CQRS\DomainCommand;
 use Symfony\Component\Console\Output\OutputInterface;
 
 final class ImportActivities extends DomainCommand

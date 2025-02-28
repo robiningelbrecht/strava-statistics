@@ -4,6 +4,7 @@ Building App...
   => Building index.html
   => Building dashboard.html
   => Building activities.html
+  => Building gpx files
   => Building monthly-stats.html
   => Building gear-stats.html
   => Building eddington.html

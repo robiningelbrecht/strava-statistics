@@ -173,6 +173,43 @@ class DbalActivityRepositoryTest extends ContainerTestCase
         );
     }
 
+    public function testFindActivityIdsThatNeedStreamImport(): void
+    {
+        $activityOne = ActivityBuilder::fromDefaults()
+            ->withActivityId(ActivityId::fromUnprefixed(1))
+            ->withStartDateTime(SerializableDateTime::fromString('2023-10-10 14:00:34'))
+            ->build();
+        $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
+            $activityOne,
+            ['raw' => 'data']
+        ));
+        $activityTwo = ActivityBuilder::fromDefaults()
+            ->withActivityId(ActivityId::fromUnprefixed(2))
+            ->withStartDateTime(SerializableDateTime::fromString('2023-10-10 13:00:34'))
+            ->build();
+        $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
+            $activityTwo,
+            ['raw' => 'data']
+        ));
+        $this->activityWithRawDataRepository->markActivityStreamsAsImported($activityTwo->getId());
+        $activityThree = ActivityBuilder::fromDefaults()
+            ->withActivityId(ActivityId::fromUnprefixed(3))
+            ->withStartDateTime(SerializableDateTime::fromString('2023-10-09 14:00:34'))
+            ->build();
+        $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
+            $activityThree,
+            ['raw' => 'data']
+        ));
+
+        $this->assertEquals(
+            ActivityIds::fromArray([
+                ActivityId::fromUnprefixed(1),
+                ActivityId::fromUnprefixed(3),
+            ]),
+            $this->activityRepository->findActivityIdsThatNeedStreamImport()
+        );
+    }
+
     #[\Override]
     protected function setUp(): void
     {

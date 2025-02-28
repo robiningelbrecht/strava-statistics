@@ -4,7 +4,7 @@ namespace App\Tests\Console;
 
 use App\Console\ImportStravaDataConsoleCommand;
 use App\Infrastructure\CQRS\Bus\CommandBus;
-use App\Infrastructure\CQRS\Bus\DomainCommand;
+use App\Infrastructure\CQRS\DomainCommand;
 use App\Infrastructure\Doctrine\Migrations\MigrationRunner;
 use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\Time\ResourceUsage\ResourceUsage;

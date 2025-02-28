@@ -3,7 +3,7 @@
 namespace App\Tests\Domain\App\BuildSegmentsHtml;
 
 use App\Domain\App\BuildSegmentsHtml\BuildSegmentsHtml;
-use App\Infrastructure\CQRS\Bus\DomainCommand;
+use App\Infrastructure\CQRS\DomainCommand;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use App\Tests\Domain\App\BuildAppFilesTestCase;
 

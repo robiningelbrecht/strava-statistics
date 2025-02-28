@@ -3,7 +3,7 @@
 namespace App\Tests\Domain\App\BuildChallengesHtml;
 
 use App\Domain\App\BuildChallengesHtml\BuildChallengesHtml;
-use App\Infrastructure\CQRS\Bus\DomainCommand;
+use App\Infrastructure\CQRS\DomainCommand;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use App\Tests\Domain\App\BuildAppFilesTestCase;
 

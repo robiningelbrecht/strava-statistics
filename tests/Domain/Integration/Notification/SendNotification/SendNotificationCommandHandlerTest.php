@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Tests\Domain\Notification\SendNotification;
+namespace App\Tests\Domain\Integration\Notification\SendNotification;
 
-use App\Domain\Notification\SendNotification\SendNotification;
+use App\Domain\Integration\Notification\Ntfy\Ntfy;
+use App\Domain\Integration\Notification\SendNotification\SendNotification;
 use App\Infrastructure\CQRS\Bus\CommandBus;
-use App\Infrastructure\Notification\Ntfy\Ntfy;
 use App\Infrastructure\Serialization\Json;
 use App\Tests\ContainerTestCase;
 use Spatie\Snapshots\MatchesSnapshots;
@@ -23,7 +23,7 @@ class SendNotificationCommandHandlerTest extends ContainerTestCase
             tags: ['tag1', 'tag2'],
         ));
 
-        /** @var \App\Tests\Infrastructure\Notification\Ntfy\SpyNotify $ntfy */
+        /** @var \App\Tests\Domain\Integration\Notification\Ntfy\SpyNotify $ntfy */
         $ntfy = $this->getContainer()->get(Ntfy::class);
         $this->assertMatchesJsonSnapshot(Json::encode($ntfy->getNotifications()));
     }

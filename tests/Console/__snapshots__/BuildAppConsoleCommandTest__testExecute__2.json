@@ -26,6 +26,10 @@
         }
     },
     {
+        "commandName": "App\\Domain\\App\\BuildGpxFiles\\BuildGpxFiles",
+        "payload": []
+    },
+    {
         "commandName": "App\\Domain\\App\\BuildMonthlyStatsHtml\\BuildMonthlyStatsHtml",
         "payload": {
             "now": "2023-10-17 16:15:04"
@@ -72,7 +76,7 @@
         }
     },
     {
-        "commandName": "App\\Domain\\Notification\\SendNotification\\SendNotification",
+        "commandName": "App\\Domain\\Integration\\Notification\\SendNotification\\SendNotification",
         "payload": {
             "title": "Build successful",
             "message": "New build of your Strava stats was successful",

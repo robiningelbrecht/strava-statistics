@@ -9,4 +9,6 @@ interface ActivityWithRawDataRepository
     public function find(ActivityId $activityId): ActivityWithRawData;
 
     public function save(ActivityWithRawData $activityWithRawData): void;
+
+    public function markActivityStreamsAsImported(ActivityId $activityId): void;
 }

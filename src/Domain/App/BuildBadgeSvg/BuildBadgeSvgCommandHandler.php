@@ -9,8 +9,8 @@ use App\Domain\Strava\Activity\ActivityTotals;
 use App\Domain\Strava\Athlete\AthleteRepository;
 use App\Domain\Strava\Challenge\ChallengeRepository;
 use App\Domain\Strava\Trivia;
-use App\Infrastructure\CQRS\Bus\Command;
-use App\Infrastructure\CQRS\Bus\CommandHandler;
+use App\Infrastructure\CQRS\Command;
+use App\Infrastructure\CQRS\CommandHandler;
 use League\Flysystem\FilesystemOperator;
 use Twig\Environment;
 

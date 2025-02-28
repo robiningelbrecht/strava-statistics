@@ -50,17 +50,6 @@ final readonly class DbalActivityStreamRepository extends DbalRepository impleme
         ]);
     }
 
-    public function isImportedForActivity(ActivityId $activityId): bool
-    {
-        $queryBuilder = $this->connection->createQueryBuilder();
-        $queryBuilder->select('*')
-            ->from('ActivityStream')
-            ->andWhere('activityId = :activityId')
-            ->setParameter('activityId', $activityId);
-
-        return !empty($queryBuilder->executeQuery()->fetchOne());
-    }
-
     public function hasOneForActivityAndStreamType(ActivityId $activityId, StreamType $streamType): bool
     {
         $queryBuilder = $this->connection->createQueryBuilder();

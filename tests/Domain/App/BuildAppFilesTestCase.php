@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Domain\App;
 
 use App\Infrastructure\CQRS\Bus\CommandBus;
-use App\Infrastructure\CQRS\Bus\DomainCommand;
+use App\Infrastructure\CQRS\DomainCommand;
 use App\Tests\ContainerTestCase;
 use App\Tests\ProvideTestData;
 use League\Flysystem\FilesystemOperator;
@@ -20,7 +20,7 @@ abstract class BuildAppFilesTestCase extends ContainerTestCase
 
     abstract protected function getDomainCommand(): DomainCommand;
 
-    private CommandBus $commandBus;
+    protected CommandBus $commandBus;
 
     public function testHandle(): void
     {
@@ -33,7 +33,7 @@ abstract class BuildAppFilesTestCase extends ContainerTestCase
         $this->assertFileSystemWrites($fileSystem->getWrites());
     }
 
-    private function assertFileSystemWrites(array $writes): void
+    protected function assertFileSystemWrites(array $writes): void
     {
         foreach ($writes as $location => $content) {
             $this->snapshotName = preg_replace('/[^a-zA-Z0-9]/', '-', $location);
@@ -43,6 +43,10 @@ abstract class BuildAppFilesTestCase extends ContainerTestCase
             }
             if (str_ends_with($location, '.html')) {
                 $this->assertMatchesHtmlSnapshot($content);
+                continue;
+            }
+            if (str_ends_with($location, '.gpx')) {
+                $this->assertMatchesXmlSnapshot($content);
                 continue;
             }
             $this->assertMatchesTextSnapshot($content);

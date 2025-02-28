@@ -6,8 +6,8 @@ namespace App\Domain\Manifest\BuildManifest;
 
 use App\Domain\Manifest\ManifestAppUrl;
 use App\Domain\Strava\Athlete\AthleteRepository;
-use App\Infrastructure\CQRS\Bus\Command;
-use App\Infrastructure\CQRS\Bus\CommandHandler;
+use App\Infrastructure\CQRS\Command;
+use App\Infrastructure\CQRS\CommandHandler;
 use League\Flysystem\FilesystemOperator;
 
 final readonly class BuildManifestCommandHandler implements CommandHandler

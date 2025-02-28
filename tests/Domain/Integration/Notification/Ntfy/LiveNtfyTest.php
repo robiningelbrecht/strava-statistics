@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Tests\Infrastructure\Notification\Ntfy;
+namespace App\Tests\Domain\Integration\Notification\Ntfy;
 
-use App\Infrastructure\Notification\Ntfy\LiveNtfy;
-use App\Infrastructure\Notification\Ntfy\Ntfy;
-use App\Infrastructure\Notification\Ntfy\NtfyUrl;
+use App\Domain\Integration\Notification\Ntfy\LiveNtfy;
+use App\Domain\Integration\Notification\Ntfy\Ntfy;
+use App\Domain\Integration\Notification\Ntfy\NtfyUrl;
 use App\Infrastructure\ValueObject\String\Url;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;

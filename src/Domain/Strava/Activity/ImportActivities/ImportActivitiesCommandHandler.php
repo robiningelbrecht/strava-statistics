@@ -17,8 +17,8 @@ use App\Domain\Strava\Strava;
 use App\Domain\Strava\StravaDataImportStatus;
 use App\Domain\Weather\OpenMeteo\OpenMeteo;
 use App\Domain\Weather\OpenMeteo\Weather;
-use App\Infrastructure\CQRS\Bus\Command;
-use App\Infrastructure\CQRS\Bus\CommandHandler;
+use App\Infrastructure\CQRS\Command;
+use App\Infrastructure\CQRS\CommandHandler;
 use App\Infrastructure\Exception\EntityNotFound;
 use App\Infrastructure\Geocoding\Nominatim\Nominatim;
 use App\Infrastructure\ValueObject\Identifier\UuidFactory;
@@ -99,6 +99,7 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                     ->updateMovingTimeInSeconds($stravaActivity['moving_time'] ?? 0)
                     ->updateElevation(Meter::from($stravaActivity['total_elevation_gain']))
                     ->updateKudoCount($stravaActivity['kudos_count'] ?? 0)
+                    ->updatePolyline($stravaActivity['map']['summary_polyline'] ?? null)
                     ->updateGear(
                         $gearId,
                         $gearId ? $allGears->getByGearId($gearId)?->getName() : null
