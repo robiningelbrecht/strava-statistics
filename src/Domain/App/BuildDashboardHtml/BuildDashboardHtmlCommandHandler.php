@@ -82,7 +82,6 @@ final readonly class BuildDashboardHtmlCommandHandler implements CommandHandler
         $dayTimeStats = DaytimeStats::create($allActivities);
 
         $this->eftpRepository->enrichWithActivities($allActivities);
-        $this->activityIntensity->setEftpRepository($this->eftpRepository);
 
         $weeklyDistanceCharts = [];
         $distanceBreakdowns = [];

@@ -9,18 +9,13 @@ use App\Domain\Strava\Ftp\EFtpRepository;
 use App\Domain\Strava\Ftp\FtpRepository;
 use App\Infrastructure\Exception\EntityNotFound;
 
-final class ActivityIntensity
+final readonly class ActivityIntensity
 {
     public function __construct(
         private AthleteRepository $athleteRepository,
         private FtpRepository $ftpRepository,
         private EFtpRepository $eftpRepository,
     ) {
-    }
-
-    public function setEftpRepository(EFtpRepository $eftpRepository): void
-    {
-        $this->eftpRepository = $eftpRepository;
     }
 
     private function calculateWithPower(int $movingTimeInSeconds, int $averagePower, int $ftp): int

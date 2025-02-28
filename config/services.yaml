@@ -13,6 +13,7 @@ parameters:
     env(DATE_FORMAT): 'DAY-MONTH-YEAR'
     env(LOCALE): 'en_US'
     env(MANIFEST_APP_URL): 'http://localhost:8080/'
+    env(CALCULATE_EFTP_BASED_ON_LAST_NUMBER_OF_MONTHS): 0
 
 services:
     # default configuration for services in *this* file
