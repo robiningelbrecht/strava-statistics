@@ -92,18 +92,18 @@ final class ActivityIntensity
         // OR
         // 2) eFTP and average power
         // OR
-        // 1) Max and average heart rate
+        // 3) Max and average heart rate
 
-        if ($intensity = $this->calculateWithFTP($activity)) {
-            return $intensity;
+        if ($ftpIntensity = $this->calculateWithFTP($activity)) {
+            return $ftpIntensity;
         }
 
-        if ($intensity = $this->calculateWithEFTP($activity)) {
-            return $intensity;
+        if ($eftpIntensity = $this->calculateWithEFTP($activity)) {
+            return $eftpIntensity;
         }
 
-        if ($intensity = $this->calculateWithHeartrate($activity)) {
-            return $intensity;
+        if ($heartrateIntensity = $this->calculateWithHeartrate($activity)) {
+            return $heartrateIntensity;
         }
 
         return null;
