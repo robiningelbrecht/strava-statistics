@@ -189,6 +189,7 @@ final readonly class BuildDashboardHtmlCommandHandler implements CommandHandler
                 'trivia' => $trivia,
                 'eftpHistoryCharts' => !empty($eftpCharts) ? $eftpCharts : null,
                 'eftpNumberOfMonths' => $this->eftpRepository->getNumberOfMonths(),
+                'eftpFactors' => ActivityPowerRepository::EFTP_FACTORS,
                 'ftpHistoryChart' => !$allFtps->isEmpty() ? Json::encode(
                     FtpHistoryChart::create(
                         ftps: $allFtps,

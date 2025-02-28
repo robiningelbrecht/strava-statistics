@@ -585,14 +585,6 @@
         }
     }
 
-    // chart tabs fix
-    document.addEventListener('click', function(event) {
-        const tabLink = event.target.closest('a[role="tab"]');
-        if (tabLink) {
-            window.dispatchEvent(new Event('resize'));
-        }
-    });
-
     updateGithubLatestRelease();
 </script>
 </body>
