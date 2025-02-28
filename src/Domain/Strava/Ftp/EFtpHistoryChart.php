@@ -43,7 +43,11 @@ final readonly class EFtpHistoryChart
         $relativeEftpResults = [];
 
         foreach ($dates as $date) {
-            $eftpForDate = $this->repository->findForActivityType($this->activityType, SerializableDateTime::fromString($date));
+            $eftpForDate = $this->repository->findForActivityType(
+                $this->activityType,
+                SerializableDateTime::fromString($date)
+            );
+
             if (!$eftpForDate) {
                 continue;
             }
@@ -51,16 +55,14 @@ final readonly class EFtpHistoryChart
             $lastEftp = end($eftpResults);
             $lastRelative = end($relativeEftpResults);
 
-            if (
-                !$lastEftp
+            if (!$lastEftp
                 || $today === $date
                 || $lastEftp[1] !== $eftpForDate->getEftp()
             ) {
                 $eftpResults[] = [$date, $eftpForDate->getEftp()];
             }
 
-            if (
-                !$lastRelative
+            if (!$lastRelative
                 || $today === $date
                 || $lastRelative[1] !== $eftpForDate->getRelativeEftp()
             ) {
