@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Strava\Activity;
 
 use App\Domain\Strava\Athlete\AthleteRepository;
-use App\Domain\Strava\Ftp\EFtpRepository;
+use App\Domain\Strava\EFtp\EFtpCalculator;
 use App\Domain\Strava\Ftp\FtpRepository;
 use App\Infrastructure\Exception\EntityNotFound;
 
@@ -14,7 +14,7 @@ final readonly class ActivityIntensity
     public function __construct(
         private AthleteRepository $athleteRepository,
         private FtpRepository $ftpRepository,
-        private EFtpRepository $eftpRepository,
+        private EFtpCalculator $eftpCalculator,
     ) {
     }
 
@@ -45,8 +45,8 @@ final readonly class ActivityIntensity
 
     private function calculateWithEFTP(Activity $activity): ?int
     {
-        if ($this->eftpRepository->enabled()) {
-            $eftp = $this->eftpRepository->findForActivityType(
+        if ($this->eftpCalculator->isEnabled()) {
+            $eftp = $this->eftpCalculator->findForActivityType(
                 $activity->getSportType()->getActivityType(),
                 $activity->getStartDate()
             );
@@ -55,7 +55,7 @@ final readonly class ActivityIntensity
                 return $this->calculateWithPower(
                     $activity->getMovingTimeInSeconds(),
                     $averagePower,
-                    $eftp->getEftp()
+                    $eftp->getEFtp()
                 );
             }
         }

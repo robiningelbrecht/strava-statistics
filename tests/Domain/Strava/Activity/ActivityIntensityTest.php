@@ -7,21 +7,22 @@ use App\Domain\Strava\Activity\SportType\SportType;
 use App\Domain\Strava\Athlete\Athlete;
 use App\Domain\Strava\Athlete\AthleteRepository;
 use App\Domain\Strava\Athlete\KeyValueBasedAthleteRepository;
+use App\Domain\Strava\EFtp\EFtpCalculator;
 use App\Domain\Strava\Ftp\DbalFtpRepository;
-use App\Domain\Strava\Ftp\EFtpRepository;
 use App\Domain\Strava\Ftp\FtpRepository;
 use App\Domain\Strava\Ftp\FtpValue;
 use App\Infrastructure\KeyValue\KeyValueStore;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use App\Tests\ContainerTestCase;
-use App\Tests\Domain\Strava\Ftp\EFtpRepositoryBuilder;
+use App\Tests\Domain\Strava\EFtp\EFtpAthleteWeightRepository;
+use App\Tests\Domain\Strava\EFtp\EFtpCalculatorBuilder;
 use App\Tests\Domain\Strava\Ftp\FtpBuilder;
 
 class ActivityIntensityTest extends ContainerTestCase
 {
     private ActivityIntensity $activityIntensity;
     private FtpRepository $ftpRepository;
-    private EFtpRepository $eftpRepository;
+    private EFtpCalculator $eftpCalculator;
     private AthleteRepository $athleteRepository;
 
     public function testCalculateWithFtp(): void
@@ -66,7 +67,8 @@ class ActivityIntensityTest extends ContainerTestCase
 
     public function testCalculateWithEFtpDisabled(): void
     {
-        $eftpRepository = EFtpRepositoryBuilder::fromDefaults()
+        $eftpCalculator = EFtpCalculatorBuilder::fromDefaults()
+            ->withWeightRepository(EFtpAthleteWeightRepository::fromWeightInKg(80))
             ->withActivityAndPower(
                 ActivityBuilder::fromDefaults()
                     ->withStartDateTime(SerializableDateTime::fromString('2023-01-01'))
@@ -86,7 +88,7 @@ class ActivityIntensityTest extends ContainerTestCase
         $eftpIntensity = new ActivityIntensity(
             $this->athleteRepository,
             $this->ftpRepository,
-            $eftpRepository
+            $eftpCalculator
         );
 
         $this->athleteRepository->save(Athlete::create([
@@ -110,7 +112,8 @@ class ActivityIntensityTest extends ContainerTestCase
             'birthDate' => '1989-08-14',
         ]));
 
-        $eftpRepository = EFtpRepositoryBuilder::fromDefaults()
+        $eftpCalculator = EFtpCalculatorBuilder::fromDefaults()
+            ->withWeightRepository(EFtpAthleteWeightRepository::fromWeightInKg(80))
             ->withActivityAndPower(
                 ActivityBuilder::fromDefaults()
                     ->withStartDateTime(SerializableDateTime::fromString('2023-01-01'))
@@ -130,7 +133,7 @@ class ActivityIntensityTest extends ContainerTestCase
         $eftpIntensity = new ActivityIntensity(
             $this->athleteRepository,
             $this->ftpRepository,
-            $eftpRepository
+            $eftpCalculator
         );
 
         $this->assertEquals(
@@ -141,7 +144,8 @@ class ActivityIntensityTest extends ContainerTestCase
 
     public function testCalculateWithEFtp(): void
     {
-        $eftpRepository = EFtpRepositoryBuilder::fromDefaults()
+        $eftpCalculator = EFtpCalculatorBuilder::fromDefaults()
+            ->withWeightRepository(EFtpAthleteWeightRepository::fromWeightInKg(80))
             ->withActivityAndPower(
                 ActivityBuilder::fromDefaults()
                     ->withStartDateTime(SerializableDateTime::fromString('2023-01-01'))
@@ -161,7 +165,7 @@ class ActivityIntensityTest extends ContainerTestCase
         $eftpIntensity = new ActivityIntensity(
             $this->athleteRepository,
             $this->ftpRepository,
-            $eftpRepository
+            $eftpCalculator
         );
 
         $this->assertEquals(
@@ -196,14 +200,15 @@ class ActivityIntensityTest extends ContainerTestCase
         $this->athleteRepository = new KeyValueBasedAthleteRepository(
             $this->getContainer()->get(KeyValueStore::class)
         );
-        $this->eftpRepository = EFtpRepositoryBuilder::fromDefaults()
+        $this->eftpCalculator = EFtpCalculatorBuilder::fromDefaults()
+            ->withWeightRepository(EFtpAthleteWeightRepository::fromWeightInKg(80))
             ->withNumberOfMonths(0)
             ->build();
 
         $this->activityIntensity = new ActivityIntensity(
             $this->athleteRepository,
             $this->ftpRepository,
-            $this->eftpRepository
+            $this->eftpCalculator
         );
     }
 }

@@ -78,45 +78,6 @@ final class StreamBasedActivityPowerRepository implements ActivityPowerRepositor
         return StreamBasedActivityPowerRepository::$cachedPowerOutputs[(string) $activityId];
     }
 
-    public function calculateEFTP(Activity $activity): ?PowerOutput
-    {
-        $eftp = null;
-
-        try {
-            $athleteWeight = $this->athleteWeightRepository->find($activity->getStartDate())->getWeightInKg();
-        } catch (EntityNotFound) {
-            throw new EntityNotFound(sprintf('Trying to calculate the relative power for activity "%s" on %s, but no corresponding athleteWeight was found. 
-            Make sure you configure the proper weights in your .env file. Do not forgot to run the app:strava:import-data command after changing the weights', $activity->getName(), $activity->getStartDate()->format('Y-m-d')));
-        }
-
-        foreach (ActivityPowerRepository::EFTP_FACTORS as $timeIntervalInSeconds => $factor) {
-            $power = $activity->getBestAveragePowerForTimeInterval($timeIntervalInSeconds);
-
-            if ($power) {
-                $calculatedEFTP = (int) round($power->getPower() * $factor);
-
-                if (null === $eftp || $calculatedEFTP > $eftp->getPower()) {
-                    $interval = CarbonInterval::seconds($timeIntervalInSeconds);
-
-                    $relativePower = $athleteWeight->toFloat() > 0
-                        ? round($calculatedEFTP / $athleteWeight->toFloat(), 2)
-                        : 0;
-
-                    $time = (int) $interval->totalHours ? $interval->totalHours.' h' : ((int) $interval->totalMinutes ? $interval->totalMinutes.' m' : $interval->totalSeconds.' s');
-
-                    $eftp = PowerOutput::fromState(
-                        formattedTimeInterval: sprintf('%s @ %d w', $time, $power->getPower()),
-                        timeIntervalInSeconds: $timeIntervalInSeconds,
-                        power: $calculatedEFTP,
-                        relativePower: $relativePower,
-                    );
-                }
-            }
-        }
-
-        return $eftp;
-    }
-
     /**
      * @return array<int, int>
      */

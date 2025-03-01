@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Strava\Ftp;
+namespace App\Domain\Strava\EFtp;
 
 use App\Domain\Strava\Activity\ActivityType;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
@@ -10,19 +10,19 @@ use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 final readonly class EFtpHistoryChart
 {
     private function __construct(
-        private EFtpRepository $repository,
+        private EFtpCalculator $eftpCalculator,
         private ActivityType $activityType,
         private SerializableDateTime $now,
     ) {
     }
 
     public static function create(
-        EFtpRepository $repository,
+        EFtpCalculator $eftpCalculator,
         ActivityType $activityType,
         SerializableDateTime $now,
     ): self {
         return new self(
-            repository: $repository,
+            eftpCalculator: $eftpCalculator,
             activityType: $activityType,
             now: $now
         );
@@ -34,7 +34,7 @@ final readonly class EFtpHistoryChart
     public function build(): array
     {
         $today = $this->now->format('Y-m-d');
-        $eftpDates = $this->repository->findEFtpDates($this->activityType);
+        $eftpDates = $this->eftpCalculator->findEFtpDates($this->activityType);
 
         $dates = array_unique(array_merge($eftpDates, [$today]));
         sort($dates);
@@ -43,7 +43,7 @@ final readonly class EFtpHistoryChart
         $relativeEftpResults = [];
 
         foreach ($dates as $date) {
-            $eftpForDate = $this->repository->findForActivityType(
+            $eftpForDate = $this->eftpCalculator->findForActivityType(
                 $this->activityType,
                 SerializableDateTime::fromString($date)
             );
@@ -57,9 +57,9 @@ final readonly class EFtpHistoryChart
 
             if (!$lastEftp
                 || $today === $date
-                || $lastEftp[1] !== $eftpForDate->getEftp()
+                || $lastEftp[1] !== $eftpForDate->getEFtp()
             ) {
-                $eftpResults[] = [$date, $eftpForDate->getEftp()];
+                $eftpResults[] = [$date, $eftpForDate->getEFtp()];
             }
 
             if (!$lastRelative

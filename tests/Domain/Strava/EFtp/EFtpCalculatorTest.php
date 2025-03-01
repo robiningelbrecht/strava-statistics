@@ -1,31 +1,68 @@
 <?php
 
-namespace App\Tests\Domain\Strava\Ftp;
+namespace App\Tests\Domain\Strava\EFtp;
 
 use App\Domain\Strava\Activity\ActivityType;
 use App\Domain\Strava\Activity\SportType\SportType;
-use App\Domain\Strava\Ftp\InMemoryEFtpRepository;
+use App\Domain\Strava\Activity\Stream\PowerOutput;
+use App\Domain\Strava\Activity\Stream\PowerOutputs;
+use App\Domain\Strava\EFtp\EFtpCalculator;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use App\Tests\Domain\Strava\Activity\ActivityBuilder;
 use PHPUnit\Framework\TestCase;
 
-class InMemoryEFtpTest extends TestCase
+class EFtpCalculatorTest extends TestCase
 {
-    private InMemoryEFtpRepository $eftpRepository;
+    private EFtpCalculator $eftpCalculator;
+
+    public function testCalculateWithoutPower(): void
+    {
+        $activity = ActivityBuilder::fromDefaults()
+            ->withStartDateTime(SerializableDateTime::fromString('2023-01-31'))
+            ->withSportType(SportType::RUN)
+            ->build();
+
+        $eftp = $this->eftpCalculator->calculate($activity);
+
+        $this->assertNull($eftp);
+    }
+
+    public function testCalculateWithPower(): void
+    {
+        $activity = ActivityBuilder::fromDefaults()
+            ->withStartDateTime(SerializableDateTime::fromString('2023-01-31'))
+            ->withSportType(SportType::RUN)
+            ->build();
+
+        $power = PowerOutput::fromState(
+            formattedTimeInterval: '20 min',
+            timeIntervalInSeconds: 1200,
+            power: 300,
+            relativePower: 0,
+        );
+        $powerOutputs = PowerOutputs::fromArray([$power]);
+
+        $activity->enrichWithBestPowerOutputs($powerOutputs);
+
+        $eftp = $this->eftpCalculator->calculate($activity);
+
+        $this->assertEquals($eftp->getPower(), 285);
+    }
 
     public function testEmptyRepository(): void
     {
-        $emptyRepository = InMemoryEFtpRepository::from(3);
+        $emptyCalculator = EFtpCalculator::from(3, EFtpAthleteWeightRepository::fromWeightInKg(80));
 
         $date = SerializableDateTime::fromString('2023-04-24');
-        $eftp = $emptyRepository->findForActivityType(ActivityType::RIDE, $date);
+        $eftp = $emptyCalculator->findForActivityType(ActivityType::RIDE, $date);
 
         $this->assertNull($eftp);
     }
 
     public function testDisabled(): void
     {
-        $repository = EFtpRepositoryBuilder::fromDefaults()
+        $calculator = EFtpCalculatorBuilder::fromDefaults()
+            ->withWeightRepository(EFtpAthleteWeightRepository::fromWeightInKg(80))
             ->withActivityAndPower(
                 ActivityBuilder::fromDefaults()
                     ->withStartDateTime(SerializableDateTime::fromString('2023-01-01'))
@@ -35,8 +72,8 @@ class InMemoryEFtpTest extends TestCase
             ->withNumberOfMonths(0)
             ->build();
 
-        $resultEnabled = $repository->enabled();
-        $resultEftp = $repository->findForActivityType(ActivityType::RIDE, SerializableDateTime::fromString('2023-01-02'));
+        $resultEnabled = $calculator->isEnabled();
+        $resultEftp = $calculator->findForActivityType(ActivityType::RIDE, SerializableDateTime::fromString('2023-01-02'));
 
         $this->assertEquals($resultEnabled, false);
         $this->assertNull($resultEftp);
@@ -44,7 +81,8 @@ class InMemoryEFtpTest extends TestCase
 
     public function testEnabled(): void
     {
-        $repository = EFtpRepositoryBuilder::fromDefaults()
+        $calculator = EFtpCalculatorBuilder::fromDefaults()
+            ->withWeightRepository(EFtpAthleteWeightRepository::fromWeightInKg(80))
             ->withActivityAndPower(
                 ActivityBuilder::fromDefaults()
                     ->withStartDateTime(SerializableDateTime::fromString('2023-01-01'))
@@ -54,10 +92,10 @@ class InMemoryEFtpTest extends TestCase
             ->withNumberOfMonths(1)
             ->build();
 
-        $resultEnabled = $repository->enabled();
-        $resultEftp = $repository
+        $resultEnabled = $calculator->isEnabled();
+        $resultEftp = $calculator
             ->findForActivityType(ActivityType::RIDE, SerializableDateTime::fromString('2023-01-02'))
-            ->getEftp();
+            ->getEFtp();
 
         $this->assertEquals($resultEnabled, true);
         $this->assertEquals($resultEftp, 200);
@@ -65,7 +103,8 @@ class InMemoryEFtpTest extends TestCase
 
     public function testMonths(): void
     {
-        $repository = EFtpRepositoryBuilder::fromDefaults()
+        $calculator = EFtpCalculatorBuilder::fromDefaults()
+            ->withWeightRepository(EFtpAthleteWeightRepository::fromWeightInKg(80))
             ->withActivityAndPower(
                 ActivityBuilder::fromDefaults()
                     ->withStartDateTime(SerializableDateTime::fromString('2023-01-01'))
@@ -75,10 +114,10 @@ class InMemoryEFtpTest extends TestCase
             ->withNumberOfMonths(1)
             ->build();
 
-        $resultEftp1 = $repository
+        $resultEftp1 = $calculator
             ->findForActivityType(ActivityType::RIDE, SerializableDateTime::fromString('2023-02-01'))
-            ->getEftp();
-        $resultEftp2 = $repository
+            ->getEFtp();
+        $resultEftp2 = $calculator
             ->findForActivityType(ActivityType::RIDE, SerializableDateTime::fromString('2023-02-02'));
 
         $this->assertEquals($resultEftp1, 200);
@@ -88,7 +127,7 @@ class InMemoryEFtpTest extends TestCase
     public function testBikeEftpNull(): void
     {
         $date = SerializableDateTime::fromString('2023-04-24');
-        $eftp = $this->eftpRepository->findForActivityType(ActivityType::RIDE, $date);
+        $eftp = $this->eftpCalculator->findForActivityType(ActivityType::RIDE, $date);
 
         $this->assertNull($eftp);
     }
@@ -96,51 +135,51 @@ class InMemoryEFtpTest extends TestCase
     public function testRunEftpNull(): void
     {
         $date = SerializableDateTime::fromString('2023-01-30');
-        $eftp = $this->eftpRepository->findForActivityType(ActivityType::RUN, $date);
+        $eftp = $this->eftpCalculator->findForActivityType(ActivityType::RUN, $date);
 
         $this->assertNull($eftp);
     }
 
     public function testRunEftp(): void
     {
-        $eftp1 = $this->eftpRepository->findForActivityType(
+        $eftp1 = $this->eftpCalculator->findForActivityType(
             ActivityType::RUN,
             SerializableDateTime::fromString('2023-01-31')
         );
-        $eftp2 = $this->eftpRepository->findForActivityType(
+        $eftp2 = $this->eftpCalculator->findForActivityType(
             ActivityType::RUN,
             SerializableDateTime::fromString('2023-05-01')
         );
 
-        $this->assertEquals($eftp1->getEftp(), 100);
+        $this->assertEquals($eftp1->getEFtp(), 100);
         $this->assertNull($eftp2);
     }
 
     public function testBikeEftp(): void
     {
-        $eftp1 = $this->eftpRepository->findForActivityType(
+        $eftp1 = $this->eftpCalculator->findForActivityType(
             ActivityType::RIDE,
             SerializableDateTime::fromString('2023-01-09')
         );
-        $eftp2 = $this->eftpRepository->findForActivityType(
+        $eftp2 = $this->eftpCalculator->findForActivityType(
             ActivityType::RIDE,
             SerializableDateTime::fromString('2023-01-10'),
         );
 
-        $this->assertEquals($eftp1->getEftp(), 200);
-        $this->assertEquals($eftp2->getEftp(), 300);
+        $this->assertEquals($eftp1->getEFtp(), 200);
+        $this->assertEquals($eftp2->getEFtp(), 300);
     }
 
     public function testBikeDates(): void
     {
-        $result = $this->eftpRepository->findEFtpDates(ActivityType::RIDE);
+        $result = $this->eftpCalculator->findEFtpDates(ActivityType::RIDE);
 
         $this->assertEquals($result, ['2023-01-01', '2023-01-10']);
     }
 
     public function testRunDates(): void
     {
-        $result = $this->eftpRepository->findEFtpDates(ActivityType::RUN);
+        $result = $this->eftpCalculator->findEFtpDates(ActivityType::RUN);
 
         $this->assertEquals($result, ['2023-01-31']);
     }
@@ -150,7 +189,10 @@ class InMemoryEFtpTest extends TestCase
     {
         parent::setUp();
 
-        $this->eftpRepository = EFtpRepositoryBuilder::fromDefaults()
+        $athleteWeightRepository = EFtpAthleteWeightRepository::fromWeightInKg(80);
+
+        $this->eftpCalculator = EFtpCalculatorBuilder::fromDefaults()
+            ->withWeightRepository($athleteWeightRepository)
             ->withActivityAndPower(
                 ActivityBuilder::fromDefaults()
                     ->withStartDateTime(SerializableDateTime::fromString('2023-01-01'))

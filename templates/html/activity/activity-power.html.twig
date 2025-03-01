@@ -6,7 +6,7 @@
                     <thead class="text-xs text-gray-700 uppercase">
                     {% set timeIntervals =  [5, 60, 300, 600, 1200] %}
                     {% set timeIntervalLabels = ['5s', '1m', '5m', '10m', '20m'] %}
-                    {% set eftp = activity.getEFTP() %}
+                    {% set eftp = activity.getEFtp() %}
 
                     <tr>
                         {% for timeInterval in timeIntervals %}

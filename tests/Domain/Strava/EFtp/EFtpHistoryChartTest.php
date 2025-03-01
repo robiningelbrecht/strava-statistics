@@ -1,25 +1,25 @@
 <?php
 
-namespace App\Tests\Domain\Strava\Ftp;
+namespace App\Tests\Domain\Strava\EFtp;
 
 use App\Domain\Strava\Activity\ActivityType;
 use App\Domain\Strava\Activity\SportType\SportType;
-use App\Domain\Strava\Ftp\EFtpHistoryChart;
-use App\Domain\Strava\Ftp\InMemoryEFtpRepository;
+use App\Domain\Strava\EFtp\EFtpCalculator;
+use App\Domain\Strava\EFtp\EFtpHistoryChart;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use App\Tests\Domain\Strava\Activity\ActivityBuilder;
 use PHPUnit\Framework\TestCase;
 
 class EFtpHistoryChartTest extends TestCase
 {
-    private InMemoryEFtpRepository $eftpRepository;
+    private EFtpCalculator $eftpCalculator;
 
     public function testEmptyData(): void
     {
-        $emptyRepository = InMemoryEFtpRepository::from(3);
+        $emptyCalculator = EFtpCalculator::from(3, EFtpAthleteWeightRepository::fromWeightInKg(80));
 
         $chartData = EFtpHistoryChart::create(
-            repository: $emptyRepository,
+            eftpCalculator: $emptyCalculator,
             activityType: ActivityType::RIDE,
             now: SerializableDateTime::fromString('2023-04-24'),
         )->build();
@@ -31,7 +31,7 @@ class EFtpHistoryChartTest extends TestCase
     public function testRideChart(): void
     {
         $chartData = EFtpHistoryChart::create(
-            repository: $this->eftpRepository,
+            eftpCalculator: $this->eftpCalculator,
             activityType: ActivityType::RIDE,
             now: SerializableDateTime::fromString('2023-04-24'),
         )->build();
@@ -42,7 +42,7 @@ class EFtpHistoryChartTest extends TestCase
     public function testRunChart(): void
     {
         $chartData = EFtpHistoryChart::create(
-            repository: $this->eftpRepository,
+            eftpCalculator: $this->eftpCalculator,
             activityType: ActivityType::RUN,
             now: SerializableDateTime::fromString('2023-04-24'),
         )->build();
@@ -53,7 +53,7 @@ class EFtpHistoryChartTest extends TestCase
     public function testWalkChart(): void
     {
         $chartData = EFtpHistoryChart::create(
-            repository: $this->eftpRepository,
+            eftpCalculator: $this->eftpCalculator,
             activityType: ActivityType::WALK,
             now: SerializableDateTime::fromString('2023-04-24'),
         )->build();
@@ -66,7 +66,10 @@ class EFtpHistoryChartTest extends TestCase
     {
         parent::setUp();
 
-        $this->eftpRepository = EFtpRepositoryBuilder::fromDefaults()
+        $athleteWeightRepository = EFtpAthleteWeightRepository::fromWeightInKg(80);
+
+        $this->eftpCalculator = EFtpCalculatorBuilder::fromDefaults()
+            ->withWeightRepository($athleteWeightRepository)
             ->withActivityAndPower(
                 ActivityBuilder::fromDefaults()
                     ->withStartDateTime(SerializableDateTime::fromString('2023-01-01'))

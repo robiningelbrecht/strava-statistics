@@ -2,7 +2,7 @@
 
 namespace App\Tests\Domain\Strava\Activity;
 
-use App\Domain\Strava\Activity\Stream\PowerOutput;
+use App\Domain\Strava\EFtp\EFtpOutput;
 use PHPUnit\Framework\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
 
@@ -14,7 +14,7 @@ class ActivityEFtpTest extends TestCase
     {
         $activity = ActivityBuilder::fromDefaults()->build();
 
-        $this->assertNull($activity->getEFTP());
+        $this->assertNull($activity->getEFtp());
     }
 
     public function testEnrichEFTP(): void
@@ -24,18 +24,18 @@ class ActivityEFtpTest extends TestCase
         $timeInSeconds = 3600;
         $time = '1 h';
 
-        $eftp = PowerOutput::fromState(
+        $eftp = EFtpOutput::fromState(
             power: $eftpValue,
             timeIntervalInSeconds: $timeInSeconds,
             formattedTimeInterval: $time,
             relativePower: $relativeEftpValue
         );
         $activity = ActivityBuilder::fromDefaults()->build();
-        $activity->enrichWithEFTP($eftp);
+        $activity->enrichWithEFtp($eftp);
 
-        $this->assertEquals($activity->getEFTP()->getPower(), $eftpValue);
-        $this->assertEquals($activity->getEFTP()->getRelativePower(), $relativeEftpValue);
-        $this->assertEquals($activity->getEFTP()->getFormattedTimeInterval(), $time);
-        $this->assertEquals($activity->getEFTP()->getTimeIntervalInSeconds(), $timeInSeconds);
+        $this->assertEquals($activity->getEFtp()->getPower(), $eftpValue);
+        $this->assertEquals($activity->getEFtp()->getRelativePower(), $relativeEftpValue);
+        $this->assertEquals($activity->getEFtp()->getFormattedTimeInterval(), $time);
+        $this->assertEquals($activity->getEFtp()->getTimeIntervalInSeconds(), $timeInSeconds);
     }
 }

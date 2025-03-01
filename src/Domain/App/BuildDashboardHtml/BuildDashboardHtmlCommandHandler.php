@@ -26,8 +26,8 @@ use App\Domain\Strava\Athlete\TimeInHeartRateZoneChart;
 use App\Domain\Strava\Athlete\Weight\AthleteWeightRepository;
 use App\Domain\Strava\Calendar\Months;
 use App\Domain\Strava\Challenge\Consistency\ChallengeConsistency;
-use App\Domain\Strava\Ftp\EFtpHistoryChart;
-use App\Domain\Strava\Ftp\EFtpRepository;
+use App\Domain\Strava\EFtp\EFtpCalculator;
+use App\Domain\Strava\EFtp\EFtpHistoryChart;
 use App\Domain\Strava\Ftp\FtpHistoryChart;
 use App\Domain\Strava\Ftp\FtpRepository;
 use App\Domain\Strava\Trivia;
@@ -55,7 +55,7 @@ final readonly class BuildDashboardHtmlCommandHandler implements CommandHandler
         private Environment $twig,
         private FilesystemOperator $filesystem,
         private TranslatorInterface $translator,
-        private EFtpRepository $eftpRepository,
+        private EFtpCalculator $eftpCalculator,
     ) {
     }
 
@@ -81,7 +81,7 @@ final readonly class BuildDashboardHtmlCommandHandler implements CommandHandler
         );
         $dayTimeStats = DaytimeStats::create($allActivities);
 
-        $this->eftpRepository->enrichWithActivities($allActivities);
+        $this->eftpCalculator->enrichWithActivities($allActivities);
 
         $weeklyDistanceCharts = [];
         $distanceBreakdowns = [];
@@ -105,7 +105,7 @@ final readonly class BuildDashboardHtmlCommandHandler implements CommandHandler
             }
 
             if ($chartData = EFtpHistoryChart::create(
-                repository: $this->eftpRepository,
+                eftpCalculator: $this->eftpCalculator,
                 activityType: $activityType,
                 now: $now,
             )->build()) {
@@ -187,8 +187,8 @@ final readonly class BuildDashboardHtmlCommandHandler implements CommandHandler
                 'distanceBreakdowns' => $distanceBreakdowns,
                 'trivia' => $trivia,
                 'eftpHistoryCharts' => !empty($eftpCharts) ? $eftpCharts : null,
-                'eftpNumberOfMonths' => $this->eftpRepository->getNumberOfMonths(),
-                'eftpFactors' => ActivityPowerRepository::EFTP_FACTORS,
+                'eftpNumberOfMonths' => $this->eftpCalculator->getNumberOfMonths(),
+                'eftpFactors' => EFtpCalculator::EFTP_FACTORS,
                 'ftpHistoryChart' => !$allFtps->isEmpty() ? Json::encode(
                     FtpHistoryChart::create(
                         ftps: $allFtps,

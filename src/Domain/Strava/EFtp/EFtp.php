@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Strava\Ftp;
+namespace App\Domain\Strava\EFtp;
 
 use App\Domain\Strava\Activity\ActivityType;
-use App\Domain\Strava\Activity\Stream\PowerOutput;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
 final class EFtp
@@ -20,7 +19,7 @@ final class EFtp
 
     public static function fromState(
         SerializableDateTime $setOn,
-        PowerOutput $ftp,
+        EFtpOutput $ftp,
         ActivityType $type,
     ): self {
         return new self(
@@ -41,7 +40,7 @@ final class EFtp
         return $this->activityType;
     }
 
-    public function getEftp(): int
+    public function getEFtp(): int
     {
         return $this->ftp;
     }

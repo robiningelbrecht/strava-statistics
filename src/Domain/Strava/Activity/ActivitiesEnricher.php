@@ -7,6 +7,7 @@ namespace App\Domain\Strava\Activity;
 use App\Domain\Strava\Activity\Stream\ActivityPowerRepository;
 use App\Domain\Strava\Activity\Stream\ActivityStreamRepository;
 use App\Domain\Strava\Activity\Stream\StreamType;
+use App\Domain\Strava\EFtp\EFtpCalculator;
 use App\Infrastructure\Exception\EntityNotFound;
 
 final class ActivitiesEnricher
@@ -20,6 +21,7 @@ final class ActivitiesEnricher
         private readonly ActivityPowerRepository $activityPowerRepository,
         private readonly ActivityStreamRepository $activityStreamRepository,
         private readonly ActivityTypeRepository $activityTypeRepository,
+        private readonly EFtpCalculator $eftpCalculator,
     ) {
         $this->enrichedActivities = Activities::empty();
         $this->activitiesPerActivityType = [];
@@ -34,8 +36,8 @@ final class ActivitiesEnricher
                 $this->activityPowerRepository->findBestForActivity($activity->getId())
             );
 
-            $activity->enrichWithEFTP(
-                $this->activityPowerRepository->calculateEFTP($activity)
+            $activity->enrichWithEFtp(
+                $this->eftpCalculator->calculate($activity)
             );
 
             try {
