@@ -27,7 +27,7 @@ final readonly class BuildIndexHtmlCommandHandler implements CommandHandler
         private ActivitiesEnricher $activitiesEnricher,
         private UnitSystem $unitSystem,
         private Environment $twig,
-        private FilesystemOperator $filesystem,
+        private FilesystemOperator $buildStorage,
     ) {
     }
 
@@ -58,8 +58,8 @@ final readonly class BuildIndexHtmlCommandHandler implements CommandHandler
             $eddingtonNumbers[] = $eddington->getNumber();
         }
 
-        $this->filesystem->write(
-            'build/html/index.html',
+        $this->buildStorage->write(
+            'index.html',
             $this->twig->load('html/index.html.twig')->render([
                 'totalActivityCount' => $this->activityRepository->count(),
                 'eddingtonNumbers' => $eddingtonNumbers,

@@ -1,7 +1,7 @@
 {
-  "id": "http://localhost:8080/",
-  "name": "Strava Statistics | Robin Ingelbrecht",
-  "short_name": "Strava Statistics | Robin Ingelbrecht",
+  "id": "[APP_HOST]",
+  "name": "[APP_NAME]",
+  "short_name": "Strava Statistics",
   "description": "Strava Statistics is a self-hosted web app designed to provide you with better stats.",
   "categories": [
     "strava",
@@ -9,7 +9,7 @@
     "utilities"
   ],
   "start_url": "/",
-  "scope": "http://localhost:8080/",
+  "scope": "[APP_HOST]",
   "display": "standalone",
   "display_override": [
     "fullscreen",

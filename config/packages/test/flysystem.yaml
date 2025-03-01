@@ -6,5 +6,8 @@ flysystem:
         file.storage:
             adapter: 'memory'
 
+        database.storage:
+            adapter: 'memory'
+
         build.storage:
             adapter: 'memory'

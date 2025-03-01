@@ -38,7 +38,7 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
         private ActivityRepository $activityRepository,
         private ActivityWithRawDataRepository $activityWithRawDataRepository,
         private GearRepository $gearRepository,
-        private FilesystemOperator $filesystem,
+        private FilesystemOperator $fileStorage,
         private SportTypesToImport $sportTypesToImport,
         private ActivitiesToSkipDuringImport $activitiesToSkipDuringImport,
         private StravaDataImportStatus $stravaDataImportStatus,
@@ -145,12 +145,13 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                             /** @var string $urlPath */
                             $urlPath = parse_url((string) $photo['urls'][5000], PHP_URL_PATH);
                             $extension = pathinfo($urlPath, PATHINFO_EXTENSION);
-                            $imagePath = sprintf('files/activities/%s.%s', $this->uuidFactory->random(), $extension);
-                            $this->filesystem->write(
-                                'storage/'.$imagePath,
+                            $fileSystemPath = sprintf('activities/%s.%s', $this->uuidFactory->random(), $extension);
+                            $this->fileStorage->write(
+                                $fileSystemPath,
                                 $this->strava->downloadImage($photo['urls'][5000])
                             );
-                            $localImagePaths[] = $imagePath;
+
+                            $localImagePaths[] = 'files/'.$fileSystemPath;
                         }
                         $activity->updateLocalImagePaths($localImagePaths);
                     }

@@ -25,7 +25,7 @@ final readonly class BuildGearStatsHtmlCommandHandler implements CommandHandler
         private ActivitiesEnricher $activitiesEnricher,
         private UnitSystem $unitSystem,
         private Environment $twig,
-        private FilesystemOperator $filesystem,
+        private FilesystemOperator $buildStorage,
         private TranslatorInterface $translator,
     ) {
     }
@@ -42,8 +42,8 @@ final readonly class BuildGearStatsHtmlCommandHandler implements CommandHandler
             now: $now
         );
 
-        $this->filesystem->write(
-            'build/html/gear-stats.html',
+        $this->buildStorage->write(
+            'gear-stats.html',
             $this->twig->load('html/gear-stats.html.twig')->render([
                 'gearStatistics' => GearStatistics::fromActivitiesAndGear(
                     activities: $activities,
