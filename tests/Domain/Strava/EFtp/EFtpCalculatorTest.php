@@ -7,6 +7,7 @@ use App\Domain\Strava\Activity\SportType\SportType;
 use App\Domain\Strava\Activity\Stream\PowerOutput;
 use App\Domain\Strava\Activity\Stream\PowerOutputs;
 use App\Domain\Strava\EFtp\EFtpCalculator;
+use App\Domain\Strava\EFtp\EFtpNumberOfMonths;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use App\Tests\Domain\Strava\Activity\ActivityBuilder;
 use PHPUnit\Framework\TestCase;
@@ -47,11 +48,12 @@ class EFtpCalculatorTest extends TestCase
         $eftp = $this->eftpCalculator->calculate($activity);
 
         $this->assertEquals($eftp->getPower(), 285);
+        $this->assertEquals($eftp->getRelativePower(), 3.56);
     }
 
     public function testEmptyRepository(): void
     {
-        $emptyCalculator = EFtpCalculator::from(3, EFtpAthleteWeightRepository::fromWeightInKg(80));
+        $emptyCalculator = new EFtpCalculator(EFtpAthleteWeightRepository::fromWeightInKg(80), EFtpNumberOfMonths::from(3));
 
         $date = SerializableDateTime::fromString('2023-04-24');
         $eftp = $emptyCalculator->findForActivityType(ActivityType::RIDE, $date);

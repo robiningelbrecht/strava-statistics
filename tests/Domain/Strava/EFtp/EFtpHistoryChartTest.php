@@ -6,6 +6,7 @@ use App\Domain\Strava\Activity\ActivityType;
 use App\Domain\Strava\Activity\SportType\SportType;
 use App\Domain\Strava\EFtp\EFtpCalculator;
 use App\Domain\Strava\EFtp\EFtpHistoryChart;
+use App\Domain\Strava\EFtp\EFtpNumberOfMonths;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use App\Tests\Domain\Strava\Activity\ActivityBuilder;
 use PHPUnit\Framework\TestCase;
@@ -16,7 +17,7 @@ class EFtpHistoryChartTest extends TestCase
 
     public function testEmptyData(): void
     {
-        $emptyCalculator = EFtpCalculator::from(3, EFtpAthleteWeightRepository::fromWeightInKg(80));
+        $emptyCalculator = new EFtpCalculator(EFtpAthleteWeightRepository::fromWeightInKg(80), EFtpNumberOfMonths::from(3));
 
         $chartData = EFtpHistoryChart::create(
             eftpCalculator: $emptyCalculator,

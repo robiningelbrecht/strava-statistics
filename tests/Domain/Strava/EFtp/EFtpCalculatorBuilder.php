@@ -8,18 +8,19 @@ use App\Domain\Strava\Activity\Activities;
 use App\Domain\Strava\Activity\Activity;
 use App\Domain\Strava\Athlete\Weight\AthleteWeightRepository;
 use App\Domain\Strava\EFtp\EFtpCalculator;
+use App\Domain\Strava\EFtp\EFtpNumberOfMonths;
 use App\Domain\Strava\EFtp\EFtpOutput;
 
 final class EFtpCalculatorBuilder
 {
     private Activities $activities;
     private AthleteWeightRepository $athleteWeightRepository;
-    private int $numberOfMonths;
+    private EFtpNumberOfMonths $numberOfMonths;
 
     private function __construct()
     {
         $this->activities = Activities::fromArray([]);
-        $this->numberOfMonths = 0;
+        $this->numberOfMonths = EFtpNumberOfMonths::from(0);
     }
 
     public static function fromDefaults(): self
@@ -29,7 +30,7 @@ final class EFtpCalculatorBuilder
 
     public function build(): EFtpCalculator
     {
-        $calculator = EFtpCalculator::from($this->numberOfMonths, $this->athleteWeightRepository);
+        $calculator = new EFtpCalculator($this->athleteWeightRepository, $this->numberOfMonths);
         $calculator->enrichWithActivities($this->activities);
 
         return $calculator;
@@ -44,7 +45,7 @@ final class EFtpCalculatorBuilder
 
     public function withNumberOfMonths(int $numberOfMonths): self
     {
-        $this->numberOfMonths = $numberOfMonths;
+        $this->numberOfMonths = EFtpNumberOfMonths::from($numberOfMonths);
 
         return $this;
     }

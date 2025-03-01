@@ -24,21 +24,21 @@ final readonly class EFtpCalculator
         3600 => 1,
     ];
 
-    private function __construct(
+    public function __construct(
         private readonly AthleteWeightRepository $athleteWeightRepository,
-        private int $numberOfMonths,
+        private readonly EFtpNumberOfMonths $numberOfMonths,
     ) {
         $this->eftps = EFtps::fromArray([]);
     }
 
     public function isEnabled(): bool
     {
-        return $this->numberOfMonths >= 1;
+        return $this->numberOfMonths->getNumberOfMonths() >= 1;
     }
 
     public function getNumberOfMonths(): int
     {
-        return $this->numberOfMonths;
+        return $this->numberOfMonths->getNumberOfMonths();
     }
 
     public function findAllForActivityType(ActivityType $type): EFtps
@@ -65,8 +65,9 @@ final readonly class EFtpCalculator
         }
 
         $eftps = $this->findAllForActivityType($type);
+        $months = $this->numberOfMonths->getNumberOfMonths();
 
-        $startDate = (clone $dateTime)->modify('-'.$this->numberOfMonths.' months')->setTime(0, 0, 0);
+        $startDate = (clone $dateTime)->modify('-'.$months.' months')->setTime(0, 0, 0);
         $endDate = (clone $dateTime)->setTime(23, 59, 59);
 
         $maxEftp = null;
@@ -141,14 +142,5 @@ final readonly class EFtpCalculator
         }
 
         return $eftp;
-    }
-
-    public static function from(?int $numberOfMonths, AthleteWeightRepository $athleteWeightRepository): self
-    {
-        if (null === $numberOfMonths) {
-            $numberOfMonths = 0;
-        }
-
-        return new self($athleteWeightRepository, $numberOfMonths);
     }
 }
