@@ -1,9 +1,11 @@
 '2 days of activity for 4 weeks': '4周内2天的活动'
 Activities: 活动
 'Activity intensity': '活动强度'
+'Adaptive & Inclusive Sports': '适应性和包容性运动'
 Advanced: 高级
 Afternoon: 下午
 'All activities': '所有活动'
+'All time': '所有时间'
 'Alpine Ski': '高山滑雪'
 Apr: 四月
 Aug: 八月
@@ -11,7 +13,6 @@ Avg: 平均
 'Back Country Ski': '越野滑雪'
 Badminton: 羽毛球
 Best: 最佳
-'Best power outputs over time': '随时间变化的最佳功率输出'
 Cadence: 踏频
 Calories: 卡路里
 Canoeing: 划独木舟
@@ -52,6 +53,7 @@ Feb: '二月'
 'Filter on sport type': '按运动类型筛选'
 'Filter on starred segments': '筛选星标路段'
 'First workout': '第一次锻炼'
+Fitness: '健身'
 'For example, an Eddington number of 70 would imply that a cyclist has cycled at least 70 km or miles in a day on at least 70 occasions. Achieving a high Eddington number is difficult, since moving from, say, 70 to 75 will (probably) require more than five new long-distance workouts, since any workout shorter than 75 km or miles will no longer be included in the reckoning.': '例如，埃丁顿数为70意味着骑行者在至少70天内每天骑行至少70公里或英里。达到高埃丁顿数很困难，因为从70到75可能需要超过五次新的长距离锻炼，因为任何少于75公里或英里的锻炼将不再包括在计算中。'
 Fri: '周五'
 Friday: '星期五'
@@ -70,7 +72,6 @@ HR: 心率
 'Heart rate zones': '心率区间'
 Heatmap: 热图
 High: 高
-'Highest elevation': '最高海拔'
 Hikes: 徒步
 History: 历史
 "I burned {caloriesBurned} calories doing so, that's about {numberOfPizzaSlices} pizza slices 🍕.": "我总共消耗了{caloriesBurned}卡路里，相当于{numberOfPizzaSlices}片披萨🍕。"
@@ -83,6 +84,8 @@ Jun: 六月
 KOM: 赛段王
 Kayaking: 皮划艇
 'Kite Surf': '风筝冲浪'
+'Last 45 days': '最近45天'
+'Last 90 days': '最近90天'
 'Latest start time': '最晚开始时间'
 'Loading data...': '加载数据中...'
 Loading...: '加载中...'
@@ -92,11 +95,13 @@ Mar: '三月'
 Max: '最大'
 May: '五月'
 Medium: '中等'
+'Mind & Body Sports': '心灵与身体运动'
 Mon: '周一'
 Monday: '星期一'
 'Monthly stats': '每月统计'
 Morning: '早晨'
 'Most consecutive days': '最多连续天数'
+'Most elevation': '最大爬升'
 'Most kudos': '最多点赞'
 'Most recent activities': '最近的活动'
 'Mountain Bike Rides': '山地车骑行'
@@ -108,6 +113,7 @@ Nov: '十一月'
 Oct: '十月'
 'Open user menu': '打开用户手册'
 Other: '其他'
+'Outdoor Sports': '户外运动'
 Pace: '步速'
 'Peak power outputs': '峰值功率输出'
 Photos: '照片'
@@ -117,6 +123,7 @@ Power: '功率'
 'Power distribution': '功率分布'
 'Powered by Strava': '由Strava提供支持'
 'Prev year': '去年'
+'Racquet & Paddle Sports': '球拍和桨类运动'
 'Racquet Ball': '壁球'
 'Ride a total of 1250km': '骑行总计1250公里'
 'Ride a total of 200km': '骑行总计200公里'
@@ -168,10 +175,8 @@ Thursday: '星期四'
 To: '到'
 'Toggle sidebar': '切换侧边栏'
 'Top 10': '前10名'
-'Total kudos': '总点赞'
 'Total carbon saved': '总节约碳排放'
-'Longest workout': '最长锻炼'
-'Most elevation': '最大海拔'
+'Total kudos': '总点赞'
 'Trail Runs': '越野跑'
 Trivia: '琐事'
 Tue: '周二'
@@ -180,6 +185,7 @@ Tuesday: '星期二'
 'Velo Mobiles': '躺车'
 'Very high': '非常高'
 'View all': '查看全部'
+'View details': '查看详情'
 'Virtual Rides': '虚拟骑行'
 'Virtual Row': '虚拟划船'
 'Virtual Runs': '虚拟跑步'
