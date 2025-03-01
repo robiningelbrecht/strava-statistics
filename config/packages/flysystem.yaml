@@ -1,24 +1,26 @@
 # Read the documentation at https://github.com/thephpleague/flysystem-bundle/blob/master/docs/1-getting-started.md
 flysystem:
     storages:
+        default.storage:
+            adapter: 'local'
+            options:
+                directory: '%kernel.project_dir%'
+                lock: 0
         public.storage:
             adapter: 'local'
             options:
                 directory: '%kernel.project_dir%/public'
                 lock: 0
-
         file.storage:
             adapter: 'local'
             options:
                 directory: '%kernel.project_dir%/storage/files'
                 lock: 0
-
         database.storage:
             adapter: 'local'
             options:
                 directory: '%kernel.project_dir%/storage/database'
                 lock: 0
-
         build.storage:
             adapter: 'local'
             options:
