@@ -221,7 +221,9 @@ class Strava
                 throw new \RuntimeException('Could not fetch Strava challenge url');
             }
             if (!preg_match('/<img src="https[\S]+\/challenges\/(?<match>.*?)\/[\S]+.png" alt="[\s\S]*"[\s\S]*\/>/U', $match, $challengeId)) {
-                throw new \RuntimeException('Could not fetch Strava challenge challengeId');
+                // Apparently public profiles can contain challenges that we cannot process
+                // because of missing required id. Skip these instead of throwing and aborting possible import.
+                continue;
             }
             if (!preg_match('/<time[\s\S]*>(?<match>.*?)<\/time>/', $match, $completedOn)) {
                 throw new \RuntimeException('Could not fetch Strava challenge timestamp');
