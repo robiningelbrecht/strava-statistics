@@ -30,10 +30,15 @@ final class SystemResourceUsage implements ResourceUsage
     {
         return sprintf(
             'Time: %ss, Memory: %s, Peak Memory: %s',
-            round($this->timeStop - $this->timeStart, 3),
+            $this->getRunTimeInSeconds(),
             $this->bytesToString(memory_get_usage(true)),
             $this->bytesToString(memory_get_peak_usage(true))
         );
+    }
+
+    public function getRunTimeInSeconds(): float
+    {
+        return round($this->timeStop - $this->timeStart, 3);
     }
 
     private function bytesToString(int $bytes): string

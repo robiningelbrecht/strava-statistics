@@ -10,5 +10,7 @@ interface ResourceUsage
 
     public function stopTimer(): void;
 
+    public function getRunTimeInSeconds(): float;
+
     public function format(): string;
 }

@@ -85,13 +85,14 @@ final class BuildAppConsoleCommand extends Command
         $this->commandBus->dispatch(new BuildPhotosHtml());
         $output->writeln('  => Building badge.svg');
         $this->commandBus->dispatch(new BuildBadgeSvg($now));
+
+        $this->resourceUsage->stopTimer();
         $this->commandBus->dispatch(new SendNotification(
             title: 'Build successful',
-            message: 'New build of your Strava stats was successful',
+            message: sprintf('New build of your Strava stats was successful in %ss', $this->resourceUsage->getRunTimeInSeconds()),
             tags: ['+1']
         ));
 
-        $this->resourceUsage->stopTimer();
         $output->writeln(sprintf(
             '<info>%s</info>',
             $this->resourceUsage->format(),
