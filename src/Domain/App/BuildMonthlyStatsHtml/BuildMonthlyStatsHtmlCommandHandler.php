@@ -23,7 +23,7 @@ final readonly class BuildMonthlyStatsHtmlCommandHandler implements CommandHandl
         private SportTypeRepository $sportTypeRepository,
         private ActivitiesEnricher $activitiesEnricher,
         private Environment $twig,
-        private FilesystemOperator $filesystem,
+        private FilesystemOperator $buildStorage,
     ) {
     }
 
@@ -46,8 +46,8 @@ final readonly class BuildMonthlyStatsHtmlCommandHandler implements CommandHandl
             months: $allMonths,
         );
 
-        $this->filesystem->write(
-            'build/html/monthly-stats.html',
+        $this->buildStorage->write(
+            'monthly-stats.html',
             $this->twig->load('html/monthly-stats.html.twig')->render([
                 'monthlyStatistics' => $monthlyStatistics,
                 'sportTypes' => $this->sportTypeRepository->findAll(),
@@ -56,8 +56,8 @@ final readonly class BuildMonthlyStatsHtmlCommandHandler implements CommandHandl
 
         /** @var Month $month */
         foreach ($allMonths as $month) {
-            $this->filesystem->write(
-                'build/html/month/month-'.$month->getId().'.html',
+            $this->buildStorage->write(
+                'month/month-'.$month->getId().'.html',
                 $this->twig->load('html/month.html.twig')->render([
                     'hasPreviousMonth' => $month->getId() != $allActivities->getFirstActivityStartDate()->format(Month::MONTH_ID_FORMAT),
                     'hasNextMonth' => $month->getId() != $now->format(Month::MONTH_ID_FORMAT),

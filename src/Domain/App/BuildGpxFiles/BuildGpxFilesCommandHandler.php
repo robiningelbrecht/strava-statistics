@@ -16,7 +16,7 @@ final readonly class BuildGpxFilesCommandHandler implements CommandHandler
     public function __construct(
         private GpxSerializer $serializer,
         private ActivityStreamRepository $activityStreamRepository,
-        private FilesystemOperator $filesystem,
+        private FilesystemOperator $fileStorage,
     ) {
     }
 
@@ -26,14 +26,14 @@ final readonly class BuildGpxFilesCommandHandler implements CommandHandler
 
         $timeStreams = $this->activityStreamRepository->findByStreamType(StreamType::TIME);
         foreach ($timeStreams as $timeStream) {
-            $gpxFileLocation = sprintf('storage/files/activities/gpx/%s.gpx', $timeStream->getActivityId());
-            if ($this->filesystem->fileExists($gpxFileLocation)) {
+            $gpxFileLocation = sprintf('activities/gpx/%s.gpx', $timeStream->getActivityId());
+            if ($this->fileStorage->fileExists($gpxFileLocation)) {
                 continue;
             }
             if (!$serializedGpx = $this->serializer->serialize($timeStream->getActivityId())) {
                 continue;
             }
-            $this->filesystem->write(
+            $this->fileStorage->write(
                 $gpxFileLocation,
                 $serializedGpx,
             );

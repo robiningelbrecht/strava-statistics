@@ -15,7 +15,7 @@ final readonly class BuildChallengesHtmlCommandHandler implements CommandHandler
     public function __construct(
         private ChallengeRepository $challengeRepository,
         private Environment $twig,
-        private FilesystemOperator $filesystem,
+        private FilesystemOperator $buildStorage,
     ) {
     }
 
@@ -29,8 +29,8 @@ final readonly class BuildChallengesHtmlCommandHandler implements CommandHandler
         foreach ($challenges as $challenge) {
             $challengesGroupedByMonth[$challenge->getCreatedOn()->translatedFormat('F Y')][] = $challenge;
         }
-        $this->filesystem->write(
-            'build/html/challenges.html',
+        $this->buildStorage->write(
+            'challenges.html',
             $this->twig->load('html/challenges.html.twig')->render([
                 'challengesGroupedPerMonth' => $challengesGroupedByMonth,
             ]),

@@ -22,7 +22,7 @@ final readonly class ImportChallengesCommandHandler implements CommandHandler
         private Strava $strava,
         private ChallengeRepository $challengeRepository,
         private AthleteRepository $athleteRepository,
-        private FilesystemOperator $filesystem,
+        private FilesystemOperator $fileStorage,
         private UuidFactory $uuidFactory,
         private Sleep $sleep,
     ) {
@@ -33,9 +33,9 @@ final readonly class ImportChallengesCommandHandler implements CommandHandler
         assert($command instanceof ImportChallenges);
         $command->getOutput()->writeln('Importing challenges...');
 
-        if (!$this->filesystem->fileExists('storage/files/strava-challenge-history.html')) {
-            $this->filesystem->write(
-                location: 'storage/files/strava-challenge-history.html',
+        if (!$this->fileStorage->fileExists('strava-challenge-history.html')) {
+            $this->fileStorage->write(
+                location: 'strava-challenge-history.html',
                 contents: self::DEFAULT_STRAVA_CHALLENGE_HISTORY
             );
         }
@@ -83,10 +83,10 @@ final readonly class ImportChallengesCommandHandler implements CommandHandler
                     slug: $stravaChallenge['url'],
                 );
                 if ($url = $challenge->getLogoUrl()) {
-                    $imagePath = sprintf('files/challenges/%s.png', $this->uuidFactory->random());
+                    $fileSystemPath = sprintf('challenges/%s.png', $this->uuidFactory->random());
                     try {
-                        $this->filesystem->write(
-                            'storage/'.$imagePath,
+                        $this->fileStorage->write(
+                            $fileSystemPath,
                             $this->strava->downloadImage($url)
                         );
                     } catch (\Throwable $e) {
@@ -97,8 +97,7 @@ final readonly class ImportChallengesCommandHandler implements CommandHandler
                         ));
                         continue;
                     }
-
-                    $challenge->updateLocalLogo($imagePath);
+                    $challenge->updateLocalLogo('files/'.$fileSystemPath);
                 }
                 $this->challengeRepository->add($challenge);
                 $challengesAddedInCurrentRun[(string) $challengeId] = $challengeId;

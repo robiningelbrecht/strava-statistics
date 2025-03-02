@@ -15,7 +15,6 @@ use App\Tests\ContainerTestCase;
 use App\Tests\Domain\Strava\Activity\ActivityBuilder;
 use App\Tests\Domain\Strava\SpyStrava;
 use App\Tests\SpyOutput;
-use League\Flysystem\FilesystemOperator;
 use Spatie\Snapshots\MatchesSnapshots;
 
 class ImportActivityStreamsCommandHandlerTest extends ContainerTestCase
@@ -66,10 +65,6 @@ class ImportActivityStreamsCommandHandlerTest extends ContainerTestCase
         $this->assertMatchesJsonSnapshot(
             Json::encode($this->getContainer()->get(ActivityRepository::class)->findActivityIdsThatNeedStreamImport())
         );
-
-        /** @var \App\Tests\Infrastructure\FileSystem\SpyFileSystem $fileSystem */
-        $fileSystem = $this->getContainer()->get(FilesystemOperator::class);
-        $this->assertEmpty($fileSystem->getWrites());
     }
 
     #[\Override]

@@ -19,7 +19,7 @@ final readonly class BuildHeatmapHtmlCommandHandler implements CommandHandler
         private RouteRepository $routeRepository,
         private SportTypeRepository $sportTypeRepository,
         private Environment $twig,
-        private FilesystemOperator $filesystem,
+        private FilesystemOperator $buildStorage,
     ) {
     }
 
@@ -30,8 +30,8 @@ final readonly class BuildHeatmapHtmlCommandHandler implements CommandHandler
         $importedSportTypes = $this->sportTypeRepository->findAll();
         $routes = $this->routeRepository->findAll();
 
-        $this->filesystem->write(
-            'build/html/heatmap.html',
+        $this->buildStorage->write(
+            'heatmap.html',
             $this->twig->load('html/heatmap.html.twig')->render([
                 'numberOfRoutes' => count($routes),
                 'routes' => Json::encode($routes),

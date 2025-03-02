@@ -53,7 +53,7 @@ final readonly class BuildDashboardHtmlCommandHandler implements CommandHandler
         private ActivityIntensity $activityIntensity,
         private UnitSystem $unitSystem,
         private Environment $twig,
-        private FilesystemOperator $filesystem,
+        private FilesystemOperator $buildStorage,
         private TranslatorInterface $translator,
         private EFtpCalculator $eftpCalculator,
     ) {
@@ -157,8 +157,8 @@ final readonly class BuildDashboardHtmlCommandHandler implements CommandHandler
         $trivia = Trivia::getInstance($allActivities);
         $bestAllTimePowerOutputs = $this->activityPowerRepository->findBestForActivityType(ActivityType::RIDE);
 
-        $this->filesystem->write(
-            'build/html/dashboard.html',
+        $this->buildStorage->write(
+            'dashboard.html',
             $this->twig->load('html/dashboard.html.twig')->render([
                 'timeIntervals' => ActivityPowerRepository::TIME_INTERVALS_IN_SECONDS_REDACTED,
                 'mostRecentActivities' => $allActivities->slice(0, 5),
@@ -247,8 +247,8 @@ final readonly class BuildDashboardHtmlCommandHandler implements CommandHandler
             );
         }
 
-        $this->filesystem->write(
-            'build/html/power-output.html',
+        $this->buildStorage->write(
+            'power-output.html',
             $this->twig->load('html/power-output.html.twig')->render([
                 'powerOutputChart' => Json::encode(
                     PowerOutputChart::create($bestPowerOutputs)->build()

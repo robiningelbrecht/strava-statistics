@@ -3,13 +3,15 @@
 namespace App\Tests\Domain\App\BuildPhotosHtml;
 
 use App\Domain\App\BuildPhotosHtml\BuildPhotosHtml;
-use App\Infrastructure\CQRS\DomainCommand;
 use App\Tests\Domain\App\BuildAppFilesTestCase;
 
 class BuildPhotosHtmlCommandHandlerTest extends BuildAppFilesTestCase
 {
-    protected function getDomainCommand(): DomainCommand
+    public function testHandle(): void
     {
-        return new BuildPhotosHtml();
+        $this->provideFullTestSet();
+
+        $this->commandBus->dispatch(new BuildPhotosHtml());
+        $this->assertFileSystemWrites($this->getContainer()->get('build.storage'));
     }
 }

@@ -42,13 +42,14 @@ use App\Tests\Domain\Strava\Gear\GearBuilder;
 use App\Tests\Domain\Strava\Segment\SegmentBuilder;
 use App\Tests\Domain\Strava\Segment\SegmentEffort\SegmentEffortBuilder;
 use App\Tests\Domain\Strava\SpyStrava;
+use App\Tests\Infrastructure\FileSystem\provideAssertFileSystem;
 use App\Tests\SpyOutput;
-use League\Flysystem\FilesystemOperator;
 use Spatie\Snapshots\MatchesSnapshots;
 
 class ImportActivitiesCommandHandlerTest extends ContainerTestCase
 {
     use MatchesSnapshots;
+    use provideAssertFileSystem;
 
     private ImportActivitiesCommandHandler $importActivitiesCommandHandler;
     private SpyStrava $strava;
@@ -71,10 +72,7 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
         $this->importActivitiesCommandHandler->handle(new ImportActivities($output));
 
         $this->assertMatchesTextSnapshot((string) $output);
-
-        /** @var \App\Tests\Infrastructure\FileSystem\SpyFileSystem $fileSystem */
-        $fileSystem = $this->getContainer()->get(FilesystemOperator::class);
-        $this->assertEmpty($fileSystem->getWrites());
+        $this->assertFileSystemWritesAreEmpty($this->getContainer()->get('file.storage'));
 
         $this->assertEmpty(
             $this->getConnection()->executeQuery('SELECT * FROM KeyValue')->fetchAllAssociative()
@@ -113,10 +111,7 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
         $this->importActivitiesCommandHandler->handle(new ImportActivities($output));
 
         $this->assertMatchesTextSnapshot((string) $output);
-
-        /** @var \App\Tests\Infrastructure\FileSystem\SpyFileSystem $fileSystem */
-        $fileSystem = $this->getContainer()->get(FilesystemOperator::class);
-        $this->assertMatchesJsonSnapshot($fileSystem->getWrites());
+        $this->assertFileSystemWrites($this->getContainer()->get('file.storage'));
 
         $this->assertMatchesJsonSnapshot(Json::encode(
             $this->getConnection()->executeQuery('SELECT * FROM KeyValue')->fetchAllAssociative()
@@ -260,7 +255,7 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
             $this->getContainer()->get(ActivityRepository::class),
             $this->getContainer()->get(ActivityWithRawDataRepository::class),
             $this->getContainer()->get(GearRepository::class),
-            $this->getContainer()->get(FilesystemOperator::class),
+            $this->getContainer()->get('file.storage'),
             $this->getContainer()->get(SportTypesToImport::class),
             $this->getContainer()->get(ActivitiesToSkipDuringImport::class),
             $this->getContainer()->get(StravaDataImportStatus::class),
@@ -308,7 +303,7 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
             $this->getContainer()->get(ActivityRepository::class),
             $this->getContainer()->get(ActivityWithRawDataRepository::class),
             $this->getContainer()->get(GearRepository::class),
-            $this->getContainer()->get(FilesystemOperator::class),
+            $this->getContainer()->get('file.storage'),
             $this->getContainer()->get(SportTypesToImport::class),
             $this->getContainer()->get(ActivitiesToSkipDuringImport::class),
             $this->getContainer()->get(StravaDataImportStatus::class),

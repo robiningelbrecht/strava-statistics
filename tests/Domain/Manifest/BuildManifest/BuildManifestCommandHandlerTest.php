@@ -6,16 +6,15 @@ use App\Domain\Manifest\BuildManifest\BuildManifest;
 use App\Domain\Strava\Athlete\Athlete;
 use App\Domain\Strava\Athlete\AthleteRepository;
 use App\Infrastructure\CQRS\Bus\CommandBus;
-use App\Infrastructure\Serialization\Json;
 use App\Tests\ContainerTestCase;
+use App\Tests\Infrastructure\FileSystem\provideAssertFileSystem;
 use App\Tests\ProvideTestData;
 use League\Flysystem\FilesystemOperator;
-use Spatie\Snapshots\MatchesSnapshots;
 
 class BuildManifestCommandHandlerTest extends ContainerTestCase
 {
-    use MatchesSnapshots;
     use ProvideTestData;
+    use provideAssertFileSystem;
 
     private CommandBus $commandBus;
 
@@ -30,11 +29,12 @@ class BuildManifestCommandHandlerTest extends ContainerTestCase
             'lastname' => 'Ingelbrecht',
         ]));
 
-        $this->commandBus->dispatch(new BuildManifest());
+        /** @var FilesystemOperator $publicStorage */
+        $publicStorage = $this->getContainer()->get('public.storage');
+        $publicStorage->write('manifest.json', '{"id":"[APP_HOST]","name":"[APP_NAME]","short_name":"Strava Statistics","description":"Strava Statistics is a self-hosted web app designed to provide you with better stats.","categories":["strava","statistics","utilities"],"start_url":"/","scope":"[APP_HOST]","display":"standalone","display_override":["fullscreen","minimal-ui"],"orientation":"portrait","theme_color":"#F26822","background_color":"#f9fafb","icons":[{"src":"/assets/images/manifest/icon-192.png","sizes":"192x192","type":"image/png"},{"src":"/assets/images/manifest/icon-192.maskable.png","sizes":"192x192","type":"image/png","purpose":"maskable"},{"src":"/assets/images/manifest/icon-512.png","sizes":"512x512","type":"image/png"},{"src":"/assets/images/manifest/icon-512.maskable.png","sizes":"512x512","type":"image/png","purpose":"maskable"},{"src":"/assets/images/manifest/icon-512.png","sizes":"any","type":"image/png"},{"src":"/assets/images/manifest/icon-512.maskable.png","sizes":"any","type":"image/png","purpose":"maskable"}],"screenshots":[{"src":"/assets/images/manifest/screenshots/dashboard.jpeg","sizes":"750x1600","type":"image/jpeg","form_factor":"narrow","label":"Dashboard"},{"src":"/assets/images/manifest/screenshots/heatmap.jpeg","sizes":"750x1600","type":"image/jpeg","form_factor":"narrow","label":"Heatmap"}]}');
 
-        /** @var \App\Tests\Infrastructure\FileSystem\SpyFileSystem $fileSystem */
-        $fileSystem = $this->getContainer()->get(FilesystemOperator::class);
-        $this->assertMatchesJsonSnapshot(Json::encode($fileSystem->getWrites()));
+        $this->commandBus->dispatch(new BuildManifest());
+        $this->assertFileSystemWrites($publicStorage);
     }
 
     #[\Override]

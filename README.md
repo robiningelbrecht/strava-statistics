@@ -132,7 +132,7 @@ IMPORT_AND_BUILD_SCHEDULE="5 4 * * *"
 # Valid timezones can found under TZ Identifier column here: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List
 TZ=Etc/GMT
 
-# Allowed options: en_US, fr_FR or nl_BE
+# Allowed options: en_US, fr_FR, nl_BE or zh_CN
 LOCALE=en_US
 # Allowed options: metric or imperial
 UNIT_SYSTEM=metric
