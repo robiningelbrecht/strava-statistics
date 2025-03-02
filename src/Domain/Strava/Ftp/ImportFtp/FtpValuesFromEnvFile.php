@@ -23,10 +23,14 @@ final readonly class FtpValuesFromEnvFile
         $this->ftps = Ftps::empty();
 
         foreach ($ftps as $setOn => $ftpValue) {
-            $this->ftps->add(Ftp::fromState(
-                setOn: SerializableDateTime::fromString($setOn),
-                ftp: FtpValue::fromInt($ftpValue)
-            ));
+            try {
+                $this->ftps->add(Ftp::fromState(
+                    setOn: SerializableDateTime::fromString($setOn),
+                    ftp: FtpValue::fromInt($ftpValue)
+                ));
+            } catch (\DateMalformedStringException) {
+                throw new \InvalidArgumentException(sprintf('Invalid date "%s" set in FTP_VALUES in .env file', $setOn));
+            }
         }
     }
 

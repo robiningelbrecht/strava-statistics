@@ -110,6 +110,8 @@ services:
 ### .env
 
 ```bash
+# ⚠️Every time you change the .env file, you need to restart your container for the changes to take effect.
+
 # The URL on which the app will be hosted. This URL will be used in the manifest file. 
 # This will allow you to install the web app as a native app on your device.
 MANIFEST_APP_URL=http://localhost:8080/
@@ -148,18 +150,20 @@ DATE_FORMAT=DAY-MONTH-YEAR
 SPORT_TYPES_TO_IMPORT='[]'
 # Your birthday. Needed to calculate heart rate zones.
 ATHLETE_BIRTHDAY=YYYY-MM-DD
-# History of weight (in kg or pounds, depending on UNIT_SYSTEM). Needed to calculate relative w/kg.
+# Optioal, history of weight (in kg or pounds, depending on UNIT_SYSTEM). Needed to calculate relative w/kg.
 # Check https://github.com/robiningelbrecht/strava-statistics/wiki for more info.
-ATHLETE_WEIGHTS='{
-    "YYYY-MM-DD": 74.6,
-    "YYYY-MM-DD": 70.3
-}'
-# History of FTP. Needed to calculate activity stress level.
-# Check https://github.com/robiningelbrecht/strava-statistics/wiki for more info.
-FTP_VALUES='{
-    "YYYY-MM-DD": 198,
-    "YYYY-MM-DD": 220
-}'
+#ATHLETE_WEIGHTS='{
+#    "2024-10-03": 74.6,
+#    "2025-01-10": 70.3
+#}'
+ATHLETE_WEIGHTS='[]'
+# Optional, history of FTP. Needed to calculate activity stress level.
+# Check https://github.com/robiningelbrecht/strava-statistics/wiki for more info. Example:
+# FTP_VALUES='{
+#    "2024-10-03": 198,
+#    "2025-01-10": 220
+#}'
+FTP_VALUES='[]'
 # Full URL with ntfy topic included. This topic will be used to notify you when a new HTML build has run.
 # Leave empty to disable notifications.
 NTFY_URL=''
