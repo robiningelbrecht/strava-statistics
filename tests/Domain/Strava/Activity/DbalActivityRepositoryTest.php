@@ -29,7 +29,7 @@ class DbalActivityRepositoryTest extends ContainerTestCase
     {
         $activity = ActivityBuilder::fromDefaults()->build();
 
-        $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
+        $this->activityWithRawDataRepository->add(ActivityWithRawData::fromState(
             $activity,
             ['raw' => 'data']
         ));
@@ -53,7 +53,7 @@ class DbalActivityRepositoryTest extends ContainerTestCase
             ->withActivityId(ActivityId::fromUnprefixed(1))
             ->withStartDateTime(SerializableDateTime::fromString('2023-10-10 14:00:34'))
             ->build();
-        $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
+        $this->activityWithRawDataRepository->add(ActivityWithRawData::fromState(
             $activityOne,
             ['raw' => 'data']
         ));
@@ -61,7 +61,7 @@ class DbalActivityRepositoryTest extends ContainerTestCase
             ->withActivityId(ActivityId::fromUnprefixed(2))
             ->withStartDateTime(SerializableDateTime::fromString('2023-10-10 13:00:34'))
             ->build();
-        $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
+        $this->activityWithRawDataRepository->add(ActivityWithRawData::fromState(
             $activityTwo,
             ['raw' => 'data']
         ));
@@ -69,7 +69,7 @@ class DbalActivityRepositoryTest extends ContainerTestCase
             ->withActivityId(ActivityId::fromUnprefixed(3))
             ->withStartDateTime(SerializableDateTime::fromString('2023-10-09 14:00:34'))
             ->build();
-        $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
+        $this->activityWithRawDataRepository->add(ActivityWithRawData::fromState(
             $activityThree,
             ['raw' => 'data']
         ));
@@ -86,7 +86,7 @@ class DbalActivityRepositoryTest extends ContainerTestCase
             ->withActivityId(ActivityId::fromUnprefixed(1))
             ->withStartDateTime(SerializableDateTime::fromString('2023-10-10 14:00:34'))
             ->build();
-        $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
+        $this->activityWithRawDataRepository->add(ActivityWithRawData::fromState(
             $activityOne,
             ['raw' => 'data']
         ));
@@ -94,7 +94,7 @@ class DbalActivityRepositoryTest extends ContainerTestCase
             ->withActivityId(ActivityId::fromUnprefixed(2))
             ->withStartDateTime(SerializableDateTime::fromString('2023-10-10 13:00:34'))
             ->build();
-        $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
+        $this->activityWithRawDataRepository->add(ActivityWithRawData::fromState(
             $activityTwo,
             ['raw' => 'data']
         ));
@@ -102,7 +102,7 @@ class DbalActivityRepositoryTest extends ContainerTestCase
             ->withActivityId(ActivityId::fromUnprefixed(3))
             ->withStartDateTime(SerializableDateTime::fromString('2023-10-09 14:00:34'))
             ->build();
-        $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
+        $this->activityWithRawDataRepository->add(ActivityWithRawData::fromState(
             $activityThree,
             ['raw' => 'data']
         ));
@@ -116,7 +116,7 @@ class DbalActivityRepositoryTest extends ContainerTestCase
     public function testDelete(): void
     {
         $activity = ActivityBuilder::fromDefaults()->build();
-        $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
+        $this->activityWithRawDataRepository->add(ActivityWithRawData::fromState(
             $activity,
             ['raw' => 'data']
         ));
@@ -142,7 +142,7 @@ class DbalActivityRepositoryTest extends ContainerTestCase
             ->withActivityId(ActivityId::fromUnprefixed(1))
             ->withStartDateTime(SerializableDateTime::fromString('2023-10-10 14:00:34'))
             ->build();
-        $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
+        $this->activityWithRawDataRepository->add(ActivityWithRawData::fromState(
             $activityOne,
             ['raw' => 'data']
         ));
@@ -150,7 +150,7 @@ class DbalActivityRepositoryTest extends ContainerTestCase
             ->withActivityId(ActivityId::fromUnprefixed(2))
             ->withStartDateTime(SerializableDateTime::fromString('2023-10-10 13:00:34'))
             ->build();
-        $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
+        $this->activityWithRawDataRepository->add(ActivityWithRawData::fromState(
             $activityTwo,
             ['raw' => 'data']
         ));
@@ -158,7 +158,7 @@ class DbalActivityRepositoryTest extends ContainerTestCase
             ->withActivityId(ActivityId::fromUnprefixed(3))
             ->withStartDateTime(SerializableDateTime::fromString('2023-10-09 14:00:34'))
             ->build();
-        $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
+        $this->activityWithRawDataRepository->add(ActivityWithRawData::fromState(
             $activityThree,
             ['raw' => 'data']
         ));
@@ -179,7 +179,7 @@ class DbalActivityRepositoryTest extends ContainerTestCase
             ->withActivityId(ActivityId::fromUnprefixed(1))
             ->withStartDateTime(SerializableDateTime::fromString('2023-10-10 14:00:34'))
             ->build();
-        $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
+        $this->activityWithRawDataRepository->add(ActivityWithRawData::fromState(
             $activityOne,
             ['raw' => 'data']
         ));
@@ -187,7 +187,7 @@ class DbalActivityRepositoryTest extends ContainerTestCase
             ->withActivityId(ActivityId::fromUnprefixed(2))
             ->withStartDateTime(SerializableDateTime::fromString('2023-10-10 13:00:34'))
             ->build();
-        $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
+        $this->activityWithRawDataRepository->add(ActivityWithRawData::fromState(
             $activityTwo,
             ['raw' => 'data']
         ));
@@ -196,7 +196,7 @@ class DbalActivityRepositoryTest extends ContainerTestCase
             ->withActivityId(ActivityId::fromUnprefixed(3))
             ->withStartDateTime(SerializableDateTime::fromString('2023-10-09 14:00:34'))
             ->build();
-        $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
+        $this->activityWithRawDataRepository->add(ActivityWithRawData::fromState(
             $activityThree,
             ['raw' => 'data']
         ));

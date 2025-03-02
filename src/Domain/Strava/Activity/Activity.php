@@ -523,9 +523,11 @@ final class Activity
         return $this->location;
     }
 
-    public function updateLocation(?Location $location = null): void
+    public function updateLocation(?Location $location = null): self
     {
         $this->location = $location;
+
+        return $this;
     }
 
     /**

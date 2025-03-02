@@ -111,7 +111,7 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                     $activity->updateLocation($reverseGeocodedAddress);
                 }
 
-                $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
+                $this->activityWithRawDataRepository->update(ActivityWithRawData::fromState(
                     activity: $activity,
                     rawData: [
                         ...$activityWithRawData->getRawData(),
@@ -172,7 +172,7 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                         $activity->updateLocation($reverseGeocodedAddress);
                     }
 
-                    $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
+                    $this->activityWithRawDataRepository->add(ActivityWithRawData::fromState(
                         activity: $activity,
                         rawData: $rawStravaData
                     ));

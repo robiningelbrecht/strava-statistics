@@ -8,7 +8,9 @@ interface ActivityWithRawDataRepository
 {
     public function find(ActivityId $activityId): ActivityWithRawData;
 
-    public function save(ActivityWithRawData $activityWithRawData): void;
+    public function add(ActivityWithRawData $activityWithRawData): void;
+
+    public function update(ActivityWithRawData $activityWithRawData): void;
 
     public function markActivityStreamsAsImported(ActivityId $activityId): void;
 }

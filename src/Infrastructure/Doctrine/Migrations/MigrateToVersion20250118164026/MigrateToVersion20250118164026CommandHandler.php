@@ -58,7 +58,7 @@ final readonly class MigrateToVersion20250118164026CommandHandler implements Com
             $activity->updateLocation($location ? Location::fromState($location) : null);
             $activity->updateLocalImagePaths($rawData['localImagePaths'] ?? []);
 
-            $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
+            $this->activityWithRawDataRepository->add(ActivityWithRawData::fromState(
                 activity: $activity,
                 rawData: $rawData
             ));
