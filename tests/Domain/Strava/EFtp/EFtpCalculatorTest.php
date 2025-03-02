@@ -4,6 +4,7 @@ namespace App\Tests\Domain\Strava\EFtp;
 
 use App\Domain\Strava\Activity\ActivityType;
 use App\Domain\Strava\Activity\SportType\SportType;
+use App\Domain\Strava\Activity\Stream\ActivityPowerRepository;
 use App\Domain\Strava\Activity\Stream\PowerOutput;
 use App\Domain\Strava\Activity\Stream\PowerOutputs;
 use App\Domain\Strava\EFtp\EFtpCalculator;
@@ -26,6 +27,16 @@ class EFtpCalculatorTest extends TestCase
         $eftp = $this->eftpCalculator->calculate($activity);
 
         $this->assertNull($eftp);
+    }
+
+    public function testFactorIntervalsAreSet(): void
+    {
+        $factorIntervals = array_keys(EFtpCalculator::EFTP_FACTORS);
+        $calculatedIntervals = ActivityPowerRepository::TIME_INTERVALS_IN_SECONDS_REDACTED;
+
+        foreach ($factorIntervals as $interval) {
+            $this->assertContains($interval, $calculatedIntervals);
+        }
     }
 
     public function testCalculateWithPower(): void
