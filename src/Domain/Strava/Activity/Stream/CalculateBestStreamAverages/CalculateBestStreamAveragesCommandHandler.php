@@ -28,7 +28,7 @@ final readonly class CalculateBestStreamAveragesCommandHandler implements Comman
             /** @var \App\Domain\Strava\Activity\Stream\ActivityStream $stream */
             foreach ($streams as $stream) {
                 $bestAverages = [];
-                foreach (ActivityPowerRepository::TIME_INTERVALS_IN_SECONDS_REDACTED as $timeIntervalInSeconds) {
+                foreach (ActivityPowerRepository::TIME_INTERVALS_IN_SECONDS_ALL as $timeIntervalInSeconds) {
                     if (!$stream->getStreamType()->supportsBestAverageCalculation()) {
                         continue;
                     }
