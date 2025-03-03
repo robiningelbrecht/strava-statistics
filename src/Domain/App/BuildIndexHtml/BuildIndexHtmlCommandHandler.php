@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\App\BuildIndexHtml;
 
+use App\Domain\App\ProfilePictureUrl;
 use App\Domain\Strava\Activity\ActivitiesEnricher;
 use App\Domain\Strava\Activity\ActivityRepository;
 use App\Domain\Strava\Activity\ActivityType;
@@ -25,6 +26,7 @@ final readonly class BuildIndexHtmlCommandHandler implements CommandHandler
         private ChallengeRepository $challengeRepository,
         private ImageRepository $imageRepository,
         private ActivitiesEnricher $activitiesEnricher,
+        private ?ProfilePictureUrl $profilePictureUrl,
         private UnitSystem $unitSystem,
         private Environment $twig,
         private FilesystemOperator $buildStorage,
@@ -67,6 +69,7 @@ final readonly class BuildIndexHtmlCommandHandler implements CommandHandler
                 'totalPhotoCount' => $this->imageRepository->count(),
                 'lastUpdate' => $command->getCurrentDateTime(),
                 'athlete' => $athlete,
+                'profilePictureUrl' => $this->profilePictureUrl,
             ]),
         );
     }

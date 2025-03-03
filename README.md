@@ -156,7 +156,7 @@ DATE_FORMAT=DAY-MONTH-YEAR
 SPORT_TYPES_TO_IMPORT='[]'
 # Your birthday. Needed to calculate heart rate zones.
 ATHLETE_BIRTHDAY=YYYY-MM-DD
-# Optioal, history of weight (in kg or pounds, depending on UNIT_SYSTEM). Needed to calculate relative w/kg.
+# Optional, history of weight (in kg or pounds, depending on UNIT_SYSTEM). Needed to calculate relative w/kg.
 # Check https://github.com/robiningelbrecht/strava-statistics/wiki for more info.
 #ATHLETE_WEIGHTS='{
 #    "2024-10-03": 74.6,
@@ -170,7 +170,9 @@ ATHLETE_WEIGHTS='[]'
 #    "2025-01-10": 220
 #}'
 FTP_VALUES='[]'
-# Full URL with ntfy topic included. This topic will be used to notify you when a new HTML build has run.
+# Optional, a link to your profile picture. Will be used to display in the nav bar and link to your Strava profile
+PROFILE_PICTURE_URL=''
+# Optional, full URL with ntfy topic included. This topic will be used to notify you when a new HTML build has run.
 # Leave empty to disable notifications.
 NTFY_URL=''
 # An array of activity ids to skip during import. 

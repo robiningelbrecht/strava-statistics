@@ -13,6 +13,7 @@ parameters:
     env(DATE_FORMAT): 'DAY-MONTH-YEAR'
     env(LOCALE): 'en_US'
     env(MANIFEST_APP_URL): 'http://localhost:8080/'
+    env(PROFILE_PICTURE_URL): ''
 
 services:
     # default configuration for services in *this* file
@@ -80,6 +81,10 @@ services:
 
     GuzzleHttp\Client:
         class: GuzzleHttp\Client
+
+    App\Domain\App\ProfilePictureUrl:
+        factory: [ App\Domain\App\ProfilePictureUrl, 'fromOptionalString' ]
+        arguments: ['%env(string:PROFILE_PICTURE_URL)%']
 
     App\Domain\Integration\Notification\Ntfy\NtfyUrl:
         factory: [ App\Domain\Integration\Notification\Ntfy\NtfyUrl, 'fromOptionalString' ]
