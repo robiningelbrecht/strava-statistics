@@ -109,8 +109,11 @@ services:
 
 ### .env
 
+> [!IMPORTANT]
+> Every time you change the .env file, you need to restart your container for the changes to take effect.
+
 ```bash
-# ⚠️Every time you change the .env file, you need to restart your container for the changes to take effect.
+# ⚠ ️Every time you change the .env file, you need to restart your container for the changes to take effect.
 
 # The URL on which the app will be hosted. This URL will be used in the manifest file. 
 # This will allow you to install the web app as a native app on your device.
