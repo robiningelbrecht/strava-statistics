@@ -18,7 +18,7 @@ final class DebugEnvironmentConsoleCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $io->title('Strava Statistics');
+        $io->title('Statistics for Strava');
         $io->text('Please copy all this output into the description of the bug ticket');
         $io->warning('Do not forget to redact sensitive information');
 

@@ -26,7 +26,7 @@ final readonly class BuildManifestCommandHandler implements CommandHandler
         $athlete = $this->athleteRepository->find();
 
         $manifest = $this->publicStorage->read('manifest.json');
-        $manifest = str_replace('[APP_NAME]', sprintf('Strava Statistics | %s', $athlete->getName()), $manifest);
+        $manifest = str_replace('[APP_NAME]', sprintf('Statistics for Strava | %s', $athlete->getName()), $manifest);
         $manifest = str_replace('[APP_HOST]', (string) $this->manifestAppUrl, $manifest);
 
         $this->publicStorage->write('manifest.json', $manifest);

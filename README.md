@@ -2,7 +2,7 @@
   <img src="public/assets/images/logo.svg" width="250" alt="Logo" >
 </p>
 
-<h1 align="center">Strava Statistics</h1>
+<h1 align="center">Statistics for Strava</h1>
 
 <p align="center">
 <a href="https://github.com/robiningelbrecht/strava-statistics/actions/workflows/ci.yml"><img src="https://github.com/robiningelbrecht/strava-statistics/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
@@ -15,7 +15,7 @@
 
 ---
 
-<h4 align="center">Strava Statistics is a self-hosted web app designed to provide you with better stats.</h4>
+<h4 align="center">Statistics for Strava is a self-hosted web app designed to provide you with better stats.</h4>
 
 <p align="center">
   <a href="#-showcase">Showcase</a> •
