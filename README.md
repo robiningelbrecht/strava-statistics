@@ -171,7 +171,7 @@ ATHLETE_WEIGHTS='[]'
 #}'
 FTP_VALUES='[]'
 # Optional, a link to your profile picture. Will be used to display in the nav bar and link to your Strava profile.
-# Leave empty to disable thid feature.
+# Leave empty to disable this feature.
 PROFILE_PICTURE_URL=''
 # Optional, full URL with ntfy topic included. This topic will be used to notify you when a new HTML build has run.
 # Leave empty to disable notifications.
