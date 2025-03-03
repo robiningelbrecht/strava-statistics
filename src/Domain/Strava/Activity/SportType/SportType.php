@@ -33,7 +33,7 @@ enum SportType: string implements TranslatableInterface
     case STAND_UP_PADDLING = 'StandUpPaddling';
     case SURFING = 'Surfing';
     case SWIM = 'Swim';
-    case WIND_SURF = 'WindSurf';
+    case WIND_SURF = 'Windsurf';
     // Winter sports.
     case BACK_COUNTRY_SKI = 'BackcountrySki';
     case ALPINE_SKI = 'AlpineSki';
