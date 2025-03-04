@@ -3,12 +3,14 @@
 namespace App\Domain\Strava\Activity\Stream\ImportActivityStreams;
 
 use App\Domain\Strava\Activity\ActivityRepository;
+use App\Domain\Strava\Activity\ActivityWithRawDataRepository;
 use App\Domain\Strava\Activity\Stream\ActivityStream;
 use App\Domain\Strava\Activity\Stream\ActivityStreamRepository;
 use App\Domain\Strava\Activity\Stream\StreamType;
 use App\Domain\Strava\Strava;
-use App\Infrastructure\CQRS\Bus\Command;
-use App\Infrastructure\CQRS\Bus\CommandHandler;
+use App\Infrastructure\CQRS\Command;
+use App\Infrastructure\CQRS\CommandHandler;
+use App\Infrastructure\Time\Clock\Clock;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 
@@ -17,7 +19,9 @@ final readonly class ImportActivityStreamsCommandHandler implements CommandHandl
     public function __construct(
         private Strava $strava,
         private ActivityRepository $activityRepository,
+        private ActivityWithRawDataRepository $activityWithRawDataRepository,
         private ActivityStreamRepository $activityStreamRepository,
+        private Clock $clock,
     ) {
     }
 
@@ -26,12 +30,7 @@ final readonly class ImportActivityStreamsCommandHandler implements CommandHandl
         assert($command instanceof ImportActivityStreams);
         $command->getOutput()->writeln('Importing activity streams...');
 
-        foreach ($this->activityRepository->findActivityIds() as $activityId) {
-            if ($this->activityStreamRepository->isImportedForActivity($activityId)) {
-                // Streams for this activity have been imported already, skip.
-                continue;
-            }
-
+        foreach ($this->activityRepository->findActivityIdsThatNeedStreamImport() as $activityId) {
             $stravaStreams = [];
             try {
                 $stravaStreams = $this->strava->getAllActivityStreams($activityId);
@@ -44,7 +43,7 @@ final readonly class ImportActivityStreamsCommandHandler implements CommandHandl
                 if (429 === $exception->getResponse()->getStatusCode()) {
                     // This will allow initial imports with a lot of activities to proceed the next day.
                     // This occurs when we exceed Strava API rate limits or throws an unexpected error.
-                    $command->getOutput()->writeln('<error>You probably reached Strava API rate limits. You will need to import the rest of your activities tomorrow</error>');
+                    $command->getOutput()->writeln('<error>You probably reached Strava API rate limits. You will need to import the rest of your activity streams tomorrow</error>');
                     break;
                 }
 
@@ -54,22 +53,12 @@ final readonly class ImportActivityStreamsCommandHandler implements CommandHandl
                 }
             }
 
-            $stravaStreams = array_filter(
-                $stravaStreams,
-                fn (array $stravaStream): bool => !is_null(StreamType::tryFrom($stravaStream['type']))
-            );
-            if (empty($stravaStreams)) {
-                // We need this hack for activities that do not have streams.
-                // This way we can "tag" them as imported.
-                $stravaStreams[] = [
-                    'type' => StreamType::HACK->value,
-                    'data' => [],
-                ];
-            }
-
-            $activity = $this->activityRepository->find($activityId);
             foreach ($stravaStreams as $stravaStream) {
                 if (!$streamType = StreamType::tryFrom($stravaStream['type'])) {
+                    continue;
+                }
+
+                if ($this->activityStreamRepository->hasOneForActivityAndStreamType($activityId, $streamType)) {
                     continue;
                 }
 
@@ -77,11 +66,12 @@ final readonly class ImportActivityStreamsCommandHandler implements CommandHandl
                     activityId: $activityId,
                     streamType: $streamType,
                     streamData: $stravaStream['data'],
-                    createdOn: $activity->getStartDate(),
+                    createdOn: $this->clock->getCurrentDateTimeImmutable(),
                 );
                 $this->activityStreamRepository->add($stream);
                 $command->getOutput()->writeln(sprintf('  => Imported activity stream "%s"', $stream->getName()));
             }
+            $this->activityWithRawDataRepository->markActivityStreamsAsImported($activityId);
         }
     }
 }

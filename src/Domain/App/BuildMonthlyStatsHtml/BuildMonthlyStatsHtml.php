@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\App\BuildMonthlyStatsHtml;
 
-use App\Infrastructure\CQRS\Bus\DomainCommand;
+use App\Infrastructure\CQRS\DomainCommand;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
 final class BuildMonthlyStatsHtml extends DomainCommand

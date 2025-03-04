@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Strava\Segment\SegmentEffort\DeleteActivitySegmentEfforts;
 
 use App\Domain\Strava\Activity\ActivityId;
-use App\Infrastructure\CQRS\Bus\DomainCommand;
+use App\Infrastructure\CQRS\DomainCommand;
 
 final class DeleteActivitySegmentEfforts extends DomainCommand
 {

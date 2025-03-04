@@ -11,7 +11,6 @@ use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\ToolsException;
-use League\Flysystem\FilesystemOperator;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Translation\LocaleSwitcher;
 
@@ -38,7 +37,18 @@ abstract class ContainerTestCase extends KernelTestCase
         Eddington::$instances = [];
         ActivityTotals::$instance = null;
         Trivia::$instance = null;
-        $this->getContainer()->get(FilesystemOperator::class)->resetWrites();
+
+        // Empty file systems.
+        /** @var \League\Flysystem\FilesystemOperator[] $fileSystems */
+        $fileSystems = [
+            $this->getContainer()->get('public.storage'),
+            $this->getContainer()->get('file.storage'),
+            $this->getContainer()->get('build.storage'),
+        ];
+
+        foreach ($fileSystems as $fileSystem) {
+            $fileSystem->deleteDirectory('/');
+        }
 
         // Make sure every test is initialized with the default locale.
         /** @var LocaleSwitcher $localeSwitcher */

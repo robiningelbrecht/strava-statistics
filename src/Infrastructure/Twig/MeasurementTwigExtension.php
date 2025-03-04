@@ -44,6 +44,8 @@ final readonly class MeasurementTwigExtension
         return match ($unitName) {
             'distance' => $this->unitSystem->distanceSymbol(),
             'elevation' => $this->unitSystem->elevationSymbol(),
+            'carbon-saved' => $this->unitSystem->carbonSavedSymbol(),
+            'pace' => $this->unitSystem->paceSymbol(),
             default => throw new \RuntimeException(sprintf('Invalid unitName "%s"', $unitName)),
         };
     }

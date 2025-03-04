@@ -17,8 +17,8 @@ use App\Domain\Strava\Activity\Stream\ActivityStreamRepository;
 use App\Domain\Strava\Activity\Stream\StreamType;
 use App\Domain\Strava\Athlete\AthleteRepository;
 use App\Domain\Strava\Segment\SegmentEffort\SegmentEffortRepository;
-use App\Infrastructure\CQRS\Bus\Command;
-use App\Infrastructure\CQRS\Bus\CommandHandler;
+use App\Infrastructure\CQRS\Command;
+use App\Infrastructure\CQRS\CommandHandler;
 use App\Infrastructure\Exception\EntityNotFound;
 use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\ValueObject\DataTableRow;
@@ -39,7 +39,7 @@ final readonly class BuildActivitiesHtmlCommandHandler implements CommandHandler
         private ActivitiesEnricher $activitiesEnricher,
         private UnitSystem $unitSystem,
         private Environment $twig,
-        private FilesystemOperator $filesystem,
+        private FilesystemOperator $buildStorage,
     ) {
     }
 
@@ -57,8 +57,8 @@ final readonly class BuildActivitiesHtmlCommandHandler implements CommandHandler
             now: $now,
         );
 
-        $this->filesystem->write(
-            'build/html/activities.html',
+        $this->buildStorage->write(
+            'activities.html',
             $this->twig->load('html/activity/activities.html.twig')->render([
                 'sportTypes' => $importedSportTypes,
                 'activityTotals' => $activityTotals,
@@ -108,8 +108,8 @@ final readonly class BuildActivitiesHtmlCommandHandler implements CommandHandler
             }
 
             $leafletMap = $activity->getLeafletMap();
-            $this->filesystem->write(
-                'build/html/activity/'.$activity->getId().'.html',
+            $this->buildStorage->write(
+                'activity/'.$activity->getId().'.html',
                 $this->twig->load('html/activity/activity.html.twig')->render([
                     'activity' => $activity,
                     'leaflet' => $leafletMap ? [
@@ -149,8 +149,8 @@ final readonly class BuildActivitiesHtmlCommandHandler implements CommandHandler
             );
         }
 
-        $this->filesystem->write(
-            'build/html/fetch-json/activity-data-table.json',
+        $this->buildStorage->write(
+            'fetch-json/activity-data-table.json',
             Json::encode($dataDatableRows),
         );
     }

@@ -162,7 +162,6 @@ final readonly class WeeklyDistanceChart
                     'axisLabel' => [
                         'formatter' => '{value} '.$unitSymbol,
                     ],
-                    'max' => 50 * ceil(max($data[0]) / 50),
                 ],
                 [
                     'type' => 'value',

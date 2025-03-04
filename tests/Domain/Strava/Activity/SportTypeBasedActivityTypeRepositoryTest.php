@@ -17,28 +17,28 @@ class SportTypeBasedActivityTypeRepositoryTest extends ContainerTestCase
 {
     public function testFindAll(): void
     {
-        $this->getContainer()->get(ActivityWithRawDataRepository::class)->save(ActivityWithRawData::fromState(
+        $this->getContainer()->get(ActivityWithRawDataRepository::class)->add(ActivityWithRawData::fromState(
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::random())
                 ->withSportType(SportType::WALK)
                 ->build(),
             []
         ));
-        $this->getContainer()->get(ActivityWithRawDataRepository::class)->save(ActivityWithRawData::fromState(
+        $this->getContainer()->get(ActivityWithRawDataRepository::class)->add(ActivityWithRawData::fromState(
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::random())
                 ->withSportType(SportType::RUN)
                 ->build(),
             []
         ));
-        $this->getContainer()->get(ActivityWithRawDataRepository::class)->save(ActivityWithRawData::fromState(
+        $this->getContainer()->get(ActivityWithRawDataRepository::class)->add(ActivityWithRawData::fromState(
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::random())
                 ->withSportType(SportType::RUN)
                 ->build(),
             []
         ));
-        $this->getContainer()->get(ActivityWithRawDataRepository::class)->save(ActivityWithRawData::fromState(
+        $this->getContainer()->get(ActivityWithRawDataRepository::class)->add(ActivityWithRawData::fromState(
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::random())
                 ->withSportType(SportType::WALK)

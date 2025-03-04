@@ -31,10 +31,14 @@ final readonly class AthleteWeightsFromEnvFile
                 $weightInGrams = Pound::from($weight)->toGram();
             }
 
-            $this->weights->add(AthleteWeight::fromState(
-                on: SerializableDateTime::fromString($on),
-                weightInGrams: $weightInGrams,
-            ));
+            try {
+                $this->weights->add(AthleteWeight::fromState(
+                    on: SerializableDateTime::fromString($on),
+                    weightInGrams: $weightInGrams,
+                ));
+            } catch (\DateMalformedStringException) {
+                throw new \InvalidArgumentException(sprintf('Invalid date "%s" set in ATHLETE_WEIGHTS in .env file', $on));
+            }
         }
     }
 

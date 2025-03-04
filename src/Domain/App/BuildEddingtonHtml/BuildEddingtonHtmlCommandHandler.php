@@ -9,8 +9,8 @@ use App\Domain\Strava\Activity\ActivityType;
 use App\Domain\Strava\Activity\Eddington\Eddington;
 use App\Domain\Strava\Activity\Eddington\EddingtonChart;
 use App\Domain\Strava\Activity\Eddington\EddingtonHistoryChart;
-use App\Infrastructure\CQRS\Bus\Command;
-use App\Infrastructure\CQRS\Bus\CommandHandler;
+use App\Infrastructure\CQRS\Command;
+use App\Infrastructure\CQRS\CommandHandler;
 use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Measurement\UnitSystem;
@@ -24,7 +24,7 @@ final readonly class BuildEddingtonHtmlCommandHandler implements CommandHandler
         private ActivitiesEnricher $activitiesEnricher,
         private UnitSystem $unitSystem,
         private Environment $twig,
-        private FilesystemOperator $filesystem,
+        private FilesystemOperator $buildStorage,
         private TranslatorInterface $translator,
     ) {
     }
@@ -72,8 +72,8 @@ final readonly class BuildEddingtonHtmlCommandHandler implements CommandHandler
             );
         }
 
-        $this->filesystem->write(
-            'build/html/eddington.html',
+        $this->buildStorage->write(
+            'eddington.html',
             $this->twig->load('html/eddington.html.twig')->render([
                 'eddingtons' => $eddingtonPerActivityType,
                 'eddingtonCharts' => $eddingtonChartsPerActivityType,

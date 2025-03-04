@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Strava\Ftp\ImportFtp;
 
-use App\Infrastructure\CQRS\Bus\DomainCommand;
+use App\Infrastructure\CQRS\DomainCommand;
 use Symfony\Component\Console\Output\OutputInterface;
 
 final class ImportFtp extends DomainCommand

@@ -17,12 +17,14 @@ use App\Domain\Strava\Strava;
 use App\Domain\Strava\StravaDataImportStatus;
 use App\Domain\Weather\OpenMeteo\OpenMeteo;
 use App\Domain\Weather\OpenMeteo\Weather;
-use App\Infrastructure\CQRS\Bus\Command;
-use App\Infrastructure\CQRS\Bus\CommandHandler;
+use App\Infrastructure\CQRS\Command;
+use App\Infrastructure\CQRS\CommandHandler;
 use App\Infrastructure\Exception\EntityNotFound;
 use App\Infrastructure\Geocoding\Nominatim\Nominatim;
 use App\Infrastructure\ValueObject\Identifier\UuidFactory;
+use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Measurement\Length\Meter;
+use App\Infrastructure\ValueObject\Measurement\Velocity\MetersPerSecond;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 use League\Flysystem\FilesystemOperator;
@@ -36,7 +38,7 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
         private ActivityRepository $activityRepository,
         private ActivityWithRawDataRepository $activityWithRawDataRepository,
         private GearRepository $gearRepository,
-        private FilesystemOperator $filesystem,
+        private FilesystemOperator $fileStorage,
         private SportTypesToImport $sportTypesToImport,
         private ActivitiesToSkipDuringImport $activitiesToSkipDuringImport,
         private StravaDataImportStatus $stravaDataImportStatus,
@@ -91,8 +93,13 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
 
                 $activity
                     ->updateName($stravaActivity['name'])
+                    ->updateDistance(Kilometer::from(round($stravaActivity['distance'] / 1000, 3)))
+                    ->updateAverageSpeed(MetersPerSecond::from($stravaActivity['average_speed'])->toKmPerHour())
+                    ->updateMaxSpeed(MetersPerSecond::from($stravaActivity['max_speed'])->toKmPerHour())
+                    ->updateMovingTimeInSeconds($stravaActivity['moving_time'] ?? 0)
                     ->updateElevation(Meter::from($stravaActivity['total_elevation_gain']))
                     ->updateKudoCount($stravaActivity['kudos_count'] ?? 0)
+                    ->updatePolyline($stravaActivity['map']['summary_polyline'] ?? null)
                     ->updateGear(
                         $gearId,
                         $gearId ? $allGears->getByGearId($gearId)?->getName() : null
@@ -104,7 +111,7 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                     $activity->updateLocation($reverseGeocodedAddress);
                 }
 
-                $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
+                $this->activityWithRawDataRepository->update(ActivityWithRawData::fromState(
                     activity: $activity,
                     rawData: [
                         ...$activityWithRawData->getRawData(),
@@ -138,12 +145,13 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                             /** @var string $urlPath */
                             $urlPath = parse_url((string) $photo['urls'][5000], PHP_URL_PATH);
                             $extension = pathinfo($urlPath, PATHINFO_EXTENSION);
-                            $imagePath = sprintf('files/activities/%s.%s', $this->uuidFactory->random(), $extension);
-                            $this->filesystem->write(
-                                'storage/'.$imagePath,
+                            $fileSystemPath = sprintf('activities/%s.%s', $this->uuidFactory->random(), $extension);
+                            $this->fileStorage->write(
+                                $fileSystemPath,
                                 $this->strava->downloadImage($photo['urls'][5000])
                             );
-                            $localImagePaths[] = $imagePath;
+
+                            $localImagePaths[] = 'files/'.$fileSystemPath;
                         }
                         $activity->updateLocalImagePaths($localImagePaths);
                     }
@@ -164,7 +172,7 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                         $activity->updateLocation($reverseGeocodedAddress);
                     }
 
-                    $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
+                    $this->activityWithRawDataRepository->add(ActivityWithRawData::fromState(
                         activity: $activity,
                         rawData: $rawStravaData
                     ));

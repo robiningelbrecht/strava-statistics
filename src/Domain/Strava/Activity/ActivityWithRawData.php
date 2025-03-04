@@ -62,9 +62,9 @@ final readonly class ActivityWithRawData
     public function getSplits(): array
     {
         /** @var non-empty-array<float> $metricAverageSpeeds */
-        $metricAverageSpeeds = array_column($this->rawData['splits_metric'], 'average_speed');
+        $metricAverageSpeeds = array_column($this->rawData['splits_metric'] ?? [], 'average_speed');
         /** @var non-empty-array<float> $imperialAverageSpeeds */
-        $imperialAverageSpeeds = array_column($this->rawData['splits_standard'], 'average_speed');
+        $imperialAverageSpeeds = array_column($this->rawData['splits_standard'] ?? [], 'average_speed');
 
         return array_merge(
             array_map(

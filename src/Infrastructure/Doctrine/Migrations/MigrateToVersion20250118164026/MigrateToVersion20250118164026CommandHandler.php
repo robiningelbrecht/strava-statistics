@@ -11,8 +11,8 @@ use App\Domain\Strava\Activity\ActivityWithRawDataRepository;
 use App\Domain\Strava\Gear\GearId;
 use App\Domain\Strava\Gear\GearRepository;
 use App\Domain\Weather\OpenMeteo\Weather;
-use App\Infrastructure\CQRS\Bus\Command;
-use App\Infrastructure\CQRS\Bus\CommandHandler;
+use App\Infrastructure\CQRS\Command;
+use App\Infrastructure\CQRS\CommandHandler;
 use App\Infrastructure\Geocoding\Nominatim\Location;
 use App\Infrastructure\Serialization\Json;
 use Doctrine\DBAL\Connection;
@@ -58,7 +58,7 @@ final readonly class MigrateToVersion20250118164026CommandHandler implements Com
             $activity->updateLocation($location ? Location::fromState($location) : null);
             $activity->updateLocalImagePaths($rawData['localImagePaths'] ?? []);
 
-            $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
+            $this->activityWithRawDataRepository->add(ActivityWithRawData::fromState(
                 activity: $activity,
                 rawData: $rawData
             ));

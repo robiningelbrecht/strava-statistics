@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\App\BuildIndexHtml;
 
+use App\Domain\App\ProfilePictureUrl;
 use App\Domain\Strava\Activity\ActivitiesEnricher;
 use App\Domain\Strava\Activity\ActivityRepository;
 use App\Domain\Strava\Activity\ActivityType;
@@ -11,8 +12,8 @@ use App\Domain\Strava\Activity\Eddington\Eddington;
 use App\Domain\Strava\Activity\Image\ImageRepository;
 use App\Domain\Strava\Athlete\AthleteRepository;
 use App\Domain\Strava\Challenge\ChallengeRepository;
-use App\Infrastructure\CQRS\Bus\Command;
-use App\Infrastructure\CQRS\Bus\CommandHandler;
+use App\Infrastructure\CQRS\Command;
+use App\Infrastructure\CQRS\CommandHandler;
 use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use League\Flysystem\FilesystemOperator;
 use Twig\Environment;
@@ -25,9 +26,10 @@ final readonly class BuildIndexHtmlCommandHandler implements CommandHandler
         private ChallengeRepository $challengeRepository,
         private ImageRepository $imageRepository,
         private ActivitiesEnricher $activitiesEnricher,
+        private ?ProfilePictureUrl $profilePictureUrl,
         private UnitSystem $unitSystem,
         private Environment $twig,
-        private FilesystemOperator $filesystem,
+        private FilesystemOperator $buildStorage,
     ) {
     }
 
@@ -58,8 +60,8 @@ final readonly class BuildIndexHtmlCommandHandler implements CommandHandler
             $eddingtonNumbers[] = $eddington->getNumber();
         }
 
-        $this->filesystem->write(
-            'build/html/index.html',
+        $this->buildStorage->write(
+            'index.html',
             $this->twig->load('html/index.html.twig')->render([
                 'totalActivityCount' => $this->activityRepository->count(),
                 'eddingtonNumbers' => $eddingtonNumbers,
@@ -67,6 +69,7 @@ final readonly class BuildIndexHtmlCommandHandler implements CommandHandler
                 'totalPhotoCount' => $this->imageRepository->count(),
                 'lastUpdate' => $command->getCurrentDateTime(),
                 'athlete' => $athlete,
+                'profilePictureUrl' => $this->profilePictureUrl,
             ]),
         );
     }

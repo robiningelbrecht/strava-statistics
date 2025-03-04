@@ -2,7 +2,7 @@
   <img src="public/assets/images/logo.svg" width="250" alt="Logo" >
 </p>
 
-<h1 align="center">Strava Statistics</h1>
+<h1 align="center">Statistics for Strava</h1>
 
 <p align="center">
 <a href="https://github.com/robiningelbrecht/strava-statistics/actions/workflows/ci.yml"><img src="https://github.com/robiningelbrecht/strava-statistics/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
@@ -15,7 +15,7 @@
 
 ---
 
-<h4 align="center">Strava Statistics is a self-hosted web app designed to provide you with better stats.</h4>
+<h4 align="center">Statistics for Strava is a self-hosted web app designed to provide you with better stats.</h4>
 
 <p align="center">
   <a href="#-showcase">Showcase</a> •
@@ -32,6 +32,9 @@
 </p>
 
 ## 📸 Showcase
+
+> [!NOTE]
+> This app is in no way affiliated with or part of the official Strava software suite.
 
 https://github.com/user-attachments/assets/9aaaafd9-bc8f-4e1d-bb9d-45d3c661a080
 
@@ -80,8 +83,8 @@ Start off by showing some ❤️ and give this repo a star. Then from your comma
 
 ```bash
 # Create a new directory
-> mkdir strava-statistics
-> cd strava-statistics
+> mkdir statistics-for-strava
+> cd statistics-for-strava
 
 # Create docker-compose.yml and copy the example contents into it
 > touch docker-compose.yml
@@ -109,7 +112,12 @@ services:
 
 ### .env
 
+> [!IMPORTANT]
+> Every time you change the .env file, you need to restart your container for the changes to take effect.
+
 ```bash
+# ⚠ ️Every time you change the .env file, you need to restart your container for the changes to take effect.
+
 # The URL on which the app will be hosted. This URL will be used in the manifest file. 
 # This will allow you to install the web app as a native app on your device.
 MANIFEST_APP_URL=http://localhost:8080/
@@ -132,7 +140,7 @@ IMPORT_AND_BUILD_SCHEDULE="5 4 * * *"
 # Valid timezones can found under TZ Identifier column here: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List
 TZ=Etc/GMT
 
-# Allowed options: en_US, fr_FR or nl_BE
+# Allowed options: en_US, fr_FR, nl_BE or zh_CN
 LOCALE=en_US
 # Allowed options: metric or imperial
 UNIT_SYSTEM=metric
@@ -148,19 +156,28 @@ DATE_FORMAT=DAY-MONTH-YEAR
 SPORT_TYPES_TO_IMPORT='[]'
 # Your birthday. Needed to calculate heart rate zones.
 ATHLETE_BIRTHDAY=YYYY-MM-DD
-# History of weight (in kg or pounds, depending on UNIT_SYSTEM). Needed to calculate relative w/kg.
+# Optional, history of weight (in kg or pounds, depending on UNIT_SYSTEM). Needed to calculate relative w/kg.
 # Check https://github.com/robiningelbrecht/strava-statistics/wiki for more info.
-ATHLETE_WEIGHTS='{
-    "YYYY-MM-DD": 74.6,
-    "YYYY-MM-DD": 70.3
-}'
-# History of FTP. Needed to calculate activity stress level.
-# Check https://github.com/robiningelbrecht/strava-statistics/wiki for more info.
-FTP_VALUES='{
-    "YYYY-MM-DD": 198,
-    "YYYY-MM-DD": 220
-}'
-# Full URL with ntfy topic included. This topic will be used to notify you when a new HTML build has run.
+#ATHLETE_WEIGHTS='{
+#    "2024-10-03": 74.6,
+#    "2025-01-10": 70.3
+#}'
+ATHLETE_WEIGHTS='[]'
+# Optional, history of FTP. Needed to calculate activity stress level.
+# Check https://github.com/robiningelbrecht/strava-statistics/wiki for more info. Example:
+# FTP_VALUES='{
+#    "2024-10-03": 198,
+#    "2025-01-10": 220
+#}'
+FTP_VALUES='[]'
+# Optional, a link to your profile picture. Will be used to display in the nav bar and link to your Strava profile.
+# Leave empty to disable this feature.
+PROFILE_PICTURE_URL=''
+# Optional, your Zwift level (1 - 100). Will be used to render your Zwift badge. Leave empty to disable this feature
+ZWIFT_LEVEL=
+# Optional, your Zwift racing score (0 - 1000). Will be used to add to your Zwift badge if ZWIFT_LEVEL is filled out.
+ZWIFT_RACING_SCORE=
+# Optional, full URL with ntfy topic included. This topic will be used to notify you when a new HTML build has run.
 # Leave empty to disable notifications.
 NTFY_URL=''
 # An array of activity ids to skip during import. 

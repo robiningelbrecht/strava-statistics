@@ -6,8 +6,8 @@ namespace App\Domain\App\BuildPhotosHtml;
 
 use App\Domain\Strava\Activity\Image\ImageRepository;
 use App\Domain\Strava\Activity\SportType\SportTypeRepository;
-use App\Infrastructure\CQRS\Bus\Command;
-use App\Infrastructure\CQRS\Bus\CommandHandler;
+use App\Infrastructure\CQRS\Command;
+use App\Infrastructure\CQRS\CommandHandler;
 use League\Flysystem\FilesystemOperator;
 use Twig\Environment;
 
@@ -17,7 +17,7 @@ final readonly class BuildPhotosHtmlCommandHandler implements CommandHandler
         private ImageRepository $imageRepository,
         private SportTypeRepository $sportTypeRepository,
         private Environment $twig,
-        private FilesystemOperator $filesystem,
+        private FilesystemOperator $buildStorage,
     ) {
     }
 
@@ -28,8 +28,8 @@ final readonly class BuildPhotosHtmlCommandHandler implements CommandHandler
         $importedSportTypes = $this->sportTypeRepository->findAll();
         $images = $this->imageRepository->findAll();
 
-        $this->filesystem->write(
-            'build/html/photos.html',
+        $this->buildStorage->write(
+            'photos.html',
             $this->twig->load('html/photos.html.twig')->render([
                 'images' => $images,
                 'sportTypes' => $importedSportTypes,

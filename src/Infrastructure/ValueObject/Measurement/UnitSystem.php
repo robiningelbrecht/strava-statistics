@@ -8,8 +8,12 @@ use App\Infrastructure\ValueObject\Measurement\Length\Foot;
 use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Measurement\Length\Meter;
 use App\Infrastructure\ValueObject\Measurement\Length\Mile;
+use App\Infrastructure\ValueObject\Measurement\Mass\Kilogram;
+use App\Infrastructure\ValueObject\Measurement\Mass\Pound;
 use App\Infrastructure\ValueObject\Measurement\Velocity\KmPerHour;
 use App\Infrastructure\ValueObject\Measurement\Velocity\MilesPerHour;
+use App\Infrastructure\ValueObject\Measurement\Velocity\SecPerKm;
+use App\Infrastructure\ValueObject\Measurement\Velocity\SecPerMile;
 
 enum UnitSystem: string
 {
@@ -51,5 +55,37 @@ enum UnitSystem: string
         }
 
         return MilesPerHour::from($value);
+    }
+
+    public function weight(float $value): Kilogram|Pound
+    {
+        if (UnitSystem::METRIC === $this) {
+            return Kilogram::from($value);
+        }
+
+        return Pound::from($value);
+    }
+
+    public function carbonSavedSymbol(): string
+    {
+        return sprintf('%s CO2', $this->weight(1)->getSymbol());
+    }
+
+    public function pace(float $value): SecPerKm|SecPerMile
+    {
+        if (UnitSystem::METRIC === $this) {
+            return SecPerKm::from($value);
+        }
+
+        return SecPerMile::from($value);
+    }
+
+    public function paceSymbol(): string
+    {
+        if (UnitSystem::METRIC === $this) {
+            return '/km';
+        }
+
+        return '/mi';
     }
 }

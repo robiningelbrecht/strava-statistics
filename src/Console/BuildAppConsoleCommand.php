@@ -8,14 +8,15 @@ use App\Domain\App\BuildChallengesHtml\BuildChallengesHtml;
 use App\Domain\App\BuildDashboardHtml\BuildDashboardHtml;
 use App\Domain\App\BuildEddingtonHtml\BuildEddingtonHtml;
 use App\Domain\App\BuildGearStatsHtml\BuildGearStatsHtml;
+use App\Domain\App\BuildGpxFiles\BuildGpxFiles;
 use App\Domain\App\BuildHeatmapHtml\BuildHeatmapHtml;
 use App\Domain\App\BuildIndexHtml\BuildIndexHtml;
 use App\Domain\App\BuildMonthlyStatsHtml\BuildMonthlyStatsHtml;
 use App\Domain\App\BuildPhotosHtml\BuildPhotosHtml;
 use App\Domain\App\BuildSegmentsHtml\BuildSegmentsHtml;
 use App\Domain\App\ConfigureAppLocale\ConfigureAppLocale;
+use App\Domain\Integration\Notification\SendNotification\SendNotification;
 use App\Domain\Manifest\BuildManifest\BuildManifest;
-use App\Domain\Notification\SendNotification\SendNotification;
 use App\Domain\Strava\StravaDataImportStatus;
 use App\Infrastructure\CQRS\Bus\CommandBus;
 use App\Infrastructure\Doctrine\Migrations\MigrationRunner;
@@ -66,6 +67,8 @@ final class BuildAppConsoleCommand extends Command
         $this->commandBus->dispatch(new BuildDashboardHtml($now));
         $output->writeln('  => Building activities.html');
         $this->commandBus->dispatch(new BuildActivitiesHtml($now));
+        $output->writeln('  => Building gpx files');
+        $this->commandBus->dispatch(new BuildGpxFiles());
         $output->writeln('  => Building monthly-stats.html');
         $this->commandBus->dispatch(new BuildMonthlyStatsHtml($now));
         $output->writeln('  => Building gear-stats.html');
@@ -82,13 +85,14 @@ final class BuildAppConsoleCommand extends Command
         $this->commandBus->dispatch(new BuildPhotosHtml());
         $output->writeln('  => Building badge.svg');
         $this->commandBus->dispatch(new BuildBadgeSvg($now));
+
+        $this->resourceUsage->stopTimer();
         $this->commandBus->dispatch(new SendNotification(
             title: 'Build successful',
-            message: 'New build of your Strava stats was successful',
+            message: sprintf('New build of your Strava stats was successful in %ss', $this->resourceUsage->getRunTimeInSeconds()),
             tags: ['+1']
         ));
 
-        $this->resourceUsage->stopTimer();
         $output->writeln(sprintf(
             '<info>%s</info>',
             $this->resourceUsage->format(),

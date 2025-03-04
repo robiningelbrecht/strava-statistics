@@ -13,4 +13,6 @@ interface ActivityRepository
     public function delete(Activity $activity): void;
 
     public function findActivityIds(): ActivityIds;
+
+    public function findActivityIdsThatNeedStreamImport(): ActivityIds;
 }

@@ -2,7 +2,7 @@
     "type": "project",
     "license": "GPL-3.0-or-later",
     "name": "robiningelbrecht/strava-statistics",
-    "description": "Strava Statistics is a self-hosted web app designed to provide you with better stats.",
+    "description": "Statistics for Strava is a self-hosted web app designed to provide you with better stats.",
     "authors": [
         {
             "name": "Robin Ingelbrecht",
@@ -23,6 +23,7 @@
         "ext-dom": "*",
         "ext-iconv": "*",
         "ext-libxml": "*",
+        "ext-simplexml": "*",
         "adrenalinkin/doctrine-naming-strategy": "^3.0",
         "doctrine/dbal": "^3",
         "doctrine/doctrine-bundle": "^2.13",
@@ -30,6 +31,7 @@
         "doctrine/orm": "^3.3",
         "guzzlehttp/guzzle": "*",
         "league/flysystem-bundle": "^3.3",
+        "league/flysystem-memory": "^3.29",
         "moneyphp/money": "^4.5",
         "nesbot/carbon": "*",
         "ramsey/uuid": "^4.7",

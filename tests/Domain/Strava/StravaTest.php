@@ -324,8 +324,6 @@ class StravaTest extends TestCase
             ->expects($this->once())
             ->method('info');
 
-        $this->expectExceptionObject(new \RuntimeException('Could not fetch Strava challenge challengeId'));
-
         $this->strava->getChallengesOnPublicProfile('10');
     }
 

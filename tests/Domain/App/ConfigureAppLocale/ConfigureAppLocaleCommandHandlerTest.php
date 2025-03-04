@@ -2,20 +2,34 @@
 
 namespace App\Tests\Domain\App\ConfigureAppLocale;
 
+use App\Domain\App\BuildIndexHtml\BuildIndexHtml;
 use App\Domain\App\ConfigureAppLocale\ConfigureAppLocale;
 use App\Domain\App\ConfigureAppLocale\ConfigureAppLocaleCommandHandler;
+use App\Infrastructure\CQRS\Bus\CommandBus;
 use App\Infrastructure\Localisation\Locale;
+use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use App\Tests\ContainerTestCase;
+use App\Tests\ProvideTestData;
 use Carbon\Carbon;
+use League\Flysystem\FileAttributes;
+use PHPUnit\Framework\Attributes\DataProvider;
+use Spatie\Snapshots\MatchesSnapshots;
 use Symfony\Component\Translation\LocaleSwitcher;
 
 class ConfigureAppLocaleCommandHandlerTest extends ContainerTestCase
 {
-    private ConfigureAppLocaleCommandHandler $configureAppLocaleCommandHandler;
-    private LocaleSwitcher $localeSwitcher;
+    use MatchesSnapshots;
+    use ProvideTestData;
 
-    public function testHandle(): void
+    private string $snapshotName;
+    private LocaleSwitcher $localeSwitcher;
+    private CommandBus $commandBus;
+
+    #[DataProvider(methodName: 'provideLocales')]
+    public function testHandle(Locale $locale): void
     {
+        $this->snapshotName = $locale->value;
+        // Default locale should always be en_US
         $this->assertEquals(
             Locale::en_US->value,
             $this->localeSwitcher->getLocale()
@@ -25,16 +39,45 @@ class ConfigureAppLocaleCommandHandlerTest extends ContainerTestCase
             Carbon::getLocale()
         );
 
-        $this->configureAppLocaleCommandHandler->handle(new ConfigureAppLocale());
+        new ConfigureAppLocaleCommandHandler(
+            $this->localeSwitcher,
+            $locale
+        )->handle(new ConfigureAppLocale());
+
+        $this->provideFullTestSet();
+        $this->commandBus->dispatch(new BuildIndexHtml(SerializableDateTime::fromString('2023-10-17 16:15:04')));
+
+        $fileSystem = $this->getContainer()->get('build.storage');
+        foreach ($fileSystem->listContents('/', true) as $item) {
+            $path = $item->path();
+
+            $this->snapshotName = preg_replace('/[^a-zA-Z0-9]/', '-', $path).'-'.$locale->value;
+            if (!$item instanceof FileAttributes) {
+                continue;
+            }
+            $this->assertMatchesHtmlSnapshot($fileSystem->read($path));
+        }
 
         $this->assertEquals(
-            Locale::fr_FR->value,
+            $locale->value,
             $this->localeSwitcher->getLocale()
         );
         $this->assertEquals(
-            Locale::fr_FR->value,
+            $locale->value,
             Carbon::getLocale()
         );
+    }
+
+    public static function provideLocales(): array
+    {
+        return array_map(fn (Locale $locale) => [$locale], Locale::cases());
+    }
+
+    protected function getSnapshotId(): string
+    {
+        return new \ReflectionClass($this)->getShortName().'--'.
+            $this->name().'--'.
+            $this->snapshotName;
     }
 
     #[\Override]
@@ -42,9 +85,7 @@ class ConfigureAppLocaleCommandHandlerTest extends ContainerTestCase
     {
         parent::setUp();
 
-        $this->configureAppLocaleCommandHandler = new ConfigureAppLocaleCommandHandler(
-            $this->localeSwitcher = $this->getContainer()->get(LocaleSwitcher::class),
-            Locale::fr_FR
-        );
+        $this->localeSwitcher = $this->getContainer()->get(LocaleSwitcher::class);
+        $this->commandBus = $this->getContainer()->get(CommandBus::class);
     }
 }

@@ -10,8 +10,8 @@ use App\Domain\Strava\Gear\DistanceOverTimePerGearChart;
 use App\Domain\Strava\Gear\DistancePerMonthPerGearChart;
 use App\Domain\Strava\Gear\GearRepository;
 use App\Domain\Strava\Gear\GearStatistics;
-use App\Infrastructure\CQRS\Bus\Command;
-use App\Infrastructure\CQRS\Bus\CommandHandler;
+use App\Infrastructure\CQRS\Command;
+use App\Infrastructure\CQRS\CommandHandler;
 use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use League\Flysystem\FilesystemOperator;
@@ -25,7 +25,7 @@ final readonly class BuildGearStatsHtmlCommandHandler implements CommandHandler
         private ActivitiesEnricher $activitiesEnricher,
         private UnitSystem $unitSystem,
         private Environment $twig,
-        private FilesystemOperator $filesystem,
+        private FilesystemOperator $buildStorage,
         private TranslatorInterface $translator,
     ) {
     }
@@ -42,8 +42,8 @@ final readonly class BuildGearStatsHtmlCommandHandler implements CommandHandler
             now: $now
         );
 
-        $this->filesystem->write(
-            'build/html/gear-stats.html',
+        $this->buildStorage->write(
+            'gear-stats.html',
             $this->twig->load('html/gear-stats.html.twig')->render([
                 'gearStatistics' => GearStatistics::fromActivitiesAndGear(
                     activities: $activities,

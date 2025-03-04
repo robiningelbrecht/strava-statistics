@@ -33,7 +33,7 @@ enum SportType: string implements TranslatableInterface
     case STAND_UP_PADDLING = 'StandUpPaddling';
     case SURFING = 'Surfing';
     case SWIM = 'Swim';
-    case WIND_SURF = 'WindSurf';
+    case WIND_SURF = 'Windsurf';
     // Winter sports.
     case BACK_COUNTRY_SKI = 'BackcountrySki';
     case ALPINE_SKI = 'AlpineSki';
@@ -41,31 +41,36 @@ enum SportType: string implements TranslatableInterface
     case ICE_SKATE = 'IceSkate';
     case SNOWBOARD = 'Snowboard';
     case SNOWSHOE = 'Snowshoe';
-    // Other sports.
-    case BADMINTON = 'Badminton';
-    case CROSSFIT = 'Crossfit';
-    case ELLIPTICAL = 'Elliptical';
-    case GOLF = 'Golf';
-    case INLINE_SKATE = 'InlineSkate';
-    case HAND_CYCLE = 'Handcycle';
-    case HIIT = 'HighIntensityIntervalTraining';
-    case PICKLE_BALL = 'Pickleball';
-    case PILATES = 'Pilates';
-    case RACQUET_BALL = 'Racquetball';
-    case ROCK_CLIMBING = 'RockClimbing';
-    case ROLLER_SKI = 'RollerSki';
-    case VIRTUAL_ROW = 'VirtualRow';
-    case SAIL = 'Sail';
+    // Skating.
     case SKATEBOARD = 'Skateboard';
-    case SOCCER = 'Soccer';
+    case INLINE_SKATE = 'InlineSkate';
+    case ROLLER_SKI = 'RollerSki';
+    // Racquet & Paddle Sports.
+    case BADMINTON = 'Badminton';
+    case PICKLE_BALL = 'Pickleball';
+    case RACQUET_BALL = 'Racquetball';
     case SQUASH = 'Squash';
-    case STAIR_STEPPER = 'StairStepper';
     case TABLE_TENNIS = 'TableTennis';
     case TENNIS = 'Tennis';
+    // Fitness.
+    case CROSSFIT = 'Crossfit';
     case WEIGHT_TRAINING = 'WeightTraining';
-    case WHEELCHAIR = 'Wheelchair';
     case WORKOUT = 'Workout';
+    case STAIR_STEPPER = 'StairStepper';
+    case VIRTUAL_ROW = 'VirtualRow';
+    case HIIT = 'HighIntensityIntervalTraining';
+    case ELLIPTICAL = 'Elliptical';
+    // Mind & Body Sports.
+    case PILATES = 'Pilates';
     case YOGA = 'Yoga';
+    // Outdoor Sports.
+    case GOLF = 'Golf';
+    case ROCK_CLIMBING = 'RockClimbing';
+    case SAIL = 'Sail';
+    case SOCCER = 'Soccer';
+    // Adaptive & Inclusive Sports.
+    case HAND_CYCLE = 'Handcycle';
+    case WHEELCHAIR = 'Wheelchair';
 
     public function getTemplateName(): string
     {
@@ -156,8 +161,18 @@ enum SportType: string implements TranslatableInterface
             SportType::ICE_SKATE, SportType::SNOWBOARD, SportType::SNOWSHOE => ActivityType::WINTER_SPORTS,
             // SKATING.
             SportType::SKATEBOARD, SportType::INLINE_SKATE, SportType::ROLLER_SKI => ActivityType::SKATING,
-            // OTHER.
-            default => ActivityType::OTHER,
+            // RACQUET_PADDLE_SPORTS.
+            SportType::BADMINTON, SportType::PICKLE_BALL, SportType::RACQUET_BALL,
+            SportType::SQUASH, SportType::TABLE_TENNIS, SportType::TENNIS => ActivityType::RACQUET_PADDLE_SPORTS,
+            // FITNESS.
+            SportType::CROSSFIT, SportType::WEIGHT_TRAINING, SportType::WORKOUT, SportType::STAIR_STEPPER,
+            SportType::VIRTUAL_ROW, SportType::HIIT, SportType::ELLIPTICAL => ActivityType::FITNESS,
+            // MIND_BODY_SPORTS.
+            SportType::PILATES, SportType::YOGA => ActivityType::MIND_BODY_SPORTS,
+            // OUTDOOR_SPORTS.
+            SportType::GOLF, SportType::ROCK_CLIMBING, SportType::SAIL, SportType::SOCCER => ActivityType::OUTDOOR_SPORTS,
+            // ADAPTIVE_INCLUSIVE_SPORTS
+            SportType::HAND_CYCLE, SportType::WHEELCHAIR => ActivityType::ADAPTIVE_INCLUSIVE_SPORTS,
         };
     }
 

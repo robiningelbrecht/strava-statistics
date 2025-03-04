@@ -17,6 +17,7 @@ use App\Infrastructure\ValueObject\Geography\Latitude;
 use App\Infrastructure\ValueObject\Geography\Longitude;
 use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Measurement\Length\Meter;
+use App\Infrastructure\ValueObject\Measurement\Mass\Kilogram;
 use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use App\Infrastructure\ValueObject\Measurement\Velocity\KmPerHour;
 use App\Infrastructure\ValueObject\Measurement\Velocity\MetersPerSecond;
@@ -40,6 +41,9 @@ final class Activity
     #[ORM\Column(type: 'json', nullable: true)]
     // @phpstan-ignore-next-line
     private readonly array $data;
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    // @phpstan-ignore-next-line
+    private readonly bool $streamsAreImported;
 
     /**
      * @param array<string> $localImagePaths
@@ -56,7 +60,7 @@ final class Activity
         #[ORM\Column(type: 'string', nullable: true)]
         private readonly ?string $description,
         #[ORM\Column(type: 'integer')]
-        private readonly Kilometer $distance,
+        private Kilometer $distance,
         #[ORM\Column(type: 'integer')]
         private Meter $elevation,
         #[ORM\Embedded(class: Coordinate::class)]
@@ -68,9 +72,9 @@ final class Activity
         #[ORM\Column(type: 'integer', nullable: true)]
         private readonly ?int $maxPower,
         #[ORM\Column(type: 'float')]
-        private readonly KmPerHour $averageSpeed,
+        private KmPerHour $averageSpeed,
         #[ORM\Column(type: 'float')]
-        private readonly KmPerHour $maxSpeed,
+        private KmPerHour $maxSpeed,
         #[ORM\Column(type: 'integer', nullable: true)]
         private readonly ?int $averageHeartRate,
         #[ORM\Column(type: 'integer', nullable: true)]
@@ -78,7 +82,7 @@ final class Activity
         #[ORM\Column(type: 'integer', nullable: true)]
         private readonly ?int $averageCadence,
         #[ORM\Column(type: 'integer')]
-        private readonly int $movingTimeInSeconds,
+        private int $movingTimeInSeconds,
         #[ORM\Column(type: 'integer')]
         private int $kudoCount,
         #[ORM\Column(type: 'string', nullable: true)]
@@ -88,7 +92,7 @@ final class Activity
         #[ORM\Column(type: 'text', nullable: true)]
         private array $localImagePaths,
         #[ORM\Column(type: 'text', nullable: true)]
-        private readonly ?string $polyline,
+        private ?string $polyline,
         #[ORM\Column(type: 'json', nullable: true)]
         private ?Location $location,
         #[ORM\Column(type: 'json', nullable: true)]
@@ -97,6 +101,8 @@ final class Activity
         private ?GearId $gearId,
         #[ORM\Column(type: 'string', nullable: true)]
         private ?string $gearName,
+        #[ORM\Column(type: 'boolean', nullable: true)]
+        private readonly bool $isCommute,
     ) {
     }
 
@@ -143,7 +149,8 @@ final class Activity
             location: null,
             weather: null,
             gearId: $gearId,
-            gearName: $gearName
+            gearName: $gearName,
+            isCommute: $rawData['commute'] ?? false,
         );
     }
 
@@ -177,6 +184,7 @@ final class Activity
         ?string $weather,
         ?GearId $gearId,
         ?string $gearName,
+        bool $isCommute,
     ): self {
         return new self(
             activityId: $activityId,
@@ -204,7 +212,8 @@ final class Activity
             location: $location,
             weather: $weather,
             gearId: $gearId,
-            gearName: $gearName
+            gearName: $gearName,
+            isCommute: $isCommute,
         );
     }
 
@@ -343,6 +352,13 @@ final class Activity
         return $this->distance;
     }
 
+    public function updateDistance(Kilometer $distance): self
+    {
+        $this->distance = $distance;
+
+        return $this;
+    }
+
     public function getElevation(): Meter
     {
         return $this->elevation;
@@ -375,6 +391,13 @@ final class Activity
         return $this->averageSpeed;
     }
 
+    public function updateAverageSpeed(KmPerHour $averageSpeed): self
+    {
+        $this->averageSpeed = $averageSpeed;
+
+        return $this;
+    }
+
     public function getPaceInSecPerKm(): SecPerKm
     {
         return $this->getAverageSpeed()->toMetersPerSecond()->toSecPerKm();
@@ -383,6 +406,13 @@ final class Activity
     public function getMaxSpeed(): KmPerHour
     {
         return $this->maxSpeed;
+    }
+
+    public function updateMaxSpeed(KmPerHour $maxSpeed): self
+    {
+        $this->maxSpeed = $maxSpeed;
+
+        return $this;
     }
 
     public function getAverageHeartRate(): ?int
@@ -415,6 +445,13 @@ final class Activity
         return $this->movingTimeInSeconds;
     }
 
+    public function updateMovingTimeInSeconds(int $movingTimeInSeconds): self
+    {
+        $this->movingTimeInSeconds = $movingTimeInSeconds;
+
+        return $this;
+    }
+
     public function getMovingTimeFormatted(): string
     {
         return $this->formatDurationForHumans($this->getMovingTimeInSeconds());
@@ -430,9 +467,30 @@ final class Activity
         return $this->polyline;
     }
 
+    public function updatePolyline(?string $polyline): self
+    {
+        $this->polyline = $polyline;
+
+        return $this;
+    }
+
     public function getDeviceName(): ?string
     {
         return $this->deviceName;
+    }
+
+    public function isCommute(): bool
+    {
+        return $this->isCommute;
+    }
+
+    public function getCarbonSaved(): Kilogram
+    {
+        if (!$this->isCommute) {
+            return Kilogram::zero();
+        }
+
+        return Kilogram::from($this->getDistance()->toFloat() * 0.2178);
     }
 
     public function isZwiftRide(): bool
@@ -465,9 +523,11 @@ final class Activity
         return $this->location;
     }
 
-    public function updateLocation(?Location $location = null): void
+    public function updateLocation(?Location $location = null): self
     {
         $this->location = $location;
+
+        return $this;
     }
 
     /**

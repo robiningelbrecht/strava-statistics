@@ -31,20 +31,20 @@ final readonly class DbalActivityWithRawDataRepository extends DbalRepository im
         );
     }
 
-    public function save(ActivityWithRawData $activityWithRawData): void
+    public function add(ActivityWithRawData $activityWithRawData): void
     {
-        $sql = 'REPLACE INTO Activity (
+        $sql = 'INSERT INTO Activity (
             activityId, startDateTime, sportType, name, description, distance,
             elevation, startingCoordinateLatitude, startingCoordinateLongitude, calories,
             averagePower, maxPower, averageSpeed, maxSpeed, averageHeartRate, maxHeartRate,
             averageCadence,movingTimeInSeconds, kudoCount, deviceName, totalImageCount, localImagePaths,
-            polyline, location, weather, gearId, gearName, data
+            polyline, location, weather, gearId, gearName, data, isCommute, streamsAreImported
         ) VALUES(
             :activityId, :startDateTime, :sportType, :name, :description, :distance,
             :elevation, :startingCoordinateLatitude, :startingCoordinateLongitude, :calories,
             :averagePower, :maxPower, :averageSpeed, :maxSpeed, :averageHeartRate, :maxHeartRate,
             :averageCadence, :movingTimeInSeconds, :kudoCount, :deviceName, :totalImageCount, :localImagePaths,
-            :polyline, :location, :weather, :gearId, :gearName, :data
+            :polyline, :location, :weather, :gearId, :gearName, :data, :isCommute, :streamsAreImported
         )';
 
         $activity = $activityWithRawData->getActivity();
@@ -77,6 +77,52 @@ final readonly class DbalActivityWithRawDataRepository extends DbalRepository im
             'gearId' => $activity->getGearId(),
             'gearName' => $activity->getGearName(),
             'data' => Json::encode($this->cleanData($activityWithRawData->getRawData())),
+            'isCommute' => (int) $activity->isCommute(),
+            'streamsAreImported' => 0,
+        ]);
+    }
+
+    public function update(ActivityWithRawData $activityWithRawData): void
+    {
+        $sql = 'UPDATE Activity SET 
+                    name = :name, 
+                    distance = :distance, 
+                    averageSpeed = :averageSpeed,
+                    maxSpeed = :maxSpeed,
+                    movingTimeInSeconds = :movingTimeInSeconds,
+                    elevation = :elevation,
+                    kudoCount  = :kudoCount,
+                    polyline = :polyline,
+                    location= :location,
+                    gearId = :gearId, 
+                    gearName = :gearName,
+                    data = :data
+                    WHERE activityId = :activityId';
+
+        $activity = $activityWithRawData->getActivity();
+        $this->connection->executeStatement($sql, [
+            'activityId' => $activity->getId(),
+            'name' => $activity->getName(),
+            'distance' => $activity->getDistance()->toMeter()->toInt(),
+            'elevation' => $activity->getElevation()->toInt(),
+            'averageSpeed' => $activity->getAverageSpeed()->toFloat(),
+            'maxSpeed' => $activity->getMaxSpeed()->toFloat(),
+            'movingTimeInSeconds' => $activity->getMovingTimeInSeconds(),
+            'kudoCount' => $activity->getKudoCount(),
+            'polyline' => $activity->getPolyline(),
+            'location' => $activity->getLocation() ? Json::encode($activity->getLocation()) : null,
+            'gearId' => $activity->getGearId(),
+            'gearName' => $activity->getGearName(),
+            'data' => Json::encode($this->cleanData($activityWithRawData->getRawData())),
+        ]);
+    }
+
+    public function markActivityStreamsAsImported(ActivityId $activityId): void
+    {
+        $sql = 'UPDATE Activity SET streamsAreImported = 1 WHERE activityId = :activityId';
+
+        $this->connection->executeStatement($sql, [
+            'activityId' => $activityId,
         ]);
     }
 

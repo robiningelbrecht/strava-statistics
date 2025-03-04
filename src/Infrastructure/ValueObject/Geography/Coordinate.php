@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\ValueObject\Geography;
 
+use App\Infrastructure\ValueObject\Number\FloatLiteral;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Embeddable]

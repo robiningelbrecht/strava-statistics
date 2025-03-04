@@ -2,7 +2,7 @@
 
 namespace App\Tests\Infrastructure\CQRS\Bus\RunAnOperation;
 
-use App\Infrastructure\CQRS\Bus\DomainCommand;
+use App\Infrastructure\CQRS\DomainCommand;
 
 final class RunAnOperation extends DomainCommand
 {

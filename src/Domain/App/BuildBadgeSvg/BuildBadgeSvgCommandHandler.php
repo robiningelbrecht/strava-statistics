@@ -9,8 +9,10 @@ use App\Domain\Strava\Activity\ActivityTotals;
 use App\Domain\Strava\Athlete\AthleteRepository;
 use App\Domain\Strava\Challenge\ChallengeRepository;
 use App\Domain\Strava\Trivia;
-use App\Infrastructure\CQRS\Bus\Command;
-use App\Infrastructure\CQRS\Bus\CommandHandler;
+use App\Domain\Zwift\ZwiftLevel;
+use App\Domain\Zwift\ZwiftRacingScore;
+use App\Infrastructure\CQRS\Command;
+use App\Infrastructure\CQRS\CommandHandler;
 use League\Flysystem\FilesystemOperator;
 use Twig\Environment;
 
@@ -20,8 +22,11 @@ final readonly class BuildBadgeSvgCommandHandler implements CommandHandler
         private AthleteRepository $athleteRepository,
         private ChallengeRepository $challengeRepository,
         private ActivitiesEnricher $activitiesEnricher,
+        private ?ZwiftLevel $zwiftLevel,
+        private ?ZwiftRacingScore $zwiftRacingScore,
         private Environment $twig,
-        private FilesystemOperator $filesystem,
+        private FilesystemOperator $fileStorage,
+        private FilesystemOperator $buildStorage,
     ) {
     }
 
@@ -39,9 +44,9 @@ final readonly class BuildBadgeSvgCommandHandler implements CommandHandler
         );
         $trivia = Trivia::getInstance($activities);
 
-        $this->filesystem->write(
-            'storage/files/badge.svg',
-            $this->twig->load('svg/svg-badge.html.twig')->render([
+        $this->fileStorage->write(
+            'strava-badge.svg',
+            $this->twig->load('svg/badge/svg-strava-badge.html.twig')->render([
                 'athlete' => $athlete,
                 'activities' => $activities->slice(0, 5),
                 'activityTotals' => $activityTotals,
@@ -49,9 +54,22 @@ final readonly class BuildBadgeSvgCommandHandler implements CommandHandler
                 'challengesCompleted' => $this->challengeRepository->count(),
             ])
         );
-        $this->filesystem->write(
-            'build/html/badge.html',
-            $this->twig->load('html/badge.html.twig')->render(),
+
+        if ($this->zwiftLevel) {
+            $this->fileStorage->write(
+                'zwift-badge.svg',
+                $this->twig->load('svg/badge/svg-zwift-badge.html.twig')->render([
+                    'athlete' => $athlete,
+                    'zwiftLevel' => $this->zwiftLevel,
+                    'zwiftRacingScore' => $this->zwiftRacingScore,
+                ])
+            );
+        }
+        $this->buildStorage->write(
+            'badge.html',
+            $this->twig->load('html/badge.html.twig')->render([
+                'zwiftLevel' => $this->zwiftLevel,
+            ]),
         );
     }
 }

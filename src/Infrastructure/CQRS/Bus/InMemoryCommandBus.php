@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\CQRS\Bus;
 
+use App\Infrastructure\CQRS\Command;
+use App\Infrastructure\CQRS\CommandHandler;
+use App\Infrastructure\CQRS\CommandHandlerBuilder;
 use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Symfony\Component\Messenger\Exception\NoHandlerForMessageException;
 use Symfony\Component\Messenger\Handler\HandlersLocator;

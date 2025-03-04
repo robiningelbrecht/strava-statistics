@@ -23,7 +23,7 @@ class ActivityBasedRouteRepositoryTest extends ContainerTestCase
 
     public function testFindAll(): void
     {
-        $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
+        $this->activityWithRawDataRepository->add(ActivityWithRawData::fromState(
             activity: ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::fromUnprefixed(1))
                 ->withStartDateTime(SerializableDateTime::fromString('2023-10-10 14:00:34'))
@@ -33,7 +33,7 @@ class ActivityBasedRouteRepositoryTest extends ContainerTestCase
             rawData: []
         ));
 
-        $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
+        $this->activityWithRawDataRepository->add(ActivityWithRawData::fromState(
             activity: ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::fromUnprefixed(2))
                 ->withStartDateTime(SerializableDateTime::fromString('2023-10-10 14:00:34'))
@@ -42,7 +42,7 @@ class ActivityBasedRouteRepositoryTest extends ContainerTestCase
                 ->build(),
             rawData: []
         ));
-        $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
+        $this->activityWithRawDataRepository->add(ActivityWithRawData::fromState(
             activity: ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::fromUnprefixed(3))
                 ->withStartDateTime(SerializableDateTime::fromString('2023-10-10 14:00:34'))
@@ -51,7 +51,7 @@ class ActivityBasedRouteRepositoryTest extends ContainerTestCase
                 ->build(),
             rawData: []
         ));
-        $this->activityWithRawDataRepository->save(ActivityWithRawData::fromState(
+        $this->activityWithRawDataRepository->add(ActivityWithRawData::fromState(
             activity: ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::fromUnprefixed(4))
                 ->withStartDateTime(SerializableDateTime::fromString('2023-10-10 14:00:34'))

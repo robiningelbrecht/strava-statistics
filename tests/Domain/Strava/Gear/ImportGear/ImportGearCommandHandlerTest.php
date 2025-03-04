@@ -11,7 +11,6 @@ use App\Tests\ContainerTestCase;
 use App\Tests\Domain\Strava\Gear\GearBuilder;
 use App\Tests\Domain\Strava\SpyStrava;
 use App\Tests\SpyOutput;
-use League\Flysystem\FilesystemOperator;
 use Spatie\Snapshots\MatchesSnapshots;
 
 class ImportGearCommandHandlerTest extends ContainerTestCase
@@ -39,10 +38,6 @@ class ImportGearCommandHandlerTest extends ContainerTestCase
         $this->assertEmpty(
             $this->getConnection()->executeQuery('SELECT * FROM KeyValue')->fetchAllAssociative()
         );
-
-        /** @var \App\Tests\Infrastructure\FileSystem\SpyFileSystem $fileSystem */
-        $fileSystem = $this->getContainer()->get(FilesystemOperator::class);
-        $this->assertEmpty($fileSystem->getWrites());
     }
 
     public function testHandle(): void
@@ -63,10 +58,6 @@ class ImportGearCommandHandlerTest extends ContainerTestCase
         $this->assertMatchesJsonSnapshot(
             $this->getConnection()->executeQuery('SELECT * FROM KeyValue')->fetchAllAssociative()
         );
-
-        /** @var \App\Tests\Infrastructure\FileSystem\SpyFileSystem $fileSystem */
-        $fileSystem = $this->getContainer()->get(FilesystemOperator::class);
-        $this->assertEmpty($fileSystem->getWrites());
     }
 
     #[\Override]

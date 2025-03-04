@@ -9,8 +9,8 @@ use App\Domain\Strava\Activity\SportType\SportTypeRepository;
 use App\Domain\Strava\Segment\Segment;
 use App\Domain\Strava\Segment\SegmentEffort\SegmentEffortRepository;
 use App\Domain\Strava\Segment\SegmentRepository;
-use App\Infrastructure\CQRS\Bus\Command;
-use App\Infrastructure\CQRS\Bus\CommandHandler;
+use App\Infrastructure\CQRS\Command;
+use App\Infrastructure\CQRS\CommandHandler;
 use App\Infrastructure\Repository\Pagination;
 use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\ValueObject\DataTableRow;
@@ -25,7 +25,7 @@ final readonly class BuildSegmentsHtmlCommandHandler implements CommandHandler
         private SportTypeRepository $sportTypeRepository,
         private ActivitiesEnricher $activitiesEnricher,
         private Environment $twig,
-        private FilesystemOperator $filesystem,
+        private FilesystemOperator $buildStorage,
     ) {
     }
 
@@ -53,8 +53,8 @@ final readonly class BuildSegmentsHtmlCommandHandler implements CommandHandler
                     $segmentEffort->enrichWithActivity($activity);
                 }
 
-                $this->filesystem->write(
-                    'build/html/segment/'.$segment->getId().'.html',
+                $this->buildStorage->write(
+                    'segment/'.$segment->getId().'.html',
                     $this->twig->load('html/segment/segment.html.twig')->render([
                         'segment' => $segment,
                         'segmentEfforts' => $segmentEfforts->slice(0, 10),
@@ -75,13 +75,13 @@ final readonly class BuildSegmentsHtmlCommandHandler implements CommandHandler
             $pagination = $pagination->next();
         } while (!$segments->isEmpty());
 
-        $this->filesystem->write(
-            'build/html/fetch-json/segment-data-table.json',
+        $this->buildStorage->write(
+            'fetch-json/segment-data-table.json',
             Json::encode($dataDatableRows),
         );
 
-        $this->filesystem->write(
-            'build/html/segments.html',
+        $this->buildStorage->write(
+            'segments.html',
             $this->twig->load('html/segment/segments.html.twig')->render([
                 'sportTypes' => $importedSportTypes,
                 'totalSegmentCount' => $this->segmentRepository->count(),

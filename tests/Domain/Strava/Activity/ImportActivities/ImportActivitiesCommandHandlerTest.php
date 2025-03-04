@@ -42,13 +42,14 @@ use App\Tests\Domain\Strava\Gear\GearBuilder;
 use App\Tests\Domain\Strava\Segment\SegmentBuilder;
 use App\Tests\Domain\Strava\Segment\SegmentEffort\SegmentEffortBuilder;
 use App\Tests\Domain\Strava\SpyStrava;
+use App\Tests\Infrastructure\FileSystem\provideAssertFileSystem;
 use App\Tests\SpyOutput;
-use League\Flysystem\FilesystemOperator;
 use Spatie\Snapshots\MatchesSnapshots;
 
 class ImportActivitiesCommandHandlerTest extends ContainerTestCase
 {
     use MatchesSnapshots;
+    use provideAssertFileSystem;
 
     private ImportActivitiesCommandHandler $importActivitiesCommandHandler;
     private SpyStrava $strava;
@@ -58,7 +59,7 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
         $output = new SpyOutput();
         $this->strava->setMaxNumberOfCallsBeforeTriggering429(1000);
 
-        $this->getContainer()->get(ActivityWithRawDataRepository::class)->save(ActivityWithRawData::fromState(
+        $this->getContainer()->get(ActivityWithRawDataRepository::class)->add(ActivityWithRawData::fromState(
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::fromUnprefixed(4))
                 ->withStartingCoordinate(Coordinate::createFromLatAndLng(
@@ -71,10 +72,7 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
         $this->importActivitiesCommandHandler->handle(new ImportActivities($output));
 
         $this->assertMatchesTextSnapshot((string) $output);
-
-        /** @var \App\Tests\Infrastructure\FileSystem\SpyFileSystem $fileSystem */
-        $fileSystem = $this->getContainer()->get(FilesystemOperator::class);
-        $this->assertEmpty($fileSystem->getWrites());
+        $this->assertFileSystemWritesAreEmpty($this->getContainer()->get('file.storage'));
 
         $this->assertEmpty(
             $this->getConnection()->executeQuery('SELECT * FROM KeyValue')->fetchAllAssociative()
@@ -96,7 +94,7 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
             ->build()
         );
 
-        $this->getContainer()->get(ActivityWithRawDataRepository::class)->save(ActivityWithRawData::fromState(
+        $this->getContainer()->get(ActivityWithRawDataRepository::class)->add(ActivityWithRawData::fromState(
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::fromUnprefixed(4))
                 ->withStartingCoordinate(Coordinate::createFromLatAndLng(
@@ -113,10 +111,7 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
         $this->importActivitiesCommandHandler->handle(new ImportActivities($output));
 
         $this->assertMatchesTextSnapshot((string) $output);
-
-        /** @var \App\Tests\Infrastructure\FileSystem\SpyFileSystem $fileSystem */
-        $fileSystem = $this->getContainer()->get(FilesystemOperator::class);
-        $this->assertMatchesJsonSnapshot($fileSystem->getWrites());
+        $this->assertFileSystemWrites($this->getContainer()->get('file.storage'));
 
         $this->assertMatchesJsonSnapshot(Json::encode(
             $this->getConnection()->executeQuery('SELECT * FROM KeyValue')->fetchAllAssociative()
@@ -133,14 +128,14 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
             Value::fromString('20205-01_18'),
         ));
 
-        $this->getContainer()->get(ActivityWithRawDataRepository::class)->save(ActivityWithRawData::fromState(
+        $this->getContainer()->get(ActivityWithRawDataRepository::class)->add(ActivityWithRawData::fromState(
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::fromUnprefixed(4))
                 ->build(),
             []
         ));
 
-        $this->getContainer()->get(ActivityWithRawDataRepository::class)->save(ActivityWithRawData::fromState(
+        $this->getContainer()->get(ActivityWithRawDataRepository::class)->add(ActivityWithRawData::fromState(
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::fromUnprefixed(1000))
                 ->withStartingCoordinate(Coordinate::createFromLatAndLng(
@@ -166,7 +161,7 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
             ->build();
         $this->getContainer()->get(ActivityStreamRepository::class)->add($stream);
 
-        $this->getContainer()->get(ActivityWithRawDataRepository::class)->save(ActivityWithRawData::fromState(
+        $this->getContainer()->get(ActivityWithRawDataRepository::class)->add(ActivityWithRawData::fromState(
             ActivityBuilder::fromDefaults()
                 ->withKudoCount(1)
                 ->withName('Delete this one as well')
@@ -240,7 +235,7 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
             Value::fromString('2025-01_18'),
         ));
 
-        $this->getContainer()->get(ActivityWithRawDataRepository::class)->save(ActivityWithRawData::fromState(
+        $this->getContainer()->get(ActivityWithRawDataRepository::class)->add(ActivityWithRawData::fromState(
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::fromUnprefixed(4))
                 ->build(), []
@@ -260,7 +255,7 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
             $this->getContainer()->get(ActivityRepository::class),
             $this->getContainer()->get(ActivityWithRawDataRepository::class),
             $this->getContainer()->get(GearRepository::class),
-            $this->getContainer()->get(FilesystemOperator::class),
+            $this->getContainer()->get('file.storage'),
             $this->getContainer()->get(SportTypesToImport::class),
             $this->getContainer()->get(ActivitiesToSkipDuringImport::class),
             $this->getContainer()->get(StravaDataImportStatus::class),
@@ -276,7 +271,7 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
             Value::fromString('2025-01-18'),
         ));
 
-        $this->getContainer()->get(ActivityWithRawDataRepository::class)->save(ActivityWithRawData::fromState(
+        $this->getContainer()->get(ActivityWithRawDataRepository::class)->add(ActivityWithRawData::fromState(
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::fromUnprefixed(2))
                 ->build(), []
@@ -308,7 +303,7 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
             $this->getContainer()->get(ActivityRepository::class),
             $this->getContainer()->get(ActivityWithRawDataRepository::class),
             $this->getContainer()->get(GearRepository::class),
-            $this->getContainer()->get(FilesystemOperator::class),
+            $this->getContainer()->get('file.storage'),
             $this->getContainer()->get(SportTypesToImport::class),
             $this->getContainer()->get(ActivitiesToSkipDuringImport::class),
             $this->getContainer()->get(StravaDataImportStatus::class),

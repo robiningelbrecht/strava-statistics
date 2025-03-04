@@ -29,8 +29,8 @@ use App\Domain\Strava\Challenge\Consistency\ChallengeConsistency;
 use App\Domain\Strava\Ftp\FtpHistoryChart;
 use App\Domain\Strava\Ftp\FtpRepository;
 use App\Domain\Strava\Trivia;
-use App\Infrastructure\CQRS\Bus\Command;
-use App\Infrastructure\CQRS\Bus\CommandHandler;
+use App\Infrastructure\CQRS\Command;
+use App\Infrastructure\CQRS\CommandHandler;
 use App\Infrastructure\Exception\EntityNotFound;
 use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\ValueObject\Measurement\UnitSystem;
@@ -51,7 +51,7 @@ final readonly class BuildDashboardHtmlCommandHandler implements CommandHandler
         private ActivityIntensity $activityIntensity,
         private UnitSystem $unitSystem,
         private Environment $twig,
-        private FilesystemOperator $filesystem,
+        private FilesystemOperator $buildStorage,
         private TranslatorInterface $translator,
     ) {
     }
@@ -143,8 +143,8 @@ final readonly class BuildDashboardHtmlCommandHandler implements CommandHandler
         $trivia = Trivia::getInstance($allActivities);
         $bestAllTimePowerOutputs = $this->activityPowerRepository->findBestForActivityType(ActivityType::RIDE);
 
-        $this->filesystem->write(
-            'build/html/dashboard.html',
+        $this->buildStorage->write(
+            'dashboard.html',
             $this->twig->load('html/dashboard.html.twig')->render([
                 'timeIntervals' => ActivityPowerRepository::TIME_INTERVALS_IN_SECONDS_REDACTED,
                 'mostRecentActivities' => $allActivities->slice(0, 5),
@@ -230,8 +230,8 @@ final readonly class BuildDashboardHtmlCommandHandler implements CommandHandler
             );
         }
 
-        $this->filesystem->write(
-            'build/html/power-output.html',
+        $this->buildStorage->write(
+            'power-output.html',
             $this->twig->load('html/power-output.html.twig')->render([
                 'powerOutputChart' => Json::encode(
                     PowerOutputChart::create($bestPowerOutputs)->build()

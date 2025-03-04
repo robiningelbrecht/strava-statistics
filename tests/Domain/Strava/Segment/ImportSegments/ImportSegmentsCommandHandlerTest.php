@@ -28,7 +28,7 @@ class ImportSegmentsCommandHandlerTest extends ContainerTestCase
     {
         $output = new SpyOutput();
 
-        $this->getContainer()->get(ActivityWithRawDataRepository::class)->save(ActivityWithRawData::fromState(
+        $this->getContainer()->get(ActivityWithRawDataRepository::class)->add(ActivityWithRawData::fromState(
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::fromUnprefixed(1))
                 ->withName('Test activity 1')
@@ -52,7 +52,7 @@ class ImportSegmentsCommandHandlerTest extends ContainerTestCase
                 ],
             ],
         ));
-        $this->getContainer()->get(ActivityWithRawDataRepository::class)->save(ActivityWithRawData::fromState(
+        $this->getContainer()->get(ActivityWithRawDataRepository::class)->add(ActivityWithRawData::fromState(
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::fromUnprefixed(2))
                 ->withName('Test activity 2')
@@ -74,7 +74,7 @@ class ImportSegmentsCommandHandlerTest extends ContainerTestCase
                 ],
             ],
         ));
-        $this->getContainer()->get(ActivityWithRawDataRepository::class)->save(ActivityWithRawData::fromState(
+        $this->getContainer()->get(ActivityWithRawDataRepository::class)->add(ActivityWithRawData::fromState(
             ActivityBuilder::fromDefaults()
                 ->withActivityId(ActivityId::fromUnprefixed(3))
                 ->withName('Test activity 3')
