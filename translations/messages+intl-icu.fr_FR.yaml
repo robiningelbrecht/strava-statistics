@@ -122,6 +122,7 @@ Power: Puissance
 'Power distribution': 'Répartition de la puissance'
 'Powered by Strava': 'Propulsé par Strava'
 'Prev year': 'Année précédente'
+'Racing Score': 'Racing Score'
 'Racquet & Paddle Sports': 'Sports de raquette & paddle'
 'Racquet Ball': Racquetball
 'Ride a total of 1250km': 'Effectuer un total de 1250km'
@@ -202,12 +203,15 @@ Workout: Entrainement
 Year: Année
 'Yearly distances': 'Distances annuelles'
 Yoga: Yoga
-'Your badge': 'Vos badges'
+'Your Strava badge': 'Your Strava badge'
+'Your Zwift badge': 'Your Zwift badge'
+'Your badge(s)': 'Your badge(s)'
 'Zone 1 (recovery)': 'Zone 1 (récupération)'
 'Zone 2 (aerobic)': 'Zone 2 (aérobie)'
 'Zone 3 (aerobic/anaerobic)': 'Zone 3 (aérobie/anaérobie)'
 'Zone 4 (anaerobic)': 'Zone 4 (anaérobie)'
 'Zone 5 (maximal)': 'Zone 5 (maximal)'
+'Zwift Statistics': 'Zwift Statistics'
 age: age
 bpm: bpm
 clear: réinitialiser

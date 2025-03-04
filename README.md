@@ -173,6 +173,10 @@ FTP_VALUES='[]'
 # Optional, a link to your profile picture. Will be used to display in the nav bar and link to your Strava profile.
 # Leave empty to disable this feature.
 PROFILE_PICTURE_URL=''
+# Optional, your Zwift level (1 - 100). Will be used to render your Zwift badge. Leave empty to disable this feature
+ZWIFT_LEVEL=
+# Optional, your Zwift racing score (0 - 1000). Will be used to add to your Zwift badge if ZWIFT_LEVEL is filled out.
+ZWIFT_RACING_SCORE=
 # Optional, full URL with ntfy topic included. This topic will be used to notify you when a new HTML build has run.
 # Leave empty to disable notifications.
 NTFY_URL=''

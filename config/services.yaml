@@ -14,6 +14,8 @@ parameters:
     env(LOCALE): 'en_US'
     env(MANIFEST_APP_URL): 'http://localhost:8080/'
     env(PROFILE_PICTURE_URL): ''
+    env(ZWIFT_LEVEL):
+    env(ZWIFT_RACING_SCORE):
 
 services:
     # default configuration for services in *this* file
@@ -130,3 +132,11 @@ services:
     App\Domain\Strava\Ftp\ImportFtp\FtpValuesFromEnvFile:
         factory: [ 'App\Domain\Strava\Ftp\ImportFtp\FtpValuesFromEnvFile', fromString ]
         arguments: [ '%env(string:FTP_VALUES)%' ]
+
+    App\Domain\Zwift\ZwiftLevel:
+        factory: [ 'App\Domain\Zwift\ZwiftLevel', fromOptionalString ]
+        arguments: [ '%env(string:ZWIFT_LEVEL)%' ]
+
+    App\Domain\Zwift\ZwiftRacingScore:
+        factory: [ 'App\Domain\Zwift\ZwiftRacingScore', fromOptionalString ]
+        arguments: [ '%env(string:ZWIFT_RACING_SCORE)%' ]

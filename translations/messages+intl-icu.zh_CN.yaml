@@ -122,6 +122,7 @@ Power: 功率
 'Power distribution': 功率分布
 'Powered by Strava': 由Strava提供支持
 'Prev year': 去年
+'Racing Score': 'Racing Score'
 'Racquet & Paddle Sports': 球拍和桨类运动
 'Racquet Ball': 壁球
 'Ride a total of 1250km': 骑行总计1250公里
@@ -202,12 +203,15 @@ Workout: 锻炼
 Year: 年
 'Yearly distances': 每年距离
 Yoga: 瑜伽
-'Your badge': 你的徽章
+'Your Strava badge': 'Your Strava badge'
+'Your Zwift badge': 'Your Zwift badge'
+'Your badge(s)': 'Your badge(s)'
 'Zone 1 (recovery)': 区域1（恢复）
 'Zone 2 (aerobic)': 区域2（有氧）
 'Zone 3 (aerobic/anaerobic)': 区域3（有氧/无氧）
 'Zone 4 (anaerobic)': 区域4（无氧）
 'Zone 5 (maximal)': 区域5（最大）
+'Zwift Statistics': 'Zwift Statistics'
 age: 年龄
 bpm: 拍子数
 clear: 清除

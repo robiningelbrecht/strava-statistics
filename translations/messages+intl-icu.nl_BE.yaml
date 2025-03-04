@@ -122,6 +122,7 @@ Power: Kracht
 'Power distribution': Krachtverdeling
 'Powered by Strava': 'Powered by Strava'
 'Prev year': 'Vorig jaar'
+'Racing Score': 'Racing Score'
 'Racquet & Paddle Sports': 'Racquet & Paddle Sports'
 'Racquet Ball': 'Racquet Ball'
 'Ride a total of 1250km': 'Rijd in totaal 1250km'
@@ -202,12 +203,15 @@ Workout: Workout
 Year: Jaar
 'Yearly distances': 'Jaarlijkse afstanden'
 Yoga: Yoga
-'Your badge': 'Your badge'
+'Your Strava badge': 'Your Strava badge'
+'Your Zwift badge': 'Your Zwift badge'
+'Your badge(s)': 'Your badge(s)'
 'Zone 1 (recovery)': 'Zone 1 (recovery)'
 'Zone 2 (aerobic)': 'Zone 2 (aerobic)'
 'Zone 3 (aerobic/anaerobic)': 'Zone 3 (aerobic/anaerobic)'
 'Zone 4 (anaerobic)': 'Zone 4 (anaerobic)'
 'Zone 5 (maximal)': 'Zone 5 (maximal)'
+'Zwift Statistics': 'Zwift Statistics'
 age: leeftijd
 bpm: bpm
 clear: clear

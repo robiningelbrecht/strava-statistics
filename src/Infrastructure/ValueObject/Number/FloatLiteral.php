@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\ValueObject\Geography;
+namespace App\Infrastructure\ValueObject\Number;
 
 abstract readonly class FloatLiteral implements \JsonSerializable
 {

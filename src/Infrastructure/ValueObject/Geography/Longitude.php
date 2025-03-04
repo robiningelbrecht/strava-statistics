@@ -2,6 +2,8 @@
 
 namespace App\Infrastructure\ValueObject\Geography;
 
+use App\Infrastructure\ValueObject\Number\FloatLiteral;
+
 final readonly class Longitude extends FloatLiteral
 {
     protected function guardValid(float $float): void
