@@ -1,7 +1,7 @@
 services:
     php-cli:
         build: docker/php-cli
-        container_name: 'strava-statistics-php-cli'
+        container_name: 'statistics-for-strava-php-cli'
         volumes:
             - './:/var/www/'
         working_dir: /var/www
@@ -12,12 +12,12 @@ services:
         profiles:
             - on-demand
         networks:
-            - strava-statistics-network
+            - statistics-for-strava-network
     app:
         build:
             context: ./
             dockerfile: docker/app/Dockerfile
-        container_name: 'strava-statistics-app'
+        container_name: 'statistics-for-strava-app'
         volumes:
             - ./build:/var/www/build
             - ./storage/database:/var/www/storage/database
@@ -27,11 +27,11 @@ services:
         ports:
             - '8081:8080'
         networks:
-            - strava-statistics-network
+            - statistics-for-strava-network
 
     ollama:
         image: ollama/ollama:latest
-        container_name: 'strava-statistics-ollama'
+        container_name: 'statistics-for-strava-ollama'
         tty: true
         restart: unless-stopped
         volumes:
@@ -43,6 +43,6 @@ services:
         ports:
             - '11434:11434'
         networks:
-            - strava-statistics-network
+            - statistics-for-strava-network
 networks:
-    strava-statistics-network: {}
+    statistics-for-strava-network: {}
