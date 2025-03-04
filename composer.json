@@ -1,7 +1,7 @@
 {
     "type": "project",
     "license": "GPL-3.0-or-later",
-    "name": "robiningelbrecht/strava-statistics",
+    "name": "robiningelbrecht/statistics-for-strava",
     "description": "Statistics for Strava is a self-hosted web app designed to provide you with better stats.",
     "authors": [
         {
