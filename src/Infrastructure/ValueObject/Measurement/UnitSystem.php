@@ -82,6 +82,10 @@ enum UnitSystem: string
 
     public function paceSymbol(): string
     {
-        return $this->pace(1)->getSymbol();
+        if (UnitSystem::METRIC === $this) {
+            return '/km';
+        }
+
+        return '/mi';
     }
 }

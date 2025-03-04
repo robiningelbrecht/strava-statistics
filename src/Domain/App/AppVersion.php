@@ -8,7 +8,7 @@ final readonly class AppVersion
 {
     private const int MAJOR = 0;
     private const int MINOR = 4;
-    private const int PATCH = 22;
+    private const int PATCH = 23;
 
     public static function getSemanticVersion(): string
     {
