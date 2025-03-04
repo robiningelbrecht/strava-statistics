@@ -12,6 +12,8 @@ use App\Infrastructure\ValueObject\Measurement\Mass\Kilogram;
 use App\Infrastructure\ValueObject\Measurement\Mass\Pound;
 use App\Infrastructure\ValueObject\Measurement\Velocity\KmPerHour;
 use App\Infrastructure\ValueObject\Measurement\Velocity\MilesPerHour;
+use App\Infrastructure\ValueObject\Measurement\Velocity\SecPerKm;
+use App\Infrastructure\ValueObject\Measurement\Velocity\SecPerMile;
 
 enum UnitSystem: string
 {
@@ -67,5 +69,19 @@ enum UnitSystem: string
     public function carbonSavedSymbol(): string
     {
         return sprintf('%s CO2', $this->weight(1)->getSymbol());
+    }
+
+    public function pace(float $value): SecPerKm|SecPerMile
+    {
+        if (UnitSystem::METRIC === $this) {
+            return SecPerKm::from($value);
+        }
+
+        return SecPerMile::from($value);
+    }
+
+    public function paceSymbol(): string
+    {
+        return $this->pace(1)->getSymbol();
     }
 }

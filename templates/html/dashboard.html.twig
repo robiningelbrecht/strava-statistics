@@ -62,6 +62,7 @@
                         </thead>
                         <tbody>
                         {% for activity in mostRecentActivities %}
+                            {% set activityType =  activity.getSportType().getActivityType() %}
                             <tr class="{{ cycle(['bg-white border-b', 'border-b bg-gray-50'], loop.index0) }}">
                                 <td class="px-2 py-2">
                                     <div class="w-[4.5rem]">{{ activity.getStartDate()|formatDate() }}</div>
@@ -70,7 +71,7 @@
                                     {{ renderComponent('activity-title', {'activity': activity, 'ellipses': 30}) }}
                                 </td>
                                 <td class="px-6 py-2">
-                                    {{ renderComponent('measurement', {'measurement': activity.getDistance(), 'precision': activity.getSportType().getActivityType().getDistancePrecision()}) }}
+                                    {{ renderComponent('measurement', {'measurement': activity.getDistance(), 'precision': activityType.getDistancePrecision()}) }}
                                 </td>
                                 <td class="px-6 py-2">
                                     <div class="w-[4rem]">{{ renderComponent('measurement', {'measurement': activity.getElevation(), 'precision': 0}) }}</div>
@@ -79,7 +80,11 @@
                                     {{ activity.getMovingTimeFormatted() }}
                                 </td>
                                 <td class="px-6 py-2">
-                                    {{ renderComponent('measurement', {'measurement': activity.getAverageSpeed(), 'precision': 1}) }}
+                                    {% if activityType.prefersPaceOverSpeed() %}
+                                        {{ activity.getPaceInSecPerKm()|formatPace }}<span class="text-xs">{{ renderUnitSymbol('pace') }}</span>
+                                    {% else %}
+                                        {{ renderComponent('measurement', {'measurement': activity.getAverageSpeed(), 'precision': 1}) }}
+                                    {% endif %}
                                 </td>
                                 <td class="px-6 py-2">
                                     {{ activity.getAverageHeartRate() ?? 'n/a' }}
