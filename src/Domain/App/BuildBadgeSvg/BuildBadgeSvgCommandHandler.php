@@ -41,8 +41,8 @@ final readonly class BuildBadgeSvgCommandHandler implements CommandHandler
         $trivia = Trivia::getInstance($activities);
 
         $this->fileStorage->write(
-            'badge.svg',
-            $this->twig->load('svg/svg-badge.html.twig')->render([
+            'strava-badge.svg',
+            $this->twig->load('svg/svg-strava-badge.html.twig')->render([
                 'athlete' => $athlete,
                 'activities' => $activities->slice(0, 5),
                 'activityTotals' => $activityTotals,
