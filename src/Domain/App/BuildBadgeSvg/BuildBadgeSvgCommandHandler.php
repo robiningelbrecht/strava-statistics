@@ -68,7 +68,7 @@ final readonly class BuildBadgeSvgCommandHandler implements CommandHandler
         $this->buildStorage->write(
             'badge.html',
             $this->twig->load('html/badge.html.twig')->render([
-                'zwiftLevel'=> $this->zwiftLevel
+                'zwiftLevel' => $this->zwiftLevel,
             ]),
         );
     }
