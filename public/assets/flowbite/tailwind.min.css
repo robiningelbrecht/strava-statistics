@@ -33,6 +33,7 @@
     --color-gray-700: #374151;
     --color-gray-800: #1F2937;
     --color-gray-900: #111827;
+    --color-black: #000000;
     --color-white: #ffffff;
     --spacing: 0.25rem;
     --breakpoint-sm: 40rem;
@@ -89,6 +90,7 @@
     );
     --text-xxs: 0.625rem;
     --color-strava-orange: #F26722;
+    --color-grey-yo: #cccccc;
   }
 }
 @layer base {
@@ -3377,6 +3379,33 @@
   .leaflet-tile-pane {
     -webkit-filter: grayscale(100%);
     filter: grayscale(100%);
+  }
+  .leaflet-control--fly-to-places {
+    :where(& > :not(:last-child)) {
+      --tw-divide-y-reverse: 0;
+      border-bottom-style: var(--tw-border-style);
+      border-top-style: var(--tw-border-style);
+      border-top-width: calc(1px * var(--tw-divide-y-reverse));
+      border-bottom-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
+    }
+    :where(& > :not(:last-child)) {
+      border-color: var(--color-grey-yo);
+    }
+    border-radius: var(--radius-sm);
+    border-style: var(--tw-border-style);
+    border-width: 2px;
+    border-color: color-mix(in oklab, var(--color-black) 30%, transparent);
+    background-color: var(--color-white);
+    background-clip: padding-box;
+    & li {
+      cursor: pointer;
+      padding: calc(var(--spacing) * 1);
+      &:hover {
+        @media (hover: hover) {
+          background-color: #f4f4f4;
+        }
+      }
+    }
   }
 }
 @layer base {
