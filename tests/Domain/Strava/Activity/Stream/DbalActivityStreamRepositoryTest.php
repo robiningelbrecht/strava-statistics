@@ -3,6 +3,7 @@
 namespace App\Tests\Domain\Strava\Activity\Stream;
 
 use App\Domain\Strava\Activity\ActivityId;
+use App\Domain\Strava\Activity\ActivityIds;
 use App\Domain\Strava\Activity\Stream\ActivityStreamRepository;
 use App\Domain\Strava\Activity\Stream\ActivityStreams;
 use App\Domain\Strava\Activity\Stream\DbalActivityStreamRepository;
@@ -58,6 +59,24 @@ class DbalActivityStreamRepositoryTest extends ContainerTestCase
         $this->assertEquals(
             ActivityStreams::fromArray([$stream]),
             $this->activityStreamRepository->findByStreamType($stream->getStreamType())
+        );
+    }
+
+    public function testFindActivityIdsByStreamType(): void
+    {
+        $stream = ActivityStreamBuilder::fromDefaults()
+            ->withStreamType(StreamType::WATTS)
+            ->build();
+        $this->activityStreamRepository->add($stream);
+
+        $stream = ActivityStreamBuilder::fromDefaults()
+            ->withStreamType(StreamType::TIME)
+            ->build();
+        $this->activityStreamRepository->add($stream);
+
+        $this->assertEquals(
+            ActivityIds::fromArray([$stream->getActivityId()]),
+            $this->activityStreamRepository->findActivityIdsByStreamType($stream->getStreamType())
         );
     }
 

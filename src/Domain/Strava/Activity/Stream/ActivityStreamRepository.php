@@ -3,6 +3,7 @@
 namespace App\Domain\Strava\Activity\Stream;
 
 use App\Domain\Strava\Activity\ActivityId;
+use App\Domain\Strava\Activity\ActivityIds;
 
 interface ActivityStreamRepository
 {
@@ -15,6 +16,8 @@ interface ActivityStreamRepository
     public function hasOneForActivityAndStreamType(ActivityId $activityId, StreamType $streamType): bool;
 
     public function findByStreamType(StreamType $streamType): ActivityStreams;
+
+    public function findActivityIdsByStreamType(StreamType $streamType): ActivityIds;
 
     public function findOneByActivityAndStreamType(ActivityId $activityId, StreamType $streamType): ActivityStream;
 
