@@ -3,6 +3,7 @@
 namespace App\Domain\Strava\Activity\Stream;
 
 use App\Domain\Strava\Activity\ActivityId;
+use App\Domain\Strava\Activity\ActivityIds;
 use App\Infrastructure\Exception\EntityNotFound;
 use App\Infrastructure\Repository\DbalRepository;
 use App\Infrastructure\Serialization\Json;
@@ -74,6 +75,20 @@ final readonly class DbalActivityStreamRepository extends DbalRepository impleme
         return ActivityStreams::fromArray(array_map(
             fn (array $result) => $this->hydrate($result),
             $queryBuilder->executeQuery()->fetchAllAssociative()
+        ));
+    }
+
+    public function findActivityIdsByStreamType(StreamType $streamType): ActivityIds
+    {
+        $queryBuilder = $this->connection->createQueryBuilder();
+        $queryBuilder->select('activityId')
+            ->from('ActivityStream')
+            ->andWhere('streamType = :streamType')
+            ->setParameter('streamType', $streamType->value);
+
+        return ActivityIds::fromArray(array_map(
+            fn (string $activityId) => ActivityId::fromString($activityId),
+            $queryBuilder->executeQuery()->fetchFirstColumn()
         ));
     }
 

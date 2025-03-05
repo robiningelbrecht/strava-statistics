@@ -5,8 +5,10 @@ namespace App\Tests\Domain\Strava\Activity\ImportActivities;
 use App\Domain\Strava\Activity\ActivitiesToSkipDuringImport;
 use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\ActivityRepository;
+use App\Domain\Strava\Activity\ActivityVisibility;
 use App\Domain\Strava\Activity\ActivityWithRawData;
 use App\Domain\Strava\Activity\ActivityWithRawDataRepository;
+use App\Domain\Strava\Activity\ImportActivities\ActivityVisibilitiesToImport;
 use App\Domain\Strava\Activity\ImportActivities\ImportActivities;
 use App\Domain\Strava\Activity\ImportActivities\ImportActivitiesCommandHandler;
 use App\Domain\Strava\Activity\NumberOfNewActivitiesToProcessPerImport;
@@ -246,6 +248,47 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
         $this->assertMatchesTextSnapshot($output);
     }
 
+    public function testHandleWithActivityVisibilitiesToImport(): void
+    {
+        $this->importActivitiesCommandHandler = new ImportActivitiesCommandHandler(
+            $this->strava = $this->getContainer()->get(Strava::class),
+            $this->getContainer()->get(OpenMeteo::class),
+            $this->getContainer()->get(Nominatim::class),
+            $this->getContainer()->get(ActivityRepository::class),
+            $this->getContainer()->get(ActivityWithRawDataRepository::class),
+            $this->getContainer()->get(GearRepository::class),
+            $this->getContainer()->get('file.storage'),
+            $this->getContainer()->get(SportTypesToImport::class),
+            ActivityVisibilitiesToImport::from([ActivityVisibility::EVERYONE->value]),
+            $this->getContainer()->get(ActivitiesToSkipDuringImport::class),
+            $this->getContainer()->get(StravaDataImportStatus::class),
+            $this->getContainer()->get(NumberOfNewActivitiesToProcessPerImport::class),
+            $this->getContainer()->get(UuidFactory::class),
+        );
+
+        $output = new SpyOutput();
+        $this->strava->setMaxNumberOfCallsBeforeTriggering429(1000);
+
+        $this->getContainer()->get(KeyValueStore::class)->save(KeyValue::fromState(
+            Key::STRAVA_GEAR_IMPORT,
+            Value::fromString('2025-01-18'),
+        ));
+
+        $this->getContainer()->get(ActivityWithRawDataRepository::class)->add(ActivityWithRawData::fromState(
+            ActivityBuilder::fromDefaults()
+                ->withActivityId(ActivityId::fromUnprefixed(2))
+                ->build(), []
+        ));
+
+        $this->importActivitiesCommandHandler->handle(new ImportActivities($output));
+
+        $this->assertMatchesTextSnapshot($output);
+
+        $this->assertMatchesJsonSnapshot(
+            $this->getConnection()->executeQuery('SELECT * FROM KeyValue')->fetchAllAssociative()
+        );
+    }
+
     public function testHandleWithTooManyActivitiesToProcessInOneImport(): void
     {
         $this->importActivitiesCommandHandler = new ImportActivitiesCommandHandler(
@@ -257,6 +300,7 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
             $this->getContainer()->get(GearRepository::class),
             $this->getContainer()->get('file.storage'),
             $this->getContainer()->get(SportTypesToImport::class),
+            $this->getContainer()->get(ActivityVisibilitiesToImport::class),
             $this->getContainer()->get(ActivitiesToSkipDuringImport::class),
             $this->getContainer()->get(StravaDataImportStatus::class),
             NumberOfNewActivitiesToProcessPerImport::fromInt(1),
@@ -305,6 +349,7 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
             $this->getContainer()->get(GearRepository::class),
             $this->getContainer()->get('file.storage'),
             $this->getContainer()->get(SportTypesToImport::class),
+            $this->getContainer()->get(ActivityVisibilitiesToImport::class),
             $this->getContainer()->get(ActivitiesToSkipDuringImport::class),
             $this->getContainer()->get(StravaDataImportStatus::class),
             $this->getContainer()->get(NumberOfNewActivitiesToProcessPerImport::class),

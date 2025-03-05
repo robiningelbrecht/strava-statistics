@@ -24,13 +24,13 @@ final readonly class BuildGpxFilesCommandHandler implements CommandHandler
     {
         assert($command instanceof BuildGpxFiles);
 
-        $timeStreams = $this->activityStreamRepository->findByStreamType(StreamType::TIME);
-        foreach ($timeStreams as $timeStream) {
-            $gpxFileLocation = sprintf('activities/gpx/%s.gpx', $timeStream->getActivityId());
+        $activityIds = $this->activityStreamRepository->findActivityIdsByStreamType(StreamType::TIME);
+        foreach ($activityIds as $activityId) {
+            $gpxFileLocation = sprintf('activities/gpx/%s.gpx', $activityId);
             if ($this->fileStorage->fileExists($gpxFileLocation)) {
                 continue;
             }
-            if (!$serializedGpx = $this->serializer->serialize($timeStream->getActivityId())) {
+            if (!$serializedGpx = $this->serializer->serialize($activityId)) {
                 continue;
             }
             $this->fileStorage->write(

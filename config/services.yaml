@@ -6,6 +6,7 @@
 parameters:
     env(UNIT_SYSTEM): 'metric'
     env(SPORT_TYPES_TO_IMPORT): '[]'
+    env(ACTIVITY_VISIBILITIES_TO_IMPORT): '[]'
     env(ACTIVITIES_TO_SKIP_DURING_IMPORT): '[]'
     env(NUMBER_OF_NEW_ACTIVITIES_TO_PROCESS_PER_IMPORT): 250
     env(NTFY_URL): ''
@@ -112,6 +113,10 @@ services:
         class: App\Domain\Strava\Athlete\AthleteBirthDate
         factory: [ App\Domain\Strava\Athlete\AthleteBirthDate, 'fromString' ]
         arguments: ['%env(string:ATHLETE_BIRTHDAY)%']
+
+    App\Domain\Strava\Activity\ImportActivities\ActivityVisibilitiesToImport:
+        factory: [ 'App\Domain\Strava\Activity\ImportActivities\ActivityVisibilitiesToImport', from ]
+        arguments: [ '%env(json:ACTIVITY_VISIBILITIES_TO_IMPORT)%' ]
 
     App\Domain\Strava\Activity\SportType\SportTypesToImport:
         factory: [ 'App\Domain\Strava\Activity\SportType\SportTypesToImport', from ]
