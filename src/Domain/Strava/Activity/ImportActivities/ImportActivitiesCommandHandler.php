@@ -6,6 +6,7 @@ use App\Domain\Strava\Activity\ActivitiesToSkipDuringImport;
 use App\Domain\Strava\Activity\Activity;
 use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\ActivityRepository;
+use App\Domain\Strava\Activity\ActivityVisibility;
 use App\Domain\Strava\Activity\ActivityWithRawData;
 use App\Domain\Strava\Activity\ActivityWithRawDataRepository;
 use App\Domain\Strava\Activity\NumberOfNewActivitiesToProcessPerImport;
@@ -40,6 +41,7 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
         private GearRepository $gearRepository,
         private FilesystemOperator $fileStorage,
         private SportTypesToImport $sportTypesToImport,
+        private ActivityVisibilitiesToImport $activityVisibilitiesToImport,
         private ActivitiesToSkipDuringImport $activitiesToSkipDuringImport,
         private StravaDataImportStatus $stravaDataImportStatus,
         private NumberOfNewActivitiesToProcessPerImport $numberOfNewActivitiesToProcessPerImport,
@@ -79,6 +81,10 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                 continue;
             }
             if (!$this->sportTypesToImport->has($sportType)) {
+                continue;
+            }
+            $activityVisibility = ActivityVisibility::from($stravaActivity['visibility']);
+            if (!$this->activityVisibilitiesToImport->has($activityVisibility)) {
                 continue;
             }
 

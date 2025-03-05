@@ -154,6 +154,10 @@ DATE_FORMAT=DAY-MONTH-YEAR
 # With this list you can also decide the order the sport types will be rendered in.
 # A full list of allowed options is available on https://github.com/robiningelbrecht/strava-statistics/wiki/Supported-sport-types/
 SPORT_TYPES_TO_IMPORT='[]'
+# Activity visibilities to import. Leave empty to import all visibilities
+# This list can be combined with SPORT_TYPES_TO_IMPORT.
+# Allowed values: ACTIVITY_VISIBILITIES_TO_IMPORT='["everyone", "followers_only", "only_me"]', 
+ACTIVITY_VISIBILITIES_TO_IMPORT='[]'
 # Your birthday. Needed to calculate heart rate zones.
 ATHLETE_BIRTHDAY=YYYY-MM-DD
 # Optional, history of weight (in kg or pounds, depending on UNIT_SYSTEM). Needed to calculate relative w/kg.

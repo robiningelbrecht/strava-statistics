@@ -7,6 +7,7 @@ use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\ActivityRepository;
 use App\Domain\Strava\Activity\ActivityWithRawData;
 use App\Domain\Strava\Activity\ActivityWithRawDataRepository;
+use App\Domain\Strava\Activity\ImportActivities\ActivityVisibilitiesToImport;
 use App\Domain\Strava\Activity\ImportActivities\ImportActivities;
 use App\Domain\Strava\Activity\ImportActivities\ImportActivitiesCommandHandler;
 use App\Domain\Strava\Activity\NumberOfNewActivitiesToProcessPerImport;
@@ -257,6 +258,7 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
             $this->getContainer()->get(GearRepository::class),
             $this->getContainer()->get('file.storage'),
             $this->getContainer()->get(SportTypesToImport::class),
+            $this->getContainer()->get(ActivityVisibilitiesToImport::class),
             $this->getContainer()->get(ActivitiesToSkipDuringImport::class),
             $this->getContainer()->get(StravaDataImportStatus::class),
             NumberOfNewActivitiesToProcessPerImport::fromInt(1),
@@ -305,6 +307,7 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
             $this->getContainer()->get(GearRepository::class),
             $this->getContainer()->get('file.storage'),
             $this->getContainer()->get(SportTypesToImport::class),
+            $this->getContainer()->get(ActivityVisibilitiesToImport::class),
             $this->getContainer()->get(ActivitiesToSkipDuringImport::class),
             $this->getContainer()->get(StravaDataImportStatus::class),
             $this->getContainer()->get(NumberOfNewActivitiesToProcessPerImport::class),
