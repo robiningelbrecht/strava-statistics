@@ -60,7 +60,7 @@ class TranslationsTest extends ContainerTestCase
                     $this->fail(sprintf('The translation "%s" does not contain all placeholders.', $translation));
                 }
 
-                $this->assertEquals(
+                $this->assertEqualsCanonicalizing(
                     $translationPlaceholdersInKeys['matches'],
                     $translationPlaceholdersInTranslations['matches'],
                     sprintf('The translation "%s" does not contain all placeholders.', $translation)
