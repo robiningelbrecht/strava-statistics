@@ -50,8 +50,8 @@ Evening: Soirée
 Favourite: Favori
 Feb: Fév
 'Filter on KOM segments': 'Filtrer sur les segments KOM'
-'Filter on sport type': 'Filter sur le type de sport'
-'Filter on starred segments': 'Filter sur les segments favoris'
+'Filter on sport type': 'Filtrer sur le type de sport'
+'Filter on starred segments': 'Filtrer sur les segments favoris'
 'First workout': 'Première séance'
 Fitness: Fitness
 'For example, an Eddington number of 70 would imply that a cyclist has cycled at least 70 km or miles in a day on at least 70 occasions. Achieving a high Eddington number is difficult, since moving from, say, 70 to 75 will (probably) require more than five new long-distance workouts, since any workout shorter than 75 km or miles will no longer be included in the reckoning.': "Par exemple, un nombre d'Eddington de 70 signifie qu'un cycliste a parcouru au moins 70 km ou miles en une journée à au moins 70 reprises. Atteindre un nombre d'Eddington élevé est difficile, car passer, disons, de 70 à 75 nécessitera probablement plus de cinq nouvelles séances d'entraînement de longue distance, étant donné que toute séance de moins de 75 km ou miles ne sera plus prise en compte dans le calcul."
@@ -59,9 +59,9 @@ Fri: Ven
 Friday: Vendredi
 From: Du
 Gear: Matériel
-'Gear stats': 'Statistiques de matériel'
+'Gear stats': 'Statistiques du matériel'
+"Gear that hasn't been used in the last three months, is disabled by default.": "Le matériel qui n'a pas été utilisé au cours des trois derniers mois est désactivé par défaut."
 'Gear that is retired is disabled by default.': 'Le matériel retiré est désactivé par défaut.'
-"Gear that that hasn't been used in the last three months, is disabled by default.": "Le matériel qui n'a pas été utilisé au cours des trois derniers mois est désactivé par défaut."
 Golf: Golf
 'Gravel Rides': 'Sorties Gravel'
 HIIT: HIIT
@@ -112,7 +112,7 @@ Night: Nuit
 Nov: Nov
 Oct: Oct
 Other: Autre
-'Outdoor Sports': "Sports d'extérieurs"
+'Outdoor Sports': "Sports d'extérieur"
 Pace: Pace
 'Peak power outputs': 'Puissances maximales'
 Photos: Photos
@@ -143,9 +143,9 @@ Search: Rechercher
 Segments: Segments
 Sep: Sep
 'Show information': 'Afficher les informations'
-'Since I began working out {numberOfDaysAgo} on {startDate}, I had {totalDaysOfWorkingOut} active days of working out.': "Depuis que j'ai commencé à m'entraîner il y a {numberOfDaysAgo} jours le {startDate}, j'ai eu {totalDaysOfWorkingOut} jours actifs d'entranement."
+'Since I began working out {numberOfDaysAgo} on {startDate}, I had {totalDaysOfWorkingOut} active days of working out.': "Depuis que j'ai commencé à m'entraîner il y a {numberOfDaysAgo} jours le {startDate}, j'ai eu {totalDaysOfWorkingOut} jours actifs d'entraînement."
 Skateboard: Skateboard
-Skating: Patinnage
+Skating: Patinage
 Snowboard: Snowboard
 Snowshoe: Raquettes
 Soccer: Football
@@ -167,7 +167,7 @@ Tennis: Tennis
 'The Eddington number in the context of cycling or running is defined as the maximum number E such that the athlete has covered at least E km on at least E days.': "Le nombre d'Eddington dans le contexte du cyclisme ou de la course est défini comme le nombre maximum E tel que l'athlète ait parcouru au moins E km lors d'au moins E jours."
 'This badge is dynamically created. You can use it in any &lt;img&gt; tag': "Ce badge est créé dynamiquement. Vous pouvez l'utiliser dans n'importe quelle balise &lt;img&gt;"
 'This formula means that riding for an hour at your max heart rate results in a score of 100, which we consider "high intensity"': 'Cette formule signifie que rouler pendant une heure à votre fréquence cardiaque maximale correspond à un score de 100, ce que nous considérons comme une "intensité élevée".'
-'This map shows the daily training intensity for the last year. The training intensity for an activity is calculated based on several metrics.': "Cette carte montre l'intensité d'entranement quotidienne pour l'année dernière. L'intensité d'une activité est calculée sur la base de plusieurs métriques."
+'This map shows the daily training intensity for the last year. The training intensity for an activity is calculated based on several metrics.': "Cette carte montre l'intensité d'entraînement quotidienne de l'année dernière. L'intensité d'une activité est calculée sur la base de plusieurs métriques."
 Thu: Jeu
 Thursday: Jeudi
 'Time / week': 'Temps / semaine'
@@ -175,7 +175,7 @@ Thursday: Jeudi
 To: Au
 'Toggle sidebar': 'Basculer la barre latérale'
 'Top 10': 'Top 10'
-'Total carbon saved': 'Total carbon saved'
+'Total carbon saved': 'Total de carbone économisé'
 'Total kudos': 'Total des kudos'
 'Trail Runs': Trail
 Trivia: Trivial
@@ -194,25 +194,26 @@ Walks: Marches
 Wed: Mer
 Wednesday: Mercredi
 'Weekly distances': 'Distances hebdomadaires'
-'Weight Training': 'Entrainement avec poids'
+'Weight Training': 'Entraînement avec poids'
 Wheelchair: 'Fauteuil roulant'
 'When power metrics and FTP are available, these metrics are used instead. This formula means that riding for an hour at your FTP results in a score of 100, which we consider "high intensity"': 'Lorsque des métriques de puissance et de FTP sont disponibles, elles sont utilisées à la place. Cette formule signifie que rouler pendant une heure à votre FTP correspond à un score de 100, ce que nous considérons comme une "intensité élevée".'
 'Wind Surf': 'Planche à voile'
 'Winter Sports': "Sports d'hiver"
-Workout: Entrainement
+Workout: Entraînement
 Year: Année
 'Yearly distances': 'Distances annuelles'
 Yoga: Yoga
-'Your Strava badge': 'Your Strava badge'
-'Your Zwift badge': 'Your Zwift badge'
-'Your badge(s)': 'Your badge(s)'
+'Your Strava badge': 'Votre badge Strava'
+'Your Zwift badge': 'Votre badge Zwift'
+'Your badge(s)': 'Vos badge(s)'
 'Zone 1 (recovery)': 'Zone 1 (récupération)'
 'Zone 2 (aerobic)': 'Zone 2 (aérobie)'
 'Zone 3 (aerobic/anaerobic)': 'Zone 3 (aérobie/anaérobie)'
 'Zone 4 (anaerobic)': 'Zone 4 (anaérobie)'
 'Zone 5 (maximal)': 'Zone 5 (maximal)'
-'Zwift Statistics': 'Zwift Statistics'
+'Zwift Statistics': 'Statistiques Zwift'
 age: age
+and: and
 bpm: bpm
 clear: réinitialiser
 intensity: intensité

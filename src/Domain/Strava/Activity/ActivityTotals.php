@@ -6,6 +6,7 @@ use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Measurement\Length\Meter;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use Carbon\CarbonInterval;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class ActivityTotals
 {
@@ -20,6 +21,7 @@ final class ActivityTotals
     private function __construct(
         private readonly Activities $activities,
         private readonly SerializableDateTime $now,
+        private readonly TranslatorInterface $translator,
     ) {
         $this->totalDistance = Kilometer::from(
             $this->activities->sum(fn (Activity $activity) => $activity->getDistance()->toFloat())
@@ -32,12 +34,16 @@ final class ActivityTotals
         $this->totalActivities = count($this->activities);
     }
 
-    public static function getInstance(Activities $activities, SerializableDateTime $now): self
+    public static function getInstance(
+        Activities $activities,
+        SerializableDateTime $now,
+        TranslatorInterface $translator): self
     {
         if (null === self::$instance) {
             self::$instance = new self(
                 activities: $activities,
-                now: $now
+                now: $now,
+                translator: $translator,
             );
         }
 
@@ -113,7 +119,11 @@ final class ActivityTotals
     {
         $days = (int) $this->now->diff($this->getStartDate())->days;
 
-        return CarbonInterval::days($days)->cascade()->forHumans(['minimumUnit' => 'day', 'join' => [' ', ' and '], 'parts' => 2]);
+        $join = $this->translator->trans('and');
+
+        return CarbonInterval::days($days)->cascade()->forHumans(['minimumUnit' => 'day', 'join' => [
+            ' ', sprintf(' %s ', $join),
+        ], 'parts' => 2]);
     }
 
     public function getTotalDaysOfWorkingOut(): int

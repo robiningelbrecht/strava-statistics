@@ -24,6 +24,7 @@ use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\ValueObject\DataTableRow;
 use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use League\Flysystem\FilesystemOperator;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
 final readonly class BuildActivitiesHtmlCommandHandler implements CommandHandler
@@ -40,6 +41,7 @@ final readonly class BuildActivitiesHtmlCommandHandler implements CommandHandler
         private UnitSystem $unitSystem,
         private Environment $twig,
         private FilesystemOperator $buildStorage,
+        private TranslatorInterface $translator,
     ) {
     }
 
@@ -55,6 +57,7 @@ final readonly class BuildActivitiesHtmlCommandHandler implements CommandHandler
         $activityTotals = ActivityTotals::getInstance(
             activities: $activities,
             now: $now,
+            translator: $this->translator
         );
 
         $this->buildStorage->write(

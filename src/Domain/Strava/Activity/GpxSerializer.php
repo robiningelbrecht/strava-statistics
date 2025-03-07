@@ -32,7 +32,6 @@ final readonly class GpxSerializer
         $cadenceStream = $activitySteams->filterOnType(StreamType::CADENCE)?->getData() ?? [];
         $temperatureStream = $activitySteams->filterOnType(StreamType::TEMP)?->getData() ?? [];
 
-        // $rootNode = new \SimpleXMLElement('<gpx/>');
         $rootNode = new \SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><gpx/>');
         $rootNode->addAttribute('creator', 'Strava Statitics');
         $rootNode->addAttribute('version', '1.1');
@@ -54,10 +53,10 @@ final readonly class GpxSerializer
         $metadataNode->addChild('time', $activity->getStartDate()->format(self::DATE_TIME_FORMAT));
 
         $trkNode = $rootNode->addChild('trk');
-        $trkNode->addChild('name', $activity->getName());
+        $trkNode->addChild('name', htmlspecialchars($activity->getName()));
         $trkNode->addChild('type', $activity->getSportType()->value);
         if ($description = $activity->getDescription()) {
-            $trkNode->addChild('desc', $description);
+            $trkNode->addChild('desc', htmlspecialchars($description));
         }
         $trksegNode = $trkNode->addChild('trkseg');
 
