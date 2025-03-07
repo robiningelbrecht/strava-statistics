@@ -49,6 +49,7 @@
         "symfony/translation": "7.2.*",
         "symfony/twig-bundle": "7.2.*",
         "symfony/yaml": "7.2.*",
+        "theodo-group/llphant": "^0.9.5",
         "twig/twig": "*"
     },
     "require-dev": {
