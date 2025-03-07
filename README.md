@@ -224,6 +224,7 @@ Currently the app is availbale in:
 
 * 🇬🇧 English
 * 🇫🇷 French 
+* 🇩🇪 German
 * 🇧🇪 Dutch
 * 🇨🇳 Simplified Chinese
 
