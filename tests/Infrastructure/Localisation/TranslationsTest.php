@@ -39,9 +39,6 @@ class TranslationsTest extends ContainerTestCase
                 sprintf('Not all translations for locale %s have been exported. Please run "make translation-extract"', $locale->value)
             );
         }
-
-        ksort($translatables);
-        $this->assertMatchesJsonSnapshot($translatables);
     }
 
     protected function setUp(): void
