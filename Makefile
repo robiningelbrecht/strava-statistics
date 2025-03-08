@@ -28,11 +28,7 @@ migrate-run:
 	@make console arg="doctrine:migrations:migrate"
 
 translation-extract:
-	@make console arg="translation:extract --force --prefix="" en_US --format=yaml --sort=ASC"
-	@make console arg="translation:extract --force --prefix="" nl_BE --format=yaml --sort=ASC"
-	@make console arg="translation:extract --force --prefix="" fr_FR --format=yaml --sort=ASC"
-	@make console arg="translation:extract --force --prefix="" de_DE --format=yaml --sort=ASC"
-	@make console arg="translation:extract --force --prefix="" zh_CN --format=yaml --sort=ASC"
+	@make console arg="app:translations:extract"
 
 translation-debug:
 	@make console arg="debug:translation en_US"
