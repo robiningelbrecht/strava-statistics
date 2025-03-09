@@ -64,7 +64,7 @@ final class Activity
         #[ORM\Column(type: 'integer')]
         private Meter $elevation,
         #[ORM\Embedded(class: Coordinate::class)]
-        private readonly ?Coordinate $startingCoordinate,
+        private ?Coordinate $startingCoordinate,
         #[ORM\Column(type: 'integer', nullable: true)]
         private readonly ?int $calories,
         #[ORM\Column(type: 'integer', nullable: true)]
@@ -235,6 +235,13 @@ final class Activity
     public function getStartingCoordinate(): ?Coordinate
     {
         return $this->startingCoordinate;
+    }
+
+    public function updateStartingCoordinate(?Coordinate $coordinate): self
+    {
+        $this->startingCoordinate = $coordinate;
+
+        return $this;
     }
 
     public function getKudoCount(): int
