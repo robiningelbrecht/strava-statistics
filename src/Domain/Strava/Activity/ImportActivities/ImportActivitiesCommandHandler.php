@@ -22,6 +22,9 @@ use App\Infrastructure\CQRS\Command;
 use App\Infrastructure\CQRS\CommandHandler;
 use App\Infrastructure\Exception\EntityNotFound;
 use App\Infrastructure\Geocoding\Nominatim\Nominatim;
+use App\Infrastructure\ValueObject\Geography\Coordinate;
+use App\Infrastructure\ValueObject\Geography\Latitude;
+use App\Infrastructure\ValueObject\Geography\Longitude;
 use App\Infrastructure\ValueObject\Identifier\UuidFactory;
 use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Measurement\Length\Meter;
@@ -105,6 +108,10 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                     ->updateMovingTimeInSeconds($stravaActivity['moving_time'] ?? 0)
                     ->updateElevation(Meter::from($stravaActivity['total_elevation_gain']))
                     ->updateKudoCount($stravaActivity['kudos_count'] ?? 0)
+                    ->updateStartingCoordinate(Coordinate::createFromOptionalLatAndLng(
+                        Latitude::fromOptionalString($stravaActivity['start_latlng'][0] ?? null),
+                        Longitude::fromOptionalString($stravaActivity['start_latlng'][1] ?? null),
+                    ))
                     ->updatePolyline($stravaActivity['map']['summary_polyline'] ?? null)
                     ->updateGear(
                         $gearId,

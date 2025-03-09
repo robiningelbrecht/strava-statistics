@@ -8,6 +8,7 @@ use App\Tests\ContainerTestCase;
 use Spatie\Snapshots\MatchesSnapshots;
 use Symfony\Component\Translation\Extractor\ExtractorInterface;
 use Symfony\Component\Translation\MessageCatalogue;
+use Symfony\Component\Translation\MessageCatalogueInterface;
 use Symfony\Component\Yaml\Yaml;
 
 class TranslationsTest extends ContainerTestCase
@@ -39,9 +40,33 @@ class TranslationsTest extends ContainerTestCase
                 sprintf('Not all translations for locale %s have been exported. Please run "make translation-extract"', $locale->value)
             );
         }
+    }
 
-        ksort($translatables);
-        $this->assertMatchesJsonSnapshot($translatables);
+    public function testTranslationsContainPlaceholders(): void
+    {
+        foreach (Locale::cases() as $locale) {
+            $translationFilePath = sprintf('%s/translations/messages%s.%s.yaml', $this->kernelProjectDir, MessageCatalogueInterface::INTL_DOMAIN_SUFFIX, $locale->value);
+            if (!file_exists($translationFilePath)) {
+                continue;
+            }
+
+            $parsedTranslations = Yaml::parse(file_get_contents($translationFilePath));
+            foreach ($parsedTranslations as $key => $translation) {
+                if (!preg_match_all('/[\s\S]*\{(?<matches>[\S]*)\}[\s\S]*/U', $key, $translationPlaceholdersInKeys)) {
+                    continue;
+                }
+
+                if (!preg_match_all('/[\s\S]*\{(?<matches>[\S]*)\}[\s\S]*/U', $translation, $translationPlaceholdersInTranslations)) {
+                    $this->fail(sprintf('The translation "%s" does not contain all placeholders.', $translation));
+                }
+
+                $this->assertEqualsCanonicalizing(
+                    $translationPlaceholdersInKeys['matches'],
+                    $translationPlaceholdersInTranslations['matches'],
+                    sprintf('The translation "%s" does not contain all placeholders.', $translation)
+                );
+            }
+        }
     }
 
     protected function setUp(): void

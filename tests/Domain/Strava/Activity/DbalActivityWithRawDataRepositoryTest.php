@@ -10,6 +10,9 @@ use App\Domain\Strava\Activity\DbalActivityWithRawDataRepository;
 use App\Domain\Strava\Gear\GearId;
 use App\Infrastructure\Geocoding\Nominatim\Location;
 use App\Infrastructure\Serialization\Json;
+use App\Infrastructure\ValueObject\Geography\Coordinate;
+use App\Infrastructure\ValueObject\Geography\Latitude;
+use App\Infrastructure\ValueObject\Geography\Longitude;
 use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Measurement\Length\Meter;
 use App\Infrastructure\ValueObject\Measurement\Velocity\MetersPerSecond;
@@ -75,6 +78,10 @@ class DbalActivityWithRawDataRepositoryTest extends ContainerTestCase
             ->updateElevation(Meter::from(9999))
             ->updateKudoCount(111)
             ->updatePolyline('updated polyline')
+            ->updateStartingCoordinate(Coordinate::createFromLatAndLng(
+                latitude: Latitude::fromString('20'),
+                longitude: Longitude::fromString('20'),
+            ))
             ->updateGear(
                 GearId::fromUnprefixed('updated'),
                 'updated gear name',
@@ -135,6 +142,13 @@ class DbalActivityWithRawDataRepositoryTest extends ContainerTestCase
         $this->assertEquals(
             Location::fromState(['state' => 'updated location']),
             $persistedActivity->getLocation()
+        );
+        $this->assertEquals(
+            Coordinate::createFromLatAndLng(
+                latitude: Latitude::fromString('20'),
+                longitude: Longitude::fromString('20'),
+            ),
+            $persistedActivity->getStartingCoordinate(),
         );
     }
 

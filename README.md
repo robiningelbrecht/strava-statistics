@@ -140,7 +140,7 @@ IMPORT_AND_BUILD_SCHEDULE="5 4 * * *"
 # Valid timezones can found under TZ Identifier column here: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List
 TZ=Etc/GMT
 
-# Allowed options: en_US, fr_FR, nl_BE or zh_CN
+# Allowed options: en_US, fr_FR, nl_BE, de_DE, pt_PT or zh_CN
 LOCALE=en_US
 # Allowed options: metric or imperial
 UNIT_SYSTEM=metric
@@ -220,11 +220,13 @@ docker compose exec app bin/console app:strava:build-files
 
 ## 🗺️ Locales and translations
 
-Currently the app is availbale in:
+Currently, the app is translated to:
 
 * 🇬🇧 English
 * 🇫🇷 French 
+* 🇩🇪 German
 * 🇧🇪 Dutch
+* 🇵🇹 Portuguese
 * 🇨🇳 Simplified Chinese
 
 If you want to see a new locale added, please  [open a new issue](https://github.com/robiningelbrecht/strava-statistics/issues/new/choose). 
