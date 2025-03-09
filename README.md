@@ -223,11 +223,11 @@ docker compose exec app bin/console app:strava:build-files
 Currently, the app is translated to:
 
 * 🇬🇧 English
-* 🇫🇷 French 
-* 🇩🇪 German
+* 🇫🇷 French (thanks to [@llaumgui](https://github.com/llaumgui) and [@Ahmosys](https://github.com/llaumgui))
+* 🇩🇪 German (thanks to [@daydreamer77](https://github.com/daydreamer77))
 * 🇧🇪 Dutch
-* 🇵🇹 Portuguese
-* 🇨🇳 Simplified Chinese
+* 🇵🇹 Portuguese (thanks to [@jcnmsg](https://github.com/jcnmsg))
+* 🇨🇳 Simplified Chinese (thanks to [@c0j0s](https://github.com/c0j0s))
 
 If you want to see a new locale added, please  [open a new issue](https://github.com/robiningelbrecht/strava-statistics/issues/new/choose). 
 Only do this if you are willing to help on the actual translation 🙃.
