@@ -1,4 +1,4 @@
-/*! tailwindcss v4.0.10 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v4.0.12 | MIT License | https://tailwindcss.com */
 @layer theme, base, components, utilities;
 @layer theme {
   :root, :host {
@@ -2537,9 +2537,6 @@
     font-size: var(--text-xs);
     line-height: var(--tw-leading, var(--text-xs--line-height));
   }
-  .text-xxs {
-    font-size: var(--text-xxs);
-  }
   .apexcharts-datalabels {
     .apexcharts-canvas & .apexcharts-text.apexcharts-pie-label {
       font-size: 0.75rem,[object Object] !important;
@@ -2588,6 +2585,9 @@
     .dark .datatable-wrapper .datatable-bottom & {
       color: var(--color-gray-400);
     }
+  }
+  .text-xxs {
+    font-size: var(--text-xxs);
   }
   .leading-3 {
     --tw-leading: calc(var(--spacing) * 3);

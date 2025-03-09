@@ -505,17 +505,17 @@ final class Activity
 
     public function getLeafletMap(): ?LeafletMap
     {
-        if (!$this->getStartingCoordinate()) {
+        if (!$this->getPolyline()) {
             return null;
-        }
-        if ($this->getSportType()->supportsReverseGeocoding()) {
-            return LeafletMap::REAL_WORLD;
         }
         if (!$this->isZwiftRide()) {
             return LeafletMap::REAL_WORLD;
         }
+        if (!$startingCoordinate = $this->getStartingCoordinate()) {
+            return null;
+        }
 
-        return LeafletMap::forZwiftStartingCoordinate($this->getStartingCoordinate());
+        return LeafletMap::forZwiftStartingCoordinate($startingCoordinate);
     }
 
     public function getLocation(): ?Location
