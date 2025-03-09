@@ -37,6 +37,7 @@
         </include>
         <exclude>
             <file>src/Kernel.php</file>
+            <file>src/Console/ExtractTranslationsConsoleCommand.php</file>
             <file>src/Infrastructure/Time/Clock/SystemClock.php</file>
             <file>src/Infrastructure/Time/ResourceUsage/SystemResourceUsage.php</file>
             <file>src/Infrastructure/Time/SystemSleep.php</file>
