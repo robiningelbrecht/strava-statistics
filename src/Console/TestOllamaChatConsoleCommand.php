@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Console;
 
+use App\Domain\Integration\AI\EmbeddedDocument;
 use App\Domain\Integration\AI\Ollama\Ollama;
-use App\Domain\Integration\AI\Ollama\OllamaConfig;
+use App\Domain\Strava\Activity\ActivityRepository;
 use LLPhant\Chat\Message;
 use LLPhant\Chat\OllamaChat;
 use LLPhant\Embeddings\DataReader\FileDataReader;
@@ -24,7 +25,7 @@ class TestOllamaChatConsoleCommand extends Command
 {
     public function __construct(
         private readonly Ollama $ollama,
-        private readonly OllamaConfig $ollamaConfig,
+        private readonly ActivityRepository $activityRepository,
     ) {
         parent::__construct();
     }
@@ -37,24 +38,21 @@ class TestOllamaChatConsoleCommand extends Command
             return Command::SUCCESS;
         }
 
-        $chat = new OllamaChat($this->ollama->getConfig()->toLLPhant());
+        $config = $this->ollama->getConfig()->toLLPhant();
+        $chat = new OllamaChat($config);
 
-        /**
-         * $document = new JobDescriptionDocument();
-         * $document->job = $job
-         * $document->content = $job->getDescription();
-         * $document->sourceName = $job->getName();
-         * $document->sourceType = "job description";.
-         *
-         * $splitDocuments = DocumentSplitter::splitDocument($document, 500);
-         * $formattedDocuments = EmbeddingFormatter::formatEmbeddings($splitDocuments);
-         * $embeddingGenerator = new OpenAI3SmallEmbeddingGenerator();
-         * $embeddedDocuments = $embeddingGenerator->embedDocuments($formattedDocuments);
-         */
+        $activities = $this->activityRepository->findAll();
+        $documents = [];
+        foreach ($activities as $activity) {
+            $documents[] = new EmbeddedDocument($activity)->build();
+        }
 
         // Embedding
-        $dataReader = new FileDataReader(__DIR__.'/private-data.txt');
-        $documents = $dataReader->getDocuments();
+        // $dataReader = new FileDataReader(__DIR__.'/private-data.txt');
+        // $documents = $dataReader->getDocuments();
+        var_dump($documents);
+
+        return Command::SUCCESS;
 
         $splitDocuments = DocumentSplitter::splitDocuments($documents, 500);
         $formattedDocuments = EmbeddingFormatter::formatEmbeddings($splitDocuments);
