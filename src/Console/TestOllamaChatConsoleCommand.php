@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Console;
 
+use App\Domain\Integration\AI\Ollama\Ollama;
+use App\Domain\Integration\AI\Ollama\OllamaConfig;
 use LLPhant\Chat\Message;
 use LLPhant\Chat\OllamaChat;
 use LLPhant\Embeddings\DataReader\FileDataReader;
@@ -11,7 +13,6 @@ use LLPhant\Embeddings\DocumentSplitter\DocumentSplitter;
 use LLPhant\Embeddings\EmbeddingFormatter\EmbeddingFormatter;
 use LLPhant\Embeddings\EmbeddingGenerator\Ollama\OllamaEmbeddingGenerator;
 use LLPhant\Embeddings\VectorStores\Memory\MemoryVectorStore;
-use LLPhant\OllamaConfig;
 use LLPhant\Query\SemanticSearch\QuestionAnswering;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -21,17 +22,22 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'app:ollama:test', description: 'Test Ollama')]
 class TestOllamaChatConsoleCommand extends Command
 {
+    public function __construct(
+        private readonly Ollama $ollama,
+        private readonly OllamaConfig $ollamaConfig,
+    ) {
+        parent::__construct();
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $config = new OllamaConfig();
-        $config->model = 'llama3.2';
-        $config->url = 'http://host.docker.internal:11434/api/';
-        $config->modelOptions = [
-            'options' => [
-                'temperature' => 0,
-            ],
-        ];
-        $chat = new OllamaChat($config);
+        if (!$this->ollama->isEnabled()) {
+            $output->writeln('<error>Ollama is disabled</error>');
+
+            return Command::SUCCESS;
+        }
+
+        $chat = new OllamaChat($this->ollama->getConfig()->toLLPhant());
 
         /**
          * $document = new JobDescriptionDocument();
