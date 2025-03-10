@@ -143,7 +143,7 @@ Search: 搜索
 Segments: 路段
 Sep: 九月
 'Show information': 显示信息
-'Since I began working out {numberOfDaysAgo} on {startDate}, I had {totalDaysOfWorkingOut} active days of working out.': '自从我在{startDate}开始锻炼{numberOfDaysAgo}以来，我已经锻炼了{totalDaysOfWorkingOut}天。'
+'Since I began working out {numberOfDaysAgo} ago on {startDate}, I had {totalDaysOfWorkingOut} active days of working out.': '自从我在{startDate}开始锻炼{numberOfDaysAgo}以来，我已经锻炼了{totalDaysOfWorkingOut}天。'
 Skateboard: 滑板
 Skating: 滑冰
 Snowboard: 单板滑雪
