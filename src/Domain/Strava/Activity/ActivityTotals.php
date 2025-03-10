@@ -117,11 +117,9 @@ final class ActivityTotals
 
     public function getTotalDaysSinceFirstActivity(): string
     {
-        $days = (int) $this->now->diff($this->getStartDate())->days;
-
         $join = $this->translator->trans('and');
 
-        return CarbonInterval::days($days)->cascade()->forHumans(['minimumUnit' => 'day', 'join' => [
+        return CarbonInterval::diff($this->getStartDate(), $this->now)->cascade()->forHumans(['minimumUnit' => 'day', 'join' => [
             ' ', sprintf(' %s ', $join),
         ], 'parts' => 2]);
     }

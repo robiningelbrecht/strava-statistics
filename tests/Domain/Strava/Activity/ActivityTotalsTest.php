@@ -46,7 +46,7 @@ class ActivityTotalsTest extends ContainerTestCase
                 SerializableDateTime::fromString('2023-11-25'),
             ],
             [
-                '7 months and 2 weeks',
+                '7 months and 1 day',
                 Activities::fromArray([
                     ActivityBuilder::fromDefaults()
                         ->withStartDateTime(SerializableDateTime::fromString('2023-04-24'))
@@ -55,7 +55,7 @@ class ActivityTotalsTest extends ContainerTestCase
                 SerializableDateTime::fromString('2023-11-25'),
             ],
             [
-                '1 year and 1 month',
+                '1 year and 1 day',
                 Activities::fromArray([
                     ActivityBuilder::fromDefaults()
                         ->withStartDateTime(SerializableDateTime::fromString('2022-11-24'))
@@ -64,7 +64,7 @@ class ActivityTotalsTest extends ContainerTestCase
                 SerializableDateTime::fromString('2023-11-25'),
             ],
             [
-                '6 years and 6 months',
+                '6 years and 1 day',
                 Activities::fromArray([
                     ActivityBuilder::fromDefaults()
                         ->withStartDateTime(SerializableDateTime::fromString('2017-11-24'))

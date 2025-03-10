@@ -110,6 +110,8 @@ final readonly class BuildActivitiesHtmlCommandHandler implements CommandHandler
                 }
             }
 
+            $activityTotals->getTotalDaysSinceFirstActivity();
+
             $leafletMap = $activity->getLeafletMap();
             $this->buildStorage->write(
                 'activity/'.$activity->getId().'.html',
