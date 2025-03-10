@@ -164,13 +164,12 @@ ACTIVITY_VISIBILITIES_TO_IMPORT='[]'
 ACTIVITIES_TO_SKIP_DURING_IMPORT='[]'
 # Your birthday. Needed to calculate heart rate zones.
 ATHLETE_BIRTHDAY=YYYY-MM-DD
-# Optional, history of weight (in kg or pounds, depending on UNIT_SYSTEM). Needed to calculate relative w/kg.
+# History of weight (in kg or pounds, depending on UNIT_SYSTEM). Needed to calculate relative w/kg.
 # Check https://github.com/robiningelbrecht/strava-statistics/wiki for more info.
-#ATHLETE_WEIGHTS='{
-#    "2024-10-03": 74.6,
-#    "2025-01-10": 70.3
-#}'
-ATHLETE_WEIGHTS='[]'
+ATHLETE_WEIGHTS='{
+    "YYYY-MM-DD": 100,
+    "YYYY-MM-DD": 200
+}'
 # Optional, history of FTP. Needed to calculate activity stress level.
 # Check https://github.com/robiningelbrecht/strava-statistics/wiki for more info. Example:
 # FTP_VALUES='{
