@@ -16,7 +16,7 @@ use League\Flysystem\FilesystemOperator;
 use Monolog\Attribute\WithMonologChannel;
 use Psr\Log\LoggerInterface;
 
-#[WithMonologChannel('strava-app')]
+#[WithMonologChannel('strava-api')]
 class Strava
 {
     private static ?string $cachedAccessToken = null;
