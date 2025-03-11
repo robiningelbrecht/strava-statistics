@@ -67,7 +67,7 @@ enum ActivityType: string implements TranslatableInterface
         };
     }
 
-    public function supportsWeeklyDistanceStats(): bool
+    public function supportsWeeklyStats(): bool
     {
         return ActivityType::OTHER !== $this;
     }

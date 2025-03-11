@@ -8,7 +8,7 @@ use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final readonly class WeeklyDistanceChart
+final readonly class WeeklyDistanceTimeChart
 {
     private function __construct(
         private Activities $activities,
@@ -43,8 +43,7 @@ final readonly class WeeklyDistanceChart
         );
         $zoomValueSpan = 10;
         $data = $this->getData($weeks);
-        if (empty(array_filter($data[0]))) {
-            // Activities do not contain distances.
+        if (empty(array_filter($data[0])) && empty(array_filter($data[1]))) {
             return [];
         }
 
@@ -58,6 +57,7 @@ final readonly class WeeklyDistanceChart
             $xAxisLabels[] = $week->getLabel();
         }
 
+        $series = [];
         $serie = [
             'type' => 'line',
             'smooth' => false,
@@ -81,29 +81,34 @@ final readonly class WeeklyDistanceChart
 
         $unitSymbol = $this->unitSystem->distanceSymbol();
 
-        $series[] = array_merge_recursive(
-            $serie,
-            [
-                'name' => $this->translator->trans('Distance / week'),
-                'data' => $data[0],
-                'yAxisIndex' => 0,
-                'label' => [
-                    'formatter' => '{@[1]} '.$unitSymbol,
+        if (!empty(array_filter($data[0]))) {
+            $series[] = array_merge_recursive(
+                $serie,
+                [
+                    'name' => $this->translator->trans('Distance / week'),
+                    'data' => $data[0],
+                    'yAxisIndex' => 0,
+                    'label' => [
+                        'formatter' => '{@[1]} '.$unitSymbol,
+                    ],
                 ],
-            ],
-        );
+            );
+        }
 
-        $series[] = array_merge_recursive(
-            $serie,
-            [
-                'name' => $this->translator->trans('Time / week'),
-                'data' => $data[1],
-                'yAxisIndex' => 1,
-                'label' => [
-                    'formatter' => '{@[1]} h',
+
+        if (!empty(array_filter($data[1]))) {
+            $series[] = array_merge_recursive(
+                $serie,
+                [
+                    'name' => $this->translator->trans('Time / week'),
+                    'data' => $data[1],
+                    'yAxisIndex' => 1,
+                    'label' => [
+                        'formatter' => '{@[1]} h',
+                    ],
                 ],
-            ],
-        );
+            );
+        }
 
         return [
             'animation' => true,

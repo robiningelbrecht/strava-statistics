@@ -13,7 +13,7 @@
     {% autoescape false %}
         <!-- PHOTOS -->
         <div class="mb-4 border-b border-gray-200">
-            <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="photoTypeTab" data-tabs-toggle="#photoTypeTabContent" role="tablist">
+            <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="photoTypeTab" data-tabs="#photoTypeTabContent" role="tablist">
                 {% for sportType in sportTypes %}
                     {% set imageCount =  images|filter(image => image.getActivity().getSportType() == sportType)|length %}
                     {% if imageCount > 0 %}
