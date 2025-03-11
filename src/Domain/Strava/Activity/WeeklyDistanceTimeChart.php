@@ -95,7 +95,6 @@ final readonly class WeeklyDistanceTimeChart
             );
         }
 
-
         if (!empty(array_filter($data[1]))) {
             $series[] = array_merge_recursive(
                 $serie,
