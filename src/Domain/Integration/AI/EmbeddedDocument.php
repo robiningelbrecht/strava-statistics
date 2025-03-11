@@ -16,15 +16,16 @@ final readonly class EmbeddedDocument
 
     public function build(): Document
     {
-        // >how did you feel about the product when it arrived?
-        // It was nice and the packaging was good, I was excited because ...
-        //
-        // >how did you feel about the product after a week using it?
-        // I'm not completely satisfied as it turns out that ...
+        $content = [
+            sprintf('The name of this activity is %s and it took place on %s.', $this->activity->getName(), $this->activity->getStartDate()->format('d-m-Y')),
+            sprintf('This activity was a %s.', $this->activity->getSportType()->value),
+            'The workout had an intensity of 93 which we consider quite high.',
+            sprintf('The activity took %s to complete', $this->activity->getMovingTimeFormatted()),
+        ];
         $document = new Document();
-        $document->content = $this->activity->getName();
+        $document->content = implode(' ', $content);
         $document->sourceName = $this->activity->getName();
-        $document->sourceType = 'activity';
+        $document->sourceType = $this->activity->getSportType()->getActivityType()->value;
         $document->hash = \hash('sha256', $document->content);
 
         return $document;

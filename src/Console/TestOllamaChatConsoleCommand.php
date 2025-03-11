@@ -9,7 +9,6 @@ use App\Domain\Integration\AI\Ollama\Ollama;
 use App\Domain\Strava\Activity\ActivityRepository;
 use LLPhant\Chat\Message;
 use LLPhant\Chat\OllamaChat;
-use LLPhant\Embeddings\DataReader\FileDataReader;
 use LLPhant\Embeddings\DocumentSplitter\DocumentSplitter;
 use LLPhant\Embeddings\EmbeddingFormatter\EmbeddingFormatter;
 use LLPhant\Embeddings\EmbeddingGenerator\Ollama\OllamaEmbeddingGenerator;
@@ -47,13 +46,6 @@ class TestOllamaChatConsoleCommand extends Command
             $documents[] = new EmbeddedDocument($activity)->build();
         }
 
-        // Embedding
-        // $dataReader = new FileDataReader(__DIR__.'/private-data.txt');
-        // $documents = $dataReader->getDocuments();
-        var_dump($documents);
-
-        return Command::SUCCESS;
-
         $splitDocuments = DocumentSplitter::splitDocuments($documents, 500);
         $formattedDocuments = EmbeddingFormatter::formatEmbeddings($splitDocuments);
 
@@ -71,8 +63,9 @@ class TestOllamaChatConsoleCommand extends Command
         );
 
         $messages = [
-            Message::system('You are a workout assistant'),
-            Message::user('What can you tell me about the 2024 nobel physics price?'),
+            Message::system("You are a workout coach with over 20 years of experience specializing 
+            in analyzing workouts and suggesting future workouts based on a user's workout history"),
+            Message::user('What can you tell me about my workout history?'),
         ];
         $answer = $qa->answerQuestionFromChat($messages, 4, [], false);
         // printf("-- Answer:\n%s\n", $answer);
