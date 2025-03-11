@@ -15,15 +15,19 @@ use App\Domain\Strava\Segment\ImportSegments\ImportSegments;
 use App\Infrastructure\CQRS\Bus\CommandBus;
 use App\Infrastructure\Doctrine\Migrations\MigrationRunner;
 use App\Infrastructure\FileSystem\PermissionChecker;
+use App\Infrastructure\Logging\LoggableConsoleOutput;
 use App\Infrastructure\Time\ResourceUsage\ResourceUsage;
 use Doctrine\DBAL\Connection;
 use League\Flysystem\UnableToCreateDirectory;
 use League\Flysystem\UnableToWriteFile;
+use Monolog\Attribute\WithMonologChannel;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[WithMonologChannel('console-output')]
 #[AsCommand(name: 'app:strava:import-data', description: 'Import Strava data')]
 final class ImportStravaDataConsoleCommand extends Command
 {
@@ -33,12 +37,15 @@ final class ImportStravaDataConsoleCommand extends Command
         private readonly MigrationRunner $migrationRunner,
         private readonly ResourceUsage $resourceUsage,
         private readonly Connection $connection,
+        private readonly LoggerInterface $logger,
     ) {
         parent::__construct();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $output = new LoggableConsoleOutput($output, $this->logger);
+
         try {
             $this->fileSystemPermissionChecker->ensureWriteAccess();
         } catch (UnableToWriteFile|UnableToCreateDirectory) {

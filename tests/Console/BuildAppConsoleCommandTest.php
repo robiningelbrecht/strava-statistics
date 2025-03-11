@@ -16,6 +16,7 @@ use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 use App\Tests\Infrastructure\Time\Clock\PausedClock;
 use App\Tests\Infrastructure\Time\ResourceUsage\FixedResourceUsage;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Spatie\Snapshots\MatchesSnapshots;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -27,6 +28,7 @@ class BuildAppConsoleCommandTest extends ConsoleCommandTestCase
     private BuildAppConsoleCommand $buildAppConsoleCommand;
     private MockObject $commandBus;
     private MockObject $migrationRunner;
+    private MockObject $logger;
 
     public function testExecute(): void
     {
@@ -53,6 +55,10 @@ class BuildAppConsoleCommandTest extends ConsoleCommandTestCase
                 $dispatchedCommands[] = $command;
             });
 
+        $this->logger
+            ->expects($this->atLeastOnce())
+            ->method('info');
+
         $command = $this->getCommandInApplication('app:strava:build-files');
         $commandTester = new CommandTester($command);
         $commandTester->execute([
@@ -74,6 +80,10 @@ class BuildAppConsoleCommandTest extends ConsoleCommandTestCase
             ->expects($this->never())
             ->method('dispatch');
 
+        $this->logger
+            ->expects($this->atLeastOnce())
+            ->method('info');
+
         $command = $this->getCommandInApplication('app:strava:build-files');
         $commandTester = new CommandTester($command);
         $commandTester->execute([
@@ -94,6 +104,10 @@ class BuildAppConsoleCommandTest extends ConsoleCommandTestCase
             ->expects($this->never())
             ->method('dispatch');
 
+        $this->logger
+            ->expects($this->atLeastOnce())
+            ->method('info');
+
         $command = $this->getCommandInApplication('app:strava:build-files');
         $commandTester = new CommandTester($command);
         $commandTester->execute([
@@ -109,13 +123,15 @@ class BuildAppConsoleCommandTest extends ConsoleCommandTestCase
         parent::setUp();
 
         $this->commandBus = $this->createMock(CommandBus::class);
+        $this->logger = $this->createMock(LoggerInterface::class);
 
         $this->buildAppConsoleCommand = new BuildAppConsoleCommand(
-            $this->commandBus,
-            $this->getContainer()->get(StravaDataImportStatus::class),
-            new FixedResourceUsage(),
-            $this->migrationRunner = $this->createMock(MigrationRunner::class),
-            PausedClock::on(SerializableDateTime::fromString('2023-10-17 16:15:04'))
+            commandBus: $this->commandBus,
+            stravaDataImportStatus: $this->getContainer()->get(StravaDataImportStatus::class),
+            resourceUsage: new FixedResourceUsage(),
+            migrationRunner: $this->migrationRunner = $this->createMock(MigrationRunner::class),
+            clock: PausedClock::on(SerializableDateTime::fromString('2023-10-17 16:15:04')),
+            logger: $this->logger
         );
     }
 

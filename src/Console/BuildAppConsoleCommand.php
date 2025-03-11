@@ -20,13 +20,17 @@ use App\Domain\Manifest\BuildManifest\BuildManifest;
 use App\Domain\Strava\StravaDataImportStatus;
 use App\Infrastructure\CQRS\Bus\CommandBus;
 use App\Infrastructure\Doctrine\Migrations\MigrationRunner;
+use App\Infrastructure\Logging\LoggableConsoleOutput;
 use App\Infrastructure\Time\Clock\Clock;
 use App\Infrastructure\Time\ResourceUsage\ResourceUsage;
+use Monolog\Attribute\WithMonologChannel;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[WithMonologChannel('console-output')]
 #[AsCommand(name: 'app:strava:build-files', description: 'Build Strava files')]
 final class BuildAppConsoleCommand extends Command
 {
@@ -36,12 +40,15 @@ final class BuildAppConsoleCommand extends Command
         private readonly ResourceUsage $resourceUsage,
         private readonly MigrationRunner $migrationRunner,
         private readonly Clock $clock,
+        private readonly LoggerInterface $logger,
     ) {
         parent::__construct();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $output = new LoggableConsoleOutput($output, $this->logger);
+
         if (!$this->migrationRunner->isAtLatestVersion()) {
             $output->writeln('<error>Your database is not up to date with the migration schema. Run the import command before building the HTML files</error>');
 

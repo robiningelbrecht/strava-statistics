@@ -3,12 +3,18 @@ monolog:
         - deprecation # Deprecations are logged in the dedicated "deprecation" channel when it exists
         - strava-api
     handlers:
-        strava-app:
+        strava-api:
             type:  rotating_file
             max_files: 5
             path: "%kernel.project_dir%/storage/files/logs/strava-api.log"
             level: debug
             channels: ["strava-api"]
+        console-output:
+            type: rotating_file
+            max_files: 5
+            path: "%kernel.project_dir%/storage/files/logs/console-output.log"
+            level: debug
+            channels: ["console-output"]
 
 when@dev:
     monolog:
