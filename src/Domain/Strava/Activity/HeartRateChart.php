@@ -31,19 +31,24 @@ final readonly class HeartRateChart
         /** @var non-empty-array<mixed> $heartRateData */
         $heartRateData = $this->heartRateStream->getData();
 
+        // Shave of leading zero's. We don't care about those hear rates.
+        while (!empty($heartRateData) && 0 === reset($heartRateData)) {
+            array_shift($heartRateData);
+        }
+
         foreach (array_keys($heartRateData) as $timeInSeconds) {
             $xAxisData[] = $this->formatDurationForChartLabel($timeInSeconds);
         }
 
         return [
             'grid' => [
-                'top' => '3%',
-                'left' => '3%',
-                'right' => '3%',
-                'bottom' => '3%',
-                'containLabel' => true,
+                'left' => '9%',
+                'right' => '0%',
+                'bottom' => '7%',
+                'height' => '325px',
+                'containLabel' => false,
             ],
-            'color' => '#BD2D22',
+            'color' => '#DF584A',
             'xAxis' => [
                 'type' => 'category',
                 'boundaryGap' => false,
@@ -58,7 +63,11 @@ final readonly class HeartRateChart
                 'nameRotate' => 90,
                 'nameLocation' => 'middle',
                 'nameGap' => 35,
-                'min' => floor((min($heartRateData) - 10) / 10) * 10,
+                'min' => max(0, floor((min($heartRateData) - 10) / 10) * 10),
+                'max' => ceil((max($heartRateData) + 10) / 10) * 10,
+                'axisLabel' => [
+                    'showMaxLabel' => false,
+                ],
             ],
             'tooltip' => [
                 'trigger' => 'axis',
@@ -74,31 +83,43 @@ final readonly class HeartRateChart
                         'silent' => true,
                         'label' => [
                             'position' => 'insideMiddleTop',
-                            'rich' => [
-                                'bpm' => [
-                                    'fontWeight' => 'bold',
-                                ],
-                            ],
+                            'color' => '#FFFFFF',
+                            'fontWeight' => 'bold',
+                            'textBorderColor' => 'none',
                         ],
                         'symbol' => 'none',
                         'lineStyle' => [
                             'type' => 7,
                             'width' => 1.5,
-                            'color' => '#303030',
+                            'color' => '#FFFFFF',
                         ],
                         'data' => [
                             [
                                 'type' => 'max',
                                 'name' => 'Max',
                                 'label' => [
-                                    'formatter' => 'max {bpm|{c}}',
+                                    'formatter' => 'max {c}',
                                 ],
                             ],
                             [
                                 'type' => 'average',
                                 'name' => 'Avg',
                                 'label' => [
-                                    'formatter' => 'avg {bpm|{c}}',
+                                    'formatter' => 'avg {c}',
+                                ],
+                            ],
+                        ],
+                    ],
+                    'markArea' => [
+                        'data' => [
+                            [
+                                [
+                                    'itemStyle' => [
+                                        'color' => '#303030',
+                                    ],
+                                ],
+                                [
+                                    'x' => '100%',
                                 ],
                             ],
                         ],
@@ -107,7 +128,7 @@ final readonly class HeartRateChart
                         'width' => 1,
                     ],
                     'areaStyle' => [
-                        'opacity' => 0.8,
+                        'opacity' => 0.3,
                     ],
                 ],
             ],
