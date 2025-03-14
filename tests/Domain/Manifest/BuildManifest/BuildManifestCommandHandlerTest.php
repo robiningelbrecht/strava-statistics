@@ -6,6 +6,7 @@ use App\Domain\Manifest\BuildManifest\BuildManifest;
 use App\Domain\Strava\Athlete\Athlete;
 use App\Domain\Strava\Athlete\AthleteRepository;
 use App\Infrastructure\CQRS\Bus\CommandBus;
+use App\Infrastructure\ValueObject\String\KernelProjectDir;
 use App\Tests\ContainerTestCase;
 use App\Tests\Infrastructure\FileSystem\provideAssertFileSystem;
 use App\Tests\ProvideTestData;
@@ -35,6 +36,20 @@ class BuildManifestCommandHandlerTest extends ContainerTestCase
 
         $this->commandBus->dispatch(new BuildManifest());
         $this->assertFileSystemWrites($publicStorage);
+    }
+
+    public function testThatManifestContainsPlaceholders(): void
+    {
+        $manifestContents = file_get_contents($this->getContainer()->get(KernelProjectDir::class).'/public/manifest.json');
+
+        $this->assertStringContainsString(
+            '[APP_HOST]',
+            $manifestContents
+        );
+        $this->assertStringContainsString(
+            '[APP_NAME]',
+            $manifestContents
+        );
     }
 
     #[\Override]
