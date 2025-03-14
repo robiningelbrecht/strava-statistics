@@ -26,4 +26,14 @@ class FallbackEnvVarProcessorTest extends TestCase
             $processor->getEnv('prefix', 'value1:value2:value3', fn (mixed $value) => 'value2' === $value ? $value : null),
         );
     }
+
+    public function testGetProvidedTypes(): void
+    {
+        $this->assertEquals(
+            [
+                'fallback' => 'bool|int|float|string|array',
+            ],
+            FallbackEnvVarProcessor::getProvidedTypes(),
+        );
+    }
 }

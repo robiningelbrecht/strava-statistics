@@ -40,7 +40,10 @@ composer:
 phpunit:
 	@make dcr cmd="vendor/bin/phpunit -d --enable-pretty-print -d --compact $(arg)"
 
-phpunit-with-coverage:
+phpunit-with-coverage-report:
+	@make phpunit arg="--coverage-clover=clover.xml -d --min-coverage=min-coverage-rules.php"
+
+phpunit-html-coverage:
 	@make phpunit arg="--coverage-html var/coverage"
 
 phpstan:
