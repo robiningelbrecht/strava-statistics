@@ -25,13 +25,11 @@ use App\Infrastructure\Geocoding\Nominatim\Nominatim;
 use App\Infrastructure\ValueObject\Geography\Coordinate;
 use App\Infrastructure\ValueObject\Geography\Latitude;
 use App\Infrastructure\ValueObject\Geography\Longitude;
-use App\Infrastructure\ValueObject\Identifier\UuidFactory;
 use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Measurement\Length\Meter;
 use App\Infrastructure\ValueObject\Measurement\Velocity\MetersPerSecond;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
-use League\Flysystem\FilesystemOperator;
 
 final readonly class ImportActivitiesCommandHandler implements CommandHandler
 {
@@ -42,13 +40,12 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
         private ActivityRepository $activityRepository,
         private ActivityWithRawDataRepository $activityWithRawDataRepository,
         private GearRepository $gearRepository,
-        private FilesystemOperator $fileStorage,
         private SportTypesToImport $sportTypesToImport,
         private ActivityVisibilitiesToImport $activityVisibilitiesToImport,
         private ActivitiesToSkipDuringImport $activitiesToSkipDuringImport,
         private StravaDataImportStatus $stravaDataImportStatus,
         private NumberOfNewActivitiesToProcessPerImport $numberOfNewActivitiesToProcessPerImport,
-        private UuidFactory $uuidFactory,
+        private ActivityImageDownloader $activityImageDownloader,
     ) {
     }
 
@@ -124,6 +121,16 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                     $activity->updateLocation($reverseGeocodedAddress);
                 }
 
+                if (0 === $activity->getTotalImageCount() && ($stravaActivity['total_photo_count'] ?? 0) > 0) {
+                    // Activity got updated and images were uploaded, import them.
+                    if ($fileSystemPaths = $this->activityImageDownloader->downloadImages($activity->getId())) {
+                        $activity->updateLocalImagePaths(array_map(
+                            fn (string $fileSystemPath) => 'files/'.$fileSystemPath,
+                            $fileSystemPaths
+                        ));
+                    }
+                }
+
                 $this->activityWithRawDataRepository->update(ActivityWithRawData::fromState(
                     activity: $activity,
                     rawData: [
@@ -147,26 +154,13 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                         gearName: $gearId ? $allGears->getByGearId($gearId)?->getName() : null
                     );
 
-                    $localImagePaths = [];
                     if ($activity->getTotalImageCount() > 0) {
-                        $photos = $this->strava->getActivityPhotos($activity->getId());
-                        foreach ($photos as $photo) {
-                            if (empty($photo['urls'][5000])) {
-                                continue;
-                            }
-
-                            /** @var string $urlPath */
-                            $urlPath = parse_url((string) $photo['urls'][5000], PHP_URL_PATH);
-                            $extension = pathinfo($urlPath, PATHINFO_EXTENSION);
-                            $fileSystemPath = sprintf('activities/%s.%s', $this->uuidFactory->random(), $extension);
-                            $this->fileStorage->write(
-                                $fileSystemPath,
-                                $this->strava->downloadImage($photo['urls'][5000])
-                            );
-
-                            $localImagePaths[] = 'files/'.$fileSystemPath;
+                        if ($fileSystemPaths = $this->activityImageDownloader->downloadImages($activity->getId())) {
+                            $activity->updateLocalImagePaths(array_map(
+                                fn (string $fileSystemPath) => 'files/'.$fileSystemPath,
+                                $fileSystemPaths
+                            ));
                         }
-                        $activity->updateLocalImagePaths($localImagePaths);
                     }
 
                     if ($sportType->supportsWeather() && $activity->getStartingCoordinate()) {
