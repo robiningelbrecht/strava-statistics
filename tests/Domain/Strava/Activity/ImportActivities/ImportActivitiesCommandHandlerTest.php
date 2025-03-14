@@ -84,7 +84,7 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
     public function testHandleWithTooManyRequests(): void
     {
         $output = new SpyOutput();
-        $this->strava->setMaxNumberOfCallsBeforeTriggering429(7);
+        $this->strava->setMaxNumberOfCallsBeforeTriggering429(9);
 
         $this->getContainer()->get(KeyValueStore::class)->save(KeyValue::fromState(
             Key::STRAVA_GEAR_IMPORT,
@@ -103,6 +103,7 @@ class ImportActivitiesCommandHandlerTest extends ContainerTestCase
                     Latitude::fromString('51.2'),
                     Longitude::fromString('3.18')
                 ))
+                ->withTotalImageCount(0)
                 ->build(),
             [
                 'start_date_local' => '2024-01-01T02:58:29Z',

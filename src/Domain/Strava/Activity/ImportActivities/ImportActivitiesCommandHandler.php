@@ -121,14 +121,17 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                     $activity->updateLocation($reverseGeocodedAddress);
                 }
 
-                if (0 === $activity->getTotalImageCount() && ($stravaActivity['total_photo_count'] ?? 0) > 0) {
-                    // Activity got updated and images were uploaded, import them.
-                    if ($fileSystemPaths = $this->activityImageDownloader->downloadImages($activity->getId())) {
-                        $activity->updateLocalImagePaths(array_map(
-                            fn (string $fileSystemPath) => 'files/'.$fileSystemPath,
-                            $fileSystemPaths
-                        ));
+                try {
+                    if (0 === $activity->getTotalImageCount() && ($stravaActivity['total_photo_count'] ?? 0) > 0) {
+                        // Activity got updated and images were uploaded, import them.
+                        if ($fileSystemPaths = $this->activityImageDownloader->downloadImages($activity->getId())) {
+                            $activity->updateLocalImagePaths(array_map(
+                                fn (string $fileSystemPath) => 'files/'.$fileSystemPath,
+                                $fileSystemPaths
+                            ));
+                        }
                     }
+                } catch (ClientException|RequestException) {
                 }
 
                 $this->activityWithRawDataRepository->update(ActivityWithRawData::fromState(
