@@ -36,6 +36,10 @@ final readonly class HeartRateChart
             array_shift($heartRateData);
         }
 
+        if (empty($heartRateData)) {
+            return [];
+        }
+
         foreach (array_keys($heartRateData) as $timeInSeconds) {
             $xAxisData[] = $this->formatDurationForChartLabel($timeInSeconds);
         }
