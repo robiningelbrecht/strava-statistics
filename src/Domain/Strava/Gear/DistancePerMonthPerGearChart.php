@@ -70,9 +70,10 @@ final readonly class DistancePerMonthPerGearChart
         foreach ($gears as $gear) {
             $distanceInLastThreeMonths = array_sum(array_slice($distancePerGearAndMonth[(string) $gear->getId()], -3, 3));
 
-            $selectedSeries[$gear->getName()] = $distanceInLastThreeMonths > 0;
+            $gearName = $gear->getSanitizedName();
+            $selectedSeries[$gearName] = $distanceInLastThreeMonths > 0;
             $series[] = [
-                'name' => $gear->getName(),
+                'name' => $gearName,
                 'type' => 'bar',
                 'barGap' => 0,
                 'emphasis' => [
