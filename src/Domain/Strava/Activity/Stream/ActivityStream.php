@@ -92,6 +92,11 @@ final class ActivityStream
      */
     public function getData(): array
     {
+        if (StreamType::HEART_RATE === $this->getStreamType() && !empty($this->data) && max($this->data) > 300) {
+            // Max BPM of 300, WTF? Must be faulty data.
+            return [];
+        }
+
         return $this->data;
     }
 
