@@ -88,7 +88,7 @@ final class Activity
         #[ORM\Column(type: 'string', nullable: true)]
         private readonly ?string $deviceName,
         #[ORM\Column(type: 'integer')]
-        private readonly int $totalImageCount,
+        private int $totalImageCount,
         #[ORM\Column(type: 'text', nullable: true)]
         private array $localImagePaths,
         #[ORM\Column(type: 'text', nullable: true)]
@@ -330,6 +330,7 @@ final class Activity
     public function updateLocalImagePaths(array $localImagePaths): void
     {
         $this->localImagePaths = $localImagePaths;
+        $this->totalImageCount = count($this->localImagePaths);
     }
 
     public function getTotalImageCount(): int

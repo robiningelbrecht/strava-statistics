@@ -157,7 +157,7 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                         gearName: $gearId ? $allGears->getByGearId($gearId)?->getName() : null
                     );
 
-                    if ($activity->getTotalImageCount() > 0) {
+                    if (($rawStravaData['total_photo_count'] ?? 0) > 0) {
                         if ($fileSystemPaths = $this->activityImageDownloader->downloadImages($activity->getId())) {
                             $activity->updateLocalImagePaths(array_map(
                                 fn (string $fileSystemPath) => 'files/'.$fileSystemPath,
