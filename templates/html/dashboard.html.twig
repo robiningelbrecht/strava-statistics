@@ -163,7 +163,7 @@
                     <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="weeklyDistancesActivityTypeTab" data-tabs="#weeklyDistancesActivityTypeTabContent" role="tablist">
                         {% for activityType,chart in weeklyDistanceCharts %}
                             <li class="mr-2" role="presentation">
-                                <a href="#dashboard" data-tabs-target="#weeklyDistances{{ activityType }}" role="tab" aria-controls="weeklyDistances{{ activityType }}" class="inline-flex items-center justify-center p-2 border-b-2 rounded-t-lg group">
+                                <a href="#" data-tabs-target="#weeklyDistances{{ activityType }}" role="tab" aria-controls="weeklyDistances{{ activityType }}" class="inline-flex items-center justify-center p-2 border-b-2 rounded-t-lg group">
                                     {{ enum('App\\Domain\\Strava\\Activity\\ActivityType').from(activityType)|trans }}
                                 </a>
                             </li>
@@ -413,7 +413,7 @@
                         <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="distanceBreakdownActivityTypeTab" data-tabs="#distanceBreakdownActivityTypeTabContent" role="tablist">
                             {% for activityType,distanceBreakdown in distanceBreakdowns %}
                                 <li class="mr-2" role="presentation">
-                                    <a href="#dashboard" data-tabs-target="#distanceBreakdown{{ activityType }}" role="tab" aria-controls="distanceBreakdown{{ activityType }}" class="inline-flex items-center justify-center p-2 border-b-2 rounded-t-lg group">
+                                    <a href="#" data-tabs-target="#distanceBreakdown{{ activityType }}" role="tab" aria-controls="distanceBreakdown{{ activityType }}" class="inline-flex items-center justify-center p-2 border-b-2 rounded-t-lg group">
                                         {{ enum('App\\Domain\\Strava\\Activity\\ActivityType').from(activityType)|trans }}
                                     </a>
                                 </li>
@@ -646,7 +646,7 @@
                         <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="yearlyDistancesActivityTypeTab" data-tabs="#yearlyDistancesActivityTypeTabContent" role="tablist">
                             {% for activityType,chart in yearlyDistanceCharts %}
                                 <li class="mr-2" role="presentation">
-                                    <a href="#dashboard" data-tabs-target="#yearlyDistances{{ activityType }}" role="tab" aria-controls="yearlyDistances{{ activityType }}" class="inline-flex items-center justify-center p-2 border-b-2 rounded-t-lg group">
+                                    <a href="#" data-tabs-target="#yearlyDistances{{ activityType }}" role="tab" aria-controls="yearlyDistances{{ activityType }}" class="inline-flex items-center justify-center p-2 border-b-2 rounded-t-lg group">
                                         {{ enum('App\\Domain\\Strava\\Activity\\ActivityType').from(activityType)|trans }}
                                     </a>
                                 </li>

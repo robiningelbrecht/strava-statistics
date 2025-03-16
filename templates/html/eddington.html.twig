@@ -23,7 +23,7 @@
                         <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="activityTypeTab" data-tabs="#activityTypeTabContent" role="tablist">
                             {% for activityType,eddington in eddingtons %}
                                 <li class="mr-2" role="presentation">
-                                    <a href="#eddington" data-tabs-target="#{{ activityType }}" role="tab" aria-controls="{{ activityType }}" class="inline-flex items-center justify-center p-2 border-b-2 rounded-t-lg group">
+                                    <a href="#" data-tabs-target="#{{ activityType }}" role="tab" aria-controls="{{ activityType }}" class="inline-flex items-center justify-center p-2 border-b-2 rounded-t-lg group">
                                         {{ enum('App\\Domain\\Strava\\Activity\\ActivityType').from(activityType)|trans }} ({{ eddington.getNumber() }})
                                     </a>
                                 </li>

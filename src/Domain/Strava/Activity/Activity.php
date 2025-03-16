@@ -343,6 +343,11 @@ final class Activity
         return trim(str_replace('Zwift - ', '', $this->name));
     }
 
+    public function getSanitizedName(): string
+    {
+        return htmlspecialchars($this->getName());
+    }
+
     public function updateName(string $name): self
     {
         $this->name = $name;
