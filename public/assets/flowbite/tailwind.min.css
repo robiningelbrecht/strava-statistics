@@ -871,6 +871,9 @@
   .start-0 {
     inset-inline-start: calc(var(--spacing) * 0);
   }
+  .-top-\[48px\] {
+    top: calc(48px * -1);
+  }
   .top-0 {
     top: calc(var(--spacing) * 0);
   }

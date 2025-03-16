@@ -11,10 +11,7 @@ final readonly class ActivityBasedImageRepository implements ImageRepository
     ) {
     }
 
-    /**
-     * @return Image[]
-     */
-    public function findAll(): array
+    public function findAll(): Images
     {
         $images = [];
         $activities = $this->activityRepository->findAll();
@@ -35,7 +32,7 @@ final readonly class ActivityBasedImageRepository implements ImageRepository
             ];
         }
 
-        return $images;
+        return Images::fromArray($images);
     }
 
     public function count(): int

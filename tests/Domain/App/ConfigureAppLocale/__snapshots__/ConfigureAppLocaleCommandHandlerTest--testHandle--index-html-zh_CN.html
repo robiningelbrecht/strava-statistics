@@ -12,6 +12,7 @@
     <link href="/assets/flowbite/tailwind.min.css?0025176c-5652-11ee-923d-02424dd627d5" rel="stylesheet">
     <link href="/assets/leaflet/leaflet.css?0025176c-5652-11ee-923d-02424dd627d5" rel="stylesheet">
     <link href="/assets/data-table/clusterize.min.css?0025176c-5652-11ee-923d-02424dd627d5" rel="stylesheet">
+    <link href="/assets/lightgallery/lightgallery-bundle.min.css?0025176c-5652-11ee-923d-02424dd627d5" rel="stylesheet">
 </head>
 <body>
 <div class="antialiased bg-gray-50">
@@ -205,7 +206,8 @@
             <div class="border-t py-2 px-4 text-xs text-center text-gray-500">
                 <div class="flex gap-x-1 justify-center">
                     <div>Powered by</div>
-                    <div aria-expanded="false" data-dropdown-toggle="contact-menu-dropdown" data-dropdown-offset-distance="0" data-dropdown-offset-skidding="-22" class="cursor-pointer font-medium">Robin Ingelbrecht</div>
+                    <div aria-expanded="false" data-dropdown-toggle="contact-menu-dropdown" data-dropdown-offset-distance="0" data-dropdown-offset-skidding="-22" class="cursor-pointer font-medium">Robin Ingelbrecht
+                    </div>
                     <div>&amp; &#9749;</div>
                 </div>
                 <div class="border border-gray-100 hidden z-50 my-4 w-56 text-base list-none bg-white divide-y divide-gray-100 shadow-xl rounded-xl" id="contact-menu-dropdown">
@@ -325,6 +327,8 @@
 <script src="/assets/leaflet/heatmap.js?0025176c-5652-11ee-923d-02424dd627d5" type="module"></script>
 <script src="/assets/data-table/clusterize.min.js?0025176c-5652-11ee-923d-02424dd627d5"></script>
 <script src="/assets/data-table/data-table.js?0025176c-5652-11ee-923d-02424dd627d5" type="module"></script>
+<script src="/assets/lightgallery/lightgallery.umd.min.js?0025176c-5652-11ee-923d-02424dd627d5" type="module"></script>
+<script src="/assets/lightgallery/lightgallery.lg-zoom.min.js?0025176c-5652-11ee-923d-02424dd627d5"></script>
 
 <script type="module">
     import LeafletMap from "./assets/leaflet/leaflet-map.js";
@@ -398,6 +402,23 @@
             const data = JSON.parse(mapNode.getAttribute('data-leaflet'));
             LeafletMap(mapNode, data).render();
         });
+
+        // Init Lightgallery.
+        rootNode.querySelectorAll('[data-light-gallery-elements]').forEach(function (node) {
+            const elements = JSON.parse(node.getAttribute('data-light-gallery-elements'));
+
+            const dynamicGallery = lightGallery(node, {
+                dynamic: true,
+                plugins: [lgZoom],
+                backdropDuration: 200,
+                dynamicEl: elements,
+            });
+
+            node.addEventListener('click', () => {
+                dynamicGallery.openGallery();
+            });
+        });
+
     };
 
     const initModals = (rootNode) => {

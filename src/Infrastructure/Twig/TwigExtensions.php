@@ -30,6 +30,7 @@ final class TwigExtensions extends AbstractExtension
             new TwigFilter('formatTime', [new FormatDateAndTimeTwigExtension($this->dateAndTimeFormat), 'formatTime']),
             new TwigFilter('convertMeasurement', [new MeasurementTwigExtension($this->unitSystem), 'doConversion']),
             new TwigFilter('formatPace', [new MeasurementTwigExtension($this->unitSystem), 'formatPace']),
+            new TwigFilter('array_values', ArrayTwigExtension::doArrayValues(...)),
         ];
     }
 

@@ -8,7 +8,6 @@ use App\Domain\Strava\Activity\Image\ImageRepository;
 use App\Domain\Strava\Activity\SportType\SportTypeRepository;
 use App\Infrastructure\CQRS\Command;
 use App\Infrastructure\CQRS\CommandHandler;
-use App\Infrastructure\Serialization\Json;
 use League\Flysystem\FilesystemOperator;
 use Twig\Environment;
 
@@ -19,8 +18,7 @@ final readonly class BuildPhotosHtmlCommandHandler implements CommandHandler
         private SportTypeRepository $sportTypeRepository,
         private Environment $twig,
         private FilesystemOperator $buildStorage,
-    )
-    {
+    ) {
     }
 
     public function handle(Command $command): void
@@ -30,10 +28,10 @@ final readonly class BuildPhotosHtmlCommandHandler implements CommandHandler
         $importedSportTypes = $this->sportTypeRepository->findAll();
         $images = $this->imageRepository->findAll();
 
-        $lightGalleryElementsPerSportType = [];
+        $lightGalleryElements = [];
         foreach ($images as $image) {
             $activity = $image->getActivity();
-            $lightGalleryElementsPerSportType[$activity->getSportType()->value][] = [
+            $lightGalleryElements[] = [
                 'src' => $image->getImageUrl(),
                 'subHtml' => '<p>'.$activity->getSanitizedName().'</p>',
                 'alt' => $activity->getSanitizedName(),
@@ -45,7 +43,6 @@ final readonly class BuildPhotosHtmlCommandHandler implements CommandHandler
             $this->twig->load('html/photos.html.twig')->render([
                 'images' => $images,
                 'sportTypes' => $importedSportTypes,
-                'lightGalleryElements' => $lightGalleryElementsPerSportType,
             ]),
         );
     }
