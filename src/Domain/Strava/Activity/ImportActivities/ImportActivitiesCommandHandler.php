@@ -200,8 +200,6 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
                         break;
                     }
                 } catch (ClientException|RequestException $exception) {
-                    $this->stravaDataImportStatus->markActivityImportAsUncompleted();
-
                     if (!$exception->getResponse()) {
                         // Re-throw, we only want to catch supported error codes.
                         throw $exception;
@@ -222,7 +220,6 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
             }
         }
 
-        $this->stravaDataImportStatus->markActivityImportAsCompleted();
         if ($this->numberOfNewActivitiesToProcessPerImport->maxNumberProcessed()) {
             // Shortcut the process here to make sure no activities are deleted yet.
             return;

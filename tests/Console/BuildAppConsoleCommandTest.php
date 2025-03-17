@@ -3,6 +3,9 @@
 namespace App\Tests\Console;
 
 use App\Console\BuildAppConsoleCommand;
+use App\Domain\Strava\Activity\ActivityId;
+use App\Domain\Strava\Activity\ActivityWithRawData;
+use App\Domain\Strava\Activity\ActivityWithRawDataRepository;
 use App\Domain\Strava\StravaDataImportStatus;
 use App\Infrastructure\CQRS\Bus\CommandBus;
 use App\Infrastructure\CQRS\DomainCommand;
@@ -13,6 +16,7 @@ use App\Infrastructure\KeyValue\KeyValueStore;
 use App\Infrastructure\KeyValue\Value;
 use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
+use App\Tests\Domain\Strava\Activity\ActivityBuilder;
 use App\Tests\Infrastructure\Time\Clock\PausedClock;
 use App\Tests\Infrastructure\Time\ResourceUsage\FixedResourceUsage;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -33,13 +37,14 @@ class BuildAppConsoleCommandTest extends ConsoleCommandTestCase
     public function testExecute(): void
     {
         $this->getContainer()->get(KeyValueStore::class)->save(KeyValue::fromState(
-            Key::STRAVA_ACTIVITY_IMPORT,
+            Key::STRAVA_GEAR_IMPORT,
             Value::fromString('yes')
         ));
 
-        $this->getContainer()->get(KeyValueStore::class)->save(KeyValue::fromState(
-            Key::STRAVA_GEAR_IMPORT,
-            Value::fromString('yes')
+        $this->getContainer()->get(ActivityWithRawDataRepository::class)->add(ActivityWithRawData::fromState(
+            ActivityBuilder::fromDefaults()
+                ->withActivityId(ActivityId::fromUnprefixed(4))
+                ->build(), []
         ));
 
         $this->migrationRunner
