@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\EnvVarProcessorInterface;
+use Symfony\Component\DependencyInjection\Exception\EnvNotFoundException;
 
 final readonly class FallbackEnvVarProcessor implements EnvVarProcessorInterface
 {
@@ -20,8 +21,13 @@ final readonly class FallbackEnvVarProcessor implements EnvVarProcessorInterface
 
         $env = null;
         foreach ($fallbacks as $fallback) {
-            if ($env = $getEnv($fallback)) {
-                return $env;
+            try {
+                if ($env = $getEnv($fallback)) {
+                    return $env;
+                }
+            } catch (EnvNotFoundException) {
+                // Throw again and make sure first fallback is used as $name.
+                throw new EnvNotFoundException(\sprintf('Environment variable not found: "%s".', $fallbacks[0]));
             }
         }
 
