@@ -2928,6 +2928,20 @@
       }
     }
   }
+  .hover\:text-\[\#5865F4\] {
+    &:hover {
+      @media (hover: hover) {
+        color: #5865F4;
+      }
+    }
+  }
+  .hover\:text-\[\#111827\] {
+    &:hover {
+      @media (hover: hover) {
+        color: #111827;
+      }
+    }
+  }
   .hover\:text-\[\#fc4c01\] {
     &:hover {
       @media (hover: hover) {
