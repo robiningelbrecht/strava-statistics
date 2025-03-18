@@ -74,6 +74,7 @@ final readonly class ImportChallengesCommandHandler implements CommandHandler
 
             try {
                 $this->challengeRepository->find($challengeId);
+                continue;
             } catch (EntityNotFound) {
                 $challenge = Challenge::create(
                     challengeId: $challengeId,

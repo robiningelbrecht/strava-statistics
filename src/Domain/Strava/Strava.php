@@ -304,7 +304,9 @@ class Strava
 
     public function downloadImage(string $uri): string
     {
-        $response = $this->client->request('GET', $uri);
+        $response = $this->client->request('GET', $uri, [
+            RequestOptions::DECODE_CONTENT => false,
+        ]);
 
         return $response->getBody()->getContents();
     }
