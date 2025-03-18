@@ -47,7 +47,7 @@
                                                             {{ renderSvg(sportType.getSvgIcon(), {'customPath': 'svg/sport-type'}) }}
                                                             <div>{{ sportType|trans }}</div>
                                                         </label>
-                                                        <a href="#" class="text-strava-orange text-sm underline invisible peer-checked:visible ml-auto" data-datatable-filter-clear="sportType">clear</a>
+                                                        <a href="#" class="text-strava-orange text-sm underline invisible peer-checked:visible ml-auto" data-datatable-filter-clear="sportType">{{ "clear"|trans }}</a>
                                                     </div>
                                                 </li>
                                             {% endfor %}
