@@ -143,6 +143,7 @@ Search: 搜索
 Segments: 路段
 Sep: 九月
 'Show information': 显示信息
+Simplified: 'Simplified'
 'Since I began working out {numberOfDaysAgo} ago on {startDate}, I had {totalDaysOfWorkingOut} active days of working out.': '自从我在{startDate}开始锻炼{numberOfDaysAgo}以来，我已经锻炼了{totalDaysOfWorkingOut}天。'
 Skateboard: 滑板
 Skating: 滑冰
@@ -153,7 +154,7 @@ Speed: 速度
 Squash: 壁球
 'Stair Stepper': 楼梯机
 'Stand Up Paddling': 站立划桨
-'Start slideshow': '""Start slideshow'
+'Start slideshow': 'Start slideshow'
 'Statistics for Strava': 'Statistics for Strava'
 'Stats per gear': 按装备统计
 'Stats per weekday': 按工作日统计

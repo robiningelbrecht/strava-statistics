@@ -143,6 +143,7 @@ Search: Zoeken
 Segments: Segmenten
 Sep: Sep
 'Show information': 'Informatie tonen'
+Simplified: 'Simplified'
 'Since I began working out {numberOfDaysAgo} ago on {startDate}, I had {totalDaysOfWorkingOut} active days of working out.': 'Sinds ik begon met sporten {numberOfDaysAgo} op {startDate}, had ik {totalDaysOfWorkingOut} dagen waarop ik heb gesport.'
 Skateboard: Skateboard
 Skating: Skating
@@ -153,7 +154,7 @@ Speed: Snelheid
 Squash: Squash
 'Stair Stepper': 'Stair Stepper'
 'Stand Up Paddling': 'Stand Up Paddling'
-'Start slideshow': '""Start slideshow'
+'Start slideshow': 'Start slideshow'
 'Statistics for Strava': 'Statistics for Strava'
 'Stats per gear': 'Stats per uitrusting'
 'Stats per weekday': 'Stats per weekdag'
@@ -173,7 +174,7 @@ Thu: Do
 Thursday: Donderdag
 'Time / week': 'Tijd / week'
 'Times completed': 'Aantal keer voltooid'
-To: To
+To: Tot
 'Toggle sidebar': 'Toggle sidebar'
 'Top 10': 'Top 10'
 'Total carbon saved': 'Total carbon saved'

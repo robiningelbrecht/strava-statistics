@@ -44,7 +44,7 @@ Eddington: Eddington
 Elev: Desnível
 Elevation: Elevação
 Elliptical: Elíptica
-Evening: Fim da tarde
+Evening: 'Fim da tarde'
 'FTP history': 'Histórico de FTP'
 'Fastest ride': 'Passeio de bicicleta mais rápido'
 Favourite: Favorito
@@ -143,6 +143,7 @@ Search: Pesquisar
 Segments: Segmentos
 Sep: Set
 'Show information': 'Mostrar informação'
+Simplified: 'Simplified'
 'Since I began working out {numberOfDaysAgo} ago on {startDate}, I had {totalDaysOfWorkingOut} active days of working out.': 'Desde que comecei a treinar há {numberOfDaysAgo}, em {startDate}, tive {totalDaysOfWorkingOut} dias ativos de treino.'
 Skateboard: Skateboard
 Skating: Patinagem
@@ -153,7 +154,7 @@ Speed: Velocidade
 Squash: Squash
 'Stair Stepper': 'Subida de Escadas'
 'Stand Up Paddling': 'Stand Up Paddle'
-'Start slideshow': '""Start slideshow'
+'Start slideshow': 'Start slideshow'
 'Statistics for Strava': 'Estatísticas para o Strava'
 'Stats per gear': 'Estatísticas por equipamento'
 'Stats per weekday': 'Estatísticas por dia da semana'

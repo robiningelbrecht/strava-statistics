@@ -143,6 +143,7 @@ Search: Suche
 Segments: Segmente
 Sep: Sep
 'Show information': 'Informationen anzeigen'
+Simplified: 'Simplified'
 'Since I began working out {numberOfDaysAgo} ago on {startDate}, I had {totalDaysOfWorkingOut} active days of working out.': 'Seit ich vor {numberOfDaysAgo} am {startDate} mit dem Training begonnen habe, hatte ich {totalDaysOfWorkingOut} aktive Trainingstage.'
 Skateboard: Skateboard
 Skating: Skaten
@@ -153,7 +154,7 @@ Speed: Geschwindigkeit
 Squash: Squash
 'Stair Stepper': Treppensteiger
 'Stand Up Paddling': 'Stand-Up Paddeln'
-'Start slideshow': '""Start slideshow'
+'Start slideshow': 'Start slideshow'
 'Statistics for Strava': 'Statistiken für Strava'
 'Stats per gear': 'Statistiken pro Ausrüstung'
 'Stats per weekday': 'Statistiken pro Wochentag'
