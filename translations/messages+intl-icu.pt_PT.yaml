@@ -16,7 +16,7 @@ Best: Melhor
 Cadence: Cadência
 Calories: Calorias
 Canoeing: Canoagem
-'Challenge consistency': 'Consistência do desafio'
+'Challenge consistency': 'Consistência nos desafios'
 Challenges: Desafios
 'Climb a total of 2000m': 'Escalar um total de 2000m'
 'Climb a total of 7500m': 'Escalar um total de 7500m'
@@ -28,7 +28,7 @@ Challenges: Desafios
 Crossfit: Crossfit
 Dashboard: Painel
 'Days needed': 'Dias necessários'
-'Daytime stats': 'Estatísticas diurnas'
+'Daytime stats': 'Estatísticas por períodos do dia'
 Dec: Dez
 Device: Dispositivo
 Distance: Distância
@@ -44,7 +44,7 @@ Eddington: Eddington
 Elev: Desnível
 Elevation: Elevação
 Elliptical: Elíptica
-Evening: Noite
+Evening: Fim da tarde
 'FTP history': 'Histórico de FTP'
 'Fastest ride': 'Passeio de bicicleta mais rápido'
 Favourite: Favorito
@@ -60,7 +60,7 @@ Friday: Sexta-feira
 From: De
 Gear: Equipamento
 'Gear stats': 'Estatísticas do equipamento'
-"Gear that hasn't been used in the last three months, is disabled by default.": 'Eequipamento não utilizado nos últimos três meses é desativado por defeito.'
+"Gear that hasn't been used in the last three months, is disabled by default.": 'Equipamento não utilizado nos últimos três meses é desativado por defeito.'
 'Gear that is retired is disabled by default.': 'Equipamento reformado é desativado por defeito.'
 Golf: Golfe
 'Gravel Rides': 'Passeios de Gravel'
@@ -71,7 +71,7 @@ HR: FC
 'Heart rate distribution': 'Distribuição da frequência cardíaca'
 'Heart rate zones': 'Zonas de frequência cardíaca'
 Heatmap: 'Mapa de calor'
-High: Alto
+High: Alta
 Hikes: Caminhadas
 History: Histórico
 "I burned {caloriesBurned} calories doing so, that's about {numberOfPizzaSlices} pizza slices 🍕.": 'Queimei {caloriesBurned} calorias ao fazê-lo, o que equivale a cerca de {numberOfPizzaSlices} fatias de pizza 🍕.'
@@ -90,11 +90,11 @@ Kayaking: Caiaque
 'Loading data...': 'A carregar dados...'
 Loading...: 'A carregar...'
 'Longest workout': 'Treino mais longo'
-Low: Baixo
+Low: Baixa
 Mar: Mar
 Max: Máx
 May: Mai
-Medium: Médio
+Medium: Média
 'Mind & Body Sports': 'Desportos para Corpo e Mente'
 Mon: Seg
 Monday: Segunda-feira
@@ -143,7 +143,7 @@ Search: Pesquisar
 Segments: Segmentos
 Sep: Set
 'Show information': 'Mostrar informação'
-'Since I began working out {numberOfDaysAgo} ago on {startDate}, I had {totalDaysOfWorkingOut} active days of working out.': 'Desde que comecei a treinar há {numberOfDaysAgo} dias, em {startDate}, tive {totalDaysOfWorkingOut} dias ativos de treino.'
+'Since I began working out {numberOfDaysAgo} ago on {startDate}, I had {totalDaysOfWorkingOut} active days of working out.': 'Desde que comecei a treinar há {numberOfDaysAgo}, em {startDate}, tive {totalDaysOfWorkingOut} dias ativos de treino.'
 Skateboard: Skateboard
 Skating: Patinagem
 Snowboard: Snowboard
@@ -167,13 +167,13 @@ Tennis: Ténis
 "That's a daily average of {dailyAverage}, a weekly average of {weeklyAverage} and a monthly average of {monthlyAverage} 🐣.": 'Isso dá uma média diária de {dailyAverage}, uma média semanal de {weeklyAverage} e uma média mensal de {monthlyAverage} 🐣.'
 'The Eddington number in the context of cycling or running is defined as the maximum number E such that the athlete has covered at least E km on at least E days.': 'O número de Eddington no contexto de ciclismo ou corrida é definido como o número máximo X, tal que o atleta percorreu pelo menos X km em pelo menos X dias.'
 'This badge is dynamically created. You can use it in any &lt;img&gt; tag': 'Este emblema é criado dinamicamente. Pode usá-lo em qualquer tag <img>.'
-'This formula means that riding for an hour at your max heart rate results in a score of 100, which we consider "high intensity"': 'Esta fórmula significa que um passeio durante uma hora à sua frequência cardíaca máxima resulta numa pontuação de 100, o que consideramos "alta intensidade".'
+'This formula means that riding for an hour at your max heart rate results in a score of 100, which we consider "high intensity"': 'Esta fórmula significa que um passeio durante uma hora à tua frequência cardíaca máxima resulta numa pontuação de 100, o que consideramos "alta intensidade"'
 'This map shows the daily training intensity for the last year. The training intensity for an activity is calculated based on several metrics.': 'Este mapa mostra a intensidade diária de treino do último ano. A intensidade do treino para uma atividade é calculada com base em várias métricas.'
 Thu: Qui
 Thursday: Quinta-feira
 'Time / week': 'Tempo / semana'
 'Times completed': 'Vezes concluído'
-To: Para
+To: Até
 'Toggle sidebar': 'Ativar/desativar barra lateral'
 'Top 10': 'Top 10'
 'Total carbon saved': 'Carbono total poupado'
@@ -184,7 +184,7 @@ Tue: Ter
 Tuesday: Terça-feira
 'Updated on': 'Atualizado em'
 'Velo Mobiles': 'Velo Móveis'
-'Very high': 'Muito alto'
+'Very high': 'Muito alta'
 'View all': 'Ver tudo'
 'View details': 'Ver detalhes'
 'Virtual Rides': 'Passeios Virtuais'
@@ -194,10 +194,10 @@ Walks: Caminhadas
 'Water Sports': 'Desportos Aquáticos'
 Wed: Qua
 Wednesday: Quarta-feira
-'Weekly stats': 'Weekly stats'
+'Weekly stats': 'Estatísticas semanais'
 'Weight Training': 'Treino de Força'
 Wheelchair: 'Cadeira de Rodas'
-'When power metrics and FTP are available, these metrics are used instead. This formula means that riding for an hour at your FTP results in a score of 100, which we consider "high intensity"': 'Quando as métricas de potência e FTP estão disponíveis, estas métricas são usadas. Esta fórmula significa que pedalar durante uma hora no teu FTP resulta numa pontuação de 100, o que consideramos "alta intensidade".'
+'When power metrics and FTP are available, these metrics are used instead. This formula means that riding for an hour at your FTP results in a score of 100, which we consider "high intensity"': 'Quando as métricas de potência e FTP estão disponíveis, estas métricas são usadas. Esta fórmula significa que pedalar durante uma hora no teu FTP resulta numa pontuação de 100, o que consideramos "alta intensidade"'
 'Wind Surf': Windsurf
 'Winter Sports': 'Desportos de Inverno'
 Workout: Treino
