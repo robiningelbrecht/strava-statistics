@@ -38,7 +38,6 @@ final class TwigExtensions extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('render', [new RenderTemplateTwigExtension($this->twig), 'render']),
             new TwigFunction('renderComponent', [new RenderTemplateTwigExtension($this->twig), 'renderComponent']),
             new TwigFunction('renderSvg', [new RenderTemplateTwigExtension($this->twig), 'renderSvg']),
             new TwigFunction('renderUnitSymbol', [new MeasurementTwigExtension($this->unitSystem), 'getUnitSymbol']),
