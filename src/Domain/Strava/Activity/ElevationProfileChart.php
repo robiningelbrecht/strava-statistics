@@ -15,16 +15,14 @@ final readonly class ElevationProfileChart
         private ActivityStream $distanceStream,
         private ActivityStream $altitudeStream,
         private UnitSystem $unitSystem,
-    )
-    {
+    ) {
     }
 
     public static function create(
         ActivityStream $distanceStream,
         ActivityStream $altitudeStream,
         UnitSystem $unitSystem,
-    ): self
-    {
+    ): self {
         return new self(
             distanceStream: $distanceStream,
             altitudeStream: $altitudeStream,
@@ -55,8 +53,8 @@ final readonly class ElevationProfileChart
                 'type' => 'category',
                 'boundaryGap' => false,
                 'data' => array_map(
-                    function(int $distanceInMeter, int $index) use ($distanceSymbol) {
-                        if($index === 0){
+                    function (int $distanceInMeter, int $index) use ($distanceSymbol) {
+                        if (0 === $index) {
                             return sprintf('0 %s', $distanceSymbol);
                         }
                         $distance = Kilometer::from($distanceInMeter / 1000)->toUnitSystem($this->unitSystem)->toFloat();
@@ -99,7 +97,7 @@ final readonly class ElevationProfileChart
                         ],
                     ],
                     'data' => array_map(
-                        fn(int $altitude)=> round(Meter::from($altitude)->toUnitSystem($this->unitSystem)->toFloat()),
+                        fn (int $altitude) => round(Meter::from($altitude)->toUnitSystem($this->unitSystem)->toFloat()),
                         $this->altitudeStream->getData()
                     ),
                     'type' => 'line',

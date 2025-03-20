@@ -70,18 +70,36 @@ final readonly class BuildActivitiesHtmlCommandHandler implements CommandHandler
 
         $dataDatableRows = [];
         foreach ($activities as $activity) {
-            $timeInSecondsPerHeartRate = $this->activityHeartRateRepository->findTimeInSecondsPerHeartRateForActivity($activity->getId());
+            $activityType = $activity->getSportType()->getActivityType();
+            $heartRateDistributionChart = null;
+            if ($activity->getAverageHeartRate()
+                && ($timeInSecondsPerHeartRate = $this->activityHeartRateRepository->findTimeInSecondsPerHeartRateForActivity($activity->getId()))) {
+                $heartRateDistributionChart = HeartRateDistributionChart::fromHeartRateData(
+                    heartRateData: $timeInSecondsPerHeartRate,
+                    averageHeartRate: $activity->getAverageHeartRate(),
+                    athleteMaxHeartRate: $athlete->getMaxHeartRate($activity->getStartDate())
+                );
+            }
+
             $heartRateStream = null;
-            if ($activity->getSportType()->getActivityType()->supportsHeartRateOverTimeChart()) {
-                try {
-                    $heartRateStream = $this->activityStreamRepository->findOneByActivityAndStreamType($activity->getId(), StreamType::HEART_RATE);
-                } catch (EntityNotFound) {
-                }
+            $heartRateChart = null;
+            try {
+                $heartRateStream = $this->activityStreamRepository->findOneByActivityAndStreamType($activity->getId(), StreamType::HEART_RATE);
+            } catch (EntityNotFound) {
+            }
+
+            if ($activityType->supportsHeartRateOverTimeChart() && $heartRateStream?->getData()) {
+                $heartRateChart = HeartRateChart::create($heartRateStream);
             }
 
             $timeInSecondsPerWattage = null;
-            if ($activity->getSportType()->getActivityType()->supportsPowerDistributionChart()) {
-                $timeInSecondsPerWattage = $this->activityPowerRepository->findTimeInSecondsPerWattageForActivity($activity->getId());
+            $powerDistributionChart = null;
+            if ($activityType->supportsPowerDistributionChart() && $activity->getAveragePower()
+                && ($timeInSecondsPerWattage = $this->activityPowerRepository->findTimeInSecondsPerWattageForActivity($activity->getId()))) {
+                $powerDistributionChart = PowerDistributionChart::create(
+                    powerData: $timeInSecondsPerWattage,
+                    averagePower: $activity->getAveragePower(),
+                );
             }
 
             $activitySplits = $this->activitySplitRepository->findBy(
@@ -119,24 +137,11 @@ final readonly class BuildActivitiesHtmlCommandHandler implements CommandHandler
                         'routes' => [$activity->getPolyline()],
                         'map' => $leafletMap,
                     ] : null,
-                    'heartRateDistributionChart' => $timeInSecondsPerHeartRate && $activity->getAverageHeartRate() ? Json::encode(
-                        HeartRateDistributionChart::fromHeartRateData(
-                            heartRateData: $timeInSecondsPerHeartRate,
-                            averageHeartRate: $activity->getAverageHeartRate(),
-                            athleteMaxHeartRate: $athlete->getMaxHeartRate($activity->getStartDate())
-                        )->build(),
-                    ) : null,
-                    'powerDistributionChart' => $timeInSecondsPerWattage && $activity->getAveragePower() ? Json::encode(
-                        PowerDistributionChart::create(
-                            powerData: $timeInSecondsPerWattage,
-                            averagePower: $activity->getAveragePower(),
-                        )->build(),
-                    ) : null,
+                    'heartRateDistributionChart' => $heartRateDistributionChart ? Json::encode($heartRateDistributionChart->build()) : null,
+                    'powerDistributionChart' => $powerDistributionChart ? Json::encode($powerDistributionChart->build()) : null,
                     'segmentEfforts' => $this->segmentEffortRepository->findByActivityId($activity->getId()),
                     'splits' => $activitySplits,
-                    'heartRateChart' => $heartRateStream?->getData() ? Json::encode(
-                        HeartRateChart::create($heartRateStream)->build(),
-                    ) : null,
+                    'heartRateChart' => $heartRateChart ? Json::encode($heartRateChart->build()) : null,
                 ]),
             );
 

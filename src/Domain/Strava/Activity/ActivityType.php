@@ -80,6 +80,14 @@ enum ActivityType: string implements TranslatableInterface
         };
     }
 
+    public function supportsElevationProfileChart(): bool
+    {
+        return match ($this) {
+            self::RUN, self::WALK, self::RIDE => true,
+            default => false,
+        };
+    }
+
     public function supportsPowerDistributionChart(): bool
     {
         return match ($this) {
