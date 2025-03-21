@@ -11,6 +11,7 @@ parameters:
     env(NUMBER_OF_NEW_ACTIVITIES_TO_PROCESS_PER_IMPORT): 250
     env(FTP_HISTORY):
     env(ATHLETE_WEIGHT_HISTORY):
+    env(MAX_HEART_RATE_FORMULA): 'fox'
     env(LOCALE): 'en_US'
     env(UNIT_SYSTEM): 'metric'
     env(TIME_FORMAT): 24
@@ -116,6 +117,11 @@ services:
         factory: [ App\Domain\Strava\Athlete\AthleteBirthDate, 'fromString' ]
         arguments: ['%env(string:ATHLETE_BIRTHDAY)%']
 
+    App\Domain\Strava\Athlete\MaxHeartRate\MaxHeartRateFormula:
+        class: App\Domain\Strava\Athlete\MaxHeartRate\MaxHeartRateFormula
+        factory: [ '@App\Domain\Strava\Athlete\MaxHeartRate\MaxHeartRateFormulas', 'determineFormula' ]
+        arguments: ['%env(string:MAX_HEART_RATE_FORMULA)%']
+
     App\Domain\Strava\Activity\ImportActivities\ActivityVisibilitiesToImport:
         factory: [ 'App\Domain\Strava\Activity\ImportActivities\ActivityVisibilitiesToImport', from ]
         arguments: [ '%env(json:ACTIVITY_VISIBILITIES_TO_IMPORT)%' ]
@@ -134,7 +140,7 @@ services:
 
     App\Domain\Strava\Athlete\Weight\ImportAthleteWeight\AthleteWeightHistoryFromEnvFile:
         factory: [ 'App\Domain\Strava\Athlete\Weight\ImportAthleteWeight\AthleteWeightHistoryFromEnvFile', fromString ]
-        arguments: [ '%env(string:fallback:ATHLETE_WEIGHT_HISTORY:ATHLETE_WEIGHTS)%',  '@App\Infrastructure\ValueObject\Measurement\UnitSystem']
+        arguments: [ '%env(string:fallback:ATHLETE_WEIGHT_HISTORY:ATHLETE_WEIGHTS)%', '@App\Infrastructure\ValueObject\Measurement\UnitSystem']
 
     App\Domain\Strava\Ftp\ImportFtp\FtpHistoryFromEnvFile:
         factory: [ 'App\Domain\Strava\Ftp\ImportFtp\FtpHistoryFromEnvFile', fromString ]

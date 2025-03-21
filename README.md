@@ -172,6 +172,14 @@ ATHLETE_WEIGHT_HISTORY='{
     "YYYY-MM-DD": 100,
     "YYYY-MM-DD": 200
 }'
+# The formula used to calculate your max heart rate. The default is Fox (220 - age).
+# Allowed values: arena, astrand, fox, gellish, nes, tanaka (https://pmc.ncbi.nlm.nih.gov/articles/PMC7523886/table/t2-ijes-13-7-1242/)
+# Or you can set a fixed number for any given date range.  
+MAX_HEART_RATE_FORMULA='fox'
+# MAX_HEART_RATE_FORMULA='{
+#    "2020-01-01": 198,
+#    "2025-01-10": 193
+# }'
 # Optional, history of FTP. Needed to calculate activity stress level.
 # Check https://github.com/robiningelbrecht/strava-statistics/wiki for more info. Example:
 # FTP_HISTORY='{
