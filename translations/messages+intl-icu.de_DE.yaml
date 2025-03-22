@@ -21,6 +21,7 @@ Challenges: Herausforderungen
 'Climb a total of 2000m': 'Steige insgesamt 2000 m'
 'Climb a total of 7500m': 'Steige insgesamt 7500 m'
 'Close modal': 'Modal schließen'
+Commute: Commute
 'Complete a 10 km run.': 'Absolviere einen 10 km Lauf.'
 'Complete a 100km ride': 'Absolviere eine 100 km Fahrt'
 'Complete a 5 km run.': 'Absolviere einen 5 km Lauf.'
@@ -45,11 +46,13 @@ Elev: Höhe
 Elevation: Höhenmeter
 Elliptical: Crosstrainer
 Evening: Abend
+'Excludes commutes': 'Excludes commutes'
 'FTP history': FTP-Verlauf
 'Fastest ride': 'Schnellste Fahrt'
 Favourite: Favorit
 Feb: Feb
 'Filter on KOM segments': 'Filter für KOM-Segmente'
+'Filter on commutes only': 'Filter on commutes only'
 'Filter on country': 'Filter on country'
 'Filter on sport type': 'Filter nach Sportart'
 'Filter on starred segments': 'Filter für markierte Segmente'
@@ -108,6 +111,7 @@ Morning: Morgen
 'Mountain Bike Rides': Mountainbike-Fahrten
 'Moving time': Bewegungszeit
 Night: Nacht
+'No': 'No'
 'No activities': 'Keine Aktivitäten'
 'Nordic Ski': 'Nordischer Ski'
 Nov: Nov
@@ -205,6 +209,7 @@ Wheelchair: Rollstuhl
 Workout: Training
 Year: Jahr
 'Yearly distances': 'Jährliche Distanzen'
+'Yes': 'Yes'
 Yoga: Yoga
 "You recorded workouts in {numberOfCountriesWithWorkouts} different countries, that's {percentage} of all countries 🌍": "You recorded workouts in {numberOfCountriesWithWorkouts} different countries, that's {percentage} of all countries 🌍"
 'Your Strava badge': 'Dein Strava-Abzeichen'

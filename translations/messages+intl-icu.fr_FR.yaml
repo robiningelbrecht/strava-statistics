@@ -21,6 +21,7 @@ Challenges: Challenges
 'Climb a total of 2000m': 'Grimpez un total de 2000m'
 'Climb a total of 7500m': 'Grimpez un total de 7500m'
 'Close modal': 'Fermer la fenêtre'
+Commute: Commute
 'Complete a 10 km run.': 'Complétez une course à pied de 10km.'
 'Complete a 100km ride': 'Complétez une sortie vélo de 100km'
 'Complete a 5 km run.': 'Complétez une course à pied de 5km.'
@@ -45,11 +46,13 @@ Elev: Elev
 Elevation: Élévation
 Elliptical: Elliptique
 Evening: Soirée
+'Excludes commutes': 'Excludes commutes'
 'FTP history': 'Historique FTP'
 'Fastest ride': 'Sortie vélo la plus rapide'
 Favourite: Favori
 Feb: Fév
 'Filter on KOM segments': 'Filtrer sur les segments KOM'
+'Filter on commutes only': 'Filter on commutes only'
 'Filter on country': 'Filter on country'
 'Filter on sport type': 'Filtrer sur le type de sport'
 'Filter on starred segments': 'Filtrer sur les segments favoris'
@@ -108,6 +111,7 @@ Morning: Matin
 'Mountain Bike Rides': 'Sorties VTT'
 'Moving time': 'Temps en mouvement'
 Night: Nuit
+'No': 'No'
 'No activities': 'Aucune activité'
 'Nordic Ski': 'Ski nordique'
 Nov: Nov
@@ -205,6 +209,7 @@ Wheelchair: 'Fauteuil roulant'
 Workout: Entraînement
 Year: Année
 'Yearly distances': 'Distances annuelles'
+'Yes': 'Yes'
 Yoga: Yoga
 "You recorded workouts in {numberOfCountriesWithWorkouts} different countries, that's {percentage} of all countries 🌍": "You recorded workouts in {numberOfCountriesWithWorkouts} different countries, that's {percentage} of all countries 🌍"
 'Your Strava badge': 'Votre badge Strava'

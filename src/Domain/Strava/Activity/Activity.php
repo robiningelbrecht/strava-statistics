@@ -560,6 +560,7 @@ final class Activity
             'sportType' => $this->getSportType()->value,
             'start-date' => $this->getStartDate()->getTimestamp() * 1000, // JS timestamp is in milliseconds,
             'countryCode' => $this->getLocation()?->getCountryCode(),
+            'isCommute' => $this->isCommute() ? 'true' : 'false',
         ]);
     }
 

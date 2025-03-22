@@ -4,7 +4,8 @@
         "searchables": "night ride",
         "filterables": {
             "sportType": "Ride",
-            "start-date": 1694552738000
+            "start-date": 1694552738000,
+            "isCommute": "false"
         },
         "summables": {
             "distance": 6.11,
@@ -29,7 +30,8 @@
         "searchables": "night ride",
         "filterables": {
             "sportType": "Ride",
-            "start-date": 1694466338000
+            "start-date": 1694466338000,
+            "isCommute": "false"
         },
         "summables": {
             "distance": 6.11,
@@ -55,7 +57,8 @@
         "filterables": {
             "sportType": "Ride",
             "start-date": 1693947938000,
-            "countryCode": "be"
+            "countryCode": "be",
+            "isCommute": "false"
         },
         "summables": {
             "distance": 6.11,
@@ -80,7 +83,8 @@
         "searchables": "night ride",
         "filterables": {
             "sportType": "Ride",
-            "start-date": 1693861538000
+            "start-date": 1693861538000,
+            "isCommute": "false"
         },
         "summables": {
             "distance": 6.11,
@@ -105,7 +109,8 @@
         "searchables": "watopia flat forward in london",
         "filterables": {
             "sportType": "VirtualRide",
-            "start-date": 1693499735000
+            "start-date": 1693499735000,
+            "isCommute": "false"
         },
         "summables": {
             "distance": 33.55,
@@ -130,7 +135,8 @@
         "searchables": "virtual ride non zwift",
         "filterables": {
             "sportType": "VirtualRide",
-            "start-date": 1690821335000
+            "start-date": 1690821335000,
+            "isCommute": "false"
         },
         "summables": {
             "distance": 33.55,
@@ -155,7 +161,8 @@
         "searchables": "virtual ride non zwift",
         "filterables": {
             "sportType": "VirtualRide",
-            "start-date": 1690734935000
+            "start-date": 1690734935000,
+            "isCommute": "false"
         },
         "summables": {
             "distance": 0,
@@ -179,7 +186,8 @@
         "searchables": "morning ride",
         "filterables": {
             "sportType": "Ride",
-            "start-date": 1690623243000
+            "start-date": 1690623243000,
+            "isCommute": "true"
         },
         "summables": {
             "distance": 12.42,
@@ -204,7 +212,8 @@
         "searchables": "morning ride",
         "filterables": {
             "sportType": "Ride",
-            "start-date": 1690616043000
+            "start-date": 1690616043000,
+            "isCommute": "false"
         },
         "summables": {
             "distance": 112.42,
@@ -229,7 +238,8 @@
         "searchables": "morning ride",
         "filterables": {
             "sportType": "Ride",
-            "start-date": 1690536843000
+            "start-date": 1690536843000,
+            "isCommute": "false"
         },
         "summables": {
             "distance": 12.42,
@@ -254,7 +264,8 @@
         "searchables": "running activity",
         "filterables": {
             "sportType": "Run",
-            "start-date": 1659198935000
+            "start-date": 1659198935000,
+            "isCommute": "false"
         },
         "summables": {
             "distance": 50,
@@ -279,7 +290,8 @@
         "searchables": "virtual ride non zwift",
         "filterables": {
             "sportType": "VirtualRide",
-            "start-date": 1659198935000
+            "start-date": 1659198935000,
+            "isCommute": "false"
         },
         "summables": {
             "distance": 0,

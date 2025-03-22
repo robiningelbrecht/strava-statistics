@@ -21,6 +21,7 @@ Challenges: 挑战
 'Climb a total of 2000m': 总共攀登2000米
 'Climb a total of 7500m': 总共攀登7500米
 'Close modal': 关闭模态框
+Commute: Commute
 'Complete a 10 km run.': 完成10公里跑步。
 'Complete a 100km ride': 完成100公里骑行
 'Complete a 5 km run.': 完成5公里跑步。
@@ -45,11 +46,13 @@ Elev: 海拔
 Elevation: 海拔高度
 Elliptical: 椭圆机
 Evening: 晚上
+'Excludes commutes': 'Excludes commutes'
 'FTP history': FTP历史
 'Fastest ride': 最快骑行
 Favourite: 收藏夹
 Feb: 二月
 'Filter on KOM segments': 筛选KOM路段
+'Filter on commutes only': 'Filter on commutes only'
 'Filter on country': 'Filter on country'
 'Filter on sport type': 按运动类型筛选
 'Filter on starred segments': 筛选星标路段
@@ -108,6 +111,7 @@ Morning: 早晨
 'Mountain Bike Rides': 山地车骑行
 'Moving time': 移动时间
 Night: 夜晚
+'No': 'No'
 'No activities': 没有活动
 'Nordic Ski': 北欧滑雪
 Nov: 十一月
@@ -205,6 +209,7 @@ Wheelchair: 轮椅
 Workout: 锻炼
 Year: 年
 'Yearly distances': 每年距离
+'Yes': 'Yes'
 Yoga: 瑜伽
 "You recorded workouts in {numberOfCountriesWithWorkouts} different countries, that's {percentage} of all countries 🌍": "You recorded workouts in {numberOfCountriesWithWorkouts} different countries, that's {percentage} of all countries 🌍"
 'Your Strava badge': 'Your Strava badge'
