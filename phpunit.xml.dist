@@ -10,7 +10,6 @@
          displayDetailsOnTestsThatTriggerNotices="true"
          failOnRisky="true"
          failOnWarning="true"
-         failOnIncomplete="true"
          failOnNotice="true"
          failOnSkipped="true"
          cacheDirectory=".phpunit.cache"

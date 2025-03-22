@@ -54,7 +54,8 @@
         "searchables": "night ride",
         "filterables": {
             "sportType": "Ride",
-            "start-date": 1693947938000
+            "start-date": 1693947938000,
+            "countryCode": "be"
         },
         "summables": {
             "distance": 6.11,

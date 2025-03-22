@@ -41,6 +41,7 @@
         "symfony/dotenv": "7.2.*",
         "symfony/flex": "^2",
         "symfony/framework-bundle": "7.2.*",
+        "symfony/intl": "7.2.*",
         "symfony/lock": "7.2.*",
         "symfony/messenger": "7.2.*",
         "symfony/monolog-bundle": "*",
@@ -97,11 +98,14 @@
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "post-install-cmd": [
-            "@auto-scripts"
+            "@auto-scripts",
+            "@compress-intl"
         ],
         "post-update-cmd": [
-            "@auto-scripts"
-        ]
+            "@auto-scripts",
+            "@compress-intl"
+        ],
+        "compress-intl": "php ./vendor/symfony/intl/Resources/bin/compress"
     },
     "conflict": {
         "symfony/symfony": "*"

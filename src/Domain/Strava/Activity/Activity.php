@@ -556,10 +556,11 @@ final class Activity
      */
     public function getFilterables(): array
     {
-        return [
+        return array_filter([
             'sportType' => $this->getSportType()->value,
             'start-date' => $this->getStartDate()->getTimestamp() * 1000, // JS timestamp is in milliseconds,
-        ];
+            'countryCode' => $this->getLocation()?->getCountryCode(),
+        ]);
     }
 
     /**

@@ -20,10 +20,12 @@ use App\Domain\Strava\Segment\SegmentEffort\SegmentEffortRepository;
 use App\Infrastructure\CQRS\Command;
 use App\Infrastructure\CQRS\CommandHandler;
 use App\Infrastructure\Exception\EntityNotFound;
+use App\Infrastructure\Localisation\Locale;
 use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\ValueObject\DataTableRow;
 use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use League\Flysystem\FilesystemOperator;
+use Symfony\Component\Intl\Countries;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
@@ -42,6 +44,7 @@ final readonly class BuildActivitiesHtmlCommandHandler implements CommandHandler
         private Environment $twig,
         private FilesystemOperator $buildStorage,
         private TranslatorInterface $translator,
+        private Locale $locale,
     ) {
     }
 
@@ -60,11 +63,27 @@ final readonly class BuildActivitiesHtmlCommandHandler implements CommandHandler
             translator: $this->translator
         );
 
+        $countriesWithWorkouts = [];
+        foreach ($activities as $activity) {
+            if (!$countryCode = $activity->getLocation()?->getCountryCode()) {
+                continue;
+            }
+            if (isset($countriesWithWorkouts[$countryCode])) {
+                continue;
+            }
+
+            $countriesWithWorkouts[$countryCode] = Countries::getName(
+                country: strtoupper($countryCode),
+                displayLocale: $this->locale->value
+            );
+        }
+
         $this->buildStorage->write(
             'activities.html',
             $this->twig->load('html/activity/activities.html.twig')->render([
                 'sportTypes' => $importedSportTypes,
                 'activityTotals' => $activityTotals,
+                'countries' => $countriesWithWorkouts,
             ]),
         );
 
