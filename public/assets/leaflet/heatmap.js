@@ -130,7 +130,6 @@ export default function Heatmap($heatmapWrapper) {
         const countryFeatureGroups = new Map();
         const fitMapBoundsFeatureGroup = L.featureGroup();
         const mostActiveState = determineMostActiveState(routes);
-        console.log(mostActiveState);
 
         routes.forEach(route => {
             const {countryCode, state} = route.location;
