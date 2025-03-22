@@ -81,6 +81,8 @@ final readonly class DistanceOverTimePerGearChart
             ];
         }
 
+        arsort($selectedSeries, SORT_NUMERIC);
+
         return [
             'backgroundColor' => '#ffffff',
             'animation' => true,
@@ -96,6 +98,12 @@ final readonly class DistanceOverTimePerGearChart
             ],
             'legend' => [
                 'selected' => $selectedSeries,
+                'data' => array_map(
+                    fn (string $gearName) => [
+                        'name' => $gearName,
+                    ],
+                    array_keys($selectedSeries),
+                ),
                 'type' => 'scroll',
                 'pageButtonItemGap' => 2,
                 'pageIconSize' => 10,
