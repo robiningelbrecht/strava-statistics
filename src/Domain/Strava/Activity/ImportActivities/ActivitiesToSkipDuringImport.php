@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Strava\Activity;
+namespace App\Domain\Strava\Activity\ImportActivities;
 
+use App\Domain\Strava\Activity\ActivityId;
 use App\Infrastructure\ValueObject\Collection;
 
 final class ActivitiesToSkipDuringImport extends Collection

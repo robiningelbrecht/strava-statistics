@@ -8,6 +8,7 @@ parameters:
     env(SPORT_TYPES_TO_IMPORT): '[]'
     env(ACTIVITY_VISIBILITIES_TO_IMPORT): '[]'
     env(ACTIVITIES_TO_SKIP_DURING_IMPORT): '[]'
+    env(SKIP_ACTIVITIES_RECORDED_BEFORE): ''
     env(NUMBER_OF_NEW_ACTIVITIES_TO_PROCESS_PER_IMPORT): 250
     env(FTP_HISTORY):
     env(ATHLETE_WEIGHT_HISTORY):
@@ -126,17 +127,22 @@ services:
         factory: [ 'App\Domain\Strava\Activity\ImportActivities\ActivityVisibilitiesToImport', from ]
         arguments: [ '%env(json:ACTIVITY_VISIBILITIES_TO_IMPORT)%' ]
 
+    App\Domain\Strava\Activity\ImportActivities\NumberOfNewActivitiesToProcessPerImport:
+        factory: [ 'App\Domain\Strava\Activity\ImportActivities\NumberOfNewActivitiesToProcessPerImport', fromInt ]
+        arguments: [ '%env(int:NUMBER_OF_NEW_ACTIVITIES_TO_PROCESS_PER_IMPORT)%' ]
+
+    App\Domain\Strava\Activity\ImportActivities\ActivitiesToSkipDuringImport:
+        factory: [ 'App\Domain\Strava\Activity\ImportActivities\ActivitiesToSkipDuringImport', from ]
+        arguments: [ '%env(json:ACTIVITIES_TO_SKIP_DURING_IMPORT)%' ]
+
+    App\Domain\Strava\Activity\ImportActivities\SkipActivitiesRecordedBefore:
+        class: App\Domain\Strava\Activity\ImportActivities\SkipActivitiesRecordedBefore
+        factory: [ 'App\Domain\Strava\Activity\ImportActivities\SkipActivitiesRecordedBefore', fromOptionalString ]
+        arguments: ['%env(string:SKIP_ACTIVITIES_RECORDED_BEFORE)%']
+
     App\Domain\Strava\Activity\SportType\SportTypesToImport:
         factory: [ 'App\Domain\Strava\Activity\SportType\SportTypesToImport', from ]
         arguments: [ '%env(json:SPORT_TYPES_TO_IMPORT)%' ]
-
-    App\Domain\Strava\Activity\NumberOfNewActivitiesToProcessPerImport:
-        factory: [ 'App\Domain\Strava\Activity\NumberOfNewActivitiesToProcessPerImport', fromInt ]
-        arguments: [ '%env(int:NUMBER_OF_NEW_ACTIVITIES_TO_PROCESS_PER_IMPORT)%' ]
-
-    App\Domain\Strava\Activity\ActivitiesToSkipDuringImport:
-        factory: [ 'App\Domain\Strava\Activity\ActivitiesToSkipDuringImport', from ]
-        arguments: [ '%env(json:ACTIVITIES_TO_SKIP_DURING_IMPORT)%' ]
 
     App\Domain\Strava\Athlete\Weight\ImportAthleteWeight\AthleteWeightHistoryFromEnvFile:
         factory: [ 'App\Domain\Strava\Athlete\Weight\ImportAthleteWeight\AthleteWeightHistoryFromEnvFile', fromString ]

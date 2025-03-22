@@ -2,14 +2,12 @@
 
 namespace App\Domain\Strava\Activity\ImportActivities;
 
-use App\Domain\Strava\Activity\ActivitiesToSkipDuringImport;
 use App\Domain\Strava\Activity\Activity;
 use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\ActivityRepository;
 use App\Domain\Strava\Activity\ActivityVisibility;
 use App\Domain\Strava\Activity\ActivityWithRawData;
 use App\Domain\Strava\Activity\ActivityWithRawDataRepository;
-use App\Domain\Strava\Activity\NumberOfNewActivitiesToProcessPerImport;
 use App\Domain\Strava\Activity\SportType\SportType;
 use App\Domain\Strava\Activity\SportType\SportTypesToImport;
 use App\Domain\Strava\Gear\GearId;
@@ -28,6 +26,8 @@ use App\Infrastructure\ValueObject\Geography\Longitude;
 use App\Infrastructure\ValueObject\Measurement\Length\Kilometer;
 use App\Infrastructure\ValueObject\Measurement\Length\Meter;
 use App\Infrastructure\ValueObject\Measurement\Velocity\MetersPerSecond;
+use App\Infrastructure\ValueObject\Time\SerializableDateTime;
+use App\Infrastructure\ValueObject\Time\SerializableTimezone;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 
@@ -43,6 +43,7 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
         private SportTypesToImport $sportTypesToImport,
         private ActivityVisibilitiesToImport $activityVisibilitiesToImport,
         private ActivitiesToSkipDuringImport $activitiesToSkipDuringImport,
+        private ?SkipActivitiesRecordedBefore $skipActivitiesRecordedBefore,
         private StravaDataImportStatus $stravaDataImportStatus,
         private NumberOfNewActivitiesToProcessPerImport $numberOfNewActivitiesToProcessPerImport,
         private ActivityImageDownloader $activityImageDownloader,
@@ -85,6 +86,14 @@ final readonly class ImportActivitiesCommandHandler implements CommandHandler
             }
             $activityVisibility = ActivityVisibility::from($stravaActivity['visibility']);
             if (!$this->activityVisibilitiesToImport->has($activityVisibility)) {
+                continue;
+            }
+
+            if ($this->skipActivitiesRecordedBefore?->isAfterOrOn(SerializableDateTime::createFromFormat(
+                format: Activity::DATE_TIME_FORMAT,
+                datetime: $stravaActivity['start_date_local'],
+                timezone: SerializableTimezone::default(),
+            ))) {
                 continue;
             }
 

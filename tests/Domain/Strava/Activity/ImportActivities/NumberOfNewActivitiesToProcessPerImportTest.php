@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\Domain\Strava\Activity;
+namespace App\Tests\Domain\Strava\Activity\ImportActivities;
 
-use App\Domain\Strava\Activity\NumberOfNewActivitiesToProcessPerImport;
+use App\Domain\Strava\Activity\ImportActivities\NumberOfNewActivitiesToProcessPerImport;
 use PHPUnit\Framework\TestCase;
 
 class NumberOfNewActivitiesToProcessPerImportTest extends TestCase

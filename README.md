@@ -160,7 +160,11 @@ SPORT_TYPES_TO_IMPORT='[]'
 # This list can be combined with SPORT_TYPES_TO_IMPORT.
 # Allowed values: ACTIVITY_VISIBILITIES_TO_IMPORT='["everyone", "followers_only", "only_me"]', 
 ACTIVITY_VISIBILITIES_TO_IMPORT='[]'
-# Optional, an array of activity ids to skip during import. 
+# Optional, the date (YYYY-MM-DD) from which you want to start importing activities. 
+# Any activity recorded before this date, will not be imported.
+# This can be used if you want to skip the import of older activities. Leave empty to disable.
+SKIP_ACTIVITIES_RECORDED_BEFORE=''
+# An array of activity ids to skip during import. 
 # This allows you to skip specific activities during import.
 # ACTIVITIES_TO_SKIP_DURING_IMPORT='["123456789", "987654321"]'
 ACTIVITIES_TO_SKIP_DURING_IMPORT='[]'
