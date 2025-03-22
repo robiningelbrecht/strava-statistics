@@ -17,7 +17,8 @@ export default function Heatmap($heatmapWrapper) {
             return counts;
         }, {});
 
-        return Object.keys(stateCounts).reduce((a, b) => stateCounts[a] > stateCounts[b] ? a : b, '');
+        const mostActiveState = Object.keys(stateCounts).reduce((a, b) => stateCounts[a] > stateCounts[b] ? a : b, '');
+        return mostActiveState ? mostActiveState : null;
     };
 
     const filterOnActiveRoutes = function (routes) {
@@ -129,6 +130,7 @@ export default function Heatmap($heatmapWrapper) {
         const countryFeatureGroups = new Map();
         const fitMapBoundsFeatureGroup = L.featureGroup();
         const mostActiveState = determineMostActiveState(routes);
+        console.log(mostActiveState);
 
         routes.forEach(route => {
             const {countryCode, state} = route.location;
@@ -147,7 +149,10 @@ export default function Heatmap($heatmapWrapper) {
                 detectColors: true,
             }).addTo(countryFeatureGroups.get(countryCode));
 
+            console.log(state);
+            console.log(mostActiveState === state);
             if (mostActiveState === state) {
+                console.log('most active state');
                 L.polyline(polyline).addTo(fitMapBoundsFeatureGroup);
             }
         });
