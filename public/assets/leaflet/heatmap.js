@@ -4,7 +4,7 @@ export default function Heatmap($heatmapWrapper) {
     const mainFeatureGroup = L.featureGroup();
     let placesControl = null;
     const map = L.map($heatmap, {
-        scrollWheelZoom: false,
+        scrollWheelZoom: true,
         minZoom: 1,
         maxZoom: 21,
     });
