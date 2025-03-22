@@ -149,8 +149,6 @@ export default function Heatmap($heatmapWrapper) {
                 detectColors: true,
             }).addTo(countryFeatureGroups.get(countryCode));
 
-            console.log(state);
-            console.log(mostActiveState === state);
             if (mostActiveState === state) {
                 console.log('most active state');
                 L.polyline(polyline).addTo(fitMapBoundsFeatureGroup);
