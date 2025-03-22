@@ -150,7 +150,6 @@ export default function Heatmap($heatmapWrapper) {
             }).addTo(countryFeatureGroups.get(countryCode));
 
             if (mostActiveState === state) {
-                console.log('most active state');
                 L.polyline(polyline).addTo(fitMapBoundsFeatureGroup);
             }
         });
