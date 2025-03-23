@@ -6,6 +6,6 @@ namespace App\Domain\Manifest\BuildManifest;
 
 use App\Infrastructure\CQRS\DomainCommand;
 
-final class BuildManifest extends DomainCommand
+final readonly class BuildManifest extends DomainCommand
 {
 }

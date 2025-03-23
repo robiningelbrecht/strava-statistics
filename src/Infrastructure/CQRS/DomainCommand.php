@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\CQRS;
 
-abstract class DomainCommand implements Command
+abstract readonly class DomainCommand implements Command
 {
     /**
      * @return array{commandName: string, payload: array<mixed>}

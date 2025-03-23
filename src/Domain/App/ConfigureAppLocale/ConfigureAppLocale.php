@@ -6,6 +6,6 @@ namespace App\Domain\App\ConfigureAppLocale;
 
 use App\Infrastructure\CQRS\DomainCommand;
 
-final class ConfigureAppLocale extends DomainCommand
+final readonly class ConfigureAppLocale extends DomainCommand
 {
 }

@@ -7,10 +7,10 @@ namespace App\Domain\App\BuildGearStatsHtml;
 use App\Infrastructure\CQRS\DomainCommand;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
-final class BuildGearStatsHtml extends DomainCommand
+final readonly class BuildGearStatsHtml extends DomainCommand
 {
     public function __construct(
-        private readonly SerializableDateTime $now,
+        private SerializableDateTime $now,
     ) {
     }
 

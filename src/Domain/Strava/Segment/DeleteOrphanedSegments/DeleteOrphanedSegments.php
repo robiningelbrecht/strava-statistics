@@ -6,6 +6,6 @@ namespace App\Domain\Strava\Segment\DeleteOrphanedSegments;
 
 use App\Infrastructure\CQRS\DomainCommand;
 
-final class DeleteOrphanedSegments extends DomainCommand
+final readonly class DeleteOrphanedSegments extends DomainCommand
 {
 }

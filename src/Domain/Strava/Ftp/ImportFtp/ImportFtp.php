@@ -7,10 +7,10 @@ namespace App\Domain\Strava\Ftp\ImportFtp;
 use App\Infrastructure\CQRS\DomainCommand;
 use Symfony\Component\Console\Output\OutputInterface;
 
-final class ImportFtp extends DomainCommand
+final readonly class ImportFtp extends DomainCommand
 {
     public function __construct(
-        private readonly OutputInterface $output,
+        private OutputInterface $output,
     ) {
     }
 

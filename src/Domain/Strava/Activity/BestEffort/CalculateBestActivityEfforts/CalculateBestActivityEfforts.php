@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Strava\Activity\Stream\CalculateBestStreamAverages;
+namespace App\Domain\Strava\Activity\BestEffort\CalculateBestActivityEfforts;
 
 use App\Infrastructure\CQRS\DomainCommand;
 use Symfony\Component\Console\Output\OutputInterface;
 
-final readonly class CalculateBestStreamAverages extends DomainCommand
+final readonly class CalculateBestActivityEfforts extends DomainCommand
 {
     public function __construct(
         private OutputInterface $output,

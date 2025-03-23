@@ -7,10 +7,10 @@ namespace App\Domain\Strava\Segment\SegmentEffort\DeleteActivitySegmentEfforts;
 use App\Domain\Strava\Activity\ActivityId;
 use App\Infrastructure\CQRS\DomainCommand;
 
-final class DeleteActivitySegmentEfforts extends DomainCommand
+final readonly class DeleteActivitySegmentEfforts extends DomainCommand
 {
     public function __construct(
-        private readonly ActivityId $activityId,
+        private ActivityId $activityId,
     ) {
     }
 

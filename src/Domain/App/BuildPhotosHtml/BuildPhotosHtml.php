@@ -6,6 +6,6 @@ namespace App\Domain\App\BuildPhotosHtml;
 
 use App\Infrastructure\CQRS\DomainCommand;
 
-final class BuildPhotosHtml extends DomainCommand
+final readonly class BuildPhotosHtml extends DomainCommand
 {
 }

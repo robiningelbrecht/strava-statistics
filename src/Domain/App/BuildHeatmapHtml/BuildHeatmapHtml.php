@@ -7,10 +7,10 @@ namespace App\Domain\App\BuildHeatmapHtml;
 use App\Infrastructure\CQRS\DomainCommand;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
-final class BuildHeatmapHtml extends DomainCommand
+final readonly class BuildHeatmapHtml extends DomainCommand
 {
     public function __construct(
-        private readonly SerializableDateTime $now,
+        private SerializableDateTime $now,
     ) {
     }
 

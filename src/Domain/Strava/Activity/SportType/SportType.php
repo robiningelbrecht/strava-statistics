@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Domain\Strava\Activity\SportType;
 
 use App\Domain\Strava\Activity\ActivityType;
+use App\Infrastructure\ValueObject\Measurement\Length\Meter;
+use App\Infrastructure\ValueObject\Measurement\Length\Mile;
 use Symfony\Contracts\Translation\TranslatableInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -188,6 +190,43 @@ enum SportType: string implements TranslatableInterface
             SportType::CANOEING, SportType::KAYAKING => 'canoeing',
             SportType::SAIL, SportType::WIND_SURF => 'sail',
             default => str_replace('_', '-', strtolower($this->name)),
+        };
+    }
+
+    /**
+     * @return Meter[]
+     */
+    public function getDistancesForBestEffortCalculation(): array
+    {
+        return match ($this) {
+            self::RIDE,
+            self::MOUNTAIN_BIKE_RIDE,
+            self::GRAVEL_RIDE => [
+                Meter::from(5000),
+                Meter::from(10000),
+                Meter::from(15000),
+                Meter::from(30000),
+                Meter::from(50000),
+                Meter::from(75000),
+                Meter::from(100000),
+            ],
+            self::RUN,
+            self::TRAIL_RUN => [
+                Meter::from(400),
+                Mile::from(0.5)->toKilometer()->toMeter(),
+                Meter::from(1000),
+                Mile::from(1)->toKilometer()->toMeter(),
+                Mile::from(2)->toKilometer()->toMeter(),
+                Meter::from(5000),
+                Meter::from(10000),
+                Meter::from(15000),
+                Mile::from(10)->toKilometer()->toMeter(),
+                Meter::from(20000),
+                Meter::from(21000),
+                Meter::from(30000),
+                Meter::from(42000),
+            ],
+            default => [],
         };
     }
 

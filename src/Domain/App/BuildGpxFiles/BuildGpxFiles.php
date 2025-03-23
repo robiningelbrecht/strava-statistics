@@ -6,6 +6,6 @@ namespace App\Domain\App\BuildGpxFiles;
 
 use App\Infrastructure\CQRS\DomainCommand;
 
-final class BuildGpxFiles extends DomainCommand
+final readonly class BuildGpxFiles extends DomainCommand
 {
 }

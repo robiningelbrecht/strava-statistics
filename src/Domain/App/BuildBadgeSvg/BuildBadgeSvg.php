@@ -7,10 +7,10 @@ namespace App\Domain\App\BuildBadgeSvg;
 use App\Infrastructure\CQRS\DomainCommand;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
 
-final class BuildBadgeSvg extends DomainCommand
+final readonly class BuildBadgeSvg extends DomainCommand
 {
     public function __construct(
-        private readonly SerializableDateTime $now,
+        private SerializableDateTime $now,
     ) {
     }
 

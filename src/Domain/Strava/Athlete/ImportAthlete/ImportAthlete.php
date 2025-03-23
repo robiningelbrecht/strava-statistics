@@ -7,10 +7,10 @@ namespace App\Domain\Strava\Athlete\ImportAthlete;
 use App\Infrastructure\CQRS\DomainCommand;
 use Symfony\Component\Console\Output\OutputInterface;
 
-final class ImportAthlete extends DomainCommand
+final readonly class ImportAthlete extends DomainCommand
 {
     public function __construct(
-        private readonly OutputInterface $output,
+        private OutputInterface $output,
     ) {
     }
 
