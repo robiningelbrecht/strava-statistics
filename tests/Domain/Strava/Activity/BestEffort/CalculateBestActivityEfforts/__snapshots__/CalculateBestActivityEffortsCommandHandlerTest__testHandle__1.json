@@ -1,0 +1,62 @@
+[
+    {
+        "activityId": "activity-1",
+        "distanceInMeter": 5000,
+        "sportType": "Ride",
+        "timeInSeconds": 496
+    },
+    {
+        "activityId": "activity-1",
+        "distanceInMeter": 10000,
+        "sportType": "Ride",
+        "timeInSeconds": 1101
+    },
+    {
+        "activityId": "activity-1",
+        "distanceInMeter": 15000,
+        "sportType": "Ride",
+        "timeInSeconds": 1665
+    },
+    {
+        "activityId": "activity-1",
+        "distanceInMeter": 30000,
+        "sportType": "Ride",
+        "timeInSeconds": 3709
+    },
+    {
+        "activityId": "activity-1",
+        "distanceInMeter": 50000,
+        "sportType": "Ride",
+        "timeInSeconds": 7196
+    },
+    {
+        "activityId": "activity-1",
+        "distanceInMeter": 75000,
+        "sportType": "Ride",
+        "timeInSeconds": 11164
+    },
+    {
+        "activityId": "activity-1",
+        "distanceInMeter": 100000,
+        "sportType": "Ride",
+        "timeInSeconds": 15687
+    },
+    {
+        "activityId": "activity-2",
+        "distanceInMeter": 5000,
+        "sportType": "Ride",
+        "timeInSeconds": 746
+    },
+    {
+        "activityId": "activity-2",
+        "distanceInMeter": 10000,
+        "sportType": "Ride",
+        "timeInSeconds": 1566
+    },
+    {
+        "activityId": "activity-2",
+        "distanceInMeter": 15000,
+        "sportType": "Ride",
+        "timeInSeconds": 11422
+    }
+]

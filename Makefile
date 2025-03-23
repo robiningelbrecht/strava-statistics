@@ -25,20 +25,25 @@ console-symfony-profiler:
 	# We need to use the app container here, otherwise the profiler can't access the files through web requests.
 	docker compose exec app bin/console --profile -v $(arg)
 
+composer:
+	@make dcr cmd="composer $(arg)"
+
+download-database:
+	scp $(user)@$(server):/home/docker/stacks/strava-statistics/storage/database/strava.db ./storage/database/strava.db
+
+# Database migration helpers.
 migrate-diff:
 	@make console arg="doctrine:migrations:diff"
 
 migrate-run:
 	@make console arg="doctrine:migrations:migrate"
 
+# Translation helpers.
 translation-extract:
 	@make console arg="app:translations:extract"
 
 translation-debug:
 	@make console arg="debug:translation en_US"
-
-composer:
-	@make dcr cmd="composer $(arg)"
 
 # Code quality tools.
 phpunit:
@@ -59,7 +64,7 @@ csfix:
 delete-snapshots:
 	find . -name __snapshots__ -type d -prune -exec rm -rf {} \;
 
-# Helpers to manage app imports.
+# Helpers to build the app.
 app-import-data:
 	docker compose exec app bin/console app:strava:import-data
 
