@@ -7,8 +7,10 @@ namespace App\Domain\Strava\Activity\BestEffort;
 use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\ActivityIds;
 use App\Domain\Strava\Activity\SportType\SportType;
+use App\Domain\Strava\Activity\Stream\StreamType;
 use App\Infrastructure\Repository\DbalRepository;
 use App\Infrastructure\ValueObject\Measurement\Length\Meter;
+use Doctrine\DBAL\ArrayParameterType;
 
 final readonly class DbalActivityBestEffortRepository extends DbalRepository implements ActivityBestEffortRepository
 {
@@ -50,14 +52,35 @@ final readonly class DbalActivityBestEffortRepository extends DbalRepository imp
         ));
     }
 
-    public function findActivityIdsWithoutBestEfforts(): ActivityIds
+    public function findActivityIdsThatNeedBestEffortsCalculation(): ActivityIds
     {
-        $sql = 'SELECT activityId FROM Activity 
-                  WHERE activityId NOT IN (SELECT activityId FROM ActivityBestEffort)';
+        $sql = 'SELECT Activity.activityId FROM Activity 
+                  WHERE sportType IN (:sportTypes)
+                  AND NOT EXISTS (
+                    SELECT 1 FROM ActivityBestEffort WHERE ActivityBestEffort.activityId = Activity.activityId
+                  )
+                  AND EXISTS (
+                    SELECT 1 FROM ActivityStream x
+                    WHERE x.activityId = Activity.activityId AND x.streamType = :timeStreamType AND json_array_length(x.data) > 0
+                  )
+                  AND EXISTS (
+                    SELECT 1 FROM ActivityStream y
+                    WHERE y.activityId = Activity.activityId AND y.streamType = :distanceStreamType AND json_array_length(y.data) > 0
+                  )';
 
         return ActivityIds::fromArray(array_map(
             fn (string $activityId) => ActivityId::fromString($activityId),
-            $this->connection->executeQuery($sql)->fetchFirstColumn()
+            $this->connection->executeQuery($sql, [
+                'timeStreamType' => StreamType::TIME->value,
+                'distanceStreamType' => StreamType::DISTANCE->value,
+                'sportTypes' => array_map(
+                    fn (SportType $sportType) => $sportType->value,
+                    SportType::cases()
+                ),
+            ],
+                [
+                    'sportTypes' => ArrayParameterType::STRING,
+                ])->fetchFirstColumn()
         ));
     }
 }

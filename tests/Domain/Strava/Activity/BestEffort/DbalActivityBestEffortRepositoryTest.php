@@ -10,10 +10,13 @@ use App\Domain\Strava\Activity\BestEffort\ActivityBestEffort;
 use App\Domain\Strava\Activity\BestEffort\ActivityBestEffortRepository;
 use App\Domain\Strava\Activity\BestEffort\DbalActivityBestEffortRepository;
 use App\Domain\Strava\Activity\SportType\SportType;
+use App\Domain\Strava\Activity\Stream\ActivityStreamRepository;
+use App\Domain\Strava\Activity\Stream\StreamType;
 use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\ValueObject\Measurement\Length\Meter;
 use App\Tests\ContainerTestCase;
 use App\Tests\Domain\Strava\Activity\ActivityBuilder;
+use App\Tests\Domain\Strava\Activity\Stream\ActivityStreamBuilder;
 use Spatie\Snapshots\MatchesSnapshots;
 
 class DbalActivityBestEffortRepositoryTest extends ContainerTestCase
@@ -89,7 +92,7 @@ class DbalActivityBestEffortRepositoryTest extends ContainerTestCase
         );
     }
 
-    public function testFindActivityIdsWithoutBestEfforts(): void
+    public function testFindActivityIdsThatNeedBestEffortsCalculation(): void
     {
         $this->activityBestEffortRepository->add(
             ActivityBestEffortBuilder::fromDefaults()
@@ -125,10 +128,24 @@ class DbalActivityBestEffortRepositoryTest extends ContainerTestCase
                 []
             )
         );
+        $this->getContainer()->get(ActivityStreamRepository::class)->add(
+            ActivityStreamBuilder::fromDefaults()
+                ->withActivityId(ActivityId::fromUnprefixed('test-4'))
+                ->withStreamType(StreamType::DISTANCE)
+                ->withData([1, 10000])
+                ->build()
+        );
+        $this->getContainer()->get(ActivityStreamRepository::class)->add(
+            ActivityStreamBuilder::fromDefaults()
+                ->withActivityId(ActivityId::fromUnprefixed('test-4'))
+                ->withStreamType(StreamType::TIME)
+                ->withData([1, 2, 3, 4, 5])
+                ->build()
+        );
 
         $this->assertEquals(
             ActivityIds::fromArray([ActivityId::fromUnprefixed('test-4')]),
-            $this->activityBestEffortRepository->findActivityIdsWithoutBestEfforts()
+            $this->activityBestEffortRepository->findActivityIdsThatNeedBestEffortsCalculation()
         );
     }
 

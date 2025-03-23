@@ -11,7 +11,6 @@ use App\Domain\Strava\Activity\Stream\ActivityStreamRepository;
 use App\Domain\Strava\Activity\Stream\StreamType;
 use App\Infrastructure\CQRS\Command;
 use App\Infrastructure\CQRS\CommandHandler;
-use App\Infrastructure\Exception\EntityNotFound;
 
 final readonly class CalculateBestActivityEffortsCommandHandler implements CommandHandler
 {
@@ -27,17 +26,12 @@ final readonly class CalculateBestActivityEffortsCommandHandler implements Comma
         assert($command instanceof CalculateBestActivityEfforts);
         $command->getOutput()->writeln('Calculating best activity efforts...');
 
-        $activityIdsWithoutBestEfforts = $this->activityBestEffortRepository->findActivityIdsWithoutBestEfforts();
+        $activityIdsWithoutBestEfforts = $this->activityBestEffortRepository->findActivityIdsThatNeedBestEffortsCalculation();
 
         $activityWithBestEffortsCalculatedCount = 0;
         foreach ($activityIdsWithoutBestEfforts as $activityId) {
-            try {
-                $distanceStream = $this->activityStreamRepository->findOneByActivityAndStreamType($activityId, StreamType::DISTANCE);
-                $timeStream = $this->activityStreamRepository->findOneByActivityAndStreamType($activityId, StreamType::TIME);
-            } catch (EntityNotFound) {
-                continue;
-            }
-            ++$activityWithBestEffortsCalculatedCount;
+            $distanceStream = $this->activityStreamRepository->findOneByActivityAndStreamType($activityId, StreamType::DISTANCE);
+            $timeStream = $this->activityStreamRepository->findOneByActivityAndStreamType($activityId, StreamType::TIME);
 
             $activity = $this->activityRepository->find($activityId);
             $distances = $distanceStream->getData();
@@ -46,6 +40,11 @@ final readonly class CalculateBestActivityEffortsCommandHandler implements Comma
             if (!$distancesForBestEfforts = $activity->getSportType()->getDistancesForBestEffortCalculation()) {
                 continue;
             }
+            if ((end($distances) - $distances[0]) < $distancesForBestEfforts[0]->toInt()) {
+                // Activity is too short for best effort calculation.
+                continue;
+            }
+            ++$activityWithBestEffortsCalculatedCount;
 
             foreach ($distancesForBestEfforts as $distance) {
                 $n = count($distances);

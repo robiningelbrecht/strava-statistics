@@ -13,5 +13,5 @@ interface ActivityBestEffortRepository
 
     public function findBestEffortsFor(SportType $sportType): ActivityBestEfforts;
 
-    public function findActivityIdsWithoutBestEfforts(): ActivityIds;
+    public function findActivityIdsThatNeedBestEffortsCalculation(): ActivityIds;
 }
