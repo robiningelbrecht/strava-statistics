@@ -251,7 +251,6 @@ enum SportType: string implements TranslatableInterface
             self::ICE_SKATE,
             self::YOGA,
             self::STAIR_STEPPER,
-            self::STAND_UP_PADDLING,
         ]);
     }
 
