@@ -16,16 +16,17 @@ use App\Domain\Strava\Activity\Stream\ActivityPowerRepository;
 use App\Domain\Strava\Activity\Stream\ActivityStreamRepository;
 use App\Domain\Strava\Activity\Stream\StreamType;
 use App\Domain\Strava\Athlete\AthleteRepository;
+use App\Domain\Strava\Gear\GearRepository;
 use App\Domain\Strava\Segment\SegmentEffort\SegmentEffortRepository;
 use App\Infrastructure\CQRS\Command;
 use App\Infrastructure\CQRS\CommandHandler;
 use App\Infrastructure\Exception\EntityNotFound;
-use App\Infrastructure\Localisation\Locale;
 use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\ValueObject\DataTableRow;
 use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use League\Flysystem\FilesystemOperator;
 use Symfony\Component\Intl\Countries;
+use Symfony\Component\Translation\LocaleSwitcher;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
@@ -39,12 +40,13 @@ final readonly class BuildActivitiesHtmlCommandHandler implements CommandHandler
         private ActivityHeartRateRepository $activityHeartRateRepository,
         private SportTypeRepository $sportTypeRepository,
         private SegmentEffortRepository $segmentEffortRepository,
+        private GearRepository $gearRepository,
         private ActivitiesEnricher $activitiesEnricher,
         private UnitSystem $unitSystem,
         private Environment $twig,
         private FilesystemOperator $buildStorage,
         private TranslatorInterface $translator,
-        private Locale $locale,
+        private LocaleSwitcher $localeSwitcher,
     ) {
     }
 
@@ -74,7 +76,7 @@ final readonly class BuildActivitiesHtmlCommandHandler implements CommandHandler
 
             $countriesWithWorkouts[$countryCode] = Countries::getName(
                 country: strtoupper($countryCode),
-                displayLocale: $this->locale->value
+                displayLocale: $this->localeSwitcher->getLocale()
             );
         }
 
@@ -84,6 +86,7 @@ final readonly class BuildActivitiesHtmlCommandHandler implements CommandHandler
                 'sportTypes' => $importedSportTypes,
                 'activityTotals' => $activityTotals,
                 'countries' => $countriesWithWorkouts,
+                'gears' => $this->gearRepository->findAll(),
             ]),
         );
 
