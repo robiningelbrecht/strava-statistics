@@ -156,7 +156,7 @@ export default function Heatmap($heatmapWrapper) {
         countryFeatureGroups.forEach((featureGroup, countryCode) => {
             featureGroup.addTo(mainFeatureGroup);
             places.push({
-                name: countryCode,
+                countryCode: countryCode,
                 bounds: featureGroup.getBounds()
             });
         });

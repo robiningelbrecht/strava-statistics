@@ -20,12 +20,12 @@ use App\Domain\Strava\Segment\SegmentEffort\SegmentEffortRepository;
 use App\Infrastructure\CQRS\Command;
 use App\Infrastructure\CQRS\CommandHandler;
 use App\Infrastructure\Exception\EntityNotFound;
-use App\Infrastructure\Localisation\Locale;
 use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\ValueObject\DataTableRow;
 use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use League\Flysystem\FilesystemOperator;
 use Symfony\Component\Intl\Countries;
+use Symfony\Component\Translation\LocaleSwitcher;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
@@ -44,7 +44,7 @@ final readonly class BuildActivitiesHtmlCommandHandler implements CommandHandler
         private Environment $twig,
         private FilesystemOperator $buildStorage,
         private TranslatorInterface $translator,
-        private Locale $locale,
+        private LocaleSwitcher $localeSwitcher,
     ) {
     }
 
@@ -74,7 +74,7 @@ final readonly class BuildActivitiesHtmlCommandHandler implements CommandHandler
 
             $countriesWithWorkouts[$countryCode] = Countries::getName(
                 country: strtoupper($countryCode),
-                displayLocale: $this->locale->value
+                displayLocale: $this->localeSwitcher->getLocale()
             );
         }
 

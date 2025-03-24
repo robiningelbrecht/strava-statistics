@@ -14,8 +14,11 @@ use App\Domain\Strava\Athlete\AthleteRepository;
 use App\Domain\Strava\Challenge\ChallengeRepository;
 use App\Infrastructure\CQRS\Command;
 use App\Infrastructure\CQRS\CommandHandler;
+use App\Infrastructure\Serialization\Json;
 use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use League\Flysystem\FilesystemOperator;
+use Symfony\Component\Intl\Countries;
+use Symfony\Component\Translation\LocaleSwitcher;
 use Twig\Environment;
 
 final readonly class BuildIndexHtmlCommandHandler implements CommandHandler
@@ -29,6 +32,7 @@ final readonly class BuildIndexHtmlCommandHandler implements CommandHandler
         private ?ProfilePictureUrl $profilePictureUrl,
         private UnitSystem $unitSystem,
         private Environment $twig,
+        private LocaleSwitcher $localeSwitcher,
         private FilesystemOperator $buildStorage,
     ) {
     }
@@ -70,6 +74,9 @@ final readonly class BuildIndexHtmlCommandHandler implements CommandHandler
                 'lastUpdate' => $command->getCurrentDateTime(),
                 'athlete' => $athlete,
                 'profilePictureUrl' => $this->profilePictureUrl,
+                'javascriptWindowConstants' => Json::encode([
+                    'countries' => Countries::getNames($this->localeSwitcher->getLocale()),
+                ]),
             ]),
         );
     }
