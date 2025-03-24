@@ -16,6 +16,7 @@ use App\Domain\Strava\Activity\Stream\ActivityPowerRepository;
 use App\Domain\Strava\Activity\Stream\ActivityStreamRepository;
 use App\Domain\Strava\Activity\Stream\StreamType;
 use App\Domain\Strava\Athlete\AthleteRepository;
+use App\Domain\Strava\Gear\GearRepository;
 use App\Domain\Strava\Segment\SegmentEffort\SegmentEffortRepository;
 use App\Infrastructure\CQRS\Command;
 use App\Infrastructure\CQRS\CommandHandler;
@@ -39,6 +40,7 @@ final readonly class BuildActivitiesHtmlCommandHandler implements CommandHandler
         private ActivityHeartRateRepository $activityHeartRateRepository,
         private SportTypeRepository $sportTypeRepository,
         private SegmentEffortRepository $segmentEffortRepository,
+        private GearRepository $gearRepository,
         private ActivitiesEnricher $activitiesEnricher,
         private UnitSystem $unitSystem,
         private Environment $twig,
@@ -84,6 +86,7 @@ final readonly class BuildActivitiesHtmlCommandHandler implements CommandHandler
                 'sportTypes' => $importedSportTypes,
                 'activityTotals' => $activityTotals,
                 'countries' => $countriesWithWorkouts,
+                'gears' => $this->gearRepository->findAll(),
             ]),
         );
 

@@ -110,7 +110,8 @@
         "filterables": {
             "sportType": "VirtualRide",
             "start-date": 1693499735000,
-            "isCommute": "false"
+            "isCommute": "false",
+            "gear": "gear-b12659861"
         },
         "summables": {
             "distance": 33.55,
@@ -136,7 +137,8 @@
         "filterables": {
             "sportType": "VirtualRide",
             "start-date": 1690821335000,
-            "isCommute": "false"
+            "isCommute": "false",
+            "gear": "gear-b12659861"
         },
         "summables": {
             "distance": 33.55,
@@ -162,7 +164,8 @@
         "filterables": {
             "sportType": "VirtualRide",
             "start-date": 1690734935000,
-            "isCommute": "false"
+            "isCommute": "false",
+            "gear": "gear-b12659861"
         },
         "summables": {
             "distance": 0,
@@ -187,7 +190,8 @@
         "filterables": {
             "sportType": "Ride",
             "start-date": 1690623243000,
-            "isCommute": "true"
+            "isCommute": "true",
+            "gear": "gear-b12659861"
         },
         "summables": {
             "distance": 12.42,
@@ -213,7 +217,8 @@
         "filterables": {
             "sportType": "Ride",
             "start-date": 1690616043000,
-            "isCommute": "false"
+            "isCommute": "false",
+            "gear": "gear-b12659861"
         },
         "summables": {
             "distance": 112.42,
@@ -239,7 +244,8 @@
         "filterables": {
             "sportType": "Ride",
             "start-date": 1690536843000,
-            "isCommute": "false"
+            "isCommute": "false",
+            "gear": "gear-b12659862"
         },
         "summables": {
             "distance": 12.42,
@@ -265,7 +271,8 @@
         "filterables": {
             "sportType": "Run",
             "start-date": 1659198935000,
-            "isCommute": "false"
+            "isCommute": "false",
+            "gear": "gear-b12659861"
         },
         "summables": {
             "distance": 50,
@@ -291,7 +298,8 @@
         "filterables": {
             "sportType": "VirtualRide",
             "start-date": 1659198935000,
-            "isCommute": "false"
+            "isCommute": "false",
+            "gear": "gear-b12659861"
         },
         "summables": {
             "distance": 0,
