@@ -12,6 +12,7 @@ use App\Domain\Strava\Activity\ActivityType;
 use App\Domain\Strava\Activity\DaytimeStats\DaytimeStats;
 use App\Domain\Strava\Activity\DaytimeStats\DaytimeStatsCharts;
 use App\Domain\Strava\Activity\DistanceBreakdown;
+use App\Domain\Strava\Activity\SportType\SportTypes;
 use App\Domain\Strava\Activity\Stream\ActivityHeartRateRepository;
 use App\Domain\Strava\Activity\Stream\ActivityPowerRepository;
 use App\Domain\Strava\Activity\Stream\BestPowerOutputs;
@@ -142,7 +143,7 @@ final readonly class BuildDashboardHtmlCommandHandler implements CommandHandler
             translator: $this->translator,
         );
         $trivia = Trivia::getInstance($allActivities);
-        $bestAllTimePowerOutputs = $this->activityPowerRepository->findBestForActivityType(ActivityType::RIDE);
+        $bestAllTimePowerOutputs = $this->activityPowerRepository->findBestForSportTypes(SportTypes::thatSupportPeakPowerOutputs());
 
         $this->buildStorage->write(
             'dashboard.html',
@@ -209,23 +210,23 @@ final readonly class BuildDashboardHtmlCommandHandler implements CommandHandler
         );
         $bestPowerOutputs->add(
             description: $this->translator->trans('Last 45 days'),
-            powerOutputs: $this->activityPowerRepository->findBestForActivityTypeInDateRange(
-                activityType: ActivityType::RIDE,
+            powerOutputs: $this->activityPowerRepository->findBestForSportTypesInDateRange(
+                sportTypes: SportTypes::thatSupportPeakPowerOutputs(),
                 dateRange: DateRange::lastXDays($now, 45)
             )
         );
         $bestPowerOutputs->add(
             description: $this->translator->trans('Last 90 days'),
-            powerOutputs: $this->activityPowerRepository->findBestForActivityTypeInDateRange(
-                activityType: ActivityType::RIDE,
+            powerOutputs: $this->activityPowerRepository->findBestForSportTypesInDateRange(
+                sportTypes: SportTypes::thatSupportPeakPowerOutputs(),
                 dateRange: DateRange::lastXDays($now, 90)
             )
         );
         foreach ($allYears->reverse() as $year) {
             $bestPowerOutputs->add(
                 description: (string) $year,
-                powerOutputs: $this->activityPowerRepository->findBestForActivityTypeInDateRange(
-                    activityType: ActivityType::RIDE,
+                powerOutputs: $this->activityPowerRepository->findBestForSportTypesInDateRange(
+                    sportTypes: SportTypes::thatSupportPeakPowerOutputs(),
                     dateRange: $year->getRange(),
                 )
             );
