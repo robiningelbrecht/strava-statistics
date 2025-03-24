@@ -193,6 +193,11 @@ enum SportType: string implements TranslatableInterface
         };
     }
 
+    public function supportsBestEfforts(): bool
+    {
+        return !empty($this->getDistancesForBestEffortCalculation());
+    }
+
     /**
      * @return Meter[]
      */
