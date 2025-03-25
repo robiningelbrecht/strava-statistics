@@ -570,20 +570,6 @@
                                 {{ renderComponent('activity-title', {'activity': highestElevationActivity, 'ellipses': 30}) }}
                             </td>
                         </tr>
-                        {% set fastestActivity = trivia.getFastestRide() %}
-                        {% if fastestActivity %}
-                            <tr class="bg-white border-b">
-                                <th scope="row" class="px-2 py-2 sticky left-0 bg-white font-medium text-gray-900 whitespace-nowrap">
-                                    {{ "Fastest ride"|trans }}
-                                </th>
-                                <td class="px-2 py-2">
-                                    {{ renderComponent('measurement', {'measurement': fastestActivity.getAverageSpeed(), 'precision': 1}) }}
-                                </td>
-                                <td class="px-2 py-2 truncate">
-                                    {{ renderComponent('activity-title', {'activity': fastestActivity, 'ellipses': 30}) }}
-                                </td>
-                            </tr>
-                        {% endif %}
                         <tr class="bg-white border-b">
                             {% set mostKudosActivity = trivia.getMostKudotedActivity() %}
                             <th scope="row" class="px-2 py-2 sticky left-0 bg-white font-medium text-gray-900 whitespace-nowrap">
