@@ -6,6 +6,7 @@ namespace App\Domain\Strava\Activity\BestEffort;
 
 use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\ActivityIds;
+use App\Domain\Strava\Activity\ActivityType;
 use App\Domain\Strava\Activity\SportType\SportType;
 use App\Domain\Strava\Activity\Stream\StreamType;
 use App\Infrastructure\Repository\DbalRepository;
@@ -27,19 +28,19 @@ final readonly class DbalActivityBestEffortRepository extends DbalRepository imp
         ]);
     }
 
-    public function findBestEffortsFor(SportType $sportType): ActivityBestEfforts
+    public function findBestEffortsFor(ActivityType $activityType): ActivityBestEfforts
     {
         $sql = 'WITH BestEfforts AS (
-                    SELECT distanceInMeter, MIN(timeInSeconds) AS bestTime
+                    SELECT distanceInMeter, MIN(timeInSeconds) AS bestTime, sportType
                     FROM ActivityBestEffort
-                    WHERE sportType = :sportType
-                    GROUP BY distanceInMeter
+                    WHERE sportType IN(:sportTypes)
+                    GROUP BY distanceInMeter, sportType
                 )
                 SELECT a.activityId, a.sportType, a.distanceInMeter, a.timeInSeconds
                 FROM ActivityBestEffort a
-                INNER JOIN BestEfforts b ON a.distanceInMeter = b.distanceInMeter AND a.timeInSeconds = b.bestTime
-                WHERE a.sportType = :sportType
-                ORDER BY a.distanceInMeter';
+                INNER JOIN BestEfforts b ON a.distanceInMeter = b.distanceInMeter AND a.timeInSeconds = b.bestTime AND a.sportType = b.sportType
+                WHERE a.sportType IN(:sportTypes)
+                ORDER BY a.distanceInMeter ASC';
 
         return ActivityBestEfforts::fromArray(array_map(
             fn (array $result) => ActivityBestEffort::fromState(
@@ -48,7 +49,14 @@ final readonly class DbalActivityBestEffortRepository extends DbalRepository imp
                 sportType: SportType::from($result['sportType']),
                 timeInSeconds: $result['timeInSeconds']
             ),
-            $this->connection->executeQuery($sql, ['sportType' => $sportType->value])->fetchAllAssociative()
+            $this->connection->executeQuery($sql,
+                [
+                    'sportTypes' => array_unique($activityType->getSportTypes()->map(fn (SportType $sportType) => $sportType->value)),
+                ],
+                [
+                    'sportTypes' => ArrayParameterType::STRING,
+                ]
+            )->fetchAllAssociative()
         ));
     }
 

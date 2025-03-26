@@ -4,6 +4,8 @@ namespace App\Domain\Strava\Activity;
 
 use App\Domain\Strava\Activity\SportType\SportType;
 use App\Domain\Strava\Activity\SportType\SportTypes;
+use App\Infrastructure\ValueObject\Measurement\Length\Meter;
+use App\Infrastructure\ValueObject\Measurement\Length\Mile;
 use Symfony\Contracts\Translation\TranslatableInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -101,6 +103,50 @@ enum ActivityType: string implements TranslatableInterface
         return match ($this) {
             self::RUN, self::RIDE, self::WALK, self::WATER_SPORTS, self::SKATING => true,
             default => false,
+        };
+    }
+
+    public function supportsBestEffortsStats(): bool
+    {
+        return !empty($this->getDistancesForBestEffortCalculation());
+    }
+
+    /**
+     * @return Meter[]
+     */
+    public function getDistancesForBestEffortCalculation(): array
+    {
+        return match ($this) {
+            self::RIDE => [
+                Mile::from(5)->toKilometer()->toMeter(),
+                Meter::from(10000),
+                Mile::from(10)->toKilometer()->toMeter(),
+                Meter::from(20000),
+                Meter::from(30000),
+                Meter::from(40000),
+                Meter::from(50000),
+                Meter::from(80000),
+                Mile::from(50)->toKilometer()->toMeter(),
+                Meter::from(90000),
+                Meter::from(100000),
+                Mile::from(100)->toKilometer()->toMeter(),
+            ],
+            self::RUN => [
+                Meter::from(400),
+                Mile::from(0.5)->toKilometer()->toMeter(),
+                Meter::from(1000),
+                Mile::from(1)->toKilometer()->toMeter(),
+                Mile::from(2)->toKilometer()->toMeter(),
+                Meter::from(5000),
+                Meter::from(10000),
+                Meter::from(15000),
+                Mile::from(10)->toKilometer()->toMeter(),
+                Meter::from(20000),
+                Meter::from(21000),
+                Meter::from(30000),
+                Meter::from(42000),
+            ],
+            default => [],
         };
     }
 

@@ -1,9 +1,9 @@
 [
     {
         "activityId": "activity-1",
-        "distanceInMeter": 5000,
+        "distanceInMeter": 8046,
         "sportType": "Ride",
-        "timeInSeconds": 496
+        "timeInSeconds": 894
     },
     {
         "activityId": "activity-1",
@@ -13,9 +13,15 @@
     },
     {
         "activityId": "activity-1",
-        "distanceInMeter": 15000,
+        "distanceInMeter": 16093,
         "sportType": "Ride",
-        "timeInSeconds": 1665
+        "timeInSeconds": 1813
+    },
+    {
+        "activityId": "activity-1",
+        "distanceInMeter": 20000,
+        "sportType": "Ride",
+        "timeInSeconds": 2262
     },
     {
         "activityId": "activity-1",
@@ -25,15 +31,33 @@
     },
     {
         "activityId": "activity-1",
+        "distanceInMeter": 40000,
+        "sportType": "Ride",
+        "timeInSeconds": 5540
+    },
+    {
+        "activityId": "activity-1",
         "distanceInMeter": 50000,
         "sportType": "Ride",
         "timeInSeconds": 7196
     },
     {
         "activityId": "activity-1",
-        "distanceInMeter": 75000,
+        "distanceInMeter": 80000,
         "sportType": "Ride",
-        "timeInSeconds": 11164
+        "timeInSeconds": 11969
+    },
+    {
+        "activityId": "activity-1",
+        "distanceInMeter": 80467,
+        "sportType": "Ride",
+        "timeInSeconds": 12048
+    },
+    {
+        "activityId": "activity-1",
+        "distanceInMeter": 90000,
+        "sportType": "Ride",
+        "timeInSeconds": 14147
     },
     {
         "activityId": "activity-1",
@@ -43,9 +67,9 @@
     },
     {
         "activityId": "activity-2",
-        "distanceInMeter": 5000,
+        "distanceInMeter": 8046,
         "sportType": "Ride",
-        "timeInSeconds": 746
+        "timeInSeconds": 1232
     },
     {
         "activityId": "activity-2",
@@ -55,8 +79,14 @@
     },
     {
         "activityId": "activity-2",
-        "distanceInMeter": 15000,
+        "distanceInMeter": 16093,
         "sportType": "Ride",
-        "timeInSeconds": 11422
+        "timeInSeconds": 11601
+    },
+    {
+        "activityId": "activity-2",
+        "distanceInMeter": 20000,
+        "sportType": "Ride",
+        "timeInSeconds": 12220
     }
 ]

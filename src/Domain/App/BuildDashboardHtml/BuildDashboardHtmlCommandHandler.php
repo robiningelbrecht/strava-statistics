@@ -9,11 +9,12 @@ use App\Domain\Strava\Activity\ActivityHeatmapChart;
 use App\Domain\Strava\Activity\ActivityIntensity;
 use App\Domain\Strava\Activity\ActivityTotals;
 use App\Domain\Strava\Activity\ActivityType;
+use App\Domain\Strava\Activity\ActivityTypeRepository;
 use App\Domain\Strava\Activity\BestEffort\ActivityBestEffortRepository;
+use App\Domain\Strava\Activity\BestEffort\BestEffortChart;
 use App\Domain\Strava\Activity\DaytimeStats\DaytimeStats;
 use App\Domain\Strava\Activity\DaytimeStats\DaytimeStatsCharts;
 use App\Domain\Strava\Activity\DistanceBreakdown;
-use App\Domain\Strava\Activity\SportType\SportTypeRepository;
 use App\Domain\Strava\Activity\SportType\SportTypes;
 use App\Domain\Strava\Activity\Stream\ActivityHeartRateRepository;
 use App\Domain\Strava\Activity\Stream\ActivityPowerRepository;
@@ -50,7 +51,7 @@ final readonly class BuildDashboardHtmlCommandHandler implements CommandHandler
         private ActivityPowerRepository $activityPowerRepository,
         private FtpRepository $ftpRepository,
         private AthleteWeightRepository $athleteWeightRepository,
-        private SportTypeRepository $sportTypeRepository,
+        private ActivityTypeRepository $activityTypeRepository,
         private ActivityBestEffortRepository $activityBestEffortRepository,
         private ActivitiesEnricher $activitiesEnricher,
         private ActivityIntensity $activityIntensity,
@@ -66,9 +67,9 @@ final readonly class BuildDashboardHtmlCommandHandler implements CommandHandler
         assert($command instanceof BuildDashboardHtml);
 
         $now = $command->getCurrentDateTime();
+        $importedActivityTypes = $this->activityTypeRepository->findAll();
         $allActivities = $this->activitiesEnricher->getEnrichedActivities();
         $activitiesPerActivityType = $this->activitiesEnricher->getActivitiesPerActivityType();
-        $importedSportTypes = $this->sportTypeRepository->findAll();
         $allFtps = $this->ftpRepository->findAll();
         $allYears = Years::create(
             startDate: $allActivities->getFirstActivityStartDate(),
@@ -150,13 +151,24 @@ final readonly class BuildDashboardHtmlCommandHandler implements CommandHandler
         $trivia = Trivia::getInstance($allActivities);
         $bestAllTimePowerOutputs = $this->activityPowerRepository->findBestForSportTypes(SportTypes::thatSupportPeakPowerOutputs());
 
-        $bestEffortsPerSportType = [];
-        /** @var \App\Domain\Strava\Activity\SportType\SportType $sportType */
-        foreach ($importedSportTypes as $sportType) {
-            if (!$sportType->supportsBestEfforts()) {
+        $bestEffortsCharts = [];
+        /** @var ActivityType $activityType */
+        foreach ($importedActivityTypes as $activityType) {
+            if (!$activityType->supportsBestEffortsStats()) {
                 continue;
             }
-            $bestEffortsPerSportType[$sportType->value] = $this->activityBestEffortRepository->findBestEffortsFor($sportType);
+
+            $bestEffortsForActivityType = $this->activityBestEffortRepository->findBestEffortsFor($activityType);
+            if ($bestEffortsForActivityType->isEmpty()) {
+                continue;
+            }
+
+            $bestEffortsCharts[$activityType->value] = Json::encode(
+                BestEffortChart::create(
+                    activityType: $activityType,
+                    bestEfforts: $bestEffortsForActivityType
+                )->build()
+            );
         }
 
         $this->buildStorage->write(
@@ -210,7 +222,7 @@ final readonly class BuildDashboardHtmlCommandHandler implements CommandHandler
                 ),
                 'yearlyDistanceCharts' => $yearlyDistanceCharts,
                 'yearlyStatistics' => $yearlyStatistics,
-                'bestEffortsPerSportType' => $bestEffortsPerSportType,
+                'bestEffortsCharts' => $bestEffortsCharts,
             ]),
         );
 

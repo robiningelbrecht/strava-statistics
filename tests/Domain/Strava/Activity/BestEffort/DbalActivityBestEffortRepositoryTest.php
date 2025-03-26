@@ -4,6 +4,7 @@ namespace App\Tests\Domain\Strava\Activity\BestEffort;
 
 use App\Domain\Strava\Activity\ActivityId;
 use App\Domain\Strava\Activity\ActivityIds;
+use App\Domain\Strava\Activity\ActivityType;
 use App\Domain\Strava\Activity\ActivityWithRawData;
 use App\Domain\Strava\Activity\ActivityWithRawDataRepository;
 use App\Domain\Strava\Activity\BestEffort\ActivityBestEffort;
@@ -59,8 +60,9 @@ class DbalActivityBestEffortRepositoryTest extends ContainerTestCase
 
     public function testFindBestEffortsFor(): void
     {
+        /** @var SportType $sportType */
         foreach ([SportType::RIDE, SportType::GRAVEL_RIDE, SportType::RUN] as $sportType) {
-            foreach ($sportType->getDistancesForBestEffortCalculation() as $distance) {
+            foreach ($sportType->getActivityType()->getDistancesForBestEffortCalculation() as $distance) {
                 for ($i = 10; $i > 0; --$i) {
                     $this->activityBestEffortRepository->add(
                         ActivityBestEffortBuilder::fromDefaults()
@@ -74,9 +76,9 @@ class DbalActivityBestEffortRepositoryTest extends ContainerTestCase
             }
         }
 
-        foreach ([SportType::RIDE, SportType::GRAVEL_RIDE, SportType::RUN] as $sportType) {
+        foreach ([ActivityType::RIDE, ActivityType::RUN] as $activityType) {
             $this->assertMatchesJsonSnapshot(Json::encode(
-                $this->activityBestEffortRepository->findBestEffortsFor($sportType)->map(
+                $this->activityBestEffortRepository->findBestEffortsFor($activityType)->map(
                     fn (ActivityBestEffort $bestEffort) => [
                         'activityId' => $bestEffort->getActivityId(),
                         'sportType' => $bestEffort->getSportType()->value,
@@ -86,10 +88,11 @@ class DbalActivityBestEffortRepositoryTest extends ContainerTestCase
                 )
             ));
         }
+    }
 
-        $this->assertEmpty(
-            $this->activityBestEffortRepository->findBestEffortsFor(SportType::MOUNTAIN_BIKE_RIDE)
-        );
+    public function testFindBestEffortsForEmpty(): void
+    {
+        $this->assertEmpty($this->activityBestEffortRepository->findBestEffortsFor(ActivityType::RUN));
     }
 
     public function testFindActivityIdsThatNeedBestEffortsCalculation(): void

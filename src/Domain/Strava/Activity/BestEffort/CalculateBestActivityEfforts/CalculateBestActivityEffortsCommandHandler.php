@@ -37,9 +37,10 @@ final readonly class CalculateBestActivityEffortsCommandHandler implements Comma
             $distances = $distanceStream->getData();
             $time = $timeStream->getData();
 
-            if (!$distancesForBestEfforts = $activity->getSportType()->getDistancesForBestEffortCalculation()) {
+            if (!$activity->getSportType()->supportsBestEffortsStats()) {
                 continue;
             }
+            $distancesForBestEfforts = $activity->getSportType()->getActivityType()->getDistancesForBestEffortCalculation();
             if ((end($distances) - $distances[0]) < $distancesForBestEfforts[0]->toInt()) {
                 // Activity is too short for best effort calculation.
                 continue;
