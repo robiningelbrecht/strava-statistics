@@ -60,9 +60,9 @@
         "timeInSeconds": 1
     },
     {
-        "activityId": "activity-Run-21000-1",
+        "activityId": "activity-Run-21097-1",
         "sportType": "Run",
-        "distanceInMeter": 21000,
+        "distanceInMeter": 21097,
         "timeInSeconds": 1
     },
     {
@@ -72,9 +72,9 @@
         "timeInSeconds": 1
     },
     {
-        "activityId": "activity-Run-42000-1",
+        "activityId": "activity-Run-42194-1",
         "sportType": "Run",
-        "distanceInMeter": 42000,
+        "distanceInMeter": 42194,
         "timeInSeconds": 1
     }
 ]

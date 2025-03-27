@@ -621,17 +621,19 @@
                 </div>
             </div>
         </div>
-        <div class="grid grid-cols-1 gap-4 mb-4">
-            <!-- BEST EFFORTS -->
-            <div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-xs sm:p-6">
-                <h3 class="mb-4 text-lg font-semibold">
-                    {{ "Best Efforts"|trans }}
-                </h3>
-                {% for bestEffortsChart in bestEffortsCharts %}
-                    <div class="h-[20rem]" data-echarts-options='{{ bestEffortsChart }}'></div>
-                {% endfor %}
+        {% if bestEffortsCharts|length > 0 %}
+            <div class="grid grid-cols-1 gap-4 mb-4">
+                <!-- BEST EFFORTS -->
+                <div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-xs sm:p-6">
+                    <h3 class="mb-4 text-lg font-semibold">
+                        {{ "Best Efforts"|trans }}
+                    </h3>
+                    {% for bestEffortsChart in bestEffortsCharts %}
+                        <div class="h-[20rem]" data-echarts-options='{{ bestEffortsChart }}'></div>
+                    {% endfor %}
+                </div>
             </div>
-        </div>
+        {% endif %}
         <div class="grid grid-cols-1 gap-4 mb-4">
             <!-- YEARLY DISTANCE STATS -->
             <div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-xs sm:p-6">

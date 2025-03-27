@@ -41,7 +41,7 @@ final readonly class CalculateBestActivityEffortsCommandHandler implements Comma
                 continue;
             }
             $distancesForBestEfforts = $activity->getSportType()->getActivityType()->getDistancesForBestEffortCalculation();
-            if ((end($distances) - $distances[0]) < $distancesForBestEfforts[0]->toInt()) {
+            if ((end($distances) - $distances[0]) < $distancesForBestEfforts[0]->toMeter()->toInt()) {
                 // Activity is too short for best effort calculation.
                 continue;
             }
@@ -53,7 +53,7 @@ final readonly class CalculateBestActivityEffortsCommandHandler implements Comma
                 $startIdx = 0;
 
                 for ($endIdx = 0; $endIdx < $n; ++$endIdx) {
-                    while ($startIdx < $endIdx && ($distances[$endIdx] - $distances[$startIdx]) >= $distance->toInt()) {
+                    while ($startIdx < $endIdx && ($distances[$endIdx] - $distances[$startIdx]) >= $distance->toMeter()->toInt()) {
                         $fastestTime = min($fastestTime, $time[$endIdx] - $time[$startIdx]);
                         ++$startIdx;
                     }
@@ -67,7 +67,7 @@ final readonly class CalculateBestActivityEffortsCommandHandler implements Comma
                 $this->activityBestEffortRepository->add(
                     ActivityBestEffort::create(
                         activityId: $activityId,
-                        distanceInMeter: $distance,
+                        distanceInMeter: $distance->toMeter(),
                         sportType: $activity->getSportType(),
                         timeInSeconds: $fastestTime,
                     )

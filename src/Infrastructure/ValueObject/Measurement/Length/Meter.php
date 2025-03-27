@@ -9,7 +9,7 @@ use App\Infrastructure\ValueObject\Measurement\Metric;
 use App\Infrastructure\ValueObject\Measurement\Unit;
 use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 
-final readonly class Meter implements Unit, Metric
+final readonly class Meter implements Unit, Metric, ConvertableToMeter
 {
     use MeasurementFromFloat;
 
@@ -35,5 +35,10 @@ final readonly class Meter implements Unit, Metric
     public function toImperial(): Unit
     {
         return $this->toFoot();
+    }
+
+    public function toMeter(): Meter
+    {
+        return $this;
     }
 }

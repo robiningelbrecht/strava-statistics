@@ -66,9 +66,9 @@ class DbalActivityBestEffortRepositoryTest extends ContainerTestCase
                 for ($i = 10; $i > 0; --$i) {
                     $this->activityBestEffortRepository->add(
                         ActivityBestEffortBuilder::fromDefaults()
-                            ->withActivityId(ActivityId::fromUnprefixed($sportType->value.'-'.$distance->toInt().'-'.$i))
+                            ->withActivityId(ActivityId::fromUnprefixed($sportType->value.'-'.$distance->toMeter()->toInt().'-'.$i))
                             ->withSportType($sportType)
-                            ->withDistanceInMeter($distance)
+                            ->withDistanceInMeter($distance->toMeter())
                             ->withTimeInSeconds($i)
                             ->build()
                     );
