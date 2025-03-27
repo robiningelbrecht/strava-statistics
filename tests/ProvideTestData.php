@@ -6,8 +6,10 @@ namespace App\Tests;
 
 use App\Domain\Strava\Activity\Activity;
 use App\Domain\Strava\Activity\ActivityId;
+use App\Domain\Strava\Activity\ActivityType;
 use App\Domain\Strava\Activity\ActivityWithRawData;
 use App\Domain\Strava\Activity\ActivityWithRawDataRepository;
+use App\Domain\Strava\Activity\BestEffort\ActivityBestEffortRepository;
 use App\Domain\Strava\Activity\Split\ActivitySplitRepository;
 use App\Domain\Strava\Activity\SportType\SportType;
 use App\Domain\Strava\Activity\Stream\ActivityStreamRepository;
@@ -34,6 +36,7 @@ use App\Infrastructure\ValueObject\Measurement\Mass\Gram;
 use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 use App\Infrastructure\ValueObject\String\Name;
 use App\Infrastructure\ValueObject\Time\SerializableDateTime;
+use App\Tests\Domain\Strava\Activity\BestEffort\ActivityBestEffortBuilder;
 use App\Tests\Domain\Strava\Activity\Split\ActivitySplitBuilder;
 use App\Tests\Domain\Strava\Activity\Stream\ActivityStreamBuilder;
 use App\Tests\Domain\Strava\Athlete\Weight\AthleteWeightBuilder;
@@ -303,6 +306,27 @@ trait ProvideTestData
                 ->withData(Json::decode('[301,177,177,177,178,178,178,178,178,178]'))
                 ->build()
         );
+
+        /** @var ActivityBestEffortRepository $activityBestEffortRepository */
+        $activityBestEffortRepository = $this->getContainer()->get(ActivityBestEffortRepository::class);
+        foreach (ActivityType::RIDE->getDistancesForBestEffortCalculation() as $distance) {
+            $activityBestEffortRepository->add(
+                ActivityBestEffortBuilder::fromDefaults()
+                    ->withActivityId(ActivityId::fromUnprefixed('9542782314'))
+                    ->withSportType(SportType::VIRTUAL_RIDE)
+                    ->withDistanceInMeter($distance->toMeter())
+                    ->withTimeInSeconds($distance->toInt())
+                    ->build()
+            );
+            $activityBestEffortRepository->add(
+                ActivityBestEffortBuilder::fromDefaults()
+                    ->withActivityId(ActivityId::fromUnprefixed('95427823814'))
+                    ->withSportType(SportType::RIDE)
+                    ->withDistanceInMeter($distance->toMeter())
+                    ->withTimeInSeconds($distance->toInt())
+                    ->build()
+            );
+        }
 
         /** @var SegmentRepository $segmentRepository */
         $segmentRepository = $this->getContainer()->get(SegmentRepository::class);
