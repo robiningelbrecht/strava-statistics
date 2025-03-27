@@ -9,7 +9,7 @@ use App\Infrastructure\ValueObject\Measurement\Metric;
 use App\Infrastructure\ValueObject\Measurement\Unit;
 use App\Infrastructure\ValueObject\Measurement\UnitSystem;
 
-final readonly class Meter implements Unit, Metric, ConvertableToMeter
+final readonly class Meter implements ConvertableToMeter, Metric
 {
     use MeasurementFromFloat;
 

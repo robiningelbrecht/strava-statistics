@@ -8,7 +8,7 @@ use App\Infrastructure\ValueObject\Measurement\Imperial;
 use App\Infrastructure\ValueObject\Measurement\MeasurementFromFloat;
 use App\Infrastructure\ValueObject\Measurement\Unit;
 
-final readonly class Mile implements Unit, Imperial, ConvertableToMeter
+final readonly class Mile implements ConvertableToMeter, Imperial
 {
     use MeasurementFromFloat;
 
