@@ -166,7 +166,8 @@ final readonly class BuildDashboardHtmlCommandHandler implements CommandHandler
             $bestEffortsCharts[$activityType->value] = Json::encode(
                 BestEffortChart::create(
                     activityType: $activityType,
-                    bestEfforts: $bestEffortsForActivityType
+                    bestEfforts: $bestEffortsForActivityType,
+                    translator: $this->translator,
                 )->build()
             );
         }

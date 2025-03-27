@@ -5,22 +5,27 @@ declare(strict_types=1);
 namespace App\Domain\Strava\Activity\BestEffort;
 
 use App\Domain\Strava\Activity\ActivityType;
+use App\Infrastructure\ValueObject\Measurement\Unit;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final readonly class BestEffortChart
 {
     private function __construct(
         private ActivityType $activityType,
         private ActivityBestEfforts $bestEfforts,
+        private TranslatorInterface $translator,
     ) {
     }
 
     public static function create(
         ActivityType $activityType,
         ActivityBestEfforts $bestEfforts,
+        TranslatorInterface $translator,
     ): self {
         return new self(
             activityType: $activityType,
-            bestEfforts: $bestEfforts
+            bestEfforts: $bestEfforts,
+            translator: $translator
         );
     }
 
@@ -31,9 +36,10 @@ final readonly class BestEffortChart
     {
         $series = [];
 
+        /** @var \App\Domain\Strava\Activity\SportType\SportType $sportType */
         foreach ($this->bestEfforts->getUniqueSportTypes() as $sportType) {
             $series[] = [
-                'name' => $sportType->value,
+                'name' => $sportType->trans($this->translator),
                 'type' => 'bar',
                 'barGap' => 0,
                 'emphasis' => [
@@ -51,8 +57,9 @@ final readonly class BestEffortChart
             'animation' => true,
             'color' => ['#91cc75', '#fac858', '#ee6666', '#73c0de', '#3ba272', '#fc8452', '#9a60b4', '#ea7ccc'],
             'grid' => [
+                'top' => '30px',
                 'left' => '3%',
-                'right' => '4%',
+                'right' => '3%',
                 'bottom' => '2%',
                 'containLabel' => true,
             ],
@@ -72,13 +79,17 @@ final readonly class BestEffortChart
                     'axisTick' => [
                         'show' => false,
                     ],
-                    'data' => $this->activityType->getDistancesForBestEffortCalculation(),
+                    'data' => array_map(
+                        fn (Unit $distance) => sprintf('%d%s', $distance->toInt(), $distance->getSymbol()),
+                        $this->activityType->getDistancesForBestEffortCalculation()
+                    ),
                 ],
             ],
             'yAxis' => [
-                'type' => 'value',
+                'type' => 'log',
                 'axisLabel' => [
                     'formatter' => 'formatSeconds',
+                    'showMaxLabel' => false,
                 ],
             ],
             'series' => $series,

@@ -143,9 +143,9 @@ enum ActivityType: string implements TranslatableInterface
                 Kilometer::from(15),
                 Mile::from(10),
                 Kilometer::from(20),
-                Meter::from(21097),
+                Kilometer::from(21.097),
                 Kilometer::from(30),
-                Meter::from(42194),
+                Kilometer::from(42.194),
             ],
             default => [],
         };

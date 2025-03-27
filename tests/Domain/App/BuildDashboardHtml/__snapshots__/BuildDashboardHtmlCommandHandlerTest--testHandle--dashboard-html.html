@@ -1473,8 +1473,13 @@
                     <h3 class="mb-4 text-lg font-semibold">
                         Best Efforts
                     </h3>
-                                            <div class="h-[20rem]" data-echarts-options='{"backgroundColor":"#ffffff","animation":true,"color":["#91cc75","#fac858","#ee6666","#73c0de","#3ba272","#fc8452","#9a60b4","#ea7ccc"],"grid":{"left":"3%","right":"4%","bottom":"2%","containLabel":true},"tooltip":{"trigger":"axis","axisPointer":{"type":"none"},"valueFormatter":"formatSeconds"},"legend":{"show":true},"xAxis":[{"type":"category","axisTick":{"show":false},"data":[5,10,10,20,30,40,50,80,50,90,100,100]}],"yAxis":{"type":"value","axisLabel":{"formatter":"formatSeconds"}},"series":[{"name":"Ride","type":"bar","barGap":0,"emphasis":{"focus":"none"},"label":{"show":false},"data":[5,10,10,20,30,40,50,80,50,90,100,100]},{"name":"VirtualRide","type":"bar","barGap":0,"emphasis":{"focus":"none"},"label":{"show":false},"data":[5,10,10,20,30,40,50,80,50,90,100,100]}]}'></div>
-                                    </div>
+                                        <div id="bestEffortsActivityTypeTabContent">
+                                                    <div id="bestEffortsRide" role="tabpanel" aria-labelledby="bestEffortsRide-tab">
+                                <div class="h-[20rem]" data-echarts-options='{"backgroundColor":"#ffffff","animation":true,"color":["#91cc75","#fac858","#ee6666","#73c0de","#3ba272","#fc8452","#9a60b4","#ea7ccc"],"grid":{"top":"30px","left":"3%","right":"3%","bottom":"2%","containLabel":true},"tooltip":{"trigger":"axis","axisPointer":{"type":"none"},"valueFormatter":"formatSeconds"},"legend":{"show":true},"xAxis":[{"type":"category","axisTick":{"show":false},"data":["5mi","10km","10mi","20km","30km","40km","50km","80km","50mi","90km","100km","100mi"]}],"yAxis":{"type":"log","axisLabel":{"formatter":"formatSeconds","showMaxLabel":false}},"series":[{"name":"Rides","type":"bar","barGap":0,"emphasis":{"focus":"none"},"label":{"show":false},"data":[5,10,10,20,30,40,50,80,50,90,100,100]},{"name":"Virtual Rides","type":"bar","barGap":0,"emphasis":{"focus":"none"},"label":{"show":false},"data":[5,10,10,20,30,40,50,80,50,90,100,100]}]}'></div>
+                            </div>
+                                            </div>
+
+                </div>
             </div>
                 <div class="grid grid-cols-1 gap-4 mb-4">
             <!-- YEARLY DISTANCE STATS -->

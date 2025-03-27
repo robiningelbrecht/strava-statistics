@@ -628,9 +628,27 @@
                     <h3 class="mb-4 text-lg font-semibold">
                         {{ "Best Efforts"|trans }}
                     </h3>
-                    {% for bestEffortsChart in bestEffortsCharts %}
-                        <div class="h-[20rem]" data-echarts-options='{{ bestEffortsChart }}'></div>
-                    {% endfor %}
+                    {% if bestEffortsCharts|length > 1 %}
+                        <div class="mb-4 border-b border-gray-200">
+                            <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="bestEffortsActivityTypeTab" data-tabs="#bestEffortsActivityTypeTabContent" role="tablist">
+                                {% for activityType,chart in bestEffortsCharts %}
+                                    <li class="mr-2" role="presentation">
+                                        <a href="#" data-tabs-target="#bestEfforts{{ activityType }}" role="tab" aria-controls="bestEfforts{{ activityType }}" class="inline-flex items-center justify-center p-2 border-b-2 rounded-t-lg group">
+                                            {{ enum('App\\Domain\\Strava\\Activity\\ActivityType').from(activityType)|trans }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                    <div id="bestEffortsActivityTypeTabContent">
+                        {% for activityType,bestEffortsChart in bestEffortsCharts %}
+                            <div id="bestEfforts{{ activityType }}" role="tabpanel" aria-labelledby="bestEfforts{{ activityType }}-tab">
+                                <div class="h-[20rem]" data-echarts-options='{{ bestEffortsChart }}'></div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
                 </div>
             </div>
         {% endif %}
