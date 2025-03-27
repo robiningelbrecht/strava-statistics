@@ -80,7 +80,7 @@ final readonly class BestEffortChart
                         'show' => false,
                     ],
                     'data' => array_map(
-                        fn (Unit $distance) => sprintf('%d%s', $distance->toInt(), $distance->getSymbol()),
+                        fn (Unit $distance) => sprintf('%s%s', $distance->isLowerThanOne() ? round($distance->toFloat(), 1) : $distance->toInt(), $distance->getSymbol()),
                         $this->activityType->getDistancesForBestEffortCalculation()
                     ),
                 ],
