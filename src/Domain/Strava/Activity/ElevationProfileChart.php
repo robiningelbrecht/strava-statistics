@@ -37,20 +37,6 @@ final readonly class ElevationProfileChart
     {
         $distanceSymbol = $this->unitSystem->distanceSymbol();
         $elevationSymbol = $this->unitSystem->elevationSymbol();
-        $distanceStreamData = $this->distanceStream->getData();
-        $elevationStreamData = $this->altitudeStream->getData();
-
-        $downSampledData = $this->downSampledData();
-
-        $distanceStreamData = array_map(
-            fn (array $array) => $array[0],
-            $downSampledData,
-        );
-        $elevationStreamData = array_map(
-            fn (array $array) => $array[1],
-            $downSampledData,
-        );
-        $distanceStreamData[0] = 0;
 
         return [
             'grid' => [
@@ -127,62 +113,5 @@ final readonly class ElevationProfileChart
                 ],
             ],
         ];
-    }
-
-    private function downSampledData(): array
-    {
-        // Convert Strava API data into (distance, altitude) pairs
-        $rawPoints = [];
-
-        $distances = $this->distanceStream->getData();
-        $altitudes = $this->altitudeStream->getData();
-
-        foreach ($distances as $i => $distance) {
-            $rawPoints[] = [$distance, $altitudes[$i]];
-        }
-
-        $epsilon = 0.5; // Adjust to control the level of simplification
-
-        return $this->rdpSimplify($rawPoints, $epsilon);
-    }
-
-    private function perpendicularDistance($point, $lineStart, $lineEnd): float|int
-    {
-        [$x0, $y0] = $point;
-        [$x1, $y1] = $lineStart;
-        [$x2, $y2] = $lineEnd;
-
-        $num = abs(($y2 - $y1) * $x0 - ($x2 - $x1) * $y0 + $x2 * $y1 - $y2 * $x1);
-        $den = sqrt(pow($y2 - $y1, 2) + pow($x2 - $x1, 2));
-
-        return 0 == $den ? 0 : $num / $den;
-    }
-
-    private function rdpSimplify($points, $epsilon)
-    {
-        if (count($points) < 3) {
-            return $points;
-        }
-
-        $dmax = 0;
-        $index = 0;
-        $end = count($points) - 1;
-
-        for ($i = 1; $i < $end; ++$i) {
-            $d = $this->perpendicularDistance($points[$i], $points[0], $points[$end]);
-            if ($d > $dmax) {
-                $index = $i;
-                $dmax = $d;
-            }
-        }
-
-        if ($dmax > $epsilon) {
-            $firstHalf = $this->rdpSimplify(array_slice($points, 0, $index + 1), $epsilon);
-            $secondHalf = $this->rdpSimplify(array_slice($points, $index), $epsilon);
-
-            return array_merge(array_slice($firstHalf, 0, -1), $secondHalf);
-        } else {
-            return [$points[0], $points[$end]];
-        }
     }
 }
