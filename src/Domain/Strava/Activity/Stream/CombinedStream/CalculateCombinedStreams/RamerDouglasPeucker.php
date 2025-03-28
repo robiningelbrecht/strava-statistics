@@ -24,8 +24,12 @@ final readonly class RamerDouglasPeucker
     public function applyAlgorithm(): array
     {
         // Calculate epsilon to determine level of simplification we want to apply.
-        $distances = $this->distanceStream->getData();
-        $altitudes = $this->altitudeStream->getData();
+        if (!$distances = $this->distanceStream->getData()) {
+            throw new \InvalidArgumentException('Distance stream is empty');
+        }
+        if (!$altitudes = $this->altitudeStream->getData()) {
+            throw new \InvalidArgumentException('Altitude stream is empty');
+        }
         $totalDistance = end($distances);
         $elevationVariance = max($altitudes) - min($altitudes);
 
@@ -52,13 +56,23 @@ final readonly class RamerDouglasPeucker
             ];
         }
 
-        return $this->rdpSimplifyMulti($rawPoints, $epsilon);
+        $keys = array_merge(
+            ['distance', 'altitude'],
+            array_map(fn (ActivityStream $stream) => $stream->getStreamType()->value, $this->otherStreams->toArray())
+        );
+
+        return array_map(
+            fn (array $points) => array_combine($keys, $points),
+            $this->simplify($rawPoints, $epsilon)
+        );
     }
 
     /**
+     * @param array<int, array<int, int|float>> $points,
+     *
      * @return array<mixed>
      */
-    private function rdpSimplifyMulti($points, $epsilon): array
+    private function simplify(array $points, float $epsilon): array
     {
         if (count($points) < 3) {
             return $points;
@@ -69,7 +83,7 @@ final readonly class RamerDouglasPeucker
         $end = count($points) - 1;
 
         for ($i = 1; $i < $end; ++$i) {
-            $d = $this->pointToLineDistance($points[$i], $points[0], $points[$end]);
+            $d = $this->getPointToLineDistance($points[$i], $points[0], $points[$end]);
             if ($d > $dMax) {
                 $index = $i;
                 $dMax = $d;
@@ -77,8 +91,8 @@ final readonly class RamerDouglasPeucker
         }
 
         if ($dMax > $epsilon) {
-            $firstHalf = $this->rdpSimplifyMulti(array_slice($points, 0, $index + 1), $epsilon);
-            $secondHalf = $this->rdpSimplifyMulti(array_slice($points, $index), $epsilon);
+            $firstHalf = $this->simplify(array_slice($points, 0, $index + 1), $epsilon);
+            $secondHalf = $this->simplify(array_slice($points, $index), $epsilon);
 
             return array_merge(array_slice($firstHalf, 0, -1), $secondHalf);
         }
@@ -86,7 +100,15 @@ final readonly class RamerDouglasPeucker
         return [$points[0], $points[$end]];
     }
 
-    private function pointToLineDistance($point, $lineStart, $lineEnd): float|int
+    /**
+     * @param array<int, int|float> $point
+     * @param array<int, int|float> $lineStart
+     * @param array<int, int|float> $lineEnd
+     */
+    private function getPointToLineDistance(
+        array $point,
+        array $lineStart,
+        array $lineEnd): float
     {
         $lineVector = [];
         $pointVector = [];
@@ -96,8 +118,8 @@ final readonly class RamerDouglasPeucker
             $pointVector[] = $point[$i] - $lineStart[$i];
         }
 
-        $dotProduct = array_sum(array_map(fn ($a, $b) => $a * $b, $pointVector, $lineVector));
-        $lineLengthSq = array_sum(array_map(fn ($a) => $a * $a, $lineVector));
+        $dotProduct = array_sum(array_map(fn (float $a, float $b) => $a * $b, $pointVector, $lineVector));
+        $lineLengthSq = array_sum(array_map(fn (float $a) => $a * $a, $lineVector));
 
         $t = (0 != $lineLengthSq) ? $dotProduct / $lineLengthSq : 0;
         $t = max(0, min(1, $t)); // Clamp to segment bounds
@@ -107,6 +129,6 @@ final readonly class RamerDouglasPeucker
             $closestPoint[] = $lineStart[$i] + $t * $lineVector[$i];
         }
 
-        return sqrt(array_sum(array_map(fn ($a, $b) => ($a - $b) ** 2, $point, $closestPoint)));
+        return sqrt(array_sum(array_map(fn (float $a, float $b) => ($a - $b) ** 2, $point, $closestPoint)));
     }
 }

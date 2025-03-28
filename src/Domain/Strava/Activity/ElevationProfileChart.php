@@ -60,7 +60,7 @@ final readonly class ElevationProfileChart
 
                         return $distance < 1 ? round($distance, 1) : round($distance);
                     },
-                    $distanceStreamData,
+                    $this->distanceStream->getData()
                 ),
                 'splitLine' => [
                     'show' => true,
@@ -95,7 +95,7 @@ final readonly class ElevationProfileChart
                     ],
                     'data' => array_map(
                         fn (int $altitude) => round(Meter::from($altitude)->toUnitSystem($this->unitSystem)->toFloat()),
-                        $elevationStreamData
+                        $this->altitudeStream->getData()
                     ),
                     'type' => 'line',
                     'name' => 'Elevation',
