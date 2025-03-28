@@ -29,6 +29,7 @@ use App\Domain\Strava\Athlete\HeartRateZone;
 use App\Domain\Strava\Athlete\TimeInHeartRateZoneChart;
 use App\Domain\Strava\Athlete\Weight\AthleteWeightRepository;
 use App\Domain\Strava\Calendar\Months;
+use App\Domain\Strava\CarbonSavedComparison;
 use App\Domain\Strava\Challenge\Consistency\ChallengeConsistency;
 use App\Domain\Strava\Ftp\FtpHistoryChart;
 use App\Domain\Strava\Ftp\FtpRepository;
@@ -174,7 +175,7 @@ final readonly class BuildDashboardHtmlCommandHandler implements CommandHandler
 
         $this->buildStorage->write(
             'dashboard.html',
-            $this->twig->load('html/dashboard.html.twig')->render([
+            $this->twig->load('html/dashboard/dashboard.html.twig')->render([
                 'timeIntervals' => ActivityPowerRepository::TIME_INTERVALS_IN_SECONDS_REDACTED,
                 'mostRecentActivities' => $allActivities->slice(0, 5),
                 'intro' => $activityTotals,
@@ -227,6 +228,14 @@ final readonly class BuildDashboardHtmlCommandHandler implements CommandHandler
             ]),
         );
 
+        $this->buildStorage->write(
+            'carbon-comparison.html',
+            $this->twig->load('html/dashboard/carbon-comparison.html.twig')->render([
+                'carbonSavedComparison' => CarbonSavedComparison::create($trivia->getTotalCarbonSaved()),
+                'carbonSavedInKg' => $trivia->getTotalCarbonSaved(),
+            ]),
+        );
+
         if ($bestAllTimePowerOutputs->isEmpty()) {
             return;
         }
@@ -262,7 +271,7 @@ final readonly class BuildDashboardHtmlCommandHandler implements CommandHandler
 
         $this->buildStorage->write(
             'power-output.html',
-            $this->twig->load('html/power-output.html.twig')->render([
+            $this->twig->load('html/dashboard/power-output.html.twig')->render([
                 'powerOutputChart' => Json::encode(
                     PowerOutputChart::create($bestPowerOutputs)->build()
                 ),

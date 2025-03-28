@@ -66,7 +66,7 @@ enum UnitSystem: string
 
     public function carbonSavedSymbol(): string
     {
-        return sprintf('%s CO2', $this->weight(1)->getSymbol());
+        return sprintf('%s CO₂', $this->weight(1)->getSymbol());
     }
 
     public function paceSymbol(): string

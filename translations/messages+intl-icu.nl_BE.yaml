@@ -17,6 +17,7 @@ Best: Beste
 Cadence: Cadans
 Calories: Calorieën
 Canoeing: Kanoën
+'Carbon emission comparisons': 'Carbon emission comparisons'
 'Challenge consistency': 'Challenge consistentie'
 Challenges: Challenges
 'Climb a total of 2000m': 'Klim in totaal 2000m'
@@ -39,6 +40,7 @@ Distance: Afstand
 'Distance in {unit}': 'Afstand in {unit}'
 'Distance over time per gear': 'Afstand in tijd per gear'
 'Distance per month per gear': 'Afstand per maand per gear'
+'Driving your car for {amountOfKmDrivingACar} km': 'Driving your car for {amountOfKmDrivingACar} km'
 'E-Bike Rides': 'E-Bike Ritten'
 'E-Mountain Bike Rides': 'E-Mountain Bike Ritten'
 'Earliest start time': 'Vroegste starttijd'
@@ -156,6 +158,7 @@ Skating: Skating
 Snowboard: Snowboard
 Snowshoe: Snowshoe
 Soccer: Voetbal
+Source: Source
 Speed: Snelheid
 Squash: Squash
 'Stair Stepper': 'Stair Stepper'
@@ -173,6 +176,7 @@ TOTAL: TOTAAL
 Tennis: Tennis
 "That's a daily average of {dailyAverage}, a weekly average of {weeklyAverage} and a monthly average of {monthlyAverage} 🐣.": 'Dat is een dagelijks gemiddelde van {dailyAverage}, een wekelijks gemiddelde van {weeklyAverage} en een maandelijks gemiddelde van {monthlyAverage} 🐣.'
 'The Eddington number in the context of cycling or running is defined as the maximum number E such that the athlete has covered at least E km on at least E days.': 'Het Eddington-getal in de context van fietsen of hardlopen is gedefinieerd als het maximale aantal E zodanig dat de atleet ten minste E km heeft afgelegd op ten minste E dagen.'
+'The amount of CO₂ that {amountOfTrees} trees  absorb annually': 'The amount of CO₂ that {amountOfTrees} trees  absorb annually'
 'This badge is dynamically created. You can use it in any &lt;img&gt; tag': 'This badge is dynamically created. You can use it in any &lt;img&gt; tag'
 'This formula means that riding for an hour at your max heart rate results in a score of 100, which we consider "high intensity"': 'Deze formule betekent dat een uur fietsen op je maximale hartslag resulteert in een score van 100, wat we beschouwen als “hoge intensiteit”'
 'This map shows the daily training intensity for the last year. The training intensity for an activity is calculated based on several metrics.': 'Deze kaart toont de dagelijkse trainingsintensiteit van het afgelopen jaar. De trainingsintensiteit voor een activiteit wordt berekend op basis van verschillende meetgegevens.'
@@ -213,6 +217,7 @@ Year: Jaar
 'Yes': 'Yes'
 Yoga: Yoga
 "You recorded workouts in {numberOfCountriesWithWorkouts} different countries, that's {percentage} of all countries 🌍": "You recorded workouts in {numberOfCountriesWithWorkouts} different countries, that's {percentage} of all countries 🌍"
+'You reduced carbon emission by {amountOfCarbonSaved} by commuting 🥳. This equates to': 'You reduced carbon emission by {amountOfCarbonSaved} by commuting 🥳. This equates to'
 'Your Strava badge': 'Your Strava badge'
 'Your Zwift badge': 'Your Zwift badge'
 'Your badge(s)': 'Your badge(s)'
@@ -230,7 +235,16 @@ intensity: intensity
 intensityFactor: intensityFactor
 'max gradient': 'max gradient'
 maxHeartRate: maxHeartRate
+'more info': 'more info'
 n/a: n/a
 workouts: workouts
+'{amountOfAluminiumCans} aluminium cans for soft drinks produced': '{amountOfAluminiumCans} aluminium cans for soft drinks produced'
+'{amountOfCapsForPetBottles} caps for PET bottles produced': '{amountOfCapsForPetBottles} caps for PET bottles produced'
+'{amountOfFlights} single Economy flight(s) between Zurich and London': '{amountOfFlights} single Economy flight(s) between Zurich and London'
+'{amountOfGlassBottles} one liter reusable glass bottles produced': '{amountOfGlassBottles} one liter reusable glass bottles produced'
+'{amountOfGoogleSearches} Google searches': '{amountOfGoogleSearches} Google searches'
+'{amountOfPetBottles} one liter PET bottles produced': '{amountOfPetBottles} one liter PET bottles produced'
+'{amountOfSmartphonesManufactured} manufactured smartphones': '{amountOfSmartphonesManufactured} manufactured smartphones'
 '{numberOfResults} results based on your active filters': '{numberOfResults} results based on your active filters'
 '{numberOfResults} routes based on your active filters': '{numberOfResults} routes based on your active filters'
+'{portionsOfSpaghettiMade} portions of spaghetti with tomato sauce prepared': '{portionsOfSpaghettiMade} portions of spaghetti with tomato sauce prepared'
