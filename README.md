@@ -55,7 +55,6 @@ https://github.com/user-attachments/assets/9aaaafd9-bc8f-4e1d-bb9d-45d3c661a080
 
 ## ⚠️ Disclaimer
 
-* 🛠️ __Under active development__: Expect frequent updates, bugs, and breaking changes.
 * 📦 __Backup before updates__: Always backup your Docker volumes before upgrading.
 * 🔄 __Stay up-to-date__: Make sure you're running the latest version for the best experience.
 * 🤓 __Check the release notes__: Always check the release notes to verify if there are any breaking changes.
