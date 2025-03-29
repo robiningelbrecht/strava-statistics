@@ -7,6 +7,7 @@ namespace App\Domain\Strava\Activity\Stream\CombinedStream\CalculateCombinedStre
 use App\Domain\Strava\Activity\ActivityType;
 use App\Domain\Strava\Activity\Stream\ActivityStream;
 use App\Domain\Strava\Activity\Stream\ActivityStreams;
+use App\Domain\Strava\Activity\Stream\StreamType;
 
 final readonly class RamerDouglasPeucker
 {
@@ -21,7 +22,7 @@ final readonly class RamerDouglasPeucker
     /**
      * @return array<mixed>
      */
-    public function applyAlgorithm(): array
+    public function apply(): array
     {
         // Calculate epsilon to determine level of simplification we want to apply.
         if (!$distances = $this->distanceStream->getData()) {
@@ -57,7 +58,7 @@ final readonly class RamerDouglasPeucker
         }
 
         $keys = array_merge(
-            ['distance', 'altitude'],
+            [StreamType::DISTANCE->value, StreamType::ALTITUDE->value],
             array_map(fn (ActivityStream $stream) => $stream->getStreamType()->value, $this->otherStreams->toArray())
         );
 
